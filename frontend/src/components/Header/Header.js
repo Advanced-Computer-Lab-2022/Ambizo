@@ -1,6 +1,6 @@
 import React from 'react';
 import canChamLogo from '../../images/CanChamLogo.png'
-import SearchBar from './SearchBar';
+import SearchBar from '../SearchBar/SearchBar';
 import CountryIcon from '../../images/CountryIcon.png'
 
 function Header(props) {

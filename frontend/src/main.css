@@ -1,4 +1,4 @@
-@import "./components/Header/Header.style.css";
+/* @import "./components/Header/Header.style.css";
 @import "./components/Home/Homepage.style.css";
 @import "./components/404/NotFound.style.css";
 @import "./components/Footer/Footer.style.css";
@@ -8,4 +8,427 @@
     margin:0;
     padding:0;
     font-family: 'Inter', sans-serif;
-}
+} */
+
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    min-width: 1190px;
+    width: auto !important;
+    width: 1000px;
+  }
+  
+  nav {
+    height: 90px;
+    display: flex;
+    padding: 0px 35px;
+    box-shadow: 0px 3px 7.5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav--logo {
+    display: block;
+    margin: auto 0px auto 30px;
+    max-width: 200px;
+    max-height: 65px;
+  }
+  
+  .search--input {
+    display: flex;
+    width: 900px;
+    height: 40px;
+    padding: 12px 45px;
+    border-width: 2px;
+    border-radius: 18px;
+    border-style: solid;
+    background-color: transparent;
+    border-color: #e6001c;
+    margin: auto 0px auto 150px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+  }
+  
+  ::placeholder {
+    color: black;
+  }
+  
+  .search--icon {
+    margin: auto 0px auto -65px;
+    max-height: 20px;
+  }
+  
+  button {
+    align-items: center;
+    background-color: #FFFFFF;
+    border-radius: 2px;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    box-sizing: border-box;
+    /* color: rgba(0, 0, 0, 0.75); */
+    color: black;
+    cursor: pointer;
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.25;
+    position: relative;
+    border-width: 2px;
+    max-height: 40px;
+  }
+  
+  .search--button {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    margin: auto 0px auto -20px;
+    background-color: transparent;
+    border-width: 0px;
+  }
+  
+  .button--login {
+    width: 90px;
+    min-width: 90px;
+    height: 50px;
+    margin: auto 0px auto 360px;
+    border-width: 1px;
+  }
+  
+  .button--login:hover {
+    background-color: #e4e4e4;
+  }
+  
+  .button--signup {
+    border-color: #bd0312;
+    background-color: #e6001c;
+    border-style: solid;
+    color: white;
+    width: 90px;
+    min-width: 90px;
+    height: 50px;
+    margin: auto 0px auto 10px;
+  }
+  
+  .button--signup:hover {
+    opacity: 0.8;
+  }
+  
+  .country--icon {
+    height: 35px;
+    margin: auto 0px auto 10px;
+  }
+  
+  .country--button {
+    width: 35px;
+    height: 35px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 20px;
+    margin: auto 0px auto -35px;
+    background-color: transparent;
+    border-width: 0px;
+  }
+  
+  .search--button:hover, .country--button:hover, .filter--button:hover {
+    background-color: #e4e4e4;
+    opacity: 0.2;
+  }
+  
+  .coursesTitleFilter {
+    margin: 30px 80px -15px 235px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .coursesTitleFilter--header { 
+    margin: auto auto auto 0px;
+    color: #b10918;
+  }
+  
+  hr {
+    background: black;
+    color: black;
+    height: 1px;
+    width: 80%;
+  }
+  
+  .filter--icon {
+    height: 40px;
+    float: right;
+    margin-right: -40px;
+  }
+  
+  .filter--button {
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    margin-right: 150px;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  /* ------------------------------------------ Country Modal ----------------------------------------- */
+  
+  
+  body.active-modal {
+    overflow-y: hidden;
+  }
+  
+  .btn-modal {
+    padding: 10px 20px;
+    display: block;
+    margin: 100px auto 0;
+    font-size: 18px;
+  }
+  
+  .modal, .overlay {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+  }
+  
+  .overlay {
+    background: rgba(49,49,49,0.8);
+  }
+  
+  .modal-content {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 435px;
+    line-height: 1.4;
+    background: #b10918;
+    padding: 14px 28px;
+    border-radius: 3px;
+    max-width: 1000px;
+    min-width: 460px;
+    width: 50%;
+  }
+  
+  .x--icon {
+    width: 40px;
+    min-width: 40px;
+    position: absolute;
+    top: 5px;
+    right: 0px;
+    padding: 5px 7px;
+  }
+  
+  .close-modal {
+    width: 30px;
+    min-width: 30px;
+    height: 30px;
+    border-radius: 12px;
+    border-width: 0px;
+    background-color: transparent;
+    position: absolute;
+    top: 7px;
+    right: 5px;
+    padding: 5px 7px;
+  }
+  
+  .country--select {
+    margin-top: 31px;
+    cursor: pointer;
+  }
+  
+  .worldmap--icon {
+    width: auto;
+    height: 100%;
+    margin: auto;
+    margin-top: -40px;
+    display: block;
+  }
+  
+  
+  
+  
+  
+  
+  /* --------------------------------------------------------------------------- */
+  
+  
+  .courses-list {
+    display: flex;
+    margin: 30px 230px;
+    gap: 50px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .course {
+    width: 360px;
+    height: 425px;
+    max-width: 360px;
+    border-radius: 5px;
+    box-shadow: 3px 5px 10px 0 rgba(0,0,0,.3);
+    overflow-y: scroll;
+  }
+  
+  .course::-webkit-scrollbar { 
+    display: none;
+  }
+  
+  .course--image {
+    width: 95%;
+    margin: 20px 0px 0px 9px;
+    border-radius: 10px;
+  }
+  
+  .course--title {
+    margin-left: 10px;
+  }
+  
+  .course--hours {
+    margin-left: 15px;
+    margin-top: -20px;
+  }
+  
+  .hour--icon {
+    max-width: 16px;
+  }
+  
+  .hours--count {
+    margin-left: 5px;
+    font-size: 20px;
+    font-weight: 400;
+  }
+  
+  .course--rating {
+    margin-left: 12px;
+  }
+  
+  .number--reviews {
+    font-size: 11px;
+  }
+  
+  .price--icon {
+    max-width: 25px;
+    margin-right: 5px;
+  }
+  
+  .course--price {
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .price {
+    font-size: 22px;
+    margin-top: -10px;
+    font-weight: 600;
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  /* --------------------------------------------------------------------- DROPDOWN --------------------------------------------------------------------- */
+  
+  .multiselect-container .searchBox::placeholder {
+    color: white !important;
+    opacity: 1;
+  }
+  
+  .multiselect-container {
+    margin-bottom: 10px;
+  }
+  
+  .search-wrapper .chip {
+    background-color: black;
+  }
+  
+  .search-wrapper .singleChip {
+    color: white;
+  }
+  
+  .multiselect-container .searchWrapper {
+    border-color: black;
+  }
+  
+  .modal-content-filter {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 480px;
+    line-height: 1.4;
+    background: #b10918;
+    padding: 14px 28px;
+    border-radius: 3px;
+    max-width: 1000px;
+    min-width: 460px;
+    width: 25%;
+  }
+  
+  .input-minmax {
+    margin-top: -13px;
+  }
+  
+  
+  .input--minprice {
+    width: 200px;
+    height: 50px;
+    padding-left: 15px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+    background-color: #b10918;
+    border-style: solid;
+    border-color: black;
+  }
+  
+  .input--maxprice {
+    width: 200px;
+    height: 50px;
+    padding-left: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background-color: #b10918;
+    border-style: solid;
+    border-color: black;
+  }
+  
+  .filterapply--button {
+    width: 90px;
+    min-width: 90px;
+    height: 50px;
+    border-width: 1px;
+    background-color: black;
+    color: white;
+    margin-top: 10px;
+  }
+  
+  .input--minprice::-webkit-outer-spin-button,
+  .input--minprice::-webkit-inner-spin-button,
+  .input--maxprice::-webkit-outer-spin-button,
+  .input--maxprice::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }

@@ -1,6 +1,6 @@
 import React from "react";
 import XIcon from '../../images/XIcon.png'
-import CountrySelector from "./CountrySelector";
+import CountrySelector from "../CountrySelector/CountrySelector";
 import WorldMapIcon from '../../images/WorldMapIcon.png'
 
 function CountryModal(props) {

@@ -1,0 +1,34 @@
+.search--input {
+    display: flex;
+    width: 900px;
+    height: 40px;
+    padding: 12px 45px;
+    border-width: 2px;
+    border-radius: 18px;
+    border-style: solid;
+    background-color: transparent;
+    border-color: #e6001c;
+    margin: auto 0px auto 150px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+  
+::placeholder {
+    color: black;
+}
+  
+.search--icon {
+    margin: auto 0px auto -65px;
+    max-height: 20px;
+}
+
+.search--button {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    margin: auto 0px auto -20px;
+    background-color: transparent;
+    border-width: 0px;
+}

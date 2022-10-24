@@ -1,0 +1,30 @@
+.coursesTitleFilter {
+    margin: 30px 80px -15px 235px;
+    display: flex;
+    align-items: center;
+  }
+  
+.coursesTitleFilter--header { 
+    margin: auto auto auto 0px;
+    color: #b10918;
+}
+  
+.filter--icon {
+    height: 40px;
+    float: right;
+    margin-right: -40px;
+}
+  
+.filter--button {
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    margin-right: 150px;
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+.filter--button:hover {
+    background-color: #e4e4e4;
+    opacity: 0.2;
+}
