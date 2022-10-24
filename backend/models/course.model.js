@@ -7,9 +7,17 @@ const courseSchema = new Schema({
     type: String,
     required: true,
   },
+  InstructorUsername: {
+    type: String,
+    required: true
+  },
   InstructorName: {
     type: String,
     required: true
+  },
+  ImageURL:{
+    type: String,
+    default:"",
   },
   Description: {
     type: String,
@@ -21,11 +29,13 @@ const courseSchema = new Schema({
   },
   Rating: {
     type: Number,
-    required: true
+    required: true,
+    default: 0
   },
   NumberOfReviews: {
-    type: String,
-    required: true
+    type: Number,
+    required: true,
+    default: 0
   },
   PriceInUSD: {
     type: Number,
@@ -41,11 +51,13 @@ const courseSchema = new Schema({
   },
   Exercises: {
     type: Array,
-    required: true
+    required: true,
+    default: []
   },
   CountryDiscount: {
     type: Array,
-    required: true
+    required: true,
+    default: []
   }
 }, {
    timestamps: true,
