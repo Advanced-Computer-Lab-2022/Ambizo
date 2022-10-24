@@ -7,15 +7,15 @@ const corporateTraineeSchema = new Schema({
     type: String,
     required: true,
   },
-  Location: {
+  Password: {
     type: String,
     required: true
   },
-  Corporate: {
+  Name: {
     type: String,
     required: true
   },
-  PhoneNumber: {
+  Email: {
     type: String,
     required: true
   }
