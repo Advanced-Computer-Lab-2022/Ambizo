@@ -2,6 +2,7 @@ import React from "react";
 import XIcon from '../../images/XIcon.png'
 import CountrySelector from "../CountrySelector/CountrySelector";
 import WorldMapIcon from '../../images/WorldMapIcon.png'
+import ChooseCountryIcon from '../../images/ChooseCountryIcon.png'
 
 function CountryModal(props) {
     if(props.countryModal) {
@@ -21,7 +22,10 @@ function CountryModal(props) {
                     <CountrySelector />
                     <img src={XIcon} alt='X Icon' className='x--icon'/>
                     <button className="close-modal" onClick={props.toggleCountryModal}></button>
-                    <img src={WorldMapIcon} alt='World Map Icon' className='worldmap--icon'/>
+                    <div className="choose--country">
+                        <p className="chooseCountry--text">Choose your country.</p>
+                        <img src={ChooseCountryIcon} alt='Choose Country Icon' className='chooseCountry--icon'/>
+                    </div>
                 </div>
                 </div>
             )

@@ -22,6 +22,7 @@
     margin-right: 150px;
     cursor: pointer;
     border-radius: 2px;
+    border-width: 0px;
 }
 
 .filter--button:hover {

@@ -28,14 +28,14 @@ body.active-modal {
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 435px;
+    height: 460px;
     line-height: 1.4;
     background: #b10918;
     padding: 14px 28px;
     border-radius: 3px;
     max-width: 1000px;
     min-width: 460px;
-    width: 50%;
+    width: 30%;
 }
   
 .x--icon {
@@ -64,11 +64,21 @@ body.active-modal {
     margin-top: 31px;
     cursor: pointer;
 }
-  
-.worldmap--icon {
-    width: auto;
-    height: 100%;
-    margin: auto;
-    margin-top: -40px;
-    display: block;
+
+.choose--country {
+    display: flex;
+}
+
+.chooseCountry--icon {
+    max-width: 50%;
+    margin-top: 27px;
+    margin-right: 33px;
+    height: auto;
+}
+
+.chooseCountry--text {
+    font-size: 30px;
+    font-weight: 500;
+    margin: 100px 37px 0px 40px;
+    display: table-caption;
 }
