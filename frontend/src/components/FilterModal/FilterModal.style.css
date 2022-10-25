@@ -78,3 +78,9 @@
     -webkit-appearance: none;
     margin: 0;
 }
+
+.price--error {
+    color: white;
+    margin-top: -5px;
+    margin-left: 2px;
+}

@@ -145,8 +145,10 @@ function FilterModal(props) {
 
                     <img src={XIcon} alt='X Icon' className='x--icon'/>
                     <button className="close-modal" onClick={props.toggleFilterModal}></button>
-
+                    
+                    {props.filterPriceErrorMessage && <p className="price--error">{props.filterPriceErrorMessage}</p>}
                     <button class="filterapply--button" onClick={applyFilters}>Apply</button>
+                    
                 </div>
                 </div>
             )
