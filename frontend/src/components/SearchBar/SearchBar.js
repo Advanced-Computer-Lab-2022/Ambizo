@@ -18,7 +18,7 @@ function SearchBar() {
                 // value={}
             />
             <img src={searchIcon} alt='Search Icon' className='search--icon'/>
-            <button class="search--button" />
+            <button className="search--button" />
         </>
     )
 }

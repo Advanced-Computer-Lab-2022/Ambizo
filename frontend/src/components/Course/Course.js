@@ -6,10 +6,11 @@ import PriceIcon from '../../images/PriceIcon.png'
 
 
 function Course(props) {
+
     return (
         <div className='course'>
             <img src={props.ImgURL} alt='Course' className='course--image'/>
-            <h3 className='course--title'>{props.Title}</h3>
+            <h3 className='course--title'>{props.Title.length > 60 ? props.Title.substring(0, 57) + "..." : props.Title}</h3>
             <div className='course--hours'>
                 <img src={HourIcon} alt='Hour Icon' className='hour--icon'/>
                 <span className='hours--count'>{props.TotalHours} Hours</span>

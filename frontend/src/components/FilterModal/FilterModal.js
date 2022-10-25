@@ -11,6 +11,23 @@ function FilterModal(props) {
         document.body.classList.remove('active-modal')
     }
 
+    function onSelectSubjects(selectedList) {
+        props.onSelectSubjects(selectedList);
+    }
+
+    function onSelectRating(selectedItem) {
+        props.onSelectRating(selectedItem);
+    }
+
+    function handlePriceChange(event) {
+        const {name, value} = event.target
+        props.handlePriceFilterChange(name, value)
+    }
+
+    function applyFilters() {
+        props.applyFilters();
+    }
+
     return (
         <>
             {props.filterModal && 
@@ -20,48 +37,51 @@ function FilterModal(props) {
                 <div className="modal-content-filter">
                     <h2>Filter Courses By:</h2>
                     <Multiselect
+                        id='subjects'
+                        name='subjects'
+                        avoidHighlightFirstOption={true}
                         placeholder="Subject"
                         displayValue="key"
                         onKeyPressFn={function noRefCheck(){}}
-                        onRemove={function noRefCheck(){}}
+                        onRemove={onSelectSubjects}
                         onSearch={function noRefCheck(){}}
-                        onSelect={function noRefCheck(){}}
+                        onSelect={onSelectSubjects}
                         options={[
                             {
-                            cat: 'Group 1',
-                            key: 'Software Development'
+                                id: 'subject1',
+                                key: 'Software Development'
                             },
                             {
-                            cat: 'Group 1',
-                            key: 'Business'
+                                id: 'subject2',
+                                key: 'Business'
                             },
                             {
-                            cat: 'Group 1',
-                            key: 'Personal Development'
+                                id: 'subject3',
+                                key: 'Personal Development'
                             },
                             {
-                            cat: 'Group 2',
-                            key: 'Design'
+                                id: 'subject4',
+                                key: 'Design'
                             },
                             {
-                            cat: 'Group 2',
-                            key: 'Mathematics'
+                                id: 'subject5',
+                                key: 'Mathematics'
                             },
                             {
-                            cat: 'Group 2',
-                            key: 'Marketing'
+                                id: 'subject6',
+                                key: 'Marketing'
                             },
                             {
-                            cat: 'Group 2',
-                            key: 'Photography'
+                                id: 'subject7',
+                                key: 'Photography'
                             },
                             {
-                            cat: 'Group 2',
-                            key: 'Health and Fitness'
+                                id: 'subject8',
+                                key: 'Health and Fitness'
                             },
                             {
-                            cat: 'Group 2',
-                            key: 'Music'
+                                id: 'subject9',
+                                key: 'Music'
                             }
                         ]}
                         showCheckbox
@@ -70,45 +90,63 @@ function FilterModal(props) {
                         placeholder="Rating"
                         displayValue="key"
                         singleSelect={true}
+                        avoidHighlightFirstOption={true}
                         onKeyPressFn={function noRefCheck(){}}
-                        onRemove={function noRefCheck(){}}
+                        onRemove={onSelectRating}
                         onSearch={function noRefCheck(){}}
-                        onSelect={function noRefCheck(){}}
+                        onSelect={onSelectRating}
                         options={[
                             {
-                            cat: 'Group 1',
-                            key: '⭐ & up'
+                                id: 1,
+                                key: '⭐ & up'
                             },
                             {
-                            cat: 'Group 1',
-                            key: '⭐⭐ & up'
+                                id: 2,
+                                key: '⭐⭐ & up'
                             },
                             {
-                            cat: 'Group 1',
-                            key: '⭐⭐⭐ & up'
+                                id: 3,
+                                key: '⭐⭐⭐ & up'
                             },
                             {
-                            cat: 'Group 2',
-                            key: '⭐⭐⭐⭐ & up'
+                                id: 4,
+                                key: '⭐⭐⭐⭐ & up'
                             },
                             {
-                            cat: 'Group 2',
-                            key: '⭐⭐⭐⭐⭐'
+                                id: 5,
+                                key: '⭐⭐⭐⭐⭐'
                             }
                         ]}
                         showCheckbox
                     />
                     <p className="price--range">Price Range:</p>
                     <div className="input-minmax">
-                        <input className="input--minprice" type="number" placeholder="Minimum Price" />
-                        <input className="input--maxprice" type="number" placeholder="Maximum Price" />
+                        <input 
+                            id="minimumPrice"
+                            name="minimumPrice"
+                            min="0"
+                            onChange={handlePriceChange}
+                            value={props.minimumPrice}
+                            className="input--minprice" 
+                            type="number"  
+                            placeholder="Minimum Price" 
+                        />
+                        <input 
+                            id="maximumPrice"
+                            name="maximumPrice"
+                            onChange={handlePriceChange}
+                            value={props.maximumPrice}
+                            className="input--maxprice" 
+                            type="number" 
+                            placeholder="Maximum Price" 
+                        />
                     </div>
 
 
                     <img src={XIcon} alt='X Icon' className='x--icon'/>
                     <button className="close-modal" onClick={props.toggleFilterModal}></button>
 
-                    <button class="filterapply--button">Apply</button>
+                    <button class="filterapply--button" onClick={applyFilters}>Apply</button>
                 </div>
                 </div>
             )

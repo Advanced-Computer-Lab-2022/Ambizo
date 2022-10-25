@@ -6,7 +6,7 @@ function CourseHeader(props) {
         <>
             <div className='coursesTitleFilter'>
                 <div className='coursesTitleFilter--header'>
-                    <h1>Courses</h1>
+                    <p>All Courses</p>
                 </div>
                 <img src={FilterIcon} alt='Filter Icon' className='filter--icon'/>
                 <button class="filter--button" onClick={props.toggleFilterModal}/>

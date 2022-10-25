@@ -7,6 +7,8 @@
 .coursesTitleFilter--header { 
     margin: auto auto auto 0px;
     color: #b10918;
+    font-size: 30px;
+    font-weight: 500;
 }
   
 .filter--icon {
