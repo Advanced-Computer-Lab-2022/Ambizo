@@ -7,11 +7,11 @@ const instructorSchema = new Schema({
         type: String,
         required: true,
     },
-    InstructorName: {
+    Name: {
         type: String,
         required: true,
     },
-    password: {
+    Password: {
         type: String,
         required: true,
     }
