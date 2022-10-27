@@ -1,10 +1,10 @@
 import React from "react";
 import Header from "../Header/Header";
-import CourseHeader from "../Course/CoursesHeader";
 import CountryModal from "../CountryModal/CountryModal";
 import FilterModal from "../FilterModal/FilterModal";
 import Course from "../Course/Course";
 import CourseService from "../../services/Course.service";
+import FilterIcon from "../../images/FilterIcon.png";
 
 async function retrieveAllCourses(){
     return CourseService.getAllCourses()
@@ -27,6 +27,22 @@ async function retrieveFilteredCourses(filterURL){
     })
 }
 
+function renderCourseHeader(toggleFilterModal) {
+    console.log("A7a")
+    return (
+        <>
+            <div className='coursesTitleFilter'>
+                <div className='coursesTitleFilter--header'>
+                    <p>All Courses</p>
+                </div>
+                <img src={FilterIcon} alt='Filter Icon' className='filter--icon'/>
+                <button class="filter--button" onClick={toggleFilterModal}/>
+            </div>
+            <hr  className='header--line'/>
+        </>
+    )
+}
+
 function CoursesPage() {
 
     const [countryModal, setCountryModal] = React.useState(false);
@@ -45,7 +61,7 @@ function CoursesPage() {
     const [coursesData, setCoursesData] = React.useState([]);
 
     React.useEffect(() => {
-        document.title = "Homepage";
+        document.title = "All Courses";
         retrieveAllCourses()
         .then(coursesList => setCoursesData(coursesList.data))
         .catch(error => {
@@ -147,7 +163,7 @@ function CoursesPage() {
     return (
         <>
             <Header toggleCountryModal={toggleCountryModal} />
-            <CourseHeader toggleFilterModal={toggleFilterModal} />
+            { renderCourseHeader(toggleFilterModal) }
             <section className="courses-list">
                 {coursesDataElements}
             </section>

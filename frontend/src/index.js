@@ -1,18 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './App.css';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-// import App from './App';
-import CoursesPage from './components/CoursesPage/CoursesPage';
+import ReactDOM from 'react-dom';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
+import './App.css';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <Router>
-    <Routes>
-      <Route path="/" element={<CoursesPage />} />
-    </Routes>
-  </Router>
-);
+ReactDOM.render(<App />, document.getElementById("root"));
 
 reportWebVitals();

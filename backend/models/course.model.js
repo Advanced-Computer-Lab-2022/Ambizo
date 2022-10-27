@@ -58,6 +58,10 @@ const courseSchema = new Schema({
     type: Array,
     required: true,
     default: []
+  },
+  ImgURL: {
+    type: String,
+    required: true
   }
 }, {
    timestamps: true,
