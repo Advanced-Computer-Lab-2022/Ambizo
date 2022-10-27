@@ -21,7 +21,8 @@ function Course(props) {
             </div>
             <div className='course--price'>
                 <img src={PriceIcon} alt='Price Icon' className='price--icon'/>
-                <span className='price'>{props.PriceInUSD} USD</span>
+                {props.PriceInUSD === 0 && <span className='price'>FREE</span>}
+                {props.PriceInUSD !== 0 && <span className='price'>{props.PriceInUSD} USD</span>}
             </div>
         </div>
     )

@@ -28,7 +28,6 @@ async function retrieveFilteredCourses(filterURL){
 }
 
 function renderCourseHeader(toggleFilterModal) {
-    console.log("A7a")
     return (
         <>
             <div className='coursesTitleFilter'>
@@ -106,6 +105,18 @@ function CoursesPage() {
         })
     }
 
+    const [freeCoursesOnly, setFreeCoursesOnly] = React.useState(false);
+
+    function handleFreeCoursesOnly(checked) {
+        if(checked) {
+            setPriceFilterData({
+                    minimumPrice: 0,
+                    maximumPrice: 0
+                })
+        }
+        setFreeCoursesOnly(prevFreeCoursesOnly => !prevFreeCoursesOnly)  
+    }
+
     function applyFilters() {
         if(priceFilterData.minimumPrice > priceFilterData.maximumPrice && priceFilterData.maximumPrice !== '') {
             
@@ -146,6 +157,7 @@ function CoursesPage() {
                 console.log(error);
             })
             toggleFilterModal(); 
+            setFreeCoursesOnly(false);
         }
     }
 
@@ -170,9 +182,10 @@ function CoursesPage() {
             <CountryModal countryModal={countryModal} toggleCountryModal={toggleCountryModal} />
             <FilterModal filterModal={filterModal} toggleFilterModal={toggleFilterModal} 
             onSelectSubjects={onSelectSubjects} onSelectRating={onSelectRating} priceFilterData={priceFilterData} 
-            handlePriceFilterChange={handlePriceFilterChange} applyFilters={applyFilters} resetFilters={resetFilters} />
+            handlePriceFilterChange={handlePriceFilterChange} applyFilters={applyFilters} resetFilters={resetFilters} 
+            freeCoursesOnly={freeCoursesOnly} handleFreeCoursesOnly={handleFreeCoursesOnly} />
         </>
     )
 }
 
-export default CoursesPage;
+export default CoursesPage

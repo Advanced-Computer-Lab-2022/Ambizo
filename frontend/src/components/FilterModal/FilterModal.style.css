@@ -60,6 +60,10 @@
     border-style: solid;
     border-color: black;
 }
+
+.input--minprice:disabled, .input--maxprice:disabled {
+    opacity: 0.5;
+} 
   
 .filterapply--button {
     width: 90px;
@@ -83,4 +87,11 @@
     color: white;
     margin-top: -5px;
     margin-left: 2px;
+}
+
+.free--checkbox {    
+    margin: 5px 10px 0px 10px;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
 }
