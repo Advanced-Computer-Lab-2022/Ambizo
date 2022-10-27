@@ -47,9 +47,9 @@ router.post("/update/:id", async (req,res) => {
     try{
         let traineeToBeUpdated = await corporateTrainee.findById(req.params.id);
         traineeToBeUpdated.Username = req.body.username,
-        traineeToBeUpdated.Location = req.body.location,
-        traineeToBeUpdated.Corporate = req.body.corporate,
-        traineeToBeUpdated.PhoneNumber = req.body.phoneNumber
+        traineeToBeUpdated.Password = req.body.password,
+        traineeToBeUpdated.Name = req.body.name,
+        traineeToBeUpdated.Email = req.body.email,
     
         await traineeToBeUpdated.save();
         res.send("Trainee Updated");
@@ -68,9 +68,9 @@ router.post("/addTrainee", async (req,res) => {
         else {
             const newCorporateTrainee = new corporateTrainee({
                 Username: req.body.username,
-                Location: req.body.location,
-                Corporate: req.body.corporate,
-                PhoneNumber: req.body.phoneNumber
+                Password: req.body.password,
+                Name: req.body.name,
+                Email: req.body.email
             });
     
             await newCorporateTrainee.save();

@@ -1,0 +1,86 @@
+.multiselect-container .searchBox::placeholder {
+    color: black !important;
+    opacity: 1;
+}
+  
+.multiselect-container {
+    margin-bottom: 10px;
+}
+  
+.search-wrapper .chip {
+    background-color: black;
+}
+  
+.search-wrapper .singleChip {
+    color: white;
+}
+  
+.multiselect-container .searchWrapper {
+    border-color: black;
+}
+  
+.modal-content-filter {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 480px;
+    line-height: 1.4;
+    background: #b10918;
+    padding: 14px 28px;
+    border-radius: 3px;
+    max-width: 1000px;
+    min-width: 460px;
+    width: 25%;
+}
+  
+.input-minmax {
+    margin-top: -13px;
+}
+    
+.input--minprice {
+    width: 200px;
+    height: 50px;
+    padding-left: 15px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+    background-color: #b10918;
+    border-style: solid;
+    border-color: black;
+}
+  
+.input--maxprice {
+    width: 200px;
+    height: 50px;
+    padding-left: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background-color: #b10918;
+    border-style: solid;
+    border-color: black;
+}
+  
+.filterapply--button {
+    width: 90px;
+    min-width: 90px;
+    height: 50px;
+    border-width: 1px;
+    background-color: black;
+    color: white;
+    margin-top: 10px;
+}
+  
+.input--minprice::-webkit-outer-spin-button,
+.input--minprice::-webkit-inner-spin-button,
+.input--maxprice::-webkit-outer-spin-button,
+.input--maxprice::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.price--error {
+    color: white;
+    margin-top: -5px;
+    margin-left: 2px;
+}

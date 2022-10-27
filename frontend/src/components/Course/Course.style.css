@@ -1,0 +1,63 @@
+.course {
+    width: 360px;
+    height: 405px;
+    max-width: 360px;
+    border-radius: 5px;
+    box-shadow: 3px 5px 10px 0 rgba(0,0,0,.3);
+    overflow-y: scroll;
+  }
+  
+.course::-webkit-scrollbar { 
+    display: none;
+}
+  
+.course--image {
+    width: 95%;
+    margin: 20px 0px 0px 9px;
+    border-radius: 10px;
+}
+  
+.course--title {
+    margin-left: 12px;
+    margin-right: 12px;
+}
+  
+.course--hours {
+    margin-left: 17px;
+    margin-top: -18px;
+}
+  
+.hour--icon {
+    max-width: 16px;
+}
+  
+.hours--count {
+    margin-left: 5px;
+    font-size: 18px;
+    font-weight: 400;
+}
+  
+.course--rating {
+    margin-left: 14px;
+}
+  
+.number--reviews {
+    font-size: 11px;
+}
+  
+.price--icon {
+    max-width: 23px;
+    margin-right: 5px;
+}
+  
+.course--price {
+    margin-top: 5px;
+    margin-left: 13px;
+    margin-bottom: 10px;
+}
+  
+.price {
+    font-size: 20px;
+    margin-top: -10px;
+    font-weight: 600;
+}

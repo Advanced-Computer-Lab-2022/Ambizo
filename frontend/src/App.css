@@ -1,0 +1,61 @@
+@import "./components/404/NotFound.style.css";
+@import "./components/CountryModal/CountryModal.style.css";
+@import "./components/CountrySelector/CountrySelector.style.css";
+@import "./components/Course/Course.style.css";
+@import "./components/FilterModal/FilterModal.style.css";
+@import "./components/Footer/Footer.style.css";
+@import "./components/Header/Header.style.css";
+@import "./components/CoursesPage/CoursesPage.style.css";
+@import "./components/SearchBar/SearchBar.style.css";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  min-width: 1190px;
+  width: auto !important;
+  width: 1000px;
+}
+
+button {
+  align-items: center;
+  background-color: #FFFFFF;
+  border-radius: 2px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  /* color: rgba(0, 0, 0, 0.75); */
+  color: black;
+  cursor: pointer;
+  display: block;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  position: relative;
+  border-width: 2px;
+  max-height: 40px;
+}
+
+.header--line {
+  background: black;
+  color: black;
+  height: 1px;
+  width: 80%;
+}
+
+nav {
+  height: 90px;
+  display: flex;
+  padding: 0px 35px;
+  box-shadow: 0px 3px 7.5px rgba(0, 0, 0, 0.1);
+}
+
+.nav--logo {
+  display: block;
+  margin: auto 0px auto 30px;
+  max-width: 200px;
+  max-height: 65px;
+}

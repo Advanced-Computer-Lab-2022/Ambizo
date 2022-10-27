@@ -1,0 +1,42 @@
+.courses-list {
+    display: flex;
+    margin: 30px 230px;
+    gap: 50px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+
+.coursesTitleFilter {
+  margin: 30px 80px -15px 235px;
+  display: flex;
+  align-items: center;
+}
+
+.coursesTitleFilter--header { 
+  margin: auto auto auto 0px;
+  color: #b10918;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.filter--icon {
+  height: 40px;
+  float: right;
+  margin-right: -40px;
+}
+
+.filter--button {
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  margin-right: 150px;
+  cursor: pointer;
+  border-radius: 2px;
+  border-width: 0px;
+}
+
+.filter--button:hover {
+  background-color: #e4e4e4;
+  opacity: 0.2;
+}
