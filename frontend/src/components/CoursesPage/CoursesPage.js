@@ -180,11 +180,26 @@ function CoursesPage() {
             {isLoading ? 
             (
                 <>
-                    <div className="loader-container">
-                        <div className="spinner"> </div>
-                    </div>
+                    {
+                    /* Normal Loading Animation
+                        <div className="loader-container">
+                            <div className="spinner"> </div>
+                        </div>
+                    */
+                    }
+
                     <Header />
                     {renderCourseHeader(toggleFilterModal)}
+                    <section className="courses-list">
+                        <Course isLoading={true} />
+                        <Course isLoading={true} />
+                        <Course isLoading={true} />
+                        <Course isLoading={true} />
+                        <Course isLoading={true} />
+                        <Course isLoading={true} />
+                        <Course isLoading={true} />
+                        <Course isLoading={true} />
+                    </section>
                 </>
             ) 
             : 
