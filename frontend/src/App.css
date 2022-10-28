@@ -8,6 +8,9 @@
 @import "./components/Header/Header.style.css";
 @import "./components/InstructorPage/InstructorPage.style.css";
 @import "./components/SearchBar/SearchBar.style.css";
+@import "./components/AddAdministrator/AddAdministrator.style.css";
+@import "./components/AddCorporateTrainee/AddCorporateTrainee.style.css";
+@import "./components/AddInstructor/AddInstructor.style.css";
 
 * {
   box-sizing: border-box;
