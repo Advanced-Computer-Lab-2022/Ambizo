@@ -5,10 +5,7 @@ import HourIcon from '../../images/HourIcon.png'
 import PriceIcon from '../../images/PriceIcon.png'
 
 function Course(props) {
-    let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ];
-    if(!currencyCode){
-        currencyCode = "USD"
-    }
+    let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
 
     return (
         <div className='course'>
