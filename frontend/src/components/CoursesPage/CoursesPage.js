@@ -1,56 +1,40 @@
 import React from "react";
 import Header from "../Header/Header";
-import CountryModal from "../CountryModal/CountryModal";
 import FilterModal from "../FilterModal/FilterModal";
 import Course from "../Course/Course";
 import CourseService from "../../services/Course.service";
 import FilterIcon from "../../images/FilterIcon.png";
 
-async function retrieveAllCourses(){
+async function retrieveAllCourses(setLoading){
+    setLoading(true);
     return CourseService.getAllCourses()
     .then((result) => {
+        setLoading(false);
         return result;
     })
     .catch((error) => {
+        setLoading(false);
         return null;
     })
 }
 
-async function retrieveFilteredCourses(filterURL){
-    console.log(filterURL)
+async function retrieveFilteredCourses(setLoading ,filterURL){
+    setLoading(true);
     return CourseService.getFilteredCourses(filterURL)
     .then((result) => {
+        setLoading(false);
         return result;
     })
     .catch((error) => {
+        setLoading(false);
         return null;
     })
-}
-
-function renderCourseHeader(toggleFilterModal) {
-    return (
-        <>
-            <div className='coursesTitleFilter'>
-                <div className='coursesTitleFilter--header'>
-                    <p>All Courses</p>
-                </div>
-                <img src={FilterIcon} alt='Filter Icon' className='filter--icon'/>
-                <button class="filter--button" onClick={toggleFilterModal}/>
-            </div>
-            <hr  className='header--line'/>
-        </>
-    )
 }
 
 function CoursesPage() {
 
-    const [countryModal, setCountryModal] = React.useState(false);
-
-    const toggleCountryModal = () => {
-        setCountryModal(prevModal => !prevModal);
-    };
-
     const [filterModal, setFilterModal] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
 
     const toggleFilterModal = () => {
         setFilterModal(prevModal => !prevModal);
@@ -61,7 +45,7 @@ function CoursesPage() {
 
     React.useEffect(() => {
         document.title = "All Courses";
-        retrieveAllCourses()
+        retrieveAllCourses(setLoading)
         .then(coursesList => setCoursesData(coursesList.data))
         .catch(error => {
             console.log(error);
@@ -71,8 +55,8 @@ function CoursesPage() {
     const coursesDataElements = coursesData.map(course => {
         return (
             <Course
+                key={course._id}
                 {...course}
-                coursesData={coursesData}
             />
         )
     })
@@ -151,7 +135,7 @@ function CoursesPage() {
             else {
                 filterURL += 1000000 + ""
             }
-            retrieveFilteredCourses(filterURL)
+            retrieveFilteredCourses(setLoading, filterURL)
             .then(coursesList => setCoursesData(coursesList.data))
             .catch(error => {
                 console.log(error);
@@ -172,18 +156,48 @@ function CoursesPage() {
         )
     }
 
+    function renderCourseHeader(toggleFilterModal) {
+        return (
+            <>
+                <div className='coursesTitleFilter'>
+                    <div className='coursesTitleFilter--header'>
+                        <p>All Courses</p>
+                    </div>
+                    <img src={FilterIcon} alt='Filter Icon' className='filter--icon'/>
+                    <button className="filter--button" onClick={toggleFilterModal}/>
+                </div>
+                <hr  className='header--line'/>
+                <FilterModal filterModal={filterModal} toggleFilterModal={toggleFilterModal} 
+                onSelectSubjects={onSelectSubjects} onSelectRating={onSelectRating} priceFilterData={priceFilterData} 
+                handlePriceFilterChange={handlePriceFilterChange} applyFilters={applyFilters} resetFilters={resetFilters} 
+                freeCoursesOnly={freeCoursesOnly} handleFreeCoursesOnly={handleFreeCoursesOnly} />
+            </>
+        )
+    }
+    
     return (
         <>
-            <Header toggleCountryModal={toggleCountryModal} />
-            { renderCourseHeader(toggleFilterModal) }
-            <section className="courses-list">
-                {coursesDataElements}
-            </section>
-            <CountryModal countryModal={countryModal} toggleCountryModal={toggleCountryModal} />
-            <FilterModal filterModal={filterModal} toggleFilterModal={toggleFilterModal} 
-            onSelectSubjects={onSelectSubjects} onSelectRating={onSelectRating} priceFilterData={priceFilterData} 
-            handlePriceFilterChange={handlePriceFilterChange} applyFilters={applyFilters} resetFilters={resetFilters} 
-            freeCoursesOnly={freeCoursesOnly} handleFreeCoursesOnly={handleFreeCoursesOnly} />
+            {loading ? 
+            (
+                <>
+                    <div className="loader-container">
+                        <div className="spinner"> </div>
+                    </div>
+                    <Header />
+                    {renderCourseHeader(toggleFilterModal)}
+                </>
+            ) 
+            : 
+            (   
+                <>
+                    <Header />
+                    {renderCourseHeader(toggleFilterModal)}
+                    <section className="courses-list">
+                        {coursesDataElements}
+                    </section>
+                </>
+            )
+            }
         </>
     )
 }

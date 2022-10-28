@@ -164,7 +164,7 @@ function FilterModal(props) {
                     <label htmlFor="freeCoursesOnly">Free Courses Only</label>
 
                     {props.filterPriceErrorMessage && <p className="price--error">{props.filterPriceErrorMessage}</p>}
-                    <button class="filterapply--button" onClick={applyFilters}>Apply</button>
+                    <button className="filterapply--button" onClick={applyFilters}>Apply</button>
                     
                     
                 </div>

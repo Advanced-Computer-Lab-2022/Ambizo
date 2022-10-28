@@ -18,7 +18,7 @@ function CountryModal(props) {
                 <div className="modal">
                 <div onClick={props.toggleCountryModal} className="overlay"></div>
                 <div className="modal-content">
-                    <CountrySelector />
+                    <CountrySelector toggleCountryModal={props.toggleCountryModal}/>
                     <img src={XIcon} alt='X Icon' className='x--icon'/>
                     <button className="close-modal" onClick={props.toggleCountryModal}></button>
                     <div className="choose--country">
