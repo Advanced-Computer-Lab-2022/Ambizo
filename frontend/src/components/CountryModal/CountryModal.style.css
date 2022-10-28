@@ -28,7 +28,7 @@ body.active-modal {
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 460px;
+    height: fit-content;
     line-height: 1.4;
     background: #b10918;
     padding: 14px 28px;
@@ -67,6 +67,9 @@ body.active-modal {
 
 .choose--country {
     display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 80px;
 }
 
 .chooseCountry--icon {

@@ -1,4 +1,5 @@
 import React, {useEffect} from "react";
+import Header from "../Header/Header";
 
 function NotFound() {
 
@@ -7,9 +8,12 @@ function NotFound() {
     }, []);
 
     return (
-        <div>
-            <h1> Error 404. </h1>
-        </div>
+        <>
+            <Header />
+            <div>
+                <h1> Error 404. </h1>
+            </div>
+        </>
     )
 }
 

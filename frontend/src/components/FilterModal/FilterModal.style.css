@@ -24,7 +24,7 @@
     top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 480px;
+    height: fit-content;
     line-height: 1.4;
     background: #b10918;
     padding: 14px 28px;
@@ -36,6 +36,7 @@
   
 .input-minmax {
     margin-top: -13px;
+    display: flex;
 }
     
 .input--minprice {
@@ -60,6 +61,10 @@
     border-style: solid;
     border-color: black;
 }
+
+.input--minprice:disabled, .input--maxprice:disabled {
+    opacity: 0.5;
+} 
   
 .filterapply--button {
     width: 90px;
@@ -68,7 +73,7 @@
     border-width: 1px;
     background-color: black;
     color: white;
-    margin-top: 10px;
+    margin: 40px auto 10px auto;
 }
   
 .input--minprice::-webkit-outer-spin-button,
@@ -83,4 +88,11 @@
     color: white;
     margin-top: -5px;
     margin-left: 2px;
+}
+
+.free--checkbox {    
+    margin: 5px 10px 0px 10px;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
 }

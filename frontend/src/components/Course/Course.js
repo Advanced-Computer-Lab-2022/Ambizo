@@ -1,11 +1,14 @@
 import React from 'react';
 import Rating from '@mui/material/Rating';
+import countryToCurrency  from 'country-to-currency';
 import HourIcon from '../../images/HourIcon.png'
 import PriceIcon from '../../images/PriceIcon.png'
 
-
-
 function Course(props) {
+    let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ];
+    if(!currencyCode){
+        currencyCode = "USD"
+    }
 
     return (
         <div className='course'>
@@ -21,7 +24,8 @@ function Course(props) {
             </div>
             <div className='course--price'>
                 <img src={PriceIcon} alt='Price Icon' className='price--icon'/>
-                <span className='price'>{props.PriceInUSD} USD</span>
+                {props.PriceInUSD === 0 && <span className='price'>FREE</span>}
+                {props.PriceInUSD !== 0 && <span className='price'>{props.PriceInUSD} {currencyCode}</span>}
             </div>
         </div>
     )

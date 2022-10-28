@@ -39,6 +39,7 @@
   
 .course--rating {
     margin-left: 14px;
+    z-index: -1;
 }
   
 .number--reviews {

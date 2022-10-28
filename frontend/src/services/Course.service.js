@@ -1,12 +1,21 @@
 import http from "../http-common"
+import countryToCurrency  from 'country-to-currency';
 
 class CourseService {
     getAllCourses(){
-        return http.get("/guest/getCourses");
+        let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ];
+        if(!currencyCode){
+            currencyCode = "USD"
+        }
+        return http.get("/guest/getCourses/?currencyCode=" + currencyCode);
     }
 
     getFilteredCourses(filterURL) {
-        return http.get("guest/getCourses/" + filterURL);
+        let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ];
+        if(!currencyCode){
+            currencyCode = "USD"
+        }
+        return http.get("guest/getCourses/" + filterURL + "&currencyCode=" + currencyCode);
     }
 }
 

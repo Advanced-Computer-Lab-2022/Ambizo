@@ -24,6 +24,11 @@ function FilterModal(props) {
         props.handlePriceFilterChange(name, value)
     }
 
+    function handleFreeCoursesOnly(event) {
+        const {checked} = event.target
+        props.handleFreeCoursesOnly(checked)
+    }
+
     function applyFilters() {
         props.applyFilters();
     }
@@ -125,6 +130,7 @@ function FilterModal(props) {
                             id="minimumPrice"
                             name="minimumPrice"
                             min="0"
+                            disabled={props.freeCoursesOnly}
                             onChange={handlePriceChange}
                             value={props.minimumPrice}
                             className="input--minprice" 
@@ -134,6 +140,7 @@ function FilterModal(props) {
                         <input 
                             id="maximumPrice"
                             name="maximumPrice"
+                            disabled={props.freeCoursesOnly}
                             onChange={handlePriceChange}
                             value={props.maximumPrice}
                             className="input--maxprice" 
@@ -146,8 +153,19 @@ function FilterModal(props) {
                     <img src={XIcon} alt='X Icon' className='x--icon'/>
                     <button className="close-modal" onClick={props.toggleFilterModal}></button>
                     
+                    <input 
+                        type="checkbox" 
+                        id="freeCoursesOnly" 
+                        className="free--checkbox"
+                        checked={props.freeCoursesOnly}
+                        onChange={handleFreeCoursesOnly}
+                        name="freeCoursesOnly"
+                    />
+                    <label htmlFor="freeCoursesOnly">Free Courses Only</label>
+
                     {props.filterPriceErrorMessage && <p className="price--error">{props.filterPriceErrorMessage}</p>}
-                    <button class="filterapply--button" onClick={applyFilters}>Apply</button>
+                    <button className="filterapply--button" onClick={applyFilters}>Apply</button>
+                    
                     
                 </div>
                 </div>

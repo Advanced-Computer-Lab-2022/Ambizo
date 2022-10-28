@@ -1,6 +1,7 @@
 import express from "express";
 import administrator from "../models/administrator.model.js";
 import corporateTrainee from "../models/corporateTrainee.model.js";
+import instructor from "../models/instructor.model.js";
 
 const router = express.Router();
 
