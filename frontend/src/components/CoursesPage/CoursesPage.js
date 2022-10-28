@@ -5,28 +5,28 @@ import Course from "../Course/Course";
 import CourseService from "../../services/Course.service";
 import FilterIcon from "../../images/FilterIcon.png";
 
-async function retrieveAllCourses(setLoading){
-    setLoading(true);
+async function retrieveAllCourses(setIsLoading){
+    setIsLoading(true);
     return CourseService.getAllCourses()
     .then((result) => {
-        setLoading(false);
+        setIsLoading(false);
         return result;
     })
     .catch((error) => {
-        setLoading(false);
+        setIsLoading(false);
         return null;
     })
 }
 
-async function retrieveFilteredCourses(setLoading ,filterURL){
-    setLoading(true);
+async function retrieveFilteredCourses(setIsLoading ,filterURL){
+    setIsLoading(true);
     return CourseService.getFilteredCourses(filterURL)
     .then((result) => {
-        setLoading(false);
+        setIsLoading(false);
         return result;
     })
     .catch((error) => {
-        setLoading(false);
+        setIsLoading(false);
         return null;
     })
 }
@@ -34,7 +34,7 @@ async function retrieveFilteredCourses(setLoading ,filterURL){
 function CoursesPage() {
 
     const [filterModal, setFilterModal] = React.useState(false);
-    const [loading, setLoading] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(false);
 
     const toggleFilterModal = () => {
         setFilterModal(prevModal => !prevModal);
@@ -45,7 +45,7 @@ function CoursesPage() {
 
     React.useEffect(() => {
         document.title = "All Courses";
-        retrieveAllCourses(setLoading)
+        retrieveAllCourses(setIsLoading)
         .then(coursesList => setCoursesData(coursesList.data))
         .catch(error => {
             console.log(error);
@@ -135,7 +135,7 @@ function CoursesPage() {
             else {
                 filterURL += 1000000 + ""
             }
-            retrieveFilteredCourses(setLoading, filterURL)
+            retrieveFilteredCourses(setIsLoading, filterURL)
             .then(coursesList => setCoursesData(coursesList.data))
             .catch(error => {
                 console.log(error);
@@ -177,14 +177,29 @@ function CoursesPage() {
     
     return (
         <>
-            {loading ? 
+            {isLoading ? 
             (
                 <>
-                    <div className="loader-container">
-                        <div className="spinner"> </div>
-                    </div>
+                    {
+                    /* Normal Loading Animation
+                        <div className="loader-container">
+                            <div className="spinner"> </div>
+                        </div>
+                    */
+                    }
+
                     <Header />
                     {renderCourseHeader(toggleFilterModal)}
+                    <section className="courses-list">
+                        <Course isLoading={true} />
+                        <Course isLoading={true} />
+                        <Course isLoading={true} />
+                        <Course isLoading={true} />
+                        <Course isLoading={true} />
+                        <Course isLoading={true} />
+                        <Course isLoading={true} />
+                        <Course isLoading={true} />
+                    </section>
                 </>
             ) 
             : 

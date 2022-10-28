@@ -17,6 +17,7 @@ body.active-modal {
     right: 0;
     bottom: 0;
     position: fixed;
+    z-index: 1;
 }
   
 .overlay {
@@ -36,6 +37,7 @@ body.active-modal {
     max-width: 1000px;
     min-width: 460px;
     width: 30%;
+    z-index: 1;
 }
   
 .x--icon {
