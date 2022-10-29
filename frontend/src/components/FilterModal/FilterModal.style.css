@@ -74,7 +74,7 @@
     border-width: 1px;
     background-color: black;
     color: white;
-    margin: 40px auto 10px auto;
+    margin: 40px auto 20px auto;
 }
   
 .input--minprice::-webkit-outer-spin-button,
@@ -96,4 +96,8 @@
     width: 12px;
     height: 12px;
     cursor: pointer;
+}
+
+.alert--pricerange {
+    margin-bottom: 10px;
 }
