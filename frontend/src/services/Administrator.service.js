@@ -5,7 +5,7 @@ class AdministratorService{
         return http.post("/admin/addAdministrator", AdminData);
     }
     addTrainee(traineeData) {
-        return http.post("/admin/addTrainee", traineeData);
+        return http.post("/admin/addCorporateTrainee", traineeData);
     }
     addInstructor(instructorData) {
         return http.post("/admin/addInstructor", instructorData);

@@ -15,7 +15,7 @@ router.post("/addAdministrator", async (req, res) => {
     try{
         let checkDuplicate = await administrator.findOne({Username: req.body.username});
         if (checkDuplicate) {
-            return handleError(res, "This administrator already exists!");
+            return handleError(res, "An administrator with this username already exists!");
         } 
         else {
             const newAdministrator = new administrator({
@@ -58,7 +58,7 @@ router.post("/addCorporateTrainee", async (req, res) => {
     try{
         let checkDuplicate = await corporateTrainee.findOne({Username: req.body.username});
         if (checkDuplicate) {
-            return handleError(res, "This Trainee already exists!");
+            return handleError(res, "A Trainee with this username already exists!");
         } 
         else {
             const newCorporateTrainee = new corporateTrainee({
