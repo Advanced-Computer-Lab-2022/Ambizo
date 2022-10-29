@@ -98,14 +98,23 @@ function CoursesPage() {
                     maximumPrice: 0
                 })
         }
+        else {
+            setPriceFilterData({
+                minimumPrice: 0,
+                maximumPrice: 1000000
+            })
+        }
         setFreeCoursesOnly(prevFreeCoursesOnly => !prevFreeCoursesOnly)  
     }
 
+    const [filterPriceErrorMessage, setFilterPriceErrorMessage] = React.useState(false);
+
     function applyFilters() {
         if(priceFilterData.minimumPrice > priceFilterData.maximumPrice && priceFilterData.maximumPrice !== '') {
-            
+            setFilterPriceErrorMessage(true);
         }
         else {
+            setFilterPriceErrorMessage(false);
             let filterURL = "?subject=";
             for (let i = 0; i < subjectFilterData.length; i++) {
                 if(i === subjectFilterData.length - 1) {
@@ -170,7 +179,8 @@ function CoursesPage() {
                 <FilterModal filterModal={filterModal} toggleFilterModal={toggleFilterModal} 
                 onSelectSubjects={onSelectSubjects} onSelectRating={onSelectRating} priceFilterData={priceFilterData} 
                 handlePriceFilterChange={handlePriceFilterChange} applyFilters={applyFilters} resetFilters={resetFilters} 
-                freeCoursesOnly={freeCoursesOnly} handleFreeCoursesOnly={handleFreeCoursesOnly} />
+                freeCoursesOnly={freeCoursesOnly} handleFreeCoursesOnly={handleFreeCoursesOnly} 
+                filterPriceErrorMessage={filterPriceErrorMessage} setFilterPriceErrorMessage={setFilterPriceErrorMessage} />
             </>
         )
     }
@@ -209,6 +219,7 @@ function CoursesPage() {
                     {renderCourseHeader(toggleFilterModal)}
                     <section className="courses-list">
                         {coursesDataElements}
+                        {coursesDataElements.length === 0 && <p className="no--courses">0 Courses found.</p>}
                     </section>
                 </>
             )
