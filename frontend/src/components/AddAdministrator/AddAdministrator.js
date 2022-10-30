@@ -89,7 +89,6 @@ function AddAdministrator() {
                 })
                 .catch((error) => {
                     setMessage({ text: error.response.data, type: "errorMessage" })
-                    console.log(error)
                 })
         }
     }

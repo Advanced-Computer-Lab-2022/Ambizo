@@ -14,6 +14,7 @@
 @import "./components/AddAdministrator/AddAdministrator.style.css";
 @import "./components/AddCorporateTrainee/AddCorporateTrainee.style.css";
 @import "./components/AddInstructor/AddInstructor.style.css";
+@import "./components/LoginPage/LoginPage.style.css";
 
 * {
   box-sizing: border-box;

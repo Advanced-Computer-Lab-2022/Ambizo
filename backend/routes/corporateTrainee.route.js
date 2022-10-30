@@ -3,46 +3,13 @@ import corporateTrainee from "../models/corporateTrainee.model.js";
 
 const router = express.Router();
 
-router.get("/getTraineeId/:username", async (req,res) => {
+router.post("/login", async (req, res) => {
     try{
-        let trainee = await corporateTrainee.findOne({Username: req.params.username});
-        res.send(trainee._id);
-    }
-    catch(err){
-        handleError(res, err.message);
-    }
-})
-
-router.get("/:id", async (req,res) => {
-    try{
-        let trainee = await corporateTrainee.findById(req.params.id);
-        res.json(trainee);
-    }
-    catch(err){
-        handleError(res, err.message);
-    }
-})
-
-router.delete("/:id", async (req,res) => {
-    try{
-        await corporateTrainee.findByIdAndDelete(req.params.id);
-        res.send("Trainee Deleted");
-    }
-    catch(err){
-        handleError(res, err.message);
-    }
-})
-
-router.put("/update/:id", async (req,res) => {
-    try{
-        let traineeToBeUpdated = await corporateTrainee.findById(req.params.id);
-        traineeToBeUpdated.Username = req.body.username,
-        traineeToBeUpdated.Password = req.body.password,
-        traineeToBeUpdated.Name = req.body.name,
-        traineeToBeUpdated.Email = req.body.email,
-    
-        await traineeToBeUpdated.save();
-        res.send("Trainee Updated");
+        let trainee = await corporateTrainee.findOne({Username: req.body.username});
+        if (!trainee || trainee.Password !== req.body.password) {
+            return handleError(res, "Invalid username or password");
+        } 
+        res.json(trainee)
     }
     catch(err){
         handleError(res, err.message);

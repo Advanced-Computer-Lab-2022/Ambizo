@@ -7,7 +7,7 @@ import Subtitle from "../Subtitle/Subtitle";
 import Exercise from "../Exercise/Exercise";
 
 
-function CourseDetialsPage() {
+function CourseDetailsPage() {
 
     return (
         <>
@@ -61,4 +61,4 @@ function CourseDetialsPage() {
     )
 }
 
-export default CourseDetialsPage;
+export default CourseDetailsPage;

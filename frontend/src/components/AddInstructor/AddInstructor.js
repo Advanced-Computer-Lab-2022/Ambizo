@@ -5,7 +5,7 @@ import AdministratorService from "../../services/Administrator.service";
 function AddInstructor() {
 
     const [instructorData, setInstructorData] = useState(
-        { username: "", password: "", passwordAgain: "", name: "", showpassword: false }
+        { username: "", password: "", passwordAgain: "", name: "", email: "", showpassword: false }
     )
 
     const [message, setMessage] = useState(
@@ -85,11 +85,10 @@ function AddInstructor() {
             return AdministratorService.addInstructor(instructorData)
                 .then((result) => {
                     setMessage({ text: `A new Instructor with user name "${result.data.Username}" is added correctly`, type: "confirmMessage" })
-                    setInstructorData({ username: "", password: "", passwordAgain: "", name: "",showpassword:"" })
+                    setInstructorData({ username: "", password: "", passwordAgain: "", name: "", email: "", showpassword:"" })
                 })
                 .catch((error) => {
                     setMessage({ text: error.response.data, type: "errorMessage" })
-                    console.log(error)
                 })
         }
     }
@@ -112,6 +111,13 @@ function AddInstructor() {
                     onChange={handleChange}
                     name="username"
                     value={instructorData.username}
+                />
+                <input className="newInstructor"
+                    type="text"
+                    placeholder="Enter Email"
+                    onChange={handleChange}
+                    name="email"
+                    value={instructorData.email}
                 />
                 <input className="newInstructor"
                     type={instructorData.showpassword ? "text" : "password"}
