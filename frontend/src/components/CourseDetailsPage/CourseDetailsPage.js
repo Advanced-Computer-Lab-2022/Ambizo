@@ -11,9 +11,9 @@ function CourseDetialsPage() {
             <div className="top--container">
                 <div className="container--left">
                     <div className="course--path">
-                        <a className="all--hyperlink" href="url">All Courses</a>
+                        <a className="all--hyperlink" href="">All Courses</a>
                         <span>{" > "}</span>
-                        <a className="subject--hyperlink" href="url">Software Development</a>
+                        <a className="subject--hyperlink" href="">Software Development</a>
                     </div>
                     <h1 className="coursedetails--fulltitle">Python For Beginners - Learn Programming From Scratch Learn Programming From Scratch Learn Programming</h1>
                     <p className="coursedetails--description">Python For Beginners : This course is meant for absolute beginners in programming or in python.</p>
@@ -21,7 +21,7 @@ function CourseDetialsPage() {
                         <Rating className='coursedetails--rating' name="half-rating-read" defaultValue={3.5} precision={0.1} readOnly />
                         <span className='coursedetails--numberratings'>(500 ratings)</span>
                     </div>
-                    <p className="coursedetails--instructor">Created by:{<a className="instructor--hyperlink" href="url">Slim Abdelzaher</a>}</p>
+                    <p className="coursedetails--instructor">Created by:{<a className="instructor--hyperlink" href="">Slim Abdelzaher</a>}</p>
                 </div>
                 <div className="container--right">
                     <div className='coursedetails--courseimagepriceenroll'>
@@ -31,7 +31,6 @@ function CourseDetialsPage() {
                             <span className='coursedetails--price'>19.99 USD</span>
                             <button className='button--enroll'>Enroll now</button>
                         </div>
-                        
                     </div>
                 </div>
             </div>

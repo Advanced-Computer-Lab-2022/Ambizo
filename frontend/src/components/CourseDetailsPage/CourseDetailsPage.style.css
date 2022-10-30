@@ -2,14 +2,14 @@
     width: 100%;
     height: fit-content;
     background-color: #e6001c;
-    padding: 50px 0px 50px 400px;
+    padding: 50px 20% 50px 20%;
     display: flex;
     flex-wrap: wrap;
 }
 
 .container--left {
-    width: 45%;
-    margin-right: 5px;
+    width: 56%;
+    margin-right: auto;
 }
 
 .all--hyperlink, .subject--hyperlink, .instructor--hyperlink {
