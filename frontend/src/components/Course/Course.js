@@ -37,7 +37,9 @@ function Course(props) {
                         <div className='course--price'>
                             <img src={PriceIcon} alt='Price Icon' className='price--icon'/>
                             {props.PriceInUSD === 0 && <span className='price'>FREE</span>}
-                            {props.PriceInUSD !== 0 && <span className='price'>{props.PriceInUSD} {currencyCode}</span>}
+                            {props.PriceInUSD !== 0 && props.Discount>0 && <span className='price'>{(props.PriceInUSD*((100-props.Discount)/100)).toFixed(2)} {currencyCode}</span>}
+                            {props.PriceInUSD !== 0 && props.Discount>0 && <span className='old--price'>{props.PriceInUSD} {currencyCode}</span>}
+                            {props.PriceInUSD !== 0 && props.Discount===0 && <span className='price'>{props.PriceInUSD} {currencyCode}</span>}
                         </div>
                     </div>
                 </>
