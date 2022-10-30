@@ -22,14 +22,14 @@ function Header() {
     }
 
     const toggleLogOut = () => {
-        sessionStorage.setItem('Type', null);
-        sessionStorage.setItem('ID', null);
+        sessionStorage.removeItem('Type');
+        sessionStorage.removeItem('User');
         setIsLoggedIn(false);
         navigate("/");
     }
 
     React.useEffect(() => {
-        if(sessionStorage.getItem("Type") !=="null"){
+        if(sessionStorage.getItem("Type")){
             setIsLoggedIn(true)
         }
     }, []);
@@ -44,8 +44,9 @@ function Header() {
                 {isLoggedIn ?
                 (
                     <>
+                        <p className='user--button'>Hello, Omar</p>
                         <button 
-                            className='button--login'
+                            className='button--signup'
                             onClick={toggleLogOut}
                         >Log Out
                         </button>

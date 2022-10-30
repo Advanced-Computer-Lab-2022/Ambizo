@@ -44,7 +44,7 @@ function LoginPage() {
                     LoginService.login(userData, result.data.Type)
                     .then((user) => {
                         sessionStorage.setItem("Type", result.data.Type);
-                        sessionStorage.setItem("ID", user.data._id);
+                        sessionStorage.setItem("User", JSON.stringify(user.data));
                         navigate("/");
                     })
                     .catch((error) => {

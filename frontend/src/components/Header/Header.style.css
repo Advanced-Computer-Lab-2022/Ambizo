@@ -60,3 +60,7 @@ nav {
     max-width: 200px;
     max-height: 65px;
 }
+
+.user--button {
+    margin: auto 30px auto auto;
+}

@@ -20,10 +20,10 @@ function App() {
                   <Route path="/" element={<CoursesPage />} />
                   <Route path='/login' element={<LoginPage />} />
                   <Route path='/coursedetails' element={<CourseDetailsPage />} />
-                  <Route path="/mycourses" element={<InstructorPage />} />
-                  <Route path="/addadmin" element={<AddAdministrator />} />
-                  <Route path="/addtrainee" element={<AddCorporateTrainee />} />
-                  <Route path="/addinstructor" element={<AddInstructor />} />
+                  <Route path="/mycourses" element={sessionStorage.getItem("Type") === "instructor" ? <InstructorPage /> : <Navigate to="/404" />} />
+                  <Route path="/addadmin" element={sessionStorage.getItem("Type") === "admin" ? <AddAdministrator /> : <Navigate to="/404" />} />
+                  <Route path="/addtrainee" element={sessionStorage.getItem("Type") === "admin" ? <AddCorporateTrainee /> : <Navigate to="/404" />} />
+                  <Route path="/addinstructor" element={sessionStorage.getItem("Type") === "admin" ? <AddInstructor />  : <Navigate to="/404" />} />
                 </Routes>
                 <Footer />
             </div>
