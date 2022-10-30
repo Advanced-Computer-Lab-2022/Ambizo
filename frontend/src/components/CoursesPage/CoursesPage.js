@@ -38,6 +38,7 @@ function CoursesPage() {
 
     const toggleFilterModal = () => {
         setFilterModal(prevModal => !prevModal);
+        setFilterPriceErrorMessage(false)
         resetFilters();
     };
 
@@ -91,26 +92,14 @@ function CoursesPage() {
 
     const [freeCoursesOnly, setFreeCoursesOnly] = React.useState(false);
 
-    function handleFreeCoursesOnly(checked) {
-        if(checked) {
-            setPriceFilterData({
-                    minimumPrice: 0,
-                    maximumPrice: 0
-                })
-        }
-        else {
-            setPriceFilterData({
-                minimumPrice: 0,
-                maximumPrice: 1000000
-            })
-        }
+    function handleFreeCoursesOnly() {
         setFreeCoursesOnly(prevFreeCoursesOnly => !prevFreeCoursesOnly)  
     }
 
     const [filterPriceErrorMessage, setFilterPriceErrorMessage] = React.useState(false);
 
     function applyFilters() {
-        if(priceFilterData.minimumPrice > priceFilterData.maximumPrice && priceFilterData.maximumPrice !== '') {
+        if(priceFilterData.minimumPrice > priceFilterData.maximumPrice && priceFilterData.maximumPrice !== '' && !freeCoursesOnly) {
             setFilterPriceErrorMessage(true);
         }
         else {
@@ -132,18 +121,22 @@ function CoursesPage() {
             }
 
             filterURL += "&price="
-            if(priceFilterData.minimumPrice !== '') {
-                filterURL += parseFloat(priceFilterData.minimumPrice) + ","
+            if(!freeCoursesOnly){
+                if(priceFilterData.minimumPrice !== '') {
+                    filterURL += parseFloat(priceFilterData.minimumPrice) + ","
+                }
+                else {
+                    filterURL += 0 + ","
+                }
+
+                if(priceFilterData.maximumPrice !== '') {
+                    filterURL += parseFloat(priceFilterData.maximumPrice)
+                }
+            } 
+            else{
+                filterURL +=  0 + "," + -1
             }
-            else {
-                filterURL += 0 + ","
-            }
-            if(priceFilterData.maximumPrice !== '') {
-                filterURL += parseFloat(priceFilterData.maximumPrice)
-            }
-            else {
-                filterURL += 1000000 + ""
-            }
+
             retrieveFilteredCourses(setIsLoading, filterURL)
             .then(coursesList => setCoursesData(coursesList.data))
             .catch(error => {

@@ -20,8 +20,16 @@ router.get("/getCourses", async (req,res) => {
         if(req.query.price){
             const priceRange = req.query.price.split(',');
             const minPrice = priceRange[0] * exchangeRateToUSD;
-            const maxPrice = priceRange[1] * exchangeRateToUSD;
-            filter = {...filter, PriceInUSD: {$lte: maxPrice, $gte: minPrice}};
+            let maxPrice = priceRange[1] * exchangeRateToUSD;
+            if(maxPrice){
+                if(maxPrice < 0){
+                    maxPrice = 0;
+                }
+                filter = {...filter, PriceInUSD: {$lte: maxPrice, $gte: minPrice}};
+            }
+            else{
+                filter = {...filter, PriceInUSD: {$gte: minPrice}};
+            }
         }
 
         let courses = await course.find(filter);

@@ -10,7 +10,6 @@ function FilterModal(props) {
     } 
     else {
         document.body.classList.remove('active-modal')
-        props.setFilterPriceErrorMessage(false)
     }
 
     function onSelectSubjects(selectedList) {
@@ -26,9 +25,8 @@ function FilterModal(props) {
         props.handlePriceFilterChange(name, value)
     }
 
-    function handleFreeCoursesOnly(event) {
-        const {checked} = event.target
-        props.handleFreeCoursesOnly(checked)
+    function handleFreeCoursesOnly() {
+        props.handleFreeCoursesOnly()
     }
 
     function applyFilters() {
