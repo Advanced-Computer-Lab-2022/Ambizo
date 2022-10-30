@@ -3,16 +3,6 @@ import corporateTrainee from "../models/corporateTrainee.model.js";
 
 const router = express.Router();
 
-router.get("/getAllTrainees", async (req,res) => {
-    try{
-        let trainees = await corporateTrainee.find();
-        res.json(trainees);
-    }
-    catch(err){
-        handleError(res, err.message);
-    }
-})
-
 router.get("/getTraineeId/:username", async (req,res) => {
     try{
         let trainee = await corporateTrainee.findOne({Username: req.params.username});
@@ -43,7 +33,7 @@ router.delete("/:id", async (req,res) => {
     }
 })
 
-router.post("/update/:id", async (req,res) => {
+router.put("/update/:id", async (req,res) => {
     try{
         let traineeToBeUpdated = await corporateTrainee.findById(req.params.id);
         traineeToBeUpdated.Username = req.body.username,
@@ -53,29 +43,6 @@ router.post("/update/:id", async (req,res) => {
     
         await traineeToBeUpdated.save();
         res.send("Trainee Updated");
-    }
-    catch(err){
-        handleError(res, err.message);
-    }
-})
-
-router.post("/addTrainee", async (req,res) => {
-    try{
-        let checkDuplicate = await corporateTrainee.findOne({Username: req.body.username});
-        if (checkDuplicate) {
-            return handleError(res, "This trainee already exists!");
-        } 
-        else {
-            const newCorporateTrainee = new corporateTrainee({
-                Username: req.body.username,
-                Password: req.body.password,
-                Name: req.body.name,
-                Email: req.body.email
-            });
-    
-            await newCorporateTrainee.save();
-            res.json(newCorporateTrainee);
-        }
     }
     catch(err){
         handleError(res, err.message);
