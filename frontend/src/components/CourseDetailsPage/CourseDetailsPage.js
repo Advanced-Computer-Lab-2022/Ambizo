@@ -3,8 +3,12 @@ import Header from "../Header/Header";
 import { Rating } from "@mui/material";
 import HourIcon from '../../images/HourIcon.png'
 import PriceIcon from '../../images/PriceIcon.png'
+import Subtitle from "../Subtitle/Subtitle";
+import Exercise from "../Exercise/Exercise";
+
 
 function CourseDetialsPage() {
+
     return (
         <>
             <Header />
@@ -20,6 +24,8 @@ function CourseDetialsPage() {
                     <div>
                         <Rating className='coursedetails--rating' name="half-rating-read" defaultValue={3.5} precision={0.1} readOnly />
                         <span className='coursedetails--numberratings'>(500 ratings)</span>
+                        <img src={HourIcon} alt='Hour Icon' className='coursedetails--houricon'/>
+                        <span className='coursedetails--hourscount'>2.6 Hours</span>
                     </div>
                     <p className="coursedetails--instructor">Created by:{<a className="instructor--hyperlink" href="">Slim Abdelzaher</a>}</p>
                 </div>
@@ -33,6 +39,23 @@ function CourseDetialsPage() {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="coursedetails--subtitles">
+                <h2 className="coursedetails--subtitlesheader">Subtitles</h2>
+                <Subtitle />
+                <Subtitle />
+                <Subtitle />
+                <Subtitle />
+                <Subtitle />
+                <Subtitle />
+
+                <h2 className="coursedetails--exercisesheader">Exercises</h2>
+                <Exercise />
+                <Exercise />
+                <Exercise />
+                <Exercise />
+                <Exercise />
+                <Exercise />
             </div>
         </>
     )

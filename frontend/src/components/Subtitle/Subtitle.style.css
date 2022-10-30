@@ -1,0 +1,43 @@
+
+.subtitle {
+    display: flex;
+    width: 50%;
+    height: 80px;
+    border-width: 2px;
+    border-color: hsla(210,18%,87%,1);
+    border-style: solid;
+    background-color: #f7f9fa;
+}
+
+.arrow {
+    margin: auto 0px auto 20px;
+}
+
+.arrow::before,
+.arrow::after {
+    position: relative;
+    content: '';
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: #000;
+}
+
+.arrow::before {
+    transform: rotate(45deg);
+}
+
+.arrow::after {
+    left: 14px;
+    transform: rotate(-45deg);
+}
+
+.subtitle--name {
+    font-size: 20px;
+    font-weight: 500;
+    margin: auto auto auto 5%;
+}
+
+.subtitle--duration {
+    margin: auto 5% auto auto;
+}

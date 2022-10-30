@@ -4,11 +4,10 @@
     background-color: #e6001c;
     padding: 50px 20% 50px 20%;
     display: flex;
-    flex-wrap: wrap;
 }
 
 .container--left {
-    width: 56%;
+    width: 57%;
     margin-right: auto;
 }
 
@@ -41,6 +40,17 @@
 
 .coursedetails--numberratings {
     font-size: 18px;
+    margin-right: 50px;
+}
+
+.coursedetails--houricon {
+    max-width: 20px;
+}
+  
+.coursedetails--hourscount {
+    margin-left: 10px;
+    font-size: 25px;
+    font-weight: 400;
 }
 
 .MuiRating-decimal {
@@ -58,19 +68,19 @@
 }
 
 .coursedetails--courseimagepriceenroll {
-    border-radius: 5px;
+    border-radius: 1px;
     background-color: white;
     box-shadow: 12px 20px 40px 0 rgba(0,0,0,.3);
     height: fit-content;
-    padding-top: 40px;
+    padding-top: 13px;
     padding-bottom: 30px;
 }
 
 .coursedetails--image {
-    width: 85%;
+    width: 95%;
     margin: 0px auto 10px auto;
     display: block;
-    border-radius: 5px;
+    border-radius: 1px;
 }
 
 .coursedetails--priceenroll {
@@ -83,16 +93,17 @@
 .coursedetails--priceicon {
     width: 8%;
     height: fit-content;
-    margin: 0px 5px 0px 50px;
+    margin: 10px 5px 0px 30px;
 }
 
 .coursedetails--price {
     font-size: 35px;
     font-weight: 700;
+    margin-top: 7xpx;
 }
 
 .button--enroll {
-    margin: 0px 50px 0px auto;
+    margin: 0px 40px 0px auto;
     border-color: #bd0312;
     background-color: #e6001c;
     border-style: solid;
@@ -101,4 +112,16 @@
     height: auto;
     padding-top: 20px;
     padding-bottom: 40px;
+}
+
+.button--enroll:hover {
+    opacity: 0.8;
+}
+
+.coursedetails--subtitles {
+    padding-left: 20%;
+    margin-bottom: 50px;
+}
+.coursedetails--subtitlesheader, .coursedetails--exercisesheader {
+    font-size: 26px;
 }
