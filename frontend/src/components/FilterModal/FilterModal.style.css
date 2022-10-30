@@ -33,6 +33,10 @@
     min-width: 460px;
     width: 25%;
     z-index: 1;
+    -webkit-animation: fadein 0.25s; 
+    -moz-animation: fadein 0.25s; 
+    -o-animation: fadein 0.25s; 
+    animation: fadein 0.25s; 
 }
   
 .input-minmax {
@@ -100,4 +104,13 @@
 
 .alert--pricerange {
     margin-bottom: 10px;
+}
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }

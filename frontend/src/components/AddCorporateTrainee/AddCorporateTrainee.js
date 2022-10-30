@@ -96,54 +96,56 @@ function AddCorporateTrainee() {
     return (
         <>
             <Header />
-            <h1>Add new Corporate Trainee</h1>
-            <form onSubmit={handleSubmit}>
-                <input className="newTrainee"
-                    type="text"
-                    placeholder="Enter Name"
-                    onChange={handleChange}
-                    name="name"
-                    value={traineeData.name}
-                />
-                <input className="newTrainee"
-                    type="text"
-                    placeholder="Enter User Name"
-                    onChange={handleChange}
-                    name="username"
-                    value={traineeData.username}
-                />
-                <input className="newTrainee"
-                    type="text"
-                    placeholder="Enter Email"
-                    onChange={handleChange}
-                    name="email"
-                    value={traineeData.email}
-                />
-                <input className="newTrainee"
-                    type={traineeData.showpassword ? "text" : "password"}
-                    placeholder="Enter Password"
-                    onChange={handleChange}
-                    name="password"
-                    value={traineeData.password}
-                />
-                <input className="newTrainee"
-                    type={traineeData.showpassword ? "text" : "password"}
-                    placeholder="Confirm Password"
-                    onChange={handleChange}
-                    name="passwordAgain"
-                    value={traineeData.passwordAgain}
-                />
-                <input
-                    type="checkbox"
-                    id="showpassword"
-                    checked={traineeData.showpassword}
-                    onChange={handleChange}
-                    name="showpassword"
-                />
-                <label htmlFor="showpassword">Show Password</label>
-                <button>Submit</button>
-                <p className={message.type}>{message.text}</p>
-            </ form>
+            <div className="form--div">
+                <h1>Add new Corporate Trainee</h1>
+                <form className="form" onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        placeholder="Enter Name"
+                        onChange={handleChange}
+                        name="name"
+                        value={traineeData.name}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Enter User Name"
+                        onChange={handleChange}
+                        name="username"
+                        value={traineeData.username}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Enter Email"
+                        onChange={handleChange}
+                        name="email"
+                        value={traineeData.email}
+                    />
+                    <input
+                        type={traineeData.showpassword ? "text" : "password"}
+                        placeholder="Enter Password"
+                        onChange={handleChange}
+                        name="password"
+                        value={traineeData.password}
+                    />
+                    <input
+                        type={traineeData.showpassword ? "text" : "password"}
+                        placeholder="Confirm Password"
+                        onChange={handleChange}
+                        name="passwordAgain"
+                        value={traineeData.passwordAgain}
+                    />
+                    <input
+                        type="checkbox"
+                        id="showpassword"
+                        checked={traineeData.showpassword}
+                        onChange={handleChange}
+                        name="showpassword"
+                    />
+                    <label htmlFor="showpassword">Show Password</label>
+                    <button className="form--button">Submit</button>
+                    <p className={message.type}>{message.text}</p>
+                </ form>
+            </div>
         </>
     )
 }

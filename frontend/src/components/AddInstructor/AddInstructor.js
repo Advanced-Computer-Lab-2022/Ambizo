@@ -96,54 +96,56 @@ function AddInstructor() {
     return (
         <>
             <Header />
-            <h1>Add new Instructor</h1>
-            <form onSubmit={handleSubmit}>
-                <input className="newInstructor"
-                    type="text"
-                    placeholder="Enter Name"
-                    onChange={handleChange}
-                    name="name"
-                    value={instructorData.name}
-                />
-                <input className="newInstructor"
-                    type="text"
-                    placeholder="Enter User Name"
-                    onChange={handleChange}
-                    name="username"
-                    value={instructorData.username}
-                />
-                <input className="newInstructor"
-                    type="text"
-                    placeholder="Enter Email"
-                    onChange={handleChange}
-                    name="email"
-                    value={instructorData.email}
-                />
-                <input className="newInstructor"
-                    type={instructorData.showpassword ? "text" : "password"}
-                    placeholder="Enter Password"
-                    onChange={handleChange}
-                    name="password"
-                    value={instructorData.password}
-                />
-                <input className="newInstructor"
-                    type={instructorData.showpassword ? "text" : "password"}
-                    placeholder="Confirm Password"
-                    onChange={handleChange}
-                    name="passwordAgain"
-                    value={instructorData.passwordAgain}
-                />
-                <input
-                    type="checkbox"
-                    id="showpassword"
-                    checked={instructorData.showpassword}
-                    onChange={handleChange}
-                    name="showpassword"
-                />
-                <label htmlFor="showpassword">Show Password</label>
-                <button>Submit</button>
-                <p className={message.type}>{message.text}</p>
-            </ form>
+            <div className="form--div">
+                <h1>Add new Instructor</h1>
+                <form className="form" onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        placeholder="Enter Name"
+                        onChange={handleChange}
+                        name="name"
+                        value={instructorData.name}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Enter User Name"
+                        onChange={handleChange}
+                        name="username"
+                        value={instructorData.username}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Enter Email"
+                        onChange={handleChange}
+                        name="email"
+                        value={instructorData.email}
+                    />
+                    <input
+                        type={instructorData.showpassword ? "text" : "password"}
+                        placeholder="Enter Password"
+                        onChange={handleChange}
+                        name="password"
+                        value={instructorData.password}
+                    />
+                    <input
+                        type={instructorData.showpassword ? "text" : "password"}
+                        placeholder="Confirm Password"
+                        onChange={handleChange}
+                        name="passwordAgain"
+                        value={instructorData.passwordAgain}
+                    />
+                    <input
+                        type="checkbox"
+                        id="showpassword"
+                        checked={instructorData.showpassword}
+                        onChange={handleChange}
+                        name="showpassword"
+                    />
+                    <label htmlFor="showpassword">Show Password</label>
+                    <button className="form--button">Submit</button>
+                    <p className={message.type}>{message.text}</p>
+                </ form>
+            </div>
         </>
     )
 }

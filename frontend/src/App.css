@@ -85,3 +85,40 @@ button {
       transform: rotate(360deg);
   }
 }
+
+.form--div {
+  margin-top: 200px;
+  text-align: center;
+  border: 1px solid black;
+  width: 25%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.form--button{
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+}
+
+.form {
+  display: inline-block;
+  text-align: left;
+}
+
+.form> input:not([type=checkbox]){
+  margin-bottom: 15px;
+  height: 30px;
+  text-indent: 10px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  display: block;
+}
+
+.form--errormessage{
+  color: red;
+}
+
+.form--successmessage{
+  color: green;
+}

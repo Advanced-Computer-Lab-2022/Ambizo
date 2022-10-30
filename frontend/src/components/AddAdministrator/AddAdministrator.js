@@ -96,40 +96,42 @@ function AddAdministrator() {
     return (
         <>
             <Header />
-            <h1>Add new Administrator</h1>
-            <form onSubmit={handleSubmit}>
-                <input className="newAdmin"
-                    type="text"
-                    placeholder="Enter User Name"
-                    onChange={handleChange}
-                    name="username"
-                    value={adminData.username}
-                />
-                <input className="newAdmin"
-                    type={adminData.showpassword ? "text" : "password"}
-                    placeholder="Enter Password"
-                    onChange={handleChange}
-                    name="password"
-                    value={adminData.password}
-                />
-                <input className="newAdmin"
-                    type={adminData.showpassword ? "text" : "password"}
-                    placeholder="Confirm Password"
-                    onChange={handleChange}
-                    name="passwordAgain"
-                    value={adminData.passwordAgain}
-                />
-                <input
-                    type="checkbox"
-                    id="showpassword"
-                    checked={adminData.showpassword}
-                    onChange={handleChange}
-                    name="showpassword"
-                />
-                <label htmlFor="showpassword">Show Password</label>
-                <button>Submit</button>
-                <p className={message.type}>{message.text}</p>
-            </ form>
+            <div className="form--div">
+                <h1>Add new Administrator</h1>
+                <form className="form" onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        placeholder="Enter User Name"
+                        onChange={handleChange}
+                        name="username"
+                        value={adminData.username}
+                    />
+                    <input
+                        type={adminData.showpassword ? "text" : "password"}
+                        placeholder="Enter Password"
+                        onChange={handleChange}
+                        name="password"
+                        value={adminData.password}
+                    />
+                    <input
+                        type={adminData.showpassword ? "text" : "password"}
+                        placeholder="Confirm Password"
+                        onChange={handleChange}
+                        name="passwordAgain"
+                        value={adminData.passwordAgain}
+                    />
+                    <input
+                        type="checkbox"
+                        id="showpassword"
+                        checked={adminData.showpassword}
+                        onChange={handleChange}
+                        name="showpassword"
+                    />
+                    <label htmlFor="showpassword">Show Password</label>
+                    <button className="form--button">Submit</button>
+                    <p className={message.type}>{message.text}</p>
+                </ form>
+            </div>
         </>
     )
 }

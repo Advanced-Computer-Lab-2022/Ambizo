@@ -29,7 +29,7 @@ function LoginPage() {
                 filled = false
         }
         if (!filled) {
-            setMessage({ text: "All fields are required", type: "errorMessage" })
+            setMessage({ text: "All fields are required", type: "form--errormessage" })
             return false;
         }
 
@@ -48,11 +48,11 @@ function LoginPage() {
                         navigate("/");
                     })
                     .catch((error) => {
-                        setMessage({ text: error.response.data, type: "errorMessage" })
+                        setMessage({ text: error.response.data, type: "form--errormessage" })
                     })
                 })
                 .catch((error) => {
-                    setMessage({ text: error.response.data, type: "errorMessage" })
+                    setMessage({ text: error.response.data, type: "form--errormessage" })
                 })
         }
     }
@@ -60,33 +60,36 @@ function LoginPage() {
     return (
         <>
             <Header />
-            <h1>Login</h1>
-            <form onSubmit={handleSubmit}>
-                <input className="userLogin"
-                    type="text"
-                    placeholder="Enter User Name"
-                    onChange={handleChange}
-                    name="username"
-                    value={userData.username}
-                />
-                <input className="userLogin"
-                    type={userData.showpassword ? "text" : "password"}
-                    placeholder="Enter Password"
-                    onChange={handleChange}
-                    name="password"
-                    value={userData.password}
-                />
-                <input
-                    type="checkbox"
-                    id="showpassword"
-                    checked={userData.showpassword}
-                    onChange={handleChange}
-                    name="showpassword"
-                />
-                <label htmlFor="showpassword">Show Password</label>
-                <button>Login</button>
-                <p className={message.type}>{message.text}</p>
-            </ form>
+            <div className="form--div">
+                <h1>Login</h1>
+                <form className="form" onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        placeholder="Enter User Name"
+                        onChange={handleChange}
+                        name="username"
+                        value={userData.username}
+                    />
+                    <input
+                        type={userData.showpassword ? "text" : "password"}
+                        placeholder="Enter Password"
+                        onChange={handleChange}
+                        name="password"
+                        value={userData.password}
+                    />
+                    <input
+                        type="checkbox"
+                        id="showpassword"
+                        checked={userData.showpassword}
+                        onChange={handleChange}
+                        name="showpassword"
+                    />
+                    <label htmlFor="showpassword">Show Password</label>
+                    <button className="form--button">Login</button>
+                    <p className={message.type}>{message.text}</p>
+                </ form>
+            </div>
+           
         </>
     )
 }

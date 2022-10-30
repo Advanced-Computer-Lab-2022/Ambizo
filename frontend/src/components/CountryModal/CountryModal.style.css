@@ -18,6 +18,10 @@ body.active-modal {
     bottom: 0;
     position: fixed;
     z-index: 1;
+    -webkit-animation: fadein 0.25s; 
+    -moz-animation: fadein 0.25s; 
+    -o-animation: fadein 0.25s; 
+    animation: fadein 0.25s; 
 }
   
 .overlay {
@@ -26,7 +30,7 @@ body.active-modal {
   
 .modal-content {
     position: absolute;
-    top: 40%;
+    top: 47%;
     left: 50%;
     transform: translate(-50%, -50%);
     height: fit-content;

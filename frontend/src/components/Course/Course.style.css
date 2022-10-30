@@ -4,11 +4,19 @@
     max-width: 360px;
     border-radius: 5px;
     box-shadow: 3px 5px 10px 0 rgba(0,0,0,.3);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     overflow-y: scroll;
+    transition-duration: 0.25s;
+    cursor: pointer;
   }
   
 .course::-webkit-scrollbar { 
     display: none;
+}
+
+.course:hover{
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 15px 15px 8px rgba(0, 0, 0, 0.25);
 }
   
 .course--image {
