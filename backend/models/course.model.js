@@ -45,7 +45,6 @@ const courseSchema = new Schema({
   },
   Exercises: {
     type: Array,
-    required: true,
     default: []
   },
   Discount: {

@@ -28,13 +28,13 @@ function AddCorporateTrainee() {
                 filled = false
         }
         if (!filled) {
-            setMessage({ text: "All fields are required", type: "errorMessage" })
+            setMessage({ text: "All fields are required", type: "form--errormessage" })
             return false;
         }
         //check passwords match
         let passwordNoMatch = !(traineeData.password === traineeData.passwordAgain)
         if (passwordNoMatch) {
-            setMessage({ text: "The passwords you entered do not match.", type: "errorMessage" })
+            setMessage({ text: "The passwords you entered do not match.", type: "form--errormessage" })
             setTraineeData(prevData => {
                 return { ...prevData, passwordAgain: "" }
             })
@@ -72,7 +72,7 @@ function AddCorporateTrainee() {
         let requirementsFullfilled = checkRequirements()
         if (passwordlength < 8 || !requirementsFullfilled) {
             setMessage(
-                { text: "Passwords must have at least 8 characters and contain at least two of the following: uppercase letters, lowercase letters, numbers, and symbols.", type: "errorMessage" }
+                { text: "Passwords must have at least 8 characters and contain at least two of the following: uppercase letters, lowercase letters, numbers, and symbols.", type: "form--errormessage" }
             )
             return false;
         }
@@ -84,11 +84,11 @@ function AddCorporateTrainee() {
         if (checkSubmit()) {
             return AdministratorService.addTrainee(traineeData)
                 .then((result) => {
-                    setMessage({ text: `A new Trainee with user name "${result.data.Username}" is added correctly`, type: "confirmMessage" })
+                    setMessage({ text: `A new Trainee with user name "${result.data.Username}" is added correctly`, type: "form--successmessage" })
                     setTraineeData({ name: "", username: "", password: "", passwordAgain: "", email: "", showpassword:false })
                 })
                 .catch((error) => {
-                    setMessage({ text: error.response.data, type: "errorMessage" })
+                    setMessage({ text: error.response.data, type: "form--errormessage" })
                 })
         }
     }

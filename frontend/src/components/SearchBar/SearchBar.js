@@ -1,9 +1,11 @@
 import React from "react";
 import searchIcon from '../../images/SearchIcon.png'
 
-function SearchBar() {
+function SearchBar(props) {
+    const [searchTerm, setSearchTerm] = React.useState("");
+
     function handleChange(event) {
-        
+        setSearchTerm(event.target.value)
     }
 
     return (
@@ -12,13 +14,13 @@ function SearchBar() {
                 className="search--input"
                 id="search" 
                 type="text"
-                placeholder="Search for courses (course title, subject or instructor) ..." 
+                placeholder={props.placeholder || "Search for courses (course title, subject or instructor) ..."} 
                 name="search"
                 onChange={handleChange}
-                // value={}
+                value={searchTerm}
             />
             <img src={searchIcon} alt='Search Icon' className='search--icon'/>
-            <button className="search--button" />
+            <button onClick={() => {setSearchTerm(""); props.searchForCourses(searchTerm)}} className="search--button" />
         </>
     )
 }

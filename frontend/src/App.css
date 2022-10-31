@@ -16,6 +16,7 @@
 @import "./components/AddInstructor/AddInstructor.style.css";
 @import "./components/LoginPage/LoginPage.style.css";
 @import "./components/UserMenu/UserMenu.style.css";
+@import "./components/AddCourse/AddCourse.style.css";
 
 * {
   box-sizing: border-box;
@@ -88,18 +89,28 @@ button {
 }
 
 .form--div {
-  margin-top: 200px;
+  margin-top: 100px;
+  margin-bottom: 100px;
   text-align: center;
   border: 1px solid black;
-  width: 25%;
+  width: 500px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.form--button{
+.form--button {
+  width: fit-content;
+  min-width: 90px;
+  height: 50px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 10px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-width: 1px;
+}
+
+.form--button:hover {
+  background-color: #e4e4e4;
 }
 
 .form {
@@ -114,12 +125,16 @@ button {
   border: 1px solid #444;
   border-radius: 5px;
   display: block;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .form--errormessage{
+  text-align: center;
   color: red;
 }
 
 .form--successmessage{
   color: green;
+  text-align: center;
 }

@@ -32,6 +32,16 @@ router.get("/getCourses", async (req,res) => {
                 filter = {...filter, PriceInUSD: {$gte: minPrice}};
             }
         }
+        if(req.query.searchTerm){
+            filter ={
+                ...filter,
+                $or: [
+                    {Title: {$regex: '.*' + req.query.searchTerm + '.*', $options: 'i'}},
+                    {Subject: {$regex: '.*' + req.query.searchTerm + '.*', $options: 'i'}},
+                    {InstructorName: {$regex: '.*' + req.query.searchTerm + '.*', $options: 'i'}}
+                ]
+            }
+        }
 
         let courses = await course.find(filter);
         courses.forEach(course => {
@@ -44,25 +54,21 @@ router.get("/getCourses", async (req,res) => {
     }
 })
 
-router.get("/searchCourses", async (req, res) => {
+router.get("/searchCourses/:searchTerm", async (req, res) => {
     try {
-        let filter = {};
-        if (req.query.coursetitle) {
-            filter = { 
-                ...filter,
-                 Title: {$regex: '.*' + req.query.coursetitle + '.*'}
-                }
-        }
-        if (req.query.subject) {
-            filter = { ...filter, Subject: req.query.subject.split(',') };
-        }
-        if (req.query.instructorname) {
-            filter = { 
-                ...filter,
-                 InstructorName: {$regex: '.*' + req.query.instructorname + '.*'}
-                }
-        }
-        const courses = await course.find(filter);
+        let exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
+        
+        let courses = await course.find({
+            $or: [
+                {Title: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i'}},
+                {Subject: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i'}},
+                {InstructorName: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i'}}
+            ]
+        });
+
+        courses.forEach(course => {
+            course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
+        })
         res.status(200).json(courses)
     } catch (err) {
         handleError(res, err);
