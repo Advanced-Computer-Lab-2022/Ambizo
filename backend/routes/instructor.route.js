@@ -82,12 +82,11 @@ router.get("/searchCourses", async (req, res) => {
 
 router.post("/createCourse", async (req, res) => {
     try {
-        let instructorId = req.query.id;
-        let instructor = await instructorRepo.findOne({_id: instructorId});
-        let instructorName = instructor.Name;
+        let instructorUsername = req.query.username;
+        let instructorName = req.query.name;
         
         const newCourse = new course({
-            InstructorId: instructorId,
+            InstructorUsername: instructorUsername,
             InstructorName: instructorName,
             ...(req.body)
         });

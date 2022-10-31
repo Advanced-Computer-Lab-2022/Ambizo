@@ -59,7 +59,7 @@ function CourseDetailsPage() {
         })
     }
 
-
+    let hourSpan = course.TotalHours>1? "Hours" : "Hour"
     return (
         <>
             <Header />
@@ -68,7 +68,7 @@ function CourseDetailsPage() {
                     <div className="course--path">
                         <a className="all--hyperlink" href="">All Courses</a>
                         <span>{" > "}</span>
-                        <a className="subject--hyperlink" href="">Software Development</a>
+                        <a className="subject--hyperlink" href="">{course.Subject}</a>
                     </div>
                     <h1 className="coursedetails--fulltitle">{course.Title}</h1>
                     <p className="coursedetails--description">{course.Description}</p>
@@ -77,7 +77,7 @@ function CourseDetailsPage() {
                         <span className='coursedetails--numberratings'>({course.NumberOfReviews} ratings)</span>
                         <div className="coursedetails--hour">
                             <img src={HourIcon} alt='Hour Icon' className='coursedetails--houricon'/>
-                            <span className='coursedetails--hourscount'>{course.TotalHours} Hours</span>
+                            <span className='coursedetails--hourscount'>{course.TotalHours} {hourSpan}</span>
                         </div>
                     </div>
                     <p className="coursedetails--instructor">Created by:{<a className="instructor--hyperlink" href="">{course.InstructorName}</a>}</p>

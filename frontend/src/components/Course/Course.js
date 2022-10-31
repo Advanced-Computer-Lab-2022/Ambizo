@@ -13,7 +13,7 @@ function Course(props) {
     }
 
     let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
-
+    let hourSpan = props.TotalHours>1? "Hours" : "Hour"
     return (
         <>
             { props.isLoading ?
@@ -35,7 +35,7 @@ function Course(props) {
                         <h3 className='course--title'>{props.Title.length > 60 ? props.Title.substring(0, 57) + "..." : props.Title}</h3>
                         <div className='course--hours'>
                             <img src={HourIcon} alt='Hour Icon' className='hour--icon'/>
-                            <span className='hours--count'>{props.TotalHours} Hours</span>
+                            <span className='hours--count'>{props.TotalHours} {hourSpan}</span>
                         </div>
                         <div>
                             <Rating className='course--rating' name="half-rating-read" defaultValue={props.Rating} precision={0.1} readOnly />

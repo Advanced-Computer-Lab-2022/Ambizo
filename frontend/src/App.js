@@ -9,6 +9,7 @@ import AddAdministrator from "./components/AddAdministrator/AddAdministrator";
 import AddCorporateTrainee from "./components/AddCorporateTrainee/AddCorporateTrainee";
 import AddInstructor from "./components/AddInstructor/AddInstructor";
 import LoginPage from "./components/LoginPage/LoginPage";
+import AddCourse from "./components/AddCourse/AddCourse";
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                   <Route path='/login' element={<LoginPage />} />
                   <Route path='/coursedetails/:courseId' element={<CourseDetailsPage />} />
                   <Route path="/mycourses" element={sessionStorage.getItem("Type") === "instructor" ? <InstructorCoursesPage /> : <Navigate to="/404" />} />
+                  <Route path="/addcourse" element={sessionStorage.getItem("Type") === "instructor" ? <AddCourse /> : <Navigate to="/404" />} />
                   <Route path="/addadmin" element={sessionStorage.getItem("Type") === "admin" ? <AddAdministrator /> : <Navigate to="/404" />} />
                   <Route path="/addtrainee" element={sessionStorage.getItem("Type") === "admin" ? <AddCorporateTrainee /> : <Navigate to="/404" />} />
                   <Route path="/addinstructor" element={sessionStorage.getItem("Type") === "admin" ? <AddInstructor />  : <Navigate to="/404" />} />

@@ -10,17 +10,17 @@
     z-index: 1;
     top: 68px;
     box-shadow: 5px 8px 10px 0 rgba(0,0,0,.3);
-    transform: translateX(-47px);
+    transform: translateX(-33px);
 }
 
 @keyframes fadeinFromAbove {
     0% {
         opacity: 0;
-        transform: translate(-47px,-40px);
+        transform: translate(-33px,-40px);
     }
     100% {
         opacity: 1;
-        transform: translate(-47px,0px);
+        transform: translate(-33px,0px);
     }
 }
 
