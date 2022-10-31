@@ -1,0 +1,37 @@
+.userMenu--div{
+    position: absolute;
+    background: #b10918;
+    -webkit-animation: fadeinFromAbove 0.25s; 
+    -moz-animation: fadeinFromAbove 0.25s; 
+    -o-animation: fadeinFromAbove 0.25s; 
+    animation: fadeinFromAbove 0.25s; 
+    width: 200px;
+    height: fit-content;
+    z-index: 1;
+    top: 68px;
+    box-shadow: 5px 8px 10px 0 rgba(0,0,0,.3);
+    transform: translateX(-47px);
+}
+
+@keyframes fadeinFromAbove {
+    0% {
+        opacity: 0;
+        transform: translate(-47px,-40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-47px,0px);
+    }
+}
+
+.userMenu--item{
+    text-align: center;
+    border: 1px solid black;
+    height: 40px;
+    padding: 10px 0px;
+}
+
+.userMenu--item:hover{
+    color: white;
+    background: black;
+}

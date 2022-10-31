@@ -6,24 +6,17 @@ import currencyConverterLt from "currency-converter-lt";
 const router = express.Router();
 const currencyConverter = new currencyConverterLt();
 
-router.get("/:id", async (req,res) => {
+router.get("/getCourses", async (req,res) => {
     try{
-        let instructor = await instructorRepo.findById(req.params.id);
-        res.json(instructor);
-    }
-    catch(err){
-        handleError(res, err.message);
-    }
-})
-
-router.get("/getCourses", async (req, res) => {
-    try {
-        let filter = {};
+        let filter = {}
         let exchangeRateToUSD = await currencyConverter.from(req.query.currencyCode).to("USD").convert();
         let exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
 
-        if (req.query.subject) {
-            filter = { ...filter, Subject: req.query.subject };
+        if(req.query.subject){
+            filter = {...filter, Subject: req.query.subject.split(',')};
+        }
+        if(req.query.rating){
+            filter = {...filter, Rating: {$gte: req.query.rating}};
         }
         if(req.query.price){
             const priceRange = req.query.price.split(',');
@@ -39,20 +32,22 @@ router.get("/getCourses", async (req, res) => {
                 filter = {...filter, PriceInUSD: {$gte: minPrice}};
             }
         }
+
         filter = {
-            _id: req.query.id,
+            InstructorUsername: req.query.username,
             ...filter
         }
 
-        const courses = await course.find(filter);
+        let courses = await course.find(filter);
         courses.forEach(course => {
             course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
         })
         res.json(courses);
-    } catch (err) {
-        handleError(res, err);
     }
-});
+    catch(err){
+        handleError(res, err.message);
+    }
+})
 
 router.get("/searchCourses", async (req, res) => {
     try {

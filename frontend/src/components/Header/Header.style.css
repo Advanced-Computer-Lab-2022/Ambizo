@@ -61,6 +61,25 @@ nav {
     max-height: 65px;
 }
 
+.arrow--icon {
+    display: block;
+    margin: auto 10px auto 0px;
+    max-width: 10px;
+    max-height: 65px;
+}
+
 .user--button {
-    margin: auto 30px auto auto;
+    margin: auto 7px auto auto;
+}
+
+.user--div{
+    display: flex;
+    margin: auto 40px auto auto;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; 
+    -khtml-user-select: none;
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none;
 }

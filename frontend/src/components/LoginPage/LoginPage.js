@@ -46,6 +46,7 @@ function LoginPage() {
                         sessionStorage.setItem("Type", result.data.Type);
                         sessionStorage.setItem("User", JSON.stringify(user.data));
                         navigate("/");
+                        navigate(0);
                     })
                     .catch((error) => {
                         setMessage({ text: error.response.data, type: "form--errormessage" })
