@@ -13,7 +13,6 @@ async function retrieveCourse(id, setIsLoading){
     setIsLoading(true);
     return CourseService.getCourse(id)
     .then((result) => {
-        setIsLoading(false);
         return result;
     })
     .catch((error) => {
@@ -31,7 +30,10 @@ function CourseDetailsPage() {
     React.useEffect(() => {
         document.title = "Course Details";
         retrieveCourse(params.courseId, setIsLoading)
-        .then(course => setCourse(course.data))
+        .then(course => {
+            setCourse(course.data)
+            setIsLoading(false);
+        })
         .catch(error => {
             console.log(error);
         })
