@@ -2,7 +2,6 @@ import React from "react";
 import ExerciseIcon from "../../images/ExerciseIcon.png";
 
 function Exercise(props) {
-    console.log(props)
     return (
         <div className="exercise">
             <img src={ExerciseIcon} alt="Exercise" className="exerice--icon" />
