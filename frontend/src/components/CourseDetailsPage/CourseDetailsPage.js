@@ -5,57 +5,105 @@ import HourIcon from '../../images/HourIcon.png'
 import PriceIcon from '../../images/PriceIcon.png'
 import Subtitle from "../Subtitle/Subtitle";
 import Exercise from "../Exercise/Exercise";
+import { useParams } from "react-router-dom";
+import CourseService from "../../services/Course.service";
+import countryToCurrency  from 'country-to-currency';
 
+async function retrieveCourse(id){
+    return CourseService.getCourse(id)
+    .then((result) => {
+        return result;
+    })
+    .catch((error) => {
+        return null;
+    })
+}
 
 function CourseDetailsPage() {
+
+    const params = useParams();
+
+    const [course, setCourse] = React.useState({});
+
+    React.useEffect(() => {
+        document.title = "Course Details";
+        retrieveCourse(params.courseId)
+        .then(course => setCourse(course.data))
+        .catch(error => {
+            console.log(error);
+        })
+    }, [params.courseId]);
+
+    let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
+
+    let courseSubtitles;
+    let courseExercises;
+
+    if (course.Subtitles && course.Exercises) {
+        courseSubtitles = course.Subtitles.map(subtitle => {
+            return (
+                <Subtitle
+                    key={subtitle.subtitle}
+                    {...subtitle}
+                />
+            )
+        })
+
+        courseExercises = course.Exercises.map(exerciseTitle => {
+            return (
+                <Exercise 
+                    key={exerciseTitle}
+                    exerciseTitle={exerciseTitle}
+                />
+            )
+        })
+    }
+
 
     return (
         <>
             <Header />
-            <div className="top--container">
+            <div className="top--container" >
                 <div className="container--left">
                     <div className="course--path">
                         <a className="all--hyperlink" href="">All Courses</a>
                         <span>{" > "}</span>
                         <a className="subject--hyperlink" href="">Software Development</a>
                     </div>
-                    <h1 className="coursedetails--fulltitle">Python For Beginners - Learn Programming From Scratch Learn Programming From Scratch Learn Programming</h1>
-                    <p className="coursedetails--description">Python For Beginners : This course is meant for absolute beginners in programming or in python.</p>
-                    <div>
-                        <Rating className='coursedetails--rating' name="half-rating-read" defaultValue={3.5} precision={0.1} readOnly />
-                        <span className='coursedetails--numberratings'>(500 ratings)</span>
-                        <img src={HourIcon} alt='Hour Icon' className='coursedetails--houricon'/>
-                        <span className='coursedetails--hourscount'>2.6 Hours</span>
+                    <h1 className="coursedetails--fulltitle">{course.Title}</h1>
+                    <p className="coursedetails--description">{course.Description}</p>
+                    <div className="coursedetails--ratecounthourcount">
+                        <Rating className='coursedetails--rating' name="half-rating-read" defaultValue={course.Rating} precision={0.1} readOnly />
+                        <span className='coursedetails--numberratings'>({course.NumberOfReviews} ratings)</span>
+                        <div className="coursedetails--hour">
+                            <img src={HourIcon} alt='Hour Icon' className='coursedetails--houricon'/>
+                            <span className='coursedetails--hourscount'>{course.TotalHours} Hours</span>
+                        </div>
                     </div>
-                    <p className="coursedetails--instructor">Created by:{<a className="instructor--hyperlink" href="">Slim Abdelzaher</a>}</p>
+                    <p className="coursedetails--instructor">Created by:{<a className="instructor--hyperlink" href="">{course.InstructorName}</a>}</p>
                 </div>
                 <div className="container--right">
                     <div className='coursedetails--courseimagepriceenroll'>
-                        <img className="coursedetails--image" src="https://img-c.udemycdn.com/course/240x135/836376_8b97_4.jpg" alt='Course' />
+                        <img className="coursedetails--image" src={course.ImgURL} alt='Course' />
                         <div className="coursedetails--priceenroll">
-                            <img src={PriceIcon} alt='Price Icon' className='coursedetails--priceicon'/>
-                            <span className='coursedetails--price'>19.99 USD</span>
-                            <button className='button--enroll'>Enroll now</button>
+                            <img src={PriceIcon} alt='Price Icon' className={course.Discount === 0 ? 'coursedetails--priceicon' : 'coursedetails--priceicondiscounted'} />
+                            <div className="coursedetials--pricediscount">
+                                {course.PriceInUSD === 0 && <span className='coursedetails--price'>FREE</span>}
+                                {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--price'>{(course.PriceInUSD*((100-course.Discount)/100)).toFixed(2)} {currencyCode}</span>}
+                                {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--oldprice'>{course.PriceInUSD} {currencyCode}</span>}
+                                {course.PriceInUSD !== 0 && course.Discount===0 && <span className='coursedetails--price'>{course.PriceInUSD} {currencyCode}</span>}
+                                {course.Discount>0 && <p className="coursedetails--discount">Don't miss out on the {course.Discount}% discount!</p>}
+                            </div>
+                            <button className={course.Discount === 0 ? 'button--enroll' : 'button--enrolldiscounted'}>Enroll now</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="coursedetails--subtitles">
                 <h2 className="coursedetails--subtitlesheader">Subtitles</h2>
-                <Subtitle />
-                <Subtitle />
-                <Subtitle />
-                <Subtitle />
-                <Subtitle />
-                <Subtitle />
-
+                {courseSubtitles}
                 <h2 className="coursedetails--exercisesheader">Exercises</h2>
-                <Exercise />
-                <Exercise />
-                <Exercise />
-                <Exercise />
-                <Exercise />
-                <Exercise />
+                {courseExercises}
             </div>
         </>
     )

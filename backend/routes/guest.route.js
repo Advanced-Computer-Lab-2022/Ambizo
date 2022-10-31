@@ -69,6 +69,21 @@ router.get("/searchCourses", async (req, res) => {
     }
 });
 
+router.get("/getCourse/:courseId", async (req,res) => {
+    try {
+        let exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
+
+        let Course = await course.findById(req.params.courseId);
+
+        Course.PriceInUSD = (Course.PriceInUSD * exchangeRateToCountry).toFixed(2);
+
+        res.json(Course);    
+    }
+    catch(err) {
+        handleError(res, err.message);
+    }
+})
+
 router.get("/getUserType/:username", async (req,res) => {
     try{
         let User = await user.findOne({Username: req.params.username});

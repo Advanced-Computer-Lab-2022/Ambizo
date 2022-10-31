@@ -79,10 +79,10 @@ body.active-modal {
 }
 
 .chooseCountry--icon {
-    max-width: 50%;
+    max-width: 45%;
     margin-top: 27px;
     margin-right: 33px;
-    height: auto;
+    height: fit-content;
 }
 
 .chooseCountry--text {
