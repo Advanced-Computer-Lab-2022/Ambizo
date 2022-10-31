@@ -1,6 +1,6 @@
 .course {
     width: 360px;
-    height: 405px;
+    height: 423px;
     max-width: 360px;
     border-radius: 5px;
     box-shadow: 3px 5px 10px 0 rgba(0,0,0,.3);
@@ -28,6 +28,15 @@
 .course--title {
     margin-left: 12px;
     margin-right: 12px;
+    margin-bottom: 0px;
+}
+
+.course--instructor {
+    margin-left: 12px;
+    margin-right: 12px;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    opacity: 0.8;
 }
   
 .course--hours {

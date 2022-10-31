@@ -1,13 +1,44 @@
 import React from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import FilterModal from "../FilterModal/FilterModal";
 import Course from "../Course/Course";
+import SearchBar from '../SearchBar/SearchBar';
 import CourseService from "../../services/Course.service";
+import InstructorService from "../../services/Instructor.service";
 import FilterIcon from "../../images/FilterIcon.png";
 
-async function retrieveAllCourses(setIsLoading){
+async function searchCourses(searchTerm, setIsLoading){
     setIsLoading(true);
-    return CourseService.getAllCourses()
+    return CourseService.searchCourses(searchTerm)
+    .then((result) => {
+        setIsLoading(false);
+        return result;
+    })
+    .catch((error) => {
+        setIsLoading(false);
+        console.log(error)
+        return null;
+    })
+}
+
+async function searchMyCourses(searchTerm, setIsLoading){
+    setIsLoading(true);
+    return InstructorService.searchCourses(searchTerm)
+    .then((result) => {
+        setIsLoading(false);
+        return result;
+    })
+    .catch((error) => {
+        setIsLoading(false);
+        console.log(error)
+        return null;
+    })
+}
+
+async function retrieveMyFilteredCourses(searchTerm, setIsLoading ,filterURL){
+    setIsLoading(true);
+    return InstructorService.getFilteredCourses(filterURL + "&searchTerm=" + searchTerm)
     .then((result) => {
         setIsLoading(false);
         return result;
@@ -18,9 +49,9 @@ async function retrieveAllCourses(setIsLoading){
     })
 }
 
-async function retrieveFilteredCourses(setIsLoading ,filterURL){
+async function retrieveFilteredCourses(searchTerm, setIsLoading ,filterURL){
     setIsLoading(true);
-    return CourseService.getFilteredCourses(filterURL)
+    return CourseService.getFilteredCourses(filterURL + "&searchTerm=" + searchTerm)
     .then((result) => {
         setIsLoading(false);
         return result;
@@ -35,6 +66,7 @@ function CoursesPage() {
 
     const [filterModal, setFilterModal] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
+    const navigate = useNavigate();
 
     const toggleFilterModal = () => {
         setFilterModal(prevModal => !prevModal);
@@ -44,14 +76,25 @@ function CoursesPage() {
 
     const [coursesData, setCoursesData] = React.useState([]);
 
+    const params = useParams();
+
     React.useEffect(() => {
-        document.title = "All Courses";
-        retrieveAllCourses(setIsLoading)
-        .then(coursesList => setCoursesData(coursesList.data))
-        .catch(error => {
-            console.log(error);
-        })
-    }, []);
+        document.title = "Search Result";
+        if(params.mycourses){
+            searchMyCourses(params.searchTerm ,setIsLoading)
+            .then(coursesList => setCoursesData(coursesList.data))
+            .catch(error => {
+                console.log(error);
+            })
+        }
+        else{
+            searchCourses(params.searchTerm ,setIsLoading)
+            .then(coursesList => setCoursesData(coursesList.data))
+            .catch(error => {
+                console.log(error);
+            })
+        }
+    }, [params.searchTerm, params.mycourses]);
 
     const coursesDataElements = coursesData.map(course => {
         return (
@@ -137,11 +180,21 @@ function CoursesPage() {
                 filterURL +=  0 + "," + -1
             }
 
-            retrieveFilteredCourses(setIsLoading, filterURL)
-            .then(coursesList => setCoursesData(coursesList.data))
-            .catch(error => {
-                console.log(error);
-            })
+            if(params.mycourses){
+                retrieveMyFilteredCourses(params.searchTerm, setIsLoading, filterURL)
+                .then(coursesList => setCoursesData(coursesList.data))
+                .catch(error => {
+                    console.log(error);
+                })
+            }
+            else{
+                retrieveFilteredCourses(params.searchTerm, setIsLoading, filterURL)
+                .then(coursesList => setCoursesData(coursesList.data))
+                .catch(error => {
+                    console.log(error);
+                })
+            }
+
             toggleFilterModal(); 
             setFreeCoursesOnly(false);
         }
@@ -158,13 +211,26 @@ function CoursesPage() {
         )
     }
 
+    function searchForCourses(searchTerm){
+        if(searchTerm.trim() !== ""){
+            navigate("/search/" + searchTerm + "/mycourses");
+        } 
+    }
+
     function renderCourseHeader(toggleFilterModal) {
         return (
             <>
                 <div className='coursesTitleFilter'>
                     <div className='coursesTitleFilter--header'>
-                        <p>All Courses</p>
+                        <p>{params.mycourses && "My Courses | "} Search Results For: {params.searchTerm} </p>
                     </div>
+                    {
+                        params.mycourses &&  
+                        <div className="searchMyCourses">
+                            <SearchBar placeholder={"Search My Courses"} searchForCourses={searchForCourses}/>
+                        </div>
+                    }
+ 
                     <img src={FilterIcon} alt='Filter Icon' className='filter--icon'/>
                     <button className="filter--button" onClick={toggleFilterModal}/>
                 </div>
@@ -183,6 +249,14 @@ function CoursesPage() {
             {isLoading ? 
             (
                 <>
+                    {
+                    /* Normal Loading Animation
+                        <div className="loader-container">
+                            <div className="spinner"> </div>
+                        </div>
+                    */
+                    }
+
                     <Header />
                     {renderCourseHeader(toggleFilterModal)}
                     <section className="courses-list">

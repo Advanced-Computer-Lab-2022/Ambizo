@@ -15,6 +15,10 @@ class InstructorService {
         let user = JSON.parse(sessionStorage.getItem("User"))
         return httpPost.post("/instructor/createCourse/?username=" + user.Username + "&name="+ user.Name, courseData);
     }
+    searchCourses(searchTerm){
+        let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
+        return http.get("/instructor/searchCourses/" + searchTerm + "?currencyCode=" + currencyCode + "&username=" + JSON.parse(sessionStorage.getItem("User")).Username);
+    }
 }
 
 export default new InstructorService();

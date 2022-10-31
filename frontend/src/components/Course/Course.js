@@ -33,6 +33,7 @@ function Course(props) {
                     <div className='course' onClick={viewCourseDetails}>
                         <img src={props.ImgURL} alt='Course' className='course--image'/>
                         <h3 className='course--title'>{props.Title.length > 60 ? props.Title.substring(0, 57) + "..." : props.Title}</h3>
+                        <p className='course--instructor'>{props.InstructorName}</p>
                         <div className='course--hours'>
                             <img src={HourIcon} alt='Hour Icon' className='hour--icon'/>
                             <span className='hours--count'>{props.TotalHours} {hourSpan}</span>

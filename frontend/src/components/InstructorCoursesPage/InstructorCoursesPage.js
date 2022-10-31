@@ -1,7 +1,9 @@
 import React from "react";
 import Header from "../Header/Header";
+import {useNavigate} from "react-router-dom"
 import FilterModal from "../FilterModal/FilterModal";
 import Course from "../Course/Course";
+import SearchBar from '../SearchBar/SearchBar';
 import InstructorService from "../../services/Instructor.service";
 import FilterIcon from "../../images/FilterIcon.png";
 
@@ -36,6 +38,7 @@ function InstructorCoursesPage() {
 
     const [filterModal, setFilterModal] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
+    const navigate = useNavigate();
 
     const toggleFilterModal = () => {
         setFilterModal(prevModal => !prevModal);
@@ -159,6 +162,12 @@ function InstructorCoursesPage() {
         )
     }
 
+    function searchForCourses(searchTerm){
+        if(searchTerm.trim() !== ""){
+            navigate("/search/" + searchTerm + "/mycourses");
+        } 
+    }
+
     function renderCourseHeader(toggleFilterModal) {
         return (
             <>
@@ -166,6 +175,10 @@ function InstructorCoursesPage() {
                     <div className='coursesTitleFilter--header'>
                         <p>My Courses</p>
                     </div>
+                    <div className="searchMyCourses">
+                        <SearchBar placeholder={"Search My Courses"} searchForCourses={searchForCourses}/>
+                    </div>
+                    
                     <img src={FilterIcon} alt='Filter Icon' className='filter--icon'/>
                     <button className="filter--button" onClick={toggleFilterModal}/>
                 </div>

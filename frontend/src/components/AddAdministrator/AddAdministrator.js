@@ -28,13 +28,13 @@ function AddAdministrator() {
                 filled = false
         }
         if (!filled) {
-            setMessage({ text: "All fields are required", type: "errorMessage" })
+            setMessage({ text: "All fields are required", type: "form--errormessage" })
             return false;
         }
         //check passwords match
         let passwordNoMatch = !(adminData.password === adminData.passwordAgain)
         if (passwordNoMatch) {
-            setMessage({ text: "The passwords you entered do not match.", type: "errorMessage" })
+            setMessage({ text: "The passwords you entered do not match.", type: "form--errormessage" })
             setAdminData(prevData => {
                 return { ...prevData, passwordAgain: "" }
             })
@@ -72,7 +72,7 @@ function AddAdministrator() {
         let requirementsFullfilled = checkRequirements()
         if (passwordlength < 8 || !requirementsFullfilled) {
             setMessage(
-                { text: "Passwords must have at least 8 characters and contain at least two of the following: uppercase letters, lowercase letters, numbers, and symbols.", type: "errorMessage" }
+                { text: "Passwords must have at least 8 characters and contain at least two of the following: uppercase letters, lowercase letters, numbers, and symbols.", type: "form--errormessage" }
             )
             return false;
         }
@@ -84,11 +84,11 @@ function AddAdministrator() {
         if(checkSubmit()) {
             return AdministratorService.addAdmin(adminData)
                 .then((result) => {
-                    setMessage({ text: `A new Administrator with user name "${result.data.Username}" is added correctly`, type: "confirmMessage" })
+                    setMessage({ text: `A new Administrator with user name "${result.data.Username}" is added correctly`, type: "form--successmessage" })
                     setAdminData({ username: "", password: "", passwordAgain: "", showpassword:false })
                 })
                 .catch((error) => {
-                    setMessage({ text: error.response.data, type: "errorMessage" })
+                    setMessage({ text: error.response.data, type: "form--errormessage" })
                 })
         }
     }

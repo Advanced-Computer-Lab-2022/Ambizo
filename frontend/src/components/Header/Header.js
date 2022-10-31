@@ -39,6 +39,12 @@ function Header() {
         setUserMenu(prevMenu => !prevMenu);
     }
 
+    function searchForCourses(searchTerm){
+        if(searchTerm.trim() !== ""){
+            navigate("/search/" + searchTerm);
+        } 
+    }
+
     React.useEffect(() => {
         if(sessionStorage.getItem("Type")){
             setIsLoggedIn(true)
@@ -51,7 +57,7 @@ function Header() {
                 <Link to="/">
                     <img src={canChamLogo} alt='CanCham Logo' className='nav--logo'/>
                 </Link>
-                <SearchBar />
+                <SearchBar searchForCourses={searchForCourses}/>
                 {isLoggedIn ?
                 (
                     <>  
