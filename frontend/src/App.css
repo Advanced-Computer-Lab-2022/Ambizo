@@ -3,11 +3,19 @@
 @import "./components/CountrySelector/CountrySelector.style.css";
 @import "./components/Course/Course.style.css";
 @import "./components/CoursesPage/CoursesPage.style.css";
+@import "./components/CourseDetailsPage/CourseDetailsPage.style.css";
+@import "./components/Subtitle/Subtitle.style.css";
+@import "./components/Exercise/Exercise.style.css";
 @import "./components/FilterModal/FilterModal.style.css";
 @import "./components/Footer/Footer.style.css";
 @import "./components/Header/Header.style.css";
-@import "./components/InstructorPage/InstructorPage.style.css";
+@import "./components/InstructorCoursesPage/InstructorCoursesPage.style.css";
 @import "./components/SearchBar/SearchBar.style.css";
+@import "./components/AddAdministrator/AddAdministrator.style.css";
+@import "./components/AddCorporateTrainee/AddCorporateTrainee.style.css";
+@import "./components/AddInstructor/AddInstructor.style.css";
+@import "./components/LoginPage/LoginPage.style.css";
+@import "./components/UserMenu/UserMenu.style.css";
 
 * {
   box-sizing: border-box;
@@ -21,7 +29,7 @@ body {
   width: 1000px;
   position: relative;
   min-height: 100vh;
-  padding-bottom: 3rem
+  padding-bottom: 3rem;
 }
 
 button {
@@ -77,4 +85,41 @@ button {
   100% {
       transform: rotate(360deg);
   }
+}
+
+.form--div {
+  margin-top: 200px;
+  text-align: center;
+  border: 1px solid black;
+  width: 25%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.form--button{
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+}
+
+.form {
+  display: inline-block;
+  text-align: left;
+}
+
+.form> input:not([type=checkbox]){
+  margin-bottom: 15px;
+  height: 30px;
+  text-indent: 10px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  display: block;
+}
+
+.form--errormessage{
+  color: red;
+}
+
+.form--successmessage{
+  color: green;
 }

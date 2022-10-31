@@ -3,8 +3,15 @@ import Rating from '@mui/material/Rating';
 import countryToCurrency  from 'country-to-currency';
 import HourIcon from '../../images/HourIcon.png'
 import PriceIcon from '../../images/PriceIcon.png'
+import {useNavigate} from 'react-router-dom'
 
 function Course(props) {
+
+    const navigate = useNavigate()
+    function viewCourseDetails() {
+        navigate(`/coursedetails/${props._id}`)
+    }
+
     let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
 
     return (
@@ -23,7 +30,7 @@ function Course(props) {
             :
             (
                 <>
-                    <div className='course'>
+                    <div className='course' onClick={viewCourseDetails}>
                         <img src={props.ImgURL} alt='Course' className='course--image'/>
                         <h3 className='course--title'>{props.Title.length > 60 ? props.Title.substring(0, 57) + "..." : props.Title}</h3>
                         <div className='course--hours'>
@@ -37,7 +44,9 @@ function Course(props) {
                         <div className='course--price'>
                             <img src={PriceIcon} alt='Price Icon' className='price--icon'/>
                             {props.PriceInUSD === 0 && <span className='price'>FREE</span>}
-                            {props.PriceInUSD !== 0 && <span className='price'>{props.PriceInUSD} {currencyCode}</span>}
+                            {props.PriceInUSD !== 0 && props.Discount>0 && <span className='price'>{(props.PriceInUSD*((100-props.Discount)/100)).toFixed(2)} {currencyCode}</span>}
+                            {props.PriceInUSD !== 0 && props.Discount>0 && <span className='old--price'>{props.PriceInUSD} {currencyCode}</span>}
+                            {props.PriceInUSD !== 0 && props.Discount===0 && <span className='price'>{props.PriceInUSD} {currencyCode}</span>}
                         </div>
                     </div>
                 </>

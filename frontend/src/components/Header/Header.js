@@ -1,32 +1,46 @@
 import React from 'react';
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import CountryModal from "../CountryModal/CountryModal";
+import UserMenu from "../UserMenu/UserMenu"
 import canChamLogo from '../../images/CanChamLogo.png'
 import SearchBar from '../SearchBar/SearchBar';
 import CountryIcon from '../../images/CountryIcon.png'
+import ArrowDownIcon from '../../images/ArrowDownIcon.png'
+import ArrowUpIcon from '../../images/ArrowUpIcon.png'
 
 function Header() {
 
     const [countryModal, setCountryModal] = React.useState(false);
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+    const [userMenu, setUserMenu] = React.useState(false);
+    const navigate = useNavigate();
+    let loggedInUser = JSON.parse(sessionStorage.getItem("User"));
 
     const toggleCountryModal = () => {
         setCountryModal(prevModal => !prevModal);
     };
     
     const toggleLogIn = () => {
-        sessionStorage.setItem('loggedIn', true);
-        setIsLoggedIn(true);
+        navigate("/login");
+        // sessionStorage.setItem('loggedIn', true);
+        // setIsLoggedIn(true);
     }
 
     const toggleLogOut = () => {
-        sessionStorage.setItem('loggedIn', false);
+        sessionStorage.removeItem('Type');
+        sessionStorage.removeItem('User');
         setIsLoggedIn(false);
+        setUserMenu(false)
+        navigate("/");
+    }
+
+    const toggleUserMenu = () => {
+        setUserMenu(prevMenu => !prevMenu);
     }
 
     React.useEffect(() => {
-        if (sessionStorage.getItem('loggedIn') === "true") {
-            setIsLoggedIn(true);
+        if(sessionStorage.getItem("Type")){
+            setIsLoggedIn(true)
         }
     }, []);
 
@@ -39,12 +53,13 @@ function Header() {
                 <SearchBar />
                 {isLoggedIn ?
                 (
-                    <>
-                        <button 
-                            className='button--login'
-                            onClick={toggleLogOut}
-                        >Log Out
-                        </button>
+                    <>  
+                        <div className='user--div' onClick={toggleUserMenu}>
+                            <p className='user--button'>{loggedInUser.Username}</p>
+                            {!userMenu && <img src={ArrowDownIcon} alt='Arrow Down Icon' className='arrow--icon'/>}
+                            {userMenu && <img src={ArrowUpIcon} alt='Arrow Up Icon' className='arrow--icon'/>}
+                            {userMenu && <UserMenu toggleLogOut={toggleLogOut} loggedInUser={loggedInUser} userType={sessionStorage.getItem("Type")}/>}
+                        </div>
                     </>
                 )
                 :
@@ -71,6 +86,7 @@ function Header() {
             </nav>
 
             <CountryModal countryModal={countryModal} toggleCountryModal={toggleCountryModal} />
+            
         </>
     )
 }

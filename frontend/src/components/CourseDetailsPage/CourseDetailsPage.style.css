@@ -1,0 +1,178 @@
+.top--container {
+    width: 100%;
+    height: fit-content;
+    background-color: #e6001c;
+    padding: 50px 20% 50px 20%;
+    display: flex;
+    align-items: center;
+}
+
+.container--left {
+    width: 57%;
+    margin-right: auto;
+}
+
+.all--hyperlink, .subject--hyperlink, .instructor--hyperlink {
+    color: black;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.instructor--hyperlink {
+    font-size: 17px;
+    margin-left: 5px;
+}
+
+.coursedetails--fulltitle {
+    margin-bottom: 0px;
+}
+
+.coursedetails--description {
+    width: 85%;
+    font-size: 23px;
+    font-weight: 500;
+
+}
+
+.coursedetails--ratecounthourcount {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.coursedetails--rating {
+    margin-right: 5px;
+}
+
+.coursedetails--numberratings {
+    font-size: 18px;
+    margin-right: 50px;
+}
+
+.coursedetails--hour {
+    max-width: 20%;
+}
+
+.coursedetails--houricon {
+    max-width: 20px;
+}
+  
+.coursedetails--hourscount {
+    margin-left: 10px;
+    font-size: 25px;
+    font-weight: 400;
+}
+
+.top--container .MuiRating-decimal {
+    color: black;
+}
+
+.coursedetails--instructor {
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.container--right {
+    width: 30%;
+    min-width: 490px;
+}
+
+.coursedetails--courseimagepriceenroll {
+    border-radius: 1px;
+    background-color: white;
+    box-shadow: 12px 20px 40px 0 rgba(0,0,0,.3);
+    height: fit-content;
+    padding-top: 13px;
+    padding-bottom: 30px;
+}
+
+.coursedetails--image {
+    width: 95%;
+    margin: 0px auto 10px auto;
+    display: block;
+    border-radius: 1px;
+}
+
+.coursedetails--priceenroll {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    height: fit-content;
+    margin-top: 30px;
+}
+
+.coursedetails--priceicondiscounted {
+    width: 8%;
+    height: fit-content;
+    margin: -90px 5px 0px 30px;
+}
+
+.coursedetails--priceicon {
+    width: 8%;
+    height: fit-content;
+    margin: 0px 5px 0px 30px;
+}
+
+.coursedetials--pricediscount {
+    display: flex;
+    flex-direction: column;
+    max-width: 40%;
+}
+
+.coursedetails--price {
+    font-size: 35px;
+    font-weight: 700;
+    margin-top: 7xpx;
+}
+
+.coursedetails--oldprice {
+    color: grey;
+    text-decoration: line-through;
+}
+
+.coursedetails--discount {
+    margin-top: 0px;
+}
+
+.button--enrolldiscounted {
+    margin: 0px 40px 0px auto;
+    border-color: #bd0312;
+    background-color: #e6001c;
+    border-style: solid;
+    color: white;
+    width: 35%;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+.button--enroll {
+    margin: 0px 40px 0px auto;
+    border-color: #bd0312;
+    background-color: #e6001c;
+    border-style: solid;
+    color: white;
+    width: 35%;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+.button--enroll:hover {
+    opacity: 0.8;
+}
+
+.coursedetails--subtitles {
+    padding-left: 20%;
+    margin-bottom: 50px;
+}
+.coursedetails--subtitlesheader, .coursedetails--exercisesheader {
+    margin-top: 25px;
+    font-size: 26px;
+}
+
+.coursedetails--exercisesheader {
+    margin-bottom: 0px;
+}

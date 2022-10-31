@@ -2,17 +2,18 @@ import React from "react";
 import Header from "../Header/Header";
 import FilterModal from "../FilterModal/FilterModal";
 import Course from "../Course/Course";
-import CourseService from "../../services/Course.service";
+import InstructorService from "../../services/Instructor.service";
 import FilterIcon from "../../images/FilterIcon.png";
 
 async function retrieveAllCourses(setIsLoading){
     setIsLoading(true);
-    return CourseService.getAllCourses()
+    return InstructorService.getAllCourses()
     .then((result) => {
         setIsLoading(false);
         return result;
     })
     .catch((error) => {
+        console.log(error)
         setIsLoading(false);
         return null;
     })
@@ -20,7 +21,7 @@ async function retrieveAllCourses(setIsLoading){
 
 async function retrieveFilteredCourses(setIsLoading ,filterURL){
     setIsLoading(true);
-    return CourseService.getFilteredCourses(filterURL)
+    return InstructorService.getFilteredCourses(filterURL)
     .then((result) => {
         setIsLoading(false);
         return result;
@@ -31,7 +32,7 @@ async function retrieveFilteredCourses(setIsLoading ,filterURL){
     })
 }
 
-function CoursesPage() {
+function InstructorCoursesPage() {
 
     const [filterModal, setFilterModal] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
@@ -45,7 +46,7 @@ function CoursesPage() {
     const [coursesData, setCoursesData] = React.useState([]);
 
     React.useEffect(() => {
-        document.title = "All Courses";
+        document.title = "My Courses";
         retrieveAllCourses(setIsLoading)
         .then(coursesList => setCoursesData(coursesList.data))
         .catch(error => {
@@ -163,11 +164,12 @@ function CoursesPage() {
             <>
                 <div className='coursesTitleFilter'>
                     <div className='coursesTitleFilter--header'>
-                        <p>All Courses</p>
+                        <p>My Courses</p>
                     </div>
                     <img src={FilterIcon} alt='Filter Icon' className='filter--icon'/>
                     <button className="filter--button" onClick={toggleFilterModal}/>
                 </div>
+                
                 <hr  className='header--line'/>
                 <FilterModal filterModal={filterModal} toggleFilterModal={toggleFilterModal} 
                 onSelectSubjects={onSelectSubjects} onSelectRating={onSelectRating} priceFilterData={priceFilterData} 
@@ -221,4 +223,4 @@ function CoursesPage() {
     )
 }
 
-export default CoursesPage
+export default InstructorCoursesPage;

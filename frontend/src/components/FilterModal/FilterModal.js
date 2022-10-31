@@ -1,6 +1,7 @@
 import React from "react";
 import XIcon from '../../images/XIcon.png'
 import Multiselect from "multiselect-react-dropdown";
+import Alert from '@mui/material/Alert';
 
 function FilterModal(props) {
 
@@ -24,9 +25,8 @@ function FilterModal(props) {
         props.handlePriceFilterChange(name, value)
     }
 
-    function handleFreeCoursesOnly(event) {
-        const {checked} = event.target
-        props.handleFreeCoursesOnly(checked)
+    function handleFreeCoursesOnly() {
+        props.handleFreeCoursesOnly()
     }
 
     function applyFilters() {
@@ -152,7 +152,7 @@ function FilterModal(props) {
 
                     <img src={XIcon} alt='X Icon' className='x--icon'/>
                     <button className="close-modal" onClick={props.toggleFilterModal}></button>
-                    
+                    {props.filterPriceErrorMessage && <Alert className="alert--pricerange" variant="filled" severity="error">Minimum Price must be less than Maximum Price.</Alert>}
                     <input 
                         type="checkbox" 
                         id="freeCoursesOnly" 
@@ -162,10 +162,8 @@ function FilterModal(props) {
                         name="freeCoursesOnly"
                     />
                     <label htmlFor="freeCoursesOnly">Free Courses Only</label>
-
-                    {props.filterPriceErrorMessage && <p className="price--error">{props.filterPriceErrorMessage}</p>}
-                    <button className="filterapply--button" onClick={applyFilters}>Apply</button>
                     
+                    <button className="filterapply--button" onClick={applyFilters}>Apply</button>
                     
                 </div>
                 </div>
