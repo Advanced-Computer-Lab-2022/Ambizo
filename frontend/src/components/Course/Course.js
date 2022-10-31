@@ -3,8 +3,15 @@ import Rating from '@mui/material/Rating';
 import countryToCurrency  from 'country-to-currency';
 import HourIcon from '../../images/HourIcon.png'
 import PriceIcon from '../../images/PriceIcon.png'
+import {useNavigate} from 'react-router-dom'
 
 function Course(props) {
+
+    const navigate = useNavigate()
+    function viewCourseDetails() {
+        navigate(`/coursedetails/${props._id}`)
+    }
+
     let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
 
     return (
@@ -23,7 +30,7 @@ function Course(props) {
             :
             (
                 <>
-                    <div className='course'>
+                    <div className='course' onClick={viewCourseDetails}>
                         <img src={props.ImgURL} alt='Course' className='course--image'/>
                         <h3 className='course--title'>{props.Title.length > 60 ? props.Title.substring(0, 57) + "..." : props.Title}</h3>
                         <div className='course--hours'>

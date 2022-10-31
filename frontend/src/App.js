@@ -19,7 +19,7 @@ function App() {
                   <Route path='/404' element={<NotFound />} />
                   <Route path="/" element={<CoursesPage />} />
                   <Route path='/login' element={<LoginPage />} />
-                  <Route path='/coursedetails' element={<CourseDetailsPage />} />
+                  <Route path='/coursedetails/:courseId' element={<CourseDetailsPage />} />
                   <Route path="/mycourses" element={sessionStorage.getItem("Type") === "instructor" ? <InstructorCoursesPage /> : <Navigate to="/404" />} />
                   <Route path="/addadmin" element={sessionStorage.getItem("Type") === "admin" ? <AddAdministrator /> : <Navigate to="/404" />} />
                   <Route path="/addtrainee" element={sessionStorage.getItem("Type") === "admin" ? <AddCorporateTrainee /> : <Navigate to="/404" />} />

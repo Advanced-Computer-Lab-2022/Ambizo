@@ -11,6 +11,11 @@ class CourseService {
         let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
         return http.get("guest/getCourses/" + filterURL + "&currencyCode=" + currencyCode);
     }
+
+    getCourse(courseId) {
+        let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
+        return http.get("/guest/getCourse/" + courseId + "?currencyCode=" + currencyCode);
+    }
 }
 
 export default new CourseService();
