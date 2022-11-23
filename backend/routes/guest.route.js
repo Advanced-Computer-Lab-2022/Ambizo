@@ -9,8 +9,6 @@ const currencyConverter = new currencyConverterLt();
 router.get("/getCourses", async (req,res) => {
     try{
         let filter = {}
-        let exchangeRateToUSD = await currencyConverter.from(req.query.currencyCode).to("USD").convert();
-        let exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
 
         if(req.query.subject){
             filter = {...filter, Subject: req.query.subject.split(',')};
@@ -43,7 +41,15 @@ router.get("/getCourses", async (req,res) => {
             }
         }
 
-        let courses = await course.find(filter);
+        const [courses, exchangeRateToUSD] = await Promise.all(
+            [
+                course.find(filter)
+                , 
+                currencyConverter.from(req.query.currencyCode).to("USD").convert()
+            ]
+            );
+        const exchangeRateToCountry = 1/exchangeRateToUSD;
+
         courses.forEach(course => {
             course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
         })
@@ -56,15 +62,19 @@ router.get("/getCourses", async (req,res) => {
 
 router.get("/searchCourses/:searchTerm", async (req, res) => {
     try {
-        let exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
-        
-        let courses = await course.find({
-            $or: [
-                {Title: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i'}},
-                {Subject: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i'}},
-                {InstructorName: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i'}}
+        const [courses, exchangeRateToCountry] = await Promise.all(
+            [
+                course.find({
+                    $or: [
+                        {Title: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i'}},
+                        {Subject: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i'}},
+                        {InstructorName: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i'}}
+                    ]
+                 })
+                , 
+                currencyConverter.from("USD").to(req.query.currencyCode).convert()
             ]
-        });
+            );
 
         courses.forEach(course => {
             course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
@@ -77,9 +87,13 @@ router.get("/searchCourses/:searchTerm", async (req, res) => {
 
 router.get("/getCourse/:courseId", async (req,res) => {
     try {
-        let exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
-
-        let Course = await course.findById(req.params.courseId);
+        const [Course, exchangeRateToCountry] = await Promise.all(
+            [
+                course.findById(req.params.courseId)
+                , 
+                currencyConverter.from("USD").to(req.query.currencyCode).convert()
+            ]
+            );
 
         Course.PriceInUSD = (Course.PriceInUSD * exchangeRateToCountry).toFixed(2);
 
