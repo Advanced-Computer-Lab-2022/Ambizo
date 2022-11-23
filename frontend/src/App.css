@@ -76,7 +76,7 @@ button {
   border: 8px solid;
   border-color: #b10918 transparent #b10918 transparent;
   border-radius: 50%;
-  animation: spin-anim 1.2s linear infinite;
+  animation: spin-anim 0.8s linear infinite;
 }
 
 @keyframes spin-anim {
