@@ -22,7 +22,7 @@ function Subtitle(props) {
                 {hours && <span className="subtitle--duration">{hours}hr {minutes}min</span>}
                 {!hours && <span className="subtitle--duration">{props.duration}min</span>}
             </div>
-            <form className="subtitle--details">
+            {props.userType === "instructor" && <form className="subtitle--details">
                 <input
                     type="text"
                     placeholder="Enter Youtube Video Link"
@@ -43,7 +43,7 @@ function Subtitle(props) {
                 >
                 Add    
                 </button>
-            </form>
+            </form>}
         </> 
     )
 }

@@ -52,6 +52,7 @@ function CourseDetailsPage() {
             return (
                 <Subtitle
                     key={subtitle.subtitle}
+                    userType={userType}
                     {...subtitle}
                 />
             )
@@ -147,7 +148,7 @@ function CourseDetailsPage() {
                 </>
             )
             }
-           <YouTube videoId="BPaA8KvnP_E" opts={opts} />
+           {/* <YouTube videoId="BPaA8KvnP_E" opts={opts} /> */}
         </>
     )
 }
