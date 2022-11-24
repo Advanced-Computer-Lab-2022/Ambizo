@@ -8,6 +8,7 @@ import Exercise from "../Exercise/Exercise";
 import { useParams } from "react-router-dom";
 import CourseService from "../../services/Course.service";
 import countryToCurrency  from 'country-to-currency';
+import YouTube from 'react-youtube';
 
 async function retrieveCourse(id, setIsLoading){
     setIsLoading(true);
@@ -22,6 +23,8 @@ async function retrieveCourse(id, setIsLoading){
 }
 
 function CourseDetailsPage() {
+    
+    const userType = sessionStorage.getItem("Type");
 
     const params = useParams();
     const [course, setCourse] = React.useState({});
@@ -65,6 +68,16 @@ function CourseDetailsPage() {
     }
 
     let hourSpan = course.TotalHours>1? "Hours" : "Hour"
+
+    const opts = {
+        height: '390',
+        width: '640',
+        playerVars: {
+          // https://developers.google.com/youtube/player_parameters
+          autoplay: 0,
+        },
+      };
+
     return (
         <>
             {isLoading ?
@@ -86,9 +99,14 @@ function CourseDetailsPage() {
                     <div className="top--container" >
                         <div className="container--left">
                             <div className="course--path">
-                                <a className="all--hyperlink" href="">All Courses</a>
-                                <span>{" > "}</span>
-                                <a className="subject--hyperlink" href="">{course.Subject}</a>
+                                {userType !== "instructor" && 
+                                <>
+                                    <a className="all--hyperlink" href="">All Courses</a>
+                                    <span>{" > "}</span>
+                                    <a className="subject--hyperlink" href="">{course.Subject}</a>
+                                </>}
+                                {userType === "instructor" && <a className="all--hyperlink" href="">My Courses</a> }
+                                
                             </div>
                             <h1 className="coursedetails--fulltitle">{course.Title}</h1>
                             <p className="coursedetails--description">{course.Description}</p>
@@ -100,21 +118,22 @@ function CourseDetailsPage() {
                                     <span className='coursedetails--hourscount'>{course.TotalHours} {hourSpan}</span>
                                 </div>
                             </div>
-                            <p className="coursedetails--instructor">Created by:{<a className="instructor--hyperlink" href="">{course.InstructorName}</a>}</p>
+                            {userType !== "instructor" && <p className="coursedetails--instructor">Created by:{<a className="instructor--hyperlink" href="">{course.InstructorName}</a>}</p> }
                         </div>
                         <div className="container--right">
                             <div className='coursedetails--courseimagepriceenroll'>
                                 <img className="coursedetails--image" src={course.ImgURL} alt='Course' />
                                 <div className="coursedetails--priceenroll">
-                                    <img src={PriceIcon} alt='Price Icon' className={course.Discount === 0 ? 'coursedetails--priceicon' : 'coursedetails--priceicondiscounted'} />
+                                    {userType !== "instructor" && <img src={PriceIcon} alt='Price Icon' className={course.Discount === 0 ? 'coursedetails--priceicon' : 'coursedetails--priceicondiscounted'} />}
+                                    {userType === "instructor" && <img src={PriceIcon} alt='Price Icon' className='coursedetails--priceiconinstr' />}
                                     <div className="coursedetials--pricediscount">
                                         {course.PriceInUSD === 0 && <span className='coursedetails--price'>FREE</span>}
                                         {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--price'>{(course.PriceInUSD*((100-course.Discount)/100)).toFixed(2)} {currencyCode}</span>}
                                         {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--oldprice'>{course.PriceInUSD} {currencyCode}</span>}
                                         {course.PriceInUSD !== 0 && course.Discount===0 && <span className='coursedetails--price'>{course.PriceInUSD} {currencyCode}</span>}
-                                        {course.Discount>0 && <p className="coursedetails--discount">Don't miss out on the {course.Discount}% discount!</p>}
+                                        {!userType === "instructor" && course.Discount>0 && <p className="coursedetails--discount">Don't miss out on the {course.Discount}% discount!</p>}
                                     </div>
-                                    <button className={course.Discount === 0 ? 'button--enroll' : 'button--enrolldiscounted'}>Enroll now</button>
+                                    {userType !== "instructor" && <button className={course.Discount === 0 ? 'button--enroll' : 'button--enrolldiscounted'}>Enroll now</button>}
                                 </div>
                             </div>
                         </div>
@@ -128,7 +147,7 @@ function CourseDetailsPage() {
                 </>
             )
             }
-           
+           <YouTube videoId="BPaA8KvnP_E" opts={opts} />
         </>
     )
 }

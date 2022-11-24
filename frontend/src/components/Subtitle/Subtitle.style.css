@@ -9,35 +9,66 @@
     background-color: #f7f9fa;
 }
 
-.arrow {
-    margin: auto 0px auto 20px;
-}
-
-.arrow::before,
-.arrow::after {
-    position: relative;
-    content: '';
-    display: block;
-    width: 20px;
-    height: 1px;
-    background: #000;
-}
-
-.arrow::before {
-    transform: rotate(45deg);
-}
-
-.arrow::after {
-    left: 14px;
-    transform: rotate(-45deg);
+.subtitle--arrow {
+    width: 10px;
+    height: fit-content;
+    margin: auto 0px auto 40px;
 }
 
 .subtitle--name {
     font-size: 20px;
     font-weight: 500;
-    margin: auto auto auto 5%;
+    margin: auto auto auto 2%;
 }
 
 .subtitle--duration {
     margin: auto 5% auto auto;
+}
+
+.subtitle--details {
+    width: 50%;
+    height: fit-content;
+    border-width: 2px;
+    border-color: hsla(210,18%,87%,1);
+    border-style: solid;
+    padding: 20px 0px;
+}
+
+.youtubelink--input {
+    width: 70%;
+    height: 40px;
+    padding-left: 15px;
+    border: solid;
+    border-width: 1px;
+    border-radius: 3px;
+    font-family: 'Poppins', sans-serif;
+    display: block;
+    margin : 0px auto 5px auto;
+}
+
+.shortdescription--input {
+    width: 70%;
+    max-width: 70%;
+    min-width: 70%;
+    height: 100px;
+    padding-top: 10px;
+    padding-left: 15px;
+    border: solid;
+    border-width: 1px;
+    border-radius: 3px;
+    font-family: 'Poppins', sans-serif;
+    display: block;
+    margin : 0px auto 5px auto;
+}
+
+.subtitledetails--submitbutton {
+    width: 70%;
+    min-width: 90px;
+    height: 50px;
+    margin: 0px auto;
+    border: solid;
+    border-width: 1px;
+    border-color: #bd0312;
+    background-color: #e6001c;
+    color: white;
 }

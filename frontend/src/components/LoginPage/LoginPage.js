@@ -45,7 +45,7 @@ function LoginPage() {
                     .then((user) => {
                         sessionStorage.setItem("Type", result.data.Type);
                         sessionStorage.setItem("User", JSON.stringify(user.data));
-                        navigate("/");
+                        navigate("/mycourses");
                         navigate(0);
                     })
                     .catch((error) => {
