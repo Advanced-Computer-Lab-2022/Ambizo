@@ -3,7 +3,7 @@ import httpPost from "../http-common-post"
 import countryToCurrency  from 'country-to-currency';
 
 class InstructorService {
-    getAllCourses(){
+    getAllCourses() {
         let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
         return http.get("/instructor/getCourses/?currencyCode=" + currencyCode + "&username=" + JSON.parse(sessionStorage.getItem("User")).Username);
     }
@@ -15,9 +15,12 @@ class InstructorService {
         let user = JSON.parse(sessionStorage.getItem("User"))
         return httpPost.post("/instructor/createCourse/?username=" + user.Username + "&name="+ user.Name, courseData);
     }
-    searchCourses(searchTerm){
+    searchCourses(searchTerm) {
         let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
         return http.get("/instructor/searchCourses/" + searchTerm + "?currencyCode=" + currencyCode + "&username=" + JSON.parse(sessionStorage.getItem("User")).Username);
+    }
+    addSubtitleDetails(index, newSubtitle, courseId) {
+        return httpPost.put("/instructor/addSubtitleDetails/?courseId=" + courseId + "&index=" + index, newSubtitle);
     }
 }
 

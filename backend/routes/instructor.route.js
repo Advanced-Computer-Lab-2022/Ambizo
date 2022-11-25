@@ -110,10 +110,20 @@ router.post("/createCourse", async (req, res) => {
     }
 });
 
-router.post("/addSubtitleDetails", async (req, res) => {
+router.put("/addSubtitleDetails", async (req, res) => {
     try {
-        let courseID = req.query.username;
-        
+        let courseId = req.query.courseId;
+        let subtitleIndex = req.query.index;
+        const updatedSubtitle = req.body;
+
+        let oldCourse = await course.findById(courseId)
+
+        let newSubtitles = oldCourse.Subtitles;
+        newSubtitles[subtitleIndex] = updatedSubtitle;
+
+        await course.findByIdAndUpdate(courseId, {
+            Subtitles: newSubtitles
+        })
     } catch (err) {
         handleError(res, err);
     }

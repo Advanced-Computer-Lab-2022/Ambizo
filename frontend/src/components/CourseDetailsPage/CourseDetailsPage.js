@@ -8,7 +8,6 @@ import Exercise from "../Exercise/Exercise";
 import { useParams } from "react-router-dom";
 import CourseService from "../../services/Course.service";
 import countryToCurrency  from 'country-to-currency';
-import YouTube from 'react-youtube';
 
 async function retrieveCourse(id, setIsLoading){
     setIsLoading(true);
@@ -48,10 +47,14 @@ function CourseDetailsPage() {
     let courseExercises;
 
     if (course.Subtitles && course.Exercises) {
+        let subtitleIndex = -1;
         courseSubtitles = course.Subtitles.map(subtitle => {
+            subtitleIndex++;
             return (
                 <Subtitle
-                    key={subtitle.subtitle}
+                    key={subtitleIndex}
+                    index={subtitleIndex}
+                    courseId={params.courseId}
                     userType={userType}
                     {...subtitle}
                 />
@@ -69,15 +72,6 @@ function CourseDetailsPage() {
     }
 
     let hourSpan = course.TotalHours>1? "Hours" : "Hour"
-
-    const opts = {
-        height: '390',
-        width: '640',
-        playerVars: {
-          // https://developers.google.com/youtube/player_parameters
-          autoplay: 0,
-        },
-      };
 
     return (
         <>
@@ -148,7 +142,6 @@ function CourseDetailsPage() {
                 </>
             )
             }
-           {/* <YouTube videoId="BPaA8KvnP_E" opts={opts} /> */}
         </>
     )
 }

@@ -1,6 +1,8 @@
 import React from "react";
 import ArrowDownIcon from '../../images/ArrowDownIcon.png'
 import ArrowUpIcon from '../../images/ArrowUpIcon.png'
+import InstructorService from "../../services/Instructor.service";
+import YouTube from 'react-youtube';
 
 function Subtitle(props) {
 
@@ -41,43 +43,32 @@ function Subtitle(props) {
     async function handleSubmit(event) { 
         event.preventDefault();
         if (checkSubmit()) {
-            // let allCourseData = {
-            //     ...courseData,
-            //     TotalHours: calcTotalHours(),
-            //     Subtitles: subtitles,
-            //     Exercises: exercises,
-            //     Subject: subject.value
-            // }
-            // return InstructorService.addCourse(allCourseData)
-            //     .then((result) => {
-            //         setMessage({ text: `A new Course with title "${result.data.Title}" is added correctly`, type: "form--successmessage" })
-            //         setCourseData({Title: "", Description: "", PriceInUSD: "", ImgURL: ""})
-            //         setSubtitles([
-            //             {subtitle: "", duration: ""},
-            //             {subtitle: "", duration: ""}
-            //         ])
-            //         setExercises([""])
-            //     })
-            //     .catch((error) => {
-            //         setMessage({ text: error.response.data, type: "form--errormessage" })
-            //     })
+            let newSubtitle = {
+                subtitle: props.subtitle,
+                duration: props.duration,
+                youtubeLink: subtitleDetails.youtubeLink,
+                description: subtitleDetails.description
+            }
+            return InstructorService.addSubtitleDetails(props.index , newSubtitle, props.courseId)
+                .then((result) => {
+                    window.location.reload(false);
+                })
+                .catch((error) => {
+                    setMessage({ text: error.response.data, type: "form--errormessage" })
+                })
         }
     }
 
     function checkSubmit() {
-        let filled = true
         if(subtitleDetails.youtubeLink === "" || subtitleDetails.description === "") {
-            filled = false;
+            setMessage({ text: "All fields are required", type: "form--errormessage" })
+            return false;
         }
         else {
             if(!validateYouTubeUrl(subtitleDetails.youtubeLink)) {
                 setMessage({ text: "Youtube link is not valid", type: "form--errormessage"})
                 return false;
             }
-        }
-        if (!filled) {
-            setMessage({ text: "All fields are required", type: "form--errormessage" })
-            return false;
         }
         return true;
     }
@@ -90,6 +81,15 @@ function Subtitle(props) {
         return false;
     }
 
+    const opts = {
+        height: '390',
+        width: '640',
+        playerVars: {
+          // https://developers.google.com/youtube/player_parameters
+          autoplay: 0,
+        },
+    }
+
     return (
         <>
             <div className="subtitle" onClick={displaySubtitlesDetails}>
@@ -99,31 +99,38 @@ function Subtitle(props) {
                 {hours && <span className="subtitle--duration">{hours}hr {minutes}min</span>}
                 {!hours && <span className="subtitle--duration">{props.duration}min</span>}
             </div>
-            {props.userType === "instructor" && showSubtitleDetails && 
-            <form className="subtitle--details" onSubmit={handleSubmit}>
-                <input
-                    id="youtubeLink"
-                    name="youtubeLink"
-                    type="text"
-                    placeholder="Enter Youtube Video Link"
-                    className="youtubelink--input"
-                    onChange={handleSubtitleDetailsChange}
-                    value={subtitleDetails.youtubeLink}
-                />
-                <textarea 
-                    id="description"
-                    name="description"
-                    className="shortdescription--input" 
-                    placeholder="Enter a Short Description of the Video" 
-                    rows="4" 
-                    cols="50"
-                    onChange={handleSubtitleDetailsChange}
-                    value={subtitleDetails.description}
-                >
-                </textarea>
-                <button type="submit" className="subtitledetails--submitbutton">Add</button>
-                <p className={message.type}>{message.text}</p>
-            </form>}
+            {props.userType === "instructor" && !props.youtubeLink && showSubtitleDetails && 
+                <form className="subtitle--details" onSubmit={handleSubmit}>
+                    <input
+                        id="youtubeLink"
+                        name="youtubeLink"
+                        type="text"
+                        placeholder="Enter Youtube Video Link"
+                        className="youtubelink--input"
+                        onChange={handleSubtitleDetailsChange}
+                        value={subtitleDetails.youtubeLink}
+                    />
+                    <textarea 
+                        id="description"
+                        name="description"
+                        className="shortdescription--input" 
+                        placeholder="Enter a Short Description of the Video" 
+                        rows="4" 
+                        cols="50"
+                        onChange={handleSubtitleDetailsChange}
+                        value={subtitleDetails.description}
+                    >
+                    </textarea>
+                    <button type="submit" className="subtitledetails--submitbutton">Add</button>
+                    <p className={message.type}>{message.text}</p>
+                </form>
+            }
+            {props.userType === "instructor" && props.youtubeLink && showSubtitleDetails && 
+                <>
+                    <h1>hi</h1>
+                    <YouTube videoId={validateYouTubeUrl(props.youtubeLink)} opts={opts} />
+                </>
+            }
         </> 
     )
 }
