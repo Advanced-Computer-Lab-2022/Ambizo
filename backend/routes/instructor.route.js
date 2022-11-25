@@ -110,6 +110,15 @@ router.post("/createCourse", async (req, res) => {
     }
 });
 
+router.post("/addSubtitleDetails", async (req, res) => {
+    try {
+        let courseID = req.query.username;
+        
+    } catch (err) {
+        handleError(res, err);
+    }
+});
+
 router.post("/login", async (req, res) => {
     try{
         let instructor = await instructorRepo.findOne({Username: req.body.username});

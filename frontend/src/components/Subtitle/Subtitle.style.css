@@ -7,6 +7,7 @@
     border-color: hsla(210,18%,87%,1);
     border-style: solid;
     background-color: #f7f9fa;
+    cursor: pointer;
 }
 
 .subtitle--arrow {
@@ -31,7 +32,7 @@
     border-width: 2px;
     border-color: hsla(210,18%,87%,1);
     border-style: solid;
-    padding: 20px 0px;
+    padding: 40px 0px;
 }
 
 .youtubelink--input {
@@ -63,7 +64,7 @@
 
 .subtitledetails--submitbutton {
     width: 70%;
-    min-width: 90px;
+    min-width: 70%;
     height: 50px;
     margin: 0px auto;
     border: solid;
