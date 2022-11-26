@@ -21,10 +21,6 @@ router.post("/login", async (req, res) => {
         switch(userType){
             case "admin": 
                 User = await administrator.findOne({Username: req.body.username}); 
-                User = {
-                    ...User,
-                    Name: User.Username
-                }
                 break;
             case "instructor": 
                 User = await instructor.findOne({Username: req.body.username}); 
@@ -41,7 +37,7 @@ router.post("/login", async (req, res) => {
 
         const payload = {
             Username: User.Username,
-            Name: User.Name,
+            Name: userType === "admin"? User.Username : User.Name,
             Type: userType
         }
         jwt.sign(
