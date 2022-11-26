@@ -192,7 +192,6 @@ function InstructorCoursesPage() {
             </>
         )
     }
-    
     return (
         <>
             {isLoading ? 
