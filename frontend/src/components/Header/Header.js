@@ -22,13 +22,12 @@ function Header() {
     
     const toggleLogIn = () => {
         navigate("/login");
-        // sessionStorage.setItem('loggedIn', true);
-        // setIsLoggedIn(true);
     }
 
     const toggleLogOut = () => {
         sessionStorage.removeItem('Type');
         sessionStorage.removeItem('User');
+        sessionStorage.removeItem('Token');
         setIsLoggedIn(false);
         setUserMenu(false)
         navigate("/");

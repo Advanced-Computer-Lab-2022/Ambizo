@@ -164,7 +164,7 @@ function InstructorCoursesPage() {
 
     function searchForCourses(searchTerm){
         if(searchTerm.trim() !== ""){
-            navigate("/search/" + searchTerm + "/mycourses");
+            navigate("/mycourses/search/" + searchTerm);
         } 
     }
 

@@ -1,6 +1,5 @@
 import express from "express";
 import course from "../models/course.model.js";
-import user from "../models/user.model.js";
 import currencyConverterLt from "currency-converter-lt";
 
 const router = express.Router();
@@ -100,19 +99,6 @@ router.get("/getCourse/:courseId", async (req,res) => {
         res.json(Course);    
     }
     catch(err) {
-        handleError(res, err.message);
-    }
-})
-
-router.get("/getUserType/:username", async (req,res) => {
-    try{
-        let User = await user.findOne({Username: req.params.username});
-        if(!User){
-            return handleError(res, "Invalid username or password");    
-        }
-        res.json(User);
-    }
-    catch(err){
         handleError(res, err.message);
     }
 })

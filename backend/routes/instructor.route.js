@@ -1,13 +1,17 @@
 import express from "express";
-import instructorRepo from "../models/instructor.model.js";
+import verifyJWT from "../middleware/verifyJWT.js";
 import course from "../models/course.model.js";
 import currencyConverterLt from "currency-converter-lt";
 
 const router = express.Router();
 const currencyConverter = new currencyConverterLt();
 
-router.get("/getCourses", async (req,res) => {
+router.get("/getCourses", verifyJWT, async (req,res) => {
     try{
+        if(req.User.Type !== "instructor"){
+            return handleError(res, "Invalid Access")
+        }
+        
         let filter = {}
 
         if(req.query.subject){
@@ -42,7 +46,7 @@ router.get("/getCourses", async (req,res) => {
         }
 
         filter = {
-            InstructorUsername: req.query.username,
+            InstructorUsername: req.User.Username,
             ...filter
         }
 
@@ -65,10 +69,14 @@ router.get("/getCourses", async (req,res) => {
     }
 })
 
-router.get("/searchCourses/:searchTerm", async (req, res) => {
+router.get("/searchCourses/:searchTerm", verifyJWT, async (req, res) => {
     try {
+        if(req.User.Type !== "instructor"){
+            return handleError(res, "Invalid Access")
+        }
+
         let filter ={
-            InstructorUsername: req.query.username,
+            InstructorUsername: req.User.Username,
             $or: [
                 {Title: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i'}},
                 {Subject: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i'}}
@@ -92,10 +100,14 @@ router.get("/searchCourses/:searchTerm", async (req, res) => {
     }
 });
 
-router.post("/createCourse", async (req, res) => {
+router.post("/createCourse", verifyJWT, async (req, res) => {
     try {
-        let instructorUsername = req.query.username;
-        let instructorName = req.query.name;
+        if(req.User.Type !== "instructor"){
+            return handleError(res, "Invalid Access")
+        }
+
+        let instructorUsername = req.User.Username;
+        let instructorName = req.User.Name;
         
         const newCourse = new course({
             InstructorUsername: instructorUsername,
@@ -128,20 +140,6 @@ router.put("/addSubtitleDetails", async (req, res) => {
         handleError(res, err);
     }
 });
-
-router.post("/login", async (req, res) => {
-    try{
-        let instructor = await instructorRepo.findOne({Username: req.body.username});
-        if (!instructor || instructor.Password !== req.body.password) {
-            return handleError(res, "Invalid username or password");
-        } 
-        res.json(instructor)
-    }
-    catch(err){
-        handleError(res, err.message);
-    }
-})
-
 
 function handleError(res, err) {
     return res.status(400).send(err);

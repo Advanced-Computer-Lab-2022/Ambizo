@@ -5,19 +5,18 @@ import countryToCurrency  from 'country-to-currency';
 class InstructorService {
     getAllCourses() {
         let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
-        return http.get("/instructor/getCourses/?currencyCode=" + currencyCode + "&username=" + JSON.parse(sessionStorage.getItem("User")).Username);
+        return http.get("/instructor/getCourses/?currencyCode=" + currencyCode);
     }
     getFilteredCourses(filterURL) {
         let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
-        return http.get("/instructor/getCourses/" + filterURL + "&currencyCode=" + currencyCode + "&username=" + JSON.parse(sessionStorage.getItem("User")).Username);
+        return http.get("/instructor/getCourses/" + filterURL + "&currencyCode=" + currencyCode);
     }
     addCourse(courseData) {
-        let user = JSON.parse(sessionStorage.getItem("User"))
-        return httpPost.post("/instructor/createCourse/?username=" + user.Username + "&name="+ user.Name, courseData);
+        return httpPost.post("/instructor/createCourse", courseData);
     }
     searchCourses(searchTerm) {
         let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
-        return http.get("/instructor/searchCourses/" + searchTerm + "?currencyCode=" + currencyCode + "&username=" + JSON.parse(sessionStorage.getItem("User")).Username);
+        return http.get("/instructor/searchCourses/" + searchTerm + "?currencyCode=" + currencyCode);
     }
     addSubtitleDetails(index, newSubtitle, courseId) {
         return httpPost.put("/instructor/addSubtitleDetails/?courseId=" + courseId + "&index=" + index, newSubtitle);

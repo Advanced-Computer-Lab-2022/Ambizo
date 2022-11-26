@@ -162,7 +162,7 @@ function LoginPage() {
                                 />
                                 <input
                                     type="number"
-                                    placeholder="Enter Duration"
+                                    placeholder="Enter Duration (in mins)"
                                     onChange={event => handleSubtitlesChange(index, event)}
                                     name="duration"
                                     value={input.duration}

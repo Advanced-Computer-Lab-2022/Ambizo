@@ -62,7 +62,7 @@ async function retrieveFilteredCourses(searchTerm, setIsLoading ,filterURL){
     })
 }
 
-function CoursesPage() {
+function SearchPage() {
 
     const [filterModal, setFilterModal] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
@@ -213,7 +213,7 @@ function CoursesPage() {
 
     function searchForCourses(searchTerm){
         if(searchTerm.trim() !== ""){
-            navigate("/search/" + searchTerm + "/mycourses");
+            navigate("/mycourses/search/" + searchTerm);
         } 
     }
 
@@ -287,4 +287,4 @@ function CoursesPage() {
     )
 }
 
-export default CoursesPage
+export default SearchPage

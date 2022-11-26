@@ -39,22 +39,28 @@ function LoginPage() {
     async function handleSubmit(event) {
         event.preventDefault();
         if(checkSubmit()) {
-                LoginService.getUserType(userData)
-                .then((result) => {
-                    LoginService.login(userData, result.data.Type)
-                    .then((user) => {
-                        sessionStorage.setItem("Type", result.data.Type);
-                        sessionStorage.setItem("User", JSON.stringify(user.data));
+            LoginService.login(userData)
+            .then((tokenRes) => {
+                sessionStorage.setItem("Token", tokenRes.data.token);
+                LoginService.getLoggedInUserData()
+                .then((userRes) => {
+                    sessionStorage.setItem("User", JSON.stringify(userRes.data));
+                    sessionStorage.setItem("Type", userRes.data.Type);
+                    if(userRes.data.Type === "instructor"){
                         navigate("/mycourses");
-                        navigate(0);
-                    })
-                    .catch((error) => {
-                        setMessage({ text: error.response.data, type: "form--errormessage" })
-                    })
+                    }else{
+                        navigate("/");
+                    }
+                    
+                    navigate(0);
                 })
                 .catch((error) => {
                     setMessage({ text: error.response.data, type: "form--errormessage" })
                 })
+            })
+            .catch((error) => {
+                setMessage({ text: error.response.data, type: "form--errormessage" })
+            })
         }
     }
 
