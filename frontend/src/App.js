@@ -11,6 +11,7 @@ import AddInstructor from "./components/AddInstructor/AddInstructor";
 import LoginPage from "./components/LoginPage/LoginPage";
 import AddCourse from "./components/AddCourse/AddCourse";
 import SearchPage from "./components/SearchPage/SearchPage";
+import ExercisePage from './components/ExercisePage/ExercisePage';
 
 function App() {
     return (
@@ -29,6 +30,7 @@ function App() {
                   <Route path="/addadmin" element={sessionStorage.getItem("Type") === "admin" ? <AddAdministrator /> : <Navigate to="/404" />} />
                   <Route path="/addtrainee" element={sessionStorage.getItem("Type") === "admin" ? <AddCorporateTrainee /> : <Navigate to="/404" />} />
                   <Route path="/addinstructor" element={sessionStorage.getItem("Type") === "admin" ? <AddInstructor />  : <Navigate to="/404" />} />
+                  <Route path='/exercise/:courseId/:exerciseNum' element={<ExercisePage />} />
                 </Routes>
                 <Footer />
             </div>

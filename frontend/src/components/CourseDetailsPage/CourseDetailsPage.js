@@ -15,10 +15,6 @@ async function retrieveCourse(id, setIsLoading){
     .then((result) => {
         return result;
     })
-    .catch((error) => {
-        setIsLoading(false);
-        return null;
-    })
 }
 
 function CourseDetailsPage() {
@@ -37,7 +33,8 @@ function CourseDetailsPage() {
             setIsLoading(false);
         })
         .catch(error => {
-            console.log(error);
+            console.log(error);  
+            setIsLoading(false); 
         })
     }, [params.courseId]);
 
@@ -61,11 +58,13 @@ function CourseDetailsPage() {
             )
         })
 
-        courseExercises = course.Exercises.map(exerciseTitle => {
+        courseExercises = course.Exercises.map((exercise, index) => {
             return (
                 <Exercise 
-                    key={exerciseTitle}
-                    exerciseTitle={exerciseTitle}
+                    key={index}
+                    exerciseTitle={exercise.exerciseName}
+                    exerciseNum={index}
+                    courseId={params.courseId}
                 />
             )
         })
