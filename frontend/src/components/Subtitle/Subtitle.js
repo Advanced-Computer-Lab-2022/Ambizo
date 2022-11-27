@@ -51,7 +51,7 @@ function Subtitle(props) {
             }
             return InstructorService.addSubtitleDetails(props.index , newSubtitle, props.courseId)
                 .then((result) => {
-                    window.location.reload(false);
+                    props.reloadCourseDetailsPage();
                 })
                 .catch((error) => {
                     setMessage({ text: error.response.data, type: "form--errormessage" })
@@ -83,7 +83,7 @@ function Subtitle(props) {
 
     const opts = {
         height: '390',
-        width: '640',
+        width: '95%',
         playerVars: {
           // https://developers.google.com/youtube/player_parameters
           autoplay: 0,
@@ -126,10 +126,12 @@ function Subtitle(props) {
                 </form>
             }
             {props.userType === "instructor" && props.youtubeLink && showSubtitleDetails && 
-                <>
-                    <h1>hi</h1>
-                    <YouTube videoId={validateYouTubeUrl(props.youtubeLink)} opts={opts} />
-                </>
+                <div className="subtitle--detailsfilled">
+                    <h4>Video:</h4>
+                    <YouTube className="subtitle--video" videoId={validateYouTubeUrl(props.youtubeLink)} opts={opts} />
+                    <h4>Video Short Description:</h4>
+                    <p className="subtitle--description">{props.description}</p>
+                </div>
             }
         </> 
     )
