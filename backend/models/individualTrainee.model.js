@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const corporateTraineeSchema = new Schema({
+const individualTraineeSchema = new Schema({
   Username: {
     type: String,
     required: true,
@@ -25,9 +25,9 @@ const corporateTraineeSchema = new Schema({
   }
 }, {
    timestamps: true,
-   collection: "corporateTrainees"
+   collection: "individualTrainees"
   });
 
-const corporateTrainee = mongoose.model('corporateTrainees', corporateTraineeSchema);
+const individualTrainee = mongoose.model('individualTrainees', individualTraineeSchema);
 
-export default corporateTrainee;
+export default individualTrainee;

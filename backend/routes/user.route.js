@@ -6,6 +6,7 @@ import user from "../models/user.model.js";
 import instructor from "../models/instructor.model.js";
 import administrator from "../models/administrator.model.js";
 import corporateTrainee from "../models/corporateTrainee.model.js";
+import individualTrainee from "../models/individualTrainee.model.js";
 
 const router = express.Router();
 
@@ -27,6 +28,9 @@ router.post("/login", async (req, res) => {
                 break;
             case "corporateTrainee": 
                 User = await corporateTrainee.findOne({Username: req.body.username}); 
+                break;
+            case "individualTrainee": 
+                User = await individualTrainee.findOne({Username: req.body.username}); 
                 break;
         }
 

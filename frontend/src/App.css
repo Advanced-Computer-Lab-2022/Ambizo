@@ -17,6 +17,8 @@
 @import "./components/LoginPage/LoginPage.style.css";
 @import "./components/UserMenu/UserMenu.style.css";
 @import "./components/AddCourse/AddCourse.style.css";
+@import "./components/ExercisePage/ExercisePage.style.css";
+@import "./components/Question/Question.style.css";
 
 * {
   box-sizing: border-box;
