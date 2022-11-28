@@ -146,7 +146,7 @@ router.post('/requestPasswordReset', async (req, res) => {
                     message: 'An error has occured while creating the JWT for the request.'
                 });
             }
-            const link = `${process.env.FRONTEND_URL}createNewPassword/${token}`
+            const link = `${process.env.FRONTEND_URL}resetPassword/${token}`
 
             var mailOptions = {
                 from: process.env.BUSINESS_EMAIL.toString(),

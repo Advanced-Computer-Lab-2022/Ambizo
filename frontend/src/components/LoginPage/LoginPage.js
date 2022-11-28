@@ -84,14 +84,17 @@ function LoginPage() {
                         name="password"
                         value={userData.password}
                     />
-                    <input
-                        type="checkbox"
-                        id="showpassword"
-                        checked={userData.showpassword}
-                        onChange={handleChange}
-                        name="showpassword"
-                    />
-                    <label htmlFor="showpassword">Show Password</label>
+                    <div className="show-password-div">
+                        <input
+                            type="checkbox"
+                            id="showpassword"
+                            checked={userData.showpassword}
+                            onChange={handleChange}
+                            name="showpassword"
+                        />
+                        <label htmlFor="showpassword">Show Password</label>
+                    </div>
+                    <p>Forgotten password? <span><a href="/requestPasswordReset" className="reset-password">Reset password</a></span>.</p>
                     <button className="form--button">Login</button>
                     <p className={message.type}>{message.text}</p>
                 </ form>
