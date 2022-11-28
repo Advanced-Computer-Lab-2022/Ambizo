@@ -5,7 +5,9 @@ import LoginService from "../../services/Login.service";
 const windowState ={
     REQUESTING_RESET: 1,
     LOADING: 2,
-    EMAIL_SENT: 3
+    EMAIL_SENT: 3,
+    WRONG_USERNAME: 4,
+    INTERNAL_ERROR: 5
 }
 
 function formatEmailAddress(email){
@@ -60,6 +62,11 @@ function RequestPasswordResetPage(){
                 }
             })
             .catch(error => {
+                if(error.response.status === 404){
+                    setComponentState(_ => windowState.WRONG_USERNAME);
+                }else if (error.response.status === 500){
+                    setComponentState(_ => windowState.INTERNAL_ERROR);
+                }
                 console.log(error);
             });
 
@@ -107,7 +114,34 @@ function RequestPasswordResetPage(){
                         If you can't find the email, Please check your spam and trash sections.</p>
                     </div>
                 </>
-            )
+            );
+        case windowState.WRONG_USERNAME:
+            return (
+                <>
+                    <Header />
+                    <div className="form--div" style={{"padding": "0 10px"}}>
+                        <h3>Wrong Username</h3>
+                        <p>
+                            The username provided is invalid. Make sure you have provided your correct username.
+                            <span><a className="reset-password" href="/requestPasswordReset">Try Again</a></span>.
+                        </p>
+                    </div>
+                </>
+            );
+        case windowState.INTERNAL_ERROR:
+            return (
+                <>
+                    <Header />
+                    <div className="form--div" style={{"padding": "0 10px"}}>
+                        <h3>Internal Error</h3>
+                        <p>
+                            An error has occured while processing your password reset request.
+                             Please try again later. <span><a className="reset-password" href="/requestPasswordReset">Try Again</a></span>.
+                        </p>
+                    </div>
+                </>
+
+            );
         default:
             return <h1>Something went Wrong</h1>
     }
