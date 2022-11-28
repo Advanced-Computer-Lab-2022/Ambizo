@@ -17,12 +17,15 @@ function ExercisePage() {
     const [exercise, setExercise] = React.useState(null);
     const [traineeChoices, setTraineeChoices] = React.useState([]);
     const [currentQuestion, setCurrentQuestion] = React.useState(0);
+    const [isLoading, setIsLoading] = React.useState(false); 
 
     React.useEffect(() => {
         document.title = "Exercise " + (Number.parseInt(params.exerciseNum)+1);
+        setIsLoading(true);
         retrieveExercise(params.courseId, params.exerciseNum)
         .then(exercise => {
             setExercise(exercise.data)
+            setIsLoading(false);
         })
         .catch((error) => {
             console.log(error);
@@ -91,47 +94,63 @@ function ExercisePage() {
 
     return (
         <>
-            <Header />
-            <p className="exercisePage--title">{exercise?.exerciseName}</p>
-            <div className="exercise--div">
-                {exerciseQuestions}
-                <div className="examNav--div">
-                    <div className="examNav--title--div">
-                        <p className="examNav--title">Quiz Navigation</p>
+            {isLoading ?
+            (
+                <>
+                    <div className="loader-container">
+                        <div className="spinner"> </div>
                     </div>
-                    <div className="examNav--boxes">
-                        {navigationBoxes}
+                    <Header />
+                </>
+            )
+            :
+            (
+                <>
+                    <Header />
+                    <p className="exercisePage--title">{exercise?.exerciseName}</p>
+                    <div className="exercise--div">
+                        {exerciseQuestions}
+                        <div className="examNav--div">
+                            <div className="examNav--title--div">
+                                <p className="examNav--title">Quiz Navigation</p>
+                            </div>
+                            <div className="examNav--boxes">
+                                {navigationBoxes}
+                            </div>
+                            <button 
+                            type="button" 
+                            className={"form--button finish navigation"} 
+                            onClick={handleSubmit}
+                        >
+                            Submit Answers
+                        </button>
+                        </div>
                     </div>
-                    <button 
-                    type="button" 
-                    className={"form--button finish navigation"} 
-                    onClick={handleSubmit}
-                >
-                    Submit Answers
-                </button>
-                </div>
-            </div>
-            <p className="question--number--tag">{"Question " + (currentQuestion+1) +" Of " + exercise?.questions.length }</p>
-            <div className="form--buttons--div">
-                <button 
-                    type="button" 
-                    name="previous" 
-                    className="form--button previous" 
-                    disabled={currentQuestion === 0} 
-                    onClick={handleButtonClick} 
-                >
-                    &lt; Previous
-                </button>
-                <button 
-                    type="button" 
-                    name="next"
-                    disabled={currentQuestion === exercise?.questions.length-1}  
-                    className={"form--button next"} 
-                    onClick={handleButtonClick}
-                >
-                    Next &gt;
-                </button>
-            </div>
+                    <p className="question--number--tag">{"Question " + (currentQuestion+1) +" Of " + exercise?.questions.length }</p>
+                    <div className="form--buttons--div">
+                        <button 
+                            type="button" 
+                            name="previous" 
+                            className="form--button previous" 
+                            disabled={currentQuestion === 0} 
+                            onClick={handleButtonClick} 
+                        >
+                            &lt; Previous
+                        </button>
+                        <button 
+                            type="button" 
+                            name="next"
+                            disabled={currentQuestion === exercise?.questions.length-1}  
+                            className={"form--button next"} 
+                            onClick={handleButtonClick}
+                        >
+                            Next &gt;
+                        </button>
+                    </div>
+                
+                </>
+            )
+            }
         </>
     )
 }
