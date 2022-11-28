@@ -1,0 +1,14 @@
+.reset-password , .reset-password:visited{
+    text-decoration: none;
+    color: red;
+}
+
+.reset-password:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+.reset-password:active{
+    text-decoration: underline;
+    opacity: 0.6;
+}

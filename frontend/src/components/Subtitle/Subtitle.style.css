@@ -83,3 +83,20 @@
     background-color: #e6001c;
     color: white;
 }
+
+.subtitle--detailsfilled {
+    width: 50%;
+    height: fit-content;
+    border-width: 2px;
+    border-color: hsla(210,18%,87%,1);
+    border-style: solid;
+    padding: 20px 50px;
+}
+
+.subtitle--video {
+    padding: 0px 5% 0px 5%;
+}
+
+.subtitle--description {
+    padding: 0px 5% 0px 5%;
+}

@@ -131,6 +131,10 @@ button {
   margin-left: auto;
 }
 
+.show-password-div{
+  text-align: center;
+}
+
 .form--errormessage{
   text-align: center;
   color: red;
@@ -140,3 +144,4 @@ button {
   color: green;
   text-align: center;
 }
+

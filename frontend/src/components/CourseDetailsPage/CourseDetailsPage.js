@@ -5,7 +5,7 @@ import HourIcon from '../../images/HourIcon.png'
 import PriceIcon from '../../images/PriceIcon.png'
 import Subtitle from "../Subtitle/Subtitle";
 import Exercise from "../Exercise/Exercise";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CourseService from "../../services/Course.service";
 import countryToCurrency  from 'country-to-currency';
 
@@ -18,6 +18,13 @@ async function retrieveCourse(id, setIsLoading){
 }
 
 function CourseDetailsPage() {
+
+
+    function reloadCourseDetailsPage() {
+        window.location.reload();
+    }
+
+    const navigate = useNavigate();
     
     const userType = sessionStorage.getItem("Type");
 
@@ -53,6 +60,7 @@ function CourseDetailsPage() {
                     index={subtitleIndex}
                     courseId={params.courseId}
                     userType={userType}
+                    reloadCourseDetailsPage={reloadCourseDetailsPage}
                     {...subtitle}
                 />
             )

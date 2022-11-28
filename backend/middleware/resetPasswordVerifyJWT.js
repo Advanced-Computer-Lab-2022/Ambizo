@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 function resetPasswordVerifyJWT(req, res, next){
     const token = req.headers["authorization"]?.split(' ')[1];
     if(!token){
-        res.status(401)
+        return res.status(401)
         .json({
             message: 'authorization header must be sent containig the Bearer token.'
         })
