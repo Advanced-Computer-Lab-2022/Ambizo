@@ -51,7 +51,7 @@ function Header() {
     }, []);
 
     return (
-        <>
+        <header>
             <nav>
                 <Link to="/">
                     <img src={canChamLogo} alt='CanCham Logo' className='nav--logo'/>
@@ -93,7 +93,7 @@ function Header() {
 
             <CountryModal countryModal={countryModal} toggleCountryModal={toggleCountryModal} />
             
-        </>
+        </header>
     )
 }
 

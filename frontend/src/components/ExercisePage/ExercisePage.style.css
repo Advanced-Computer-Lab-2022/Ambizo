@@ -1,0 +1,115 @@
+.exercisePage--title{
+    font-size:35px;
+    margin-top: 10px;
+    margin-bottom: 40px;
+    margin-left: 30px;
+}
+
+.exercise--div{
+    display: flex;
+}
+
+.examNav--div{
+    box-shadow: 3px 5px 10px 0 rgba(0,0,0,.3);
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    height: fit-content;
+    width: 300px;
+    min-height: 140px;
+    margin-left: -350px;
+    margin-right: 50px;
+}
+
+.examNav--title--div{
+    text-align: center;
+    background: #e6001c;
+}
+
+.examNav--title{
+    margin-top: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 20px;
+}
+
+.examNav--boxes{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding-bottom: 20px;
+    justify-content: center;
+}
+
+.examNav--boxes--box{
+    border: 1px solid black;
+    min-width: 30px;
+    text-align: center;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; 
+    -khtml-user-select: none;
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none;
+}
+
+.examNav--boxes--box.current{
+    background-color: black;
+    color: white;
+}
+
+.examNav--boxes--box.notCurrent.solved{
+    background-color: #cdcdcd;
+}
+
+.examNav--boxes--box.notCurrent:hover{
+    background-color: #e4e4e4;
+    cursor:pointer;
+}
+
+.question--number--tag{
+    text-align: center;
+    margin-top: 0;
+}
+
+.form--button.next{
+    background-color: rgb(219, 233, 244);
+    margin-right: 0;
+    margin-left: 0;
+    min-width: 100px;
+}
+
+.form--button.next:hover{
+    background-color: rgb(148, 190, 222);
+}
+
+.form--button.finish.navigation{
+    border-color: #bd0312;
+    background-color: #e6001c;
+    margin-right: auto;
+    margin-left: auto;
+    min-width: 70px;
+    font-size: 15px;
+}
+
+.form--button.finish.navigation:hover{
+    opacity: 0.8;
+}
+
+.form--button.previous{
+    margin-right: 0;
+    margin-left: 0;
+    min-width: 100px;
+}
+
+.form--button:disabled{
+    opacity: 0.6;
+    cursor:not-allowed;
+}
+
+.form--buttons--div{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 40px;
+    width: fit-content;
+    gap:40px;
+}

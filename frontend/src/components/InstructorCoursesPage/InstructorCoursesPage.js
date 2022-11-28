@@ -197,14 +197,6 @@ function InstructorCoursesPage() {
             {isLoading ? 
             (
                 <>
-                    {
-                    /* Normal Loading Animation
-                        <div className="loader-container">
-                            <div className="spinner"> </div>
-                        </div>
-                    */
-                    }
-
                     <Header />
                     {renderCourseHeader(toggleFilterModal)}
                     <section className="courses-list">

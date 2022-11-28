@@ -40,6 +40,38 @@ router.get("/getExercise", verifyJWT, async (req, res) => {
     }
 });
 
+router.post("/submitExercise", verifyJWT, async (req, res) => {
+    try{
+        if(req.User.Type !== "corporateTrainee" && req.User.Type !== "individualTrainee"){
+            return handleError(res, "Invalid Access")
+        }
+
+        let Trainee = null;
+        if(req.User.Type === "individualTrainee"){
+            Trainee = await individualTrainee.findOne({Username: req.User.Username});
+        }
+        else{
+            Trainee = await corporateTrainee.findOne({Username: req.User.Username});
+        }
+
+        Trainee.EnrolledCourses.forEach(course => {
+            if(course.courseId === req.query.courseId){
+                course.exercises[Number.parseInt(req.query.exerciseNum)].choices = req.body.traineeChoices;
+            }
+        })
+        
+        if(req.User.Type === "individualTrainee"){
+            await individualTrainee.findByIdAndUpdate(Trainee._id, {EnrolledCourses: Trainee.EnrolledCourses});
+        }
+        else{
+            await corporateTrainee.findByIdAndUpdate(Trainee._id, {EnrolledCourses: Trainee.EnrolledCourses});
+        }
+    }
+    catch(error){
+        handleError(res,error);
+    }
+});
+
 function handleError(res, err) {
     return res.status(400).send(err);
 }
