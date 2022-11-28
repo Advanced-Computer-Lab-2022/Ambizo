@@ -3,8 +3,38 @@ import ArrowDownIcon from '../../images/ArrowDownIcon.png'
 import ArrowUpIcon from '../../images/ArrowUpIcon.png'
 import InstructorService from "../../services/Instructor.service";
 import YouTube from 'react-youtube';
+import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 
 function Subtitle(props) {
+
+    const [deleteModal, setDeleteModal] = React.useState(false);
+
+    const toggleConfirmationModal = () => {
+        setDeleteModal(prevModal => !prevModal);
+    };
+
+    async function handleConfirm(event) {
+        event.preventDefault();
+        let newSubtitle = 
+        {
+            subtitle: props.subtitle,
+            duration: props.duration,
+            youtubeLink: "",
+            description: ""
+        }
+        return InstructorService.addSubtitleDetails(props.index, newSubtitle, props.courseId)
+            .then((result) => {
+                props.modifyCourseDetailsPageSubtitle(newSubtitle, props.index)
+                toggleConfirmationModal();
+                setSubtitleDetails({
+                    youtubeLink: "",
+                    description: ""
+                })
+            })
+            .catch((error) => {
+                setMessage({ text: error.response.data, type: "form--errormessage" })
+            })
+    }
 
     let hours;
     let minutes
@@ -131,7 +161,10 @@ function Subtitle(props) {
                     <YouTube className="subtitle--video" videoId={validateYouTubeUrl(props.youtubeLink)} opts={opts} />
                     <h4>Video Short Description:</h4>
                     <p className="subtitle--description">{props.description}</p>
-                    <button className="subtitle--deletebutton"><i class="fa-solid fa-trash"></i>&nbsp;&nbsp;Delete Video and Description</button>
+                    <button className="subtitle--deletebutton" onClick={toggleConfirmationModal}><i class="fa-solid fa-trash"></i>&nbsp;&nbsp;Delete Video and Description</button>
+                    <ConfirmationModal confirmModal={deleteModal} toggleConfirmationModal={toggleConfirmationModal} 
+                    confirmationMessage="Are you sure you want to delete the Subtitle Video and Description?" actionCannotBeUndone={true} 
+                    handleConfirm={handleConfirm} />
                 </div>
             }
         </> 

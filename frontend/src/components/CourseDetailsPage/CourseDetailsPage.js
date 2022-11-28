@@ -87,8 +87,6 @@ function CourseDetailsPage() {
 
     let hourSpan = course.TotalHours>1? "Hours" : "Hour"
 
-    console.log(course)
-
     return (
         <>
             {isLoading ?

@@ -9,7 +9,7 @@ const courseSchema = new Schema({
   },
   CoursePreviewLink: {
     type: String,
-    required: true
+    default: ""
   },
   InstructorUsername: {
     type: String,

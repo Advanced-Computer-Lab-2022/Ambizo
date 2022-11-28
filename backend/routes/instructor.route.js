@@ -154,7 +154,6 @@ router.put("/addCoursePreview", verifyJWT, async (req, res) => {
         }
 
         let courseId = req.query.courseId;
-        console.log(req.body.previewLink)
         await course.findByIdAndUpdate(courseId, {
             CoursePreviewLink: req.body.previewLink
         })

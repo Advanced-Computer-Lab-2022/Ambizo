@@ -1,8 +1,28 @@
 import React from "react";
 import InstructorService from "../../services/Instructor.service";
+import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import YouTube from 'react-youtube';
 
 function CoursePreview(props) {
+
+    const [deleteModal, setDeleteModal] = React.useState(false);
+
+    const toggleConfirmationModal = () => {
+        setDeleteModal(prevModal => !prevModal);
+    };
+
+    async function handleConfirm(event) {
+        event.preventDefault();
+        return InstructorService.addCoursePreview("", props.courseId)
+            .then((result) => {
+                props.modifyCourseDetailsPagePreview("")
+                toggleConfirmationModal();
+                setCoursePreviewYotubeLink("");
+            })
+            .catch((error) => {
+                setMessage({ text: error.response.data, type: "form--errormessage" })
+            })
+    }
 
     const [coursePreviewYoutubeLink, setCoursePreviewYotubeLink] = React.useState("");
 
@@ -79,7 +99,10 @@ function CoursePreview(props) {
             {props.userType === "instructor" && props.CoursePreviewLink &&
                 <div className="coursepreview--video">
                     <YouTube className="subtitle--video" videoId={validateYouTubeUrl(props.CoursePreviewLink)} opts={opts} />
-                    <button className="coursepreview--deletebutton"><i class="fa-solid fa-trash"></i>&nbsp;&nbsp;Delete Preview Video</button>
+                    <button className="coursepreview--deletebutton" onClick={toggleConfirmationModal}><i class="fa-solid fa-trash"></i>&nbsp;&nbsp;Delete Preview Video</button>
+                    <ConfirmationModal confirmModal={deleteModal} toggleConfirmationModal={toggleConfirmationModal} 
+                    confirmationMessage="Are you sure you want to delete the Course Preview Video?" actionCannotBeUndone={true} 
+                    handleConfirm={handleConfirm} />
                 </div>
             }
         </>

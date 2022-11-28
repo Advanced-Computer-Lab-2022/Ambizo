@@ -20,6 +20,7 @@
 @import "./components/AddCourse/AddCourse.style.css";
 @import "./components/ExercisePage/ExercisePage.style.css";
 @import "./components/Question/Question.style.css";
+@import "./components/ConfirmationModal/ConfirmationModal.style.css";
 
 * {
   box-sizing: border-box;
