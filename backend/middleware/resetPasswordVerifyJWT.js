@@ -12,7 +12,7 @@ function resetPasswordVerifyJWT(req, res, next){
     jwt.verify(token, process.env.RESET_PASSWORD_ACCESS_TOKEN_SECRET, (error, decoded) => {
         if(error){
             console.log(error);
-            res.status(500).json({
+            return res.status(500).json({
                 message: 'An internal error occured during decoding the JWT.'
             });
         }

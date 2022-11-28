@@ -137,9 +137,19 @@ function PasswordResetPage(){
             })
             .catch(error =>{
                 setIsLoading(_ => false);
+                let errorMessage = 'An Error has occurred.\nDo not change the link provided in the email. \nTry Again.';
+
+
+                if(error.response.status === 401){
+                    errorMessage = 'You weren\'t identified, do not change the url of the page.'
+                }
+                if(error.response.status === 400){
+                    errorMessage = 'Wrong username provided.'
+                }
+
                 setMessages(prevMessages => ({
                     ...prevMessages,
-                    passwordResetFailureMessage: 'An Error has occurred. Try Again.'
+                    passwordResetFailureMessage: errorMessage
                 }));
                 console.log(error);
             });
