@@ -5,6 +5,7 @@
 @import "./components/CoursesPage/CoursesPage.style.css";
 @import "./components/CourseDetailsPage/CourseDetailsPage.style.css";
 @import "./components/Subtitle/Subtitle.style.css";
+@import "./components/CoursePreview/CoursePreview.style.css";
 @import "./components/Exercise/Exercise.style.css";
 @import "./components/FilterModal/FilterModal.style.css";
 @import "./components/Footer/Footer.style.css";

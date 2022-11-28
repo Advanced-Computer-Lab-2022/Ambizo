@@ -50,8 +50,8 @@ function Subtitle(props) {
                 description: subtitleDetails.description
             }
             return InstructorService.addSubtitleDetails(props.index , newSubtitle, props.courseId)
-                .then((result) => {
-                    props.reloadCourseDetailsPage();
+                .then(() => {
+                    props.modifyCourseDetailsPageSubtitle(newSubtitle, props.index);
                 })
                 .catch((error) => {
                     setMessage({ text: error.response.data, type: "form--errormessage" })
@@ -121,7 +121,7 @@ function Subtitle(props) {
                         value={subtitleDetails.description}
                     >
                     </textarea>
-                    <button type="submit" className="subtitledetails--submitbutton">Add</button>
+                    <button type="submit" className="subtitledetails--submitbutton"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add</button>
                     <p className={message.type}>{message.text}</p>
                 </form>
             }
@@ -131,6 +131,7 @@ function Subtitle(props) {
                     <YouTube className="subtitle--video" videoId={validateYouTubeUrl(props.youtubeLink)} opts={opts} />
                     <h4>Video Short Description:</h4>
                     <p className="subtitle--description">{props.description}</p>
+                    <button className="subtitle--deletebutton"><i class="fa-solid fa-trash"></i>&nbsp;&nbsp;Delete Video and Description</button>
                 </div>
             }
         </> 
