@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "../Header/Header";
+import Banner from '../../images/Banner.jpg';
 import { Rating } from "@mui/material";
 import HourIcon from '../../images/HourIcon.png'
 import PriceIcon from '../../images/PriceIcon.png'

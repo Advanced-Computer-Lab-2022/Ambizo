@@ -1,11 +1,12 @@
 .top--container {
     width: 100%;
     height: fit-content;
-    background-color: #e6001c;
-    
+    background-image: url("../../images/Banner.jpg");
+    background-repeat: round;
     padding: 50px 20% 50px 20%;
     display: flex;
     align-items: center;
+    color: white;
 }
 
 .container--left {
@@ -14,7 +15,7 @@
 }
 
 .all--hyperlink, .subject--hyperlink, .instructor--hyperlink {
-    color: black;
+    color: white;
     text-decoration: none;
     font-size: 20px;
     font-weight: 700;
@@ -66,7 +67,7 @@
 }
 
 .top--container .MuiRating-decimal {
-    color: black;
+    color: white;
 }
 
 .coursedetails--instructor {
@@ -81,8 +82,8 @@
 
 .coursedetails--courseimagepriceenroll {
     border-radius: 1px;
-    background-color: white;
-    box-shadow: 12px 20px 40px 0 rgba(0,0,0,.3);
+    background-color: transparent;
+    box-shadow: 5px 5px 50px 5px rgba(0,0,0,1);
     height: fit-content;
     padding-top: 13px;
     padding-bottom: 30px;
@@ -103,6 +104,7 @@
     flex-wrap: wrap;
     height: fit-content;
     margin-top: 30px;
+    color: black;
 }
 
 .coursedetails--priceicondiscounted {
