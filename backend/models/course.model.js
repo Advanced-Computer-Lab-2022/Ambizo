@@ -27,6 +27,10 @@ const courseSchema = new Schema({
     type: Number,
     default: 0
   },
+  Ratings:{
+    type: Array,
+    default: []
+  },
   NumberOfReviews: {
     type: Number,
     default: 0

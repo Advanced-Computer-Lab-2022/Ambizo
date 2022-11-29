@@ -92,7 +92,7 @@ router.post('/requestPasswordReset', async (req, res) => {
             message: 'There is no user with this username.'
         });
     }
-    const {Username, Type} = requestingUser;
+    const { _id, Username, Type} = requestingUser;
     let userWithEmail;
     switch(Type){
         case "admin": 
@@ -120,7 +120,7 @@ router.post('/requestPasswordReset', async (req, res) => {
             });
     }
 
-    const { _id, Name, Email } = userWithEmail;
+    const { Name, Email } = userWithEmail;
 
     var transporter = nodemailer.createTransport({
         service: 'gmail',
