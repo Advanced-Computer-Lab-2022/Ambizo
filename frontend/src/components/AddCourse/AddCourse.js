@@ -3,7 +3,7 @@ import Select from 'react-select'
 import Header from "../Header/Header.js"
 import InstructorService from "../../services/Instructor.service";
 
-function LoginPage() {
+function AddCourse() {
 
     const [courseData, setCourseData] = useState(
         { Title: "", Description: "", PriceInUSD: "", ImgURL: ""}
@@ -13,8 +13,6 @@ function LoginPage() {
         {subtitle: "", duration: ""},
         {subtitle: "", duration: ""}
     ])
-
-    const [exercises, setExercises] = useState([""])
 
     const [message, setMessage] = useState(
         { text: "", type: ""}
@@ -50,12 +48,6 @@ function LoginPage() {
         setSubtitles(data);
     }
 
-    function handleExercisesChange(index, event) {
-        let data = [...exercises];
-        data[index] = event.target.value;
-        setExercises(data);
-    }
-
     function checkSubmit() {
         //check all fields are filled
         let filled = true
@@ -65,11 +57,6 @@ function LoginPage() {
         }
         for (let i =0; i<subtitles.length; i++) {
             if (subtitles[i].title === "" || subtitles[i].duration === ""){
-                filled = false
-            }
-        }
-        for (let i =0; i<exercises.length; i++) {
-            if (exercises[i]=== ""){
                 filled = false
             }
         }
@@ -99,17 +86,6 @@ function LoginPage() {
         setSubtitles(data)
     }
 
-    function addExercise(){
-        let newExercise = "";
-        setExercises([...exercises, newExercise])
-    }
-
-    function removeExercise(index){
-        let data = [...exercises];
-        data.splice(index, 1)
-        setExercises(data)
-    }
-
     async function handleSubmit(event) { 
         event.preventDefault();
         if (checkSubmit()) {
@@ -117,7 +93,6 @@ function LoginPage() {
                 ...courseData,
                 TotalHours: calcTotalHours(),
                 Subtitles: subtitles,
-                Exercises: exercises,
                 Subject: subject.value
             }
             return InstructorService.addCourse(allCourseData)
@@ -128,7 +103,6 @@ function LoginPage() {
                         {subtitle: "", duration: ""},
                         {subtitle: "", duration: ""}
                     ])
-                    setExercises([""])
                 })
                 .catch((error) => {
                     setMessage({ text: error.response.data, type: "form--errormessage" })
@@ -189,21 +163,6 @@ function LoginPage() {
                         value={courseData.PriceInUSD}
                         style={{"width":"100%"}}
                     />
-                    {exercises.map((input, index) => {
-                        return(
-                            <div key={index} className="dynamic-form--Exercisediv">
-                                <input
-                                    type="text"
-                                    placeholder="Enter Exercise"
-                                    onChange={event => handleExercisesChange(index, event)}
-                                    name="exercise"
-                                    value={input}
-                                />    
-                                {<button type="button" className="dynamic-form--removebtn" onClick={() => removeExercise(index)}>Remove</button>}
-                            </div>
-                        )
-                    })}
-                    <button type="button" className="form--button" onClick={addExercise}>+ Add Exercise</button>
                     <input
                         type="text"
                         placeholder="Enter Image URL"
@@ -221,4 +180,4 @@ function LoginPage() {
     )
 }
 
-export default LoginPage;
+export default AddCourse;

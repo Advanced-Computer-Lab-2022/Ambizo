@@ -13,6 +13,8 @@ router.get("/getCourses", verifyJWT, async (req,res) => {
         }
         
         let filter = {}
+        let courses = null;
+        let exchangeRateToUSD = null;
 
         if(req.query.subject){
             filter = {...filter, Subject: req.query.subject.split(',')};
@@ -21,6 +23,7 @@ router.get("/getCourses", verifyJWT, async (req,res) => {
             filter = {...filter, Rating: {$gte: req.query.rating}};
         }
         if(req.query.price){
+            exchangeRateToUSD = await currencyConverter.from(req.query.currencyCode).to("USD").convert()
             const priceRange = req.query.price.split(',');
             const minPrice = priceRange[0] * exchangeRateToUSD;
             let maxPrice = priceRange[1] * exchangeRateToUSD;
@@ -50,14 +53,20 @@ router.get("/getCourses", verifyJWT, async (req,res) => {
             ...filter
         }
 
-        const [courses, exchangeRateToUSD] = await Promise.all(
-            [
-                course.find(filter)
-                , 
-                currencyConverter.from(req.query.currencyCode).to("USD").convert()
-            ]
-            );
-        const exchangeRateToCountry = 1/exchangeRateToUSD;
+        if(!req.query.price){
+            [courses, exchangeRateToUSD] = await Promise.all(
+               [
+                   course.find(filter)
+                   , 
+                   currencyConverter.from(req.query.currencyCode).to("USD").convert()
+               ]
+               );
+       }
+       else{
+           courses = await course.find(filter);
+       }
+
+       const exchangeRateToCountry = 1/exchangeRateToUSD;
         
         courses.forEach(course => {
             course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
@@ -122,8 +131,12 @@ router.post("/createCourse", verifyJWT, async (req, res) => {
     }
 });
 
-router.put("/addSubtitleDetails", async (req, res) => {
+router.put("/addSubtitleDetails", verifyJWT, async (req, res) => {
     try {
+        if(req.User.Type !== "instructor") {
+            return handleError(res, "Invalid Access")
+        }
+
         let courseId = req.query.courseId;
         let subtitleIndex = req.query.index;
         const updatedSubtitle = req.body;
@@ -136,6 +149,46 @@ router.put("/addSubtitleDetails", async (req, res) => {
         await course.findByIdAndUpdate(courseId, {
             Subtitles: newSubtitles
         })
+
+        res.status(200).send("Video added successfully");
+    } catch (err) {
+        handleError(res, err);
+    }
+});
+
+router.put("/addCoursePreview", verifyJWT, async (req, res) => {
+    try {
+        if(req.User.Type !== "instructor") {
+            return handleError(res, "Invalid Access")
+        }
+
+        let courseId = req.query.courseId;
+        await course.findByIdAndUpdate(courseId, {
+            CoursePreviewLink: req.body.previewLink
+        })
+
+        res.status(200).send("Video added successfully");
+    } catch (err) {
+        handleError(res, err);
+    }
+});
+
+router.post("/addExercise", verifyJWT, async (req, res) => {
+    try {
+        if(req.User.Type !== "instructor"){
+            return handleError(res, "Invalid Access")
+        }
+
+        const Course = await course.findById(req.query.courseId);
+        if(req.User.Username !== Course.InstructorUsername){
+            return handleError(res, "You can only add exercises to your courses")
+        }
+
+        Course.Exercises[req.query.exerciseNum] = req.body.newExercise;
+        const updatedExercises = Course.Exercises;
+        await course.findByIdAndUpdate(req.query.courseId, {Exercises: updatedExercises})
+
+        res.status(201).json(req.body.newExercise);
     } catch (err) {
         handleError(res, err);
     }

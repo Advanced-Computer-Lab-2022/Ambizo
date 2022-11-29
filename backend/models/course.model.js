@@ -7,6 +7,10 @@ const courseSchema = new Schema({
     type: String,
     required: true,
   },
+  CoursePreviewLink: {
+    type: String,
+    default: ""
+  },
   InstructorUsername: {
     type: String,
     required: true
@@ -26,6 +30,10 @@ const courseSchema = new Schema({
   Rating: {
     type: Number,
     default: 0
+  },
+  Ratings:{
+    type: Array,
+    default: []
   },
   NumberOfReviews: {
     type: Number,

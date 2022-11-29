@@ -100,16 +100,17 @@ function ExercisePage() {
     const exerciseQuestions = exercise?.questions.map((question, index) => {
 
         return (
-            <Question 
+            <Question
                 key={index}
                 questionTitle={question.question}
-                questionChoices ={question.choices}
-                questionNum = {index}
+                questionChoices={question.choices}
+                questionNum={index}
                 isHidden={currentQuestion !== index}
                 checked={traineeChoices[index]}
                 handleChoiceClick={(event) => handleChoiceClick(event, index)}
                 isFinished={grade > -1}
                 correctAnswer={exercise?.questions[index].answer}
+                preview={false}
             />
         )
     })

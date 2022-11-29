@@ -3,8 +3,38 @@ import ArrowDownIcon from '../../images/ArrowDownIcon.png'
 import ArrowUpIcon from '../../images/ArrowUpIcon.png'
 import InstructorService from "../../services/Instructor.service";
 import YouTube from 'react-youtube';
+import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 
 function Subtitle(props) {
+
+    const [deleteModal, setDeleteModal] = React.useState(false);
+
+    const toggleConfirmationModal = () => {
+        setDeleteModal(prevModal => !prevModal);
+    };
+
+    async function handleConfirm(event) {
+        event.preventDefault();
+        let newSubtitle = 
+        {
+            subtitle: props.subtitle,
+            duration: props.duration,
+            youtubeLink: "",
+            description: ""
+        }
+        return InstructorService.addSubtitleDetails(props.index, newSubtitle, props.courseId)
+            .then((result) => {
+                props.modifyCourseDetailsPageSubtitle(newSubtitle, props.index)
+                toggleConfirmationModal();
+                setSubtitleDetails({
+                    youtubeLink: "",
+                    description: ""
+                })
+            })
+            .catch((error) => {
+                setMessage({ text: error.response.data, type: "form--errormessage" })
+            })
+    }
 
     let hours;
     let minutes
@@ -50,8 +80,8 @@ function Subtitle(props) {
                 description: subtitleDetails.description
             }
             return InstructorService.addSubtitleDetails(props.index , newSubtitle, props.courseId)
-                .then((result) => {
-                    props.reloadCourseDetailsPage();
+                .then(() => {
+                    props.modifyCourseDetailsPageSubtitle(newSubtitle, props.index);
                 })
                 .catch((error) => {
                     setMessage({ text: error.response.data, type: "form--errormessage" })
@@ -92,14 +122,14 @@ function Subtitle(props) {
 
     return (
         <>
-            <div className="subtitle" onClick={displaySubtitlesDetails}>
+            <div className="subtitle" onClick={displaySubtitlesDetails} >
                 {!showSubtitleDetails && <img src={ArrowDownIcon} alt='Arrow Down Icon' className='subtitle--arrow' />}
                 {showSubtitleDetails && <img src={ArrowUpIcon} alt='Arrow Up Icon' className='subtitle--arrow' />}
                 <p className="subtitle--name">{props.subtitle}</p>
                 {hours && <span className="subtitle--duration">{hours}hr {minutes}min</span>}
                 {!hours && <span className="subtitle--duration">{props.duration}min</span>}
             </div>
-            {props.userType === "instructor" && !props.youtubeLink && showSubtitleDetails && 
+            {props.userType === "instructor" && props.instructorLoggedInCourse && !props.youtubeLink && showSubtitleDetails && 
                 <form className="subtitle--details" onSubmit={handleSubmit}>
                     <input
                         id="youtubeLink"
@@ -121,16 +151,24 @@ function Subtitle(props) {
                         value={subtitleDetails.description}
                     >
                     </textarea>
-                    <button type="submit" className="subtitledetails--submitbutton">Add</button>
+                    <button type="submit" className="subtitledetails--submitbutton"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add</button>
                     <p className={message.type}>{message.text}</p>
                 </form>
             }
-            {props.userType === "instructor" && props.youtubeLink && showSubtitleDetails && 
+            {props.youtubeLink && showSubtitleDetails && 
                 <div className="subtitle--detailsfilled">
                     <h4>Video:</h4>
                     <YouTube className="subtitle--video" videoId={validateYouTubeUrl(props.youtubeLink)} opts={opts} />
                     <h4>Video Short Description:</h4>
                     <p className="subtitle--description">{props.description}</p>
+                    {props.instructorLoggedInCourse &&
+                        <>
+                            <button className="subtitle--deletebutton" onClick={toggleConfirmationModal}><i class="fa-solid fa-trash"></i>&nbsp;&nbsp;Delete Video and Description</button>
+                            <ConfirmationModal confirmModal={deleteModal} toggleConfirmationModal={toggleConfirmationModal} 
+                            confirmationMessage="Are you sure you want to delete the Subtitle Video and Description?" actionCannotBeUndone={true} 
+                            handleConfirm={handleConfirm} />
+                        </>
+                    }
                 </div>
             }
         </> 

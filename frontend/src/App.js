@@ -14,6 +14,7 @@ import SearchPage from "./components/SearchPage/SearchPage";
 import ExercisePage from './components/ExercisePage/ExercisePage';
 import RequestPasswordResetPage from './components/RequestPasswordResetPage/RequestPasswordResetPage';
 import PasswordResetPage from './components/PasswordResetPage/PasswordResetPage';
+import AddExercise from './components/AddExercise/AddExercise';
 
 function App() {
     return (
@@ -35,6 +36,7 @@ function App() {
                     <Route path="/addtrainee" element={sessionStorage.getItem("Type") === "admin" ? <AddCorporateTrainee /> : <Navigate to="/404" />} />
                     <Route path="/addinstructor" element={sessionStorage.getItem("Type") === "admin" ? <AddInstructor />  : <Navigate to="/404" />} />
                     <Route path='/exercise/:courseId/:exerciseNum' element={<ExercisePage />} />
+                    <Route path='/addExercise/:courseId/:exerciseNum' element={sessionStorage.getItem("Type") === "instructor" ? <AddExercise /> : <Navigate to="/404" />}  />
                 </Routes>
                 <Footer />
             </div>
