@@ -1,6 +1,10 @@
 import express from "express";
 import course from "../models/course.model.js";
+import user from "../models/user.model.js";
 import currencyConverterLt from "currency-converter-lt";
+import instructor from "../models/instructor.model.js";
+import corporateTrainee from "../models/corporateTrainee.model.js";
+import individualTrainee from "../models/individualTrainee.model.js";
 
 const router = express.Router();
 const currencyConverter = new currencyConverterLt();
@@ -104,8 +108,90 @@ router.get("/getCourse/:courseId", async (req,res) => {
             );
 
         Course.PriceInUSD = (Course.PriceInUSD * exchangeRateToCountry).toFixed(2);
+        
+        if( !req.body.TraineeUsername ){
+            let result = {
+                traineeEnrolled: false,
+                traineeCourseRate: null,
+                traineeInstructorRate: null,
+                courseData: Course,
+            }
+            return res.status(200).json(result);   
+        }
 
-        res.json(Course);    
+        const traineeUsername = req.body.TraineeUsername;
+
+        const userRequesting = await user.findOne({Username: traineeUsername});
+        
+        if( !userRequesting ){
+            return req.status(500).json({message: 'An error has occured while fetching the trainee.'});
+        }
+        
+        let userWithCourses;
+        switch(userRequesting.Type){
+            case 'individualTrainee':
+                userWithCourses = await individualTrainee.findOne({Username: traineeUsername});
+                break;
+            case 'corporateTrainee':
+                userWithCourses = await corporateTrainee.findOne({Username: traineeUsername});
+                break;
+        }
+    
+    
+        if(!userWithCourses || !userWithCourses.EnrolledCourses){
+            return res.status(500).json({message: 'An error has occured while fetching the user and the courses of the user'})
+        }
+
+        let courseFound = false;
+        for(var courseIndex in userWithCourses.EnrolledCourses){
+            if(userWithCourses.EnrolledCourses[courseIndex].courseId === req.params.courseId){
+                courseFound = true;
+                break;
+            }
+        }
+
+        if( !courseFound ){
+            let result = {
+                traineeEnrolled: false,
+                traineeCourseRate: null,
+                traineeInstructorRate: null,
+                courseData: Course,
+            }
+            res.status(200).json(result); 
+        }else{
+
+            let courseRating = null;
+            for(var rating in Course.Ratings){
+                if(Course.Ratings[rating].TraineeUsername === traineeUsername){
+                    courseRating = {
+                        Rating: Course.Ratings[rating].Rating,
+                        Review: Course.Ratings[rating].Review,
+                    };
+                    break;
+                }
+            }
+
+            let instructorRating = null;
+            const courseInstructor = await instructor.findOne({Username: Course.InstructorUsername});
+            for(var rate in courseInstructor.Ratings){
+                if(courseInstructor.Ratings[rate].TraineeUsername === traineeUsername){
+                    instructorRating = {
+                      Rating: courseInstructor.Ratings[rate].Rating,
+                      Review: courseInstructor.Ratings[rate].Review,
+                    };
+                    break;
+                }
+            }
+            let result = {
+                traineeEnrolled: true,
+                traineeCourseRate: courseRating,
+                traineeInstructorRate: instructorRating,
+                courseData: Course,
+            }
+            return res.status(200).json(result);
+        }
+    
+         
     }
     catch(err) {
         handleError(res, err.message);

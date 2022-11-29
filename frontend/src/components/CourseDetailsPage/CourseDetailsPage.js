@@ -43,7 +43,7 @@ function CourseDetailsPage() {
         document.title = "Course Details";
         retrieveCourse(params.courseId, setIsLoading)
         .then(course => {
-            setCourse(course.data)
+            setCourse(course.data.courseData)
             setIsLoading(false);
         })
         .catch(error => {
