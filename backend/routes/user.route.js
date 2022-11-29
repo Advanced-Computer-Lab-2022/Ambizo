@@ -78,7 +78,7 @@ router.get("/getLoggedInUserData", verifyJWT, async (req,res) => {
 router.post('/requestPasswordReset', async (req, res) => {
     const {username} = req.body;
     if( !username ){
-        res.status(400)
+        return res.status(400)
         .json({
             message: 'Missing username field in the body of the request.'
         });
@@ -87,12 +87,12 @@ router.post('/requestPasswordReset', async (req, res) => {
     const requestingUser = await user.findOne({Username: username});
 
     if( !requestingUser ){
-        res.status(404)
+        return res.status(404)
         .json({
             message: 'There is no user with this username.'
         });
     }
-    const {Username, Type} = requestingUser;
+    const { _id, Username, Type} = requestingUser;
     let userWithEmail;
     switch(Type){
         case "admin": 
@@ -108,19 +108,19 @@ router.post('/requestPasswordReset', async (req, res) => {
             userWithEmail = await individualTrainee.findOne({Username: Username});
             break;
         default:
-            res.status(500)
+            return res.status(500)
             .json({
                 message: 'Failed in finding user email.'
             });
     }
     if(! userWithEmail ){
-        res.status(500)
+        return res.status(500)
             .json({
                 message: 'Failed in finding user email.'
             });
     }
 
-    const { _id, Name, Email } = userWithEmail;
+    const { Name, Email } = userWithEmail;
 
     var transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -142,7 +142,7 @@ router.post('/requestPasswordReset', async (req, res) => {
         (error, token) => {
             if(error){
                 console.log(error);
-                res.status(500).json({
+                return res.status(500).json({
                     message: 'An error has occured while creating the JWT for the request.'
                 });
             }
@@ -156,14 +156,14 @@ router.post('/requestPasswordReset', async (req, res) => {
             }
             transporter.sendMail(mailOptions)
             .then(info => {
-                res.status(200).json({
+                return res.status(200).json({
                     message: 'Reset password email has been sent successfully.',
                     emailSentTo: Email
                 })
             })
             .catch(error => {
                 console.log(error);
-                res.status(500).json({
+                return res.status(500).json({
                     message: 'Sending the reset password email failed.',
                 });
             });
@@ -174,19 +174,19 @@ router.post('/requestPasswordReset', async (req, res) => {
 router.post('/resetPassword', resetPasswordVerifyJWT , async (req, res) => {
     const { newPassword } = req.body;
     if(! newPassword ){
-        res.status(400)
+        return res.status(400)
         .json({ message: 'A new password must be provided in the body of the request. (key is newPassword)' });
     }
 
     const { UserId, Username, Email } = req.userData;
     if(!UserId || !Username || !Email){
-        res.status(500)
+        return res.status(500)
         .json({ message: 'A error occured due to the decoding of the JWT in a wrong way' });
     }
 
     let requestingUser = await user.findOne({Username: Username});
     if( !requestingUser){
-        res.status(400)
+        return res.status(400)
         .json({ message: 'There is no user with this username.' });
     }
 
@@ -205,13 +205,13 @@ router.post('/resetPassword', resetPasswordVerifyJWT , async (req, res) => {
         case "individualTrainee":
             updateResult = await individualTrainee.updateOne({_id: UserId, Username: Username}, {Password: hashedPassword});
         default:
-            res.status(400).json({message: 'Invalid user type.'});
+            return res.status(400).json({message: 'Invalid user type.'});
     }
 
     if( !updateResult || updateResult.modifiedCount != 1 ){
-        res.status(500).json({message: 'Failure in updating the password !'});
+        return res.status(500).json({message: 'Failure in updating the password.'});
     }else{
-        res.status(200).json({message: 'Password updated successfully.'});
+        return res.status(200).json({message: 'Password updated successfully.'});
     }
 });
 

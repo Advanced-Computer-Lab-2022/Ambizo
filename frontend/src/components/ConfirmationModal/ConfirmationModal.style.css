@@ -1,0 +1,85 @@
+.multiselect-container .searchBox::placeholder {
+    color: black !important;
+    opacity: 1;
+}
+  
+.multiselect-container {
+    margin-bottom: 10px;
+}
+  
+.search-wrapper .chip {
+    background-color: black;
+}
+  
+.search-wrapper .singleChip {
+    color: white;
+}
+  
+.multiselect-container .searchWrapper {
+    border-color: black;
+}
+  
+.modal-content-confirmation {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: fit-content;
+    line-height: 1.4;
+    background: white;
+    padding: 2% 3%;
+    border-radius: 3px;
+    max-width: 1000px;
+    min-width: 460px;
+    width: 25%;
+    z-index: 1;
+    -webkit-animation: fadein 0.25s; 
+    -moz-animation: fadein 0.25s; 
+    -o-animation: fadein 0.25s; 
+    animation: fadein 0.25s;
+    text-align: center;
+    font-size: 100px;
+}
+
+.confirmation--message {
+    font-size: 22px;
+    font-weight: 500;
+    color: black;
+}
+
+.action--cannotbeundone {
+    font-size: 15px;
+}
+
+.confirmation--buttons {
+    display: flex;
+    gap: 30px;
+}
+
+.button--yessure {
+    width: 120px;
+    min-width: 120px;
+    height: 50px;
+    border-width: 1px;
+    margin-left: auto;
+}
+  
+.button--yessure:hover {
+    background-color: #e4e4e4;
+}
+
+.button--cancel {
+    border-color: #bd0312;
+    background-color: #e6001c;
+    border-style: solid;
+    color: white;
+    width: 120px;
+    min-width: 120px;
+    height: 50px;
+    margin-right: auto;
+}
+  
+.button--cancel:hover {
+    opacity: 0.8;
+}
+  

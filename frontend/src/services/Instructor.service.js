@@ -24,6 +24,9 @@ class InstructorService {
     addExercise(courseId, exerciseNum, newExercise) {
         return httpPost.post("/instructor/addExercise/?courseId=" + courseId + "&exerciseNum=" + exerciseNum, {newExercise: newExercise});
     }
+    addCoursePreview(previewLink, courseId) {
+        return httpPost.put("/instructor/addCoursePreview/?courseId=" + courseId, {previewLink: previewLink});
+    }
 }
 
 export default new InstructorService();

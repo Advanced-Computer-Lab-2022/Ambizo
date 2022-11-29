@@ -3,6 +3,7 @@ import verifyJWT from "../middleware/verifyJWT.js";
 import course from "../models/course.model.js";
 import corporateTrainee from "../models/corporateTrainee.model.js";
 import individualTrainee from "../models/individualTrainee.model.js";
+import user from "../models/user.model.js";
 
 const router = express.Router();
 
@@ -71,6 +72,255 @@ router.post("/submitExercise", verifyJWT, async (req, res) => {
         handleError(res,error);
     }
 });
+
+function calculateNewRating(ratings){
+    if(ratings.length === 0){
+        return 0;
+    }
+    let sum = 0;
+    for(var ratingIndex in ratings){
+        sum += ratings[ratingIndex].Rating;  
+    }
+    return sum / (ratings.length);
+}
+
+// Errors returned: 201, 400, 403, 404, 409, 500.
+router.post('/rateCourse/:courseId', verifyJWT, async (req, res) => {
+    const { Username, Type } = req.User;
+    const courseId = req.params.courseId;
+    const requestingUser = await user.findOne({Username: Username});
+
+    //making sure the request come from valid user with valid type
+    if ((requestingUser.Type !== Type) || (Type !== 'corporateTrainee' && Type !== 'individualTrainee')){
+        return res.status(403).json({message: 'The user is not allowed to rate courses.'})
+    }
+
+    // Check whether the user is enrolled in this course or not
+    let userWithCourses;
+    switch(requestingUser.Type){
+        case 'individualTrainee':
+            userWithCourses = await individualTrainee.findOne({Username: Username});
+            break;
+        case 'corporateTrainee':
+            userWithCourses = await corporateTrainee.findOne({Username: Username});
+            break;
+    }
+
+
+    if(!userWithCourses || !userWithCourses.EnrolledCourses){
+        return res.status(500).json({message: 'An error has occured while fetching the user and the courses of the user'})
+    }
+
+    let courseFound = false;
+    for(var courseIndex in userWithCourses.EnrolledCourses){
+        if(userWithCourses.EnrolledCourses[courseIndex].courseId === courseId){
+            courseFound = true;
+        }
+
+    }
+
+    if( !courseFound ){
+        return res.status(403).json({message: 'The user is not enrolled in the course to be able to rate it.'})
+    }
+
+    const courseToRate = await course.findById(courseId);
+
+    if( !courseToRate ){
+        return req.status(404).json({message: 'No course found with this id.'});
+    }
+    const listOfRatings = courseToRate.Ratings;
+    // Seeing if the user already rated the course before.
+    for(var rating in listOfRatings){
+        if( listOfRatings[rating].TraineeUsername === Username){
+            return res.status(409).json({message: 'The user has already rated this course.'})
+        }
+    }
+
+    //Checking that the needed data is in the request body.
+    const { Rating, Review } = req.body;
+    if( !Rating || !Review ){
+        return req.status(400).json({message: 'The (Rating) and the (Review) fields must be provided in the body.'});
+    }
+
+    const RatingEntry = {
+        TraineeUsername: Username,
+        Rating: Rating,
+        Review: Review
+    };
+
+    courseToRate.Ratings.push(RatingEntry);
+    courseToRate.Rating = calculateNewRating(courseToRate.Ratings);
+
+    courseToRate.save().then(
+        _ => {
+            return res.status(201).json({message: 'The ratinng has been added successfully.'})
+        }
+    ).catch(error => {
+        console.log(error);
+        return res.status(500).json({message: 'An error has occurred while adding the rating.'})
+    });
+});
+
+
+router.put('/updateCourseRating/:courseId', verifyJWT, async (req, res) => {
+
+    const { Rating, Review } = req.body;
+
+    if( !Rating && !Review){
+        return req.status(400).json({message: 'At least the (Rating) or the (Review) fields must be provided in the body.'}); 
+    }
+
+    const { Username, Type } = req.User;
+    const courseId = req.params.courseId;
+    const requestingUser = await user.findOne({Username: Username});
+
+    //making sure the request come from valid user with valid type
+    if ((requestingUser.Type !== Type) || (Type !== 'corporateTrainee' && Type !== 'individualTrainee')){
+        return res.status(403).json({message: 'The user is not allowed to rate courses.'})
+    }
+
+
+    // Check whether the user is enrolled in this course or not
+    let userWithCourses;
+    switch(requestingUser.Type){
+        case 'individualTrainee':
+            userWithCourses = await individualTrainee.findOne({Username: Username});
+            break;
+        case 'corporateTrainee':
+            userWithCourses = await corporateTrainee.findOne({Username: Username});
+            break;
+    }
+
+
+    if(!userWithCourses || !userWithCourses.EnrolledCourses){
+        return res.status(500).json({message: 'An error has occured while fetching the user and the courses of the user'})
+    }
+
+    let courseFound = false;
+    for(var courseIndex in userWithCourses.EnrolledCourses){
+        if(userWithCourses.EnrolledCourses[courseIndex].courseId === courseId){
+            courseFound = true;
+        }
+
+    }
+
+    if( !courseFound ){
+        return res.status(403).json({message: 'The user is not enrolled in the course to be able to rate it.'})
+    }
+
+    const courseToRate = await course.findById(courseId);
+
+    if( !courseToRate ){
+        return req.status(404).json({message: 'No course found with this id.'});
+    }
+
+    const listOfRatings = courseToRate.Ratings;
+    let userRatedCourse = false;
+    // Seeing if the user already rated the course before.
+    for(var rating in listOfRatings){
+        if( listOfRatings[rating].TraineeUsername === Username){
+            const oldRating = listOfRatings[rating].Rating;
+            const oldReview = listOfRatings[rating].Review;
+
+            listOfRatings[rating].Rating = Rating;
+
+            course.updateOne(
+                {_id:courseId, "Ratings.TraineeUsername": Username},
+                {
+                    $set:{
+                        Rating: calculateNewRating(listOfRatings),
+                        "Ratings.$.Rating": Rating? Rating: oldRating,
+                        "Ratings.$.Review": Review? Review: oldReview,
+                    }
+                }
+            ).then(_ => {
+                return res.status(201).json({message: 'The rating was updated successfully.'});
+            })
+            .catch(error => {
+                console.log(error);
+                return res.status(500).json({message: 'An error has occured while updating the rating.'});
+                }
+            );
+
+            userRatedCourse = true;
+            break;
+        }
+    }
+
+    if( !userRatedCourse ){
+        return res.status(409).json({message: 'The user did not rate this course.'})
+    }
+});
+
+
+router.delete('/deleteCourseRating/:courseId', verifyJWT, async (req, res) => {
+    const { Username, Type } = req.User;
+    const courseId = req.params.courseId;
+
+    const requestingUser = await user.findOne({Username: Username});
+
+    //making sure the request come from valid user with valid type
+    if ((requestingUser.Type !== Type) || (Type !== 'corporateTrainee' && Type !== 'individualTrainee')){
+        return res.status(403).json({message: 'The user is not allowed to delete ratings of courses.'})
+    }
+
+
+    // Check whether the user is enrolled in this course or not
+    let userWithCourses;
+    switch(requestingUser.Type){
+        case 'individualTrainee':
+            userWithCourses = await individualTrainee.findOne({Username: Username});
+            break;
+        case 'corporateTrainee':
+            userWithCourses = await corporateTrainee.findOne({Username: Username});
+            break;
+    }
+
+
+    if(!userWithCourses || !userWithCourses.EnrolledCourses){
+        return res.status(500).json({message: 'An error has occured while fetching the user and the courses of the user'})
+    }
+
+    let courseFound = false;
+    for(var courseIndex in userWithCourses.EnrolledCourses){
+        if(userWithCourses.EnrolledCourses[courseIndex].courseId === courseId){
+            courseFound = true;
+        }
+
+    }
+
+    if( !courseFound ){
+        return res.status(403).json({message: 'The user is not enrolled in the course to be able to delete a rating.'})
+    }
+
+    const courseToRate = await course.findById(courseId);
+    if( !courseToRate ){
+        return req.status(404).json({message: 'No course found with this id.'});
+    }
+    
+    let isRatingFound = false;
+    for(var rating in courseToRate.Ratings){
+        if(courseToRate.Ratings[rating].TraineeUsername === Username){
+            isRatingFound = true;
+            course.updateOne(
+                {_id : courseId},
+                {
+                    $pull:{
+                        Ratings: {TraineeUsername: Username}
+                    }
+                }
+            ).then(_ => {
+                return res.status(200).json({message: 'The rating has been removed successfully'})
+            }).catch(error => {
+                console.log(error);
+                return res.status(500).json({message: 'An error has occurred while deleting the rating.'});
+            });
+        }
+    }
+    if(!isRatingFound){
+        return res.status(409).json({message: 'The user did not rate this course.'})
+    }
+ });
 
 function handleError(res, err) {
     return res.status(400).send(err);
