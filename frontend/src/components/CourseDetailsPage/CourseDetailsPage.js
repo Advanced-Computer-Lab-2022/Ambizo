@@ -54,6 +54,15 @@ function CourseDetailsPage() {
 
     let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
 
+    let instructorLoggedInCourse = false;
+    
+    if(userType === "instructor") {
+        const sessionInstructorName = JSON.parse(sessionStorage.getItem("User")).Username;
+        if(sessionInstructorName === course.InstructorUsername) {
+            instructorLoggedInCourse = true;
+        }
+    }
+
     let courseSubtitles;
     let courseExercises;
 
@@ -67,6 +76,7 @@ function CourseDetailsPage() {
                     index={subtitleIndex}
                     courseId={params.courseId}
                     userType={userType}
+                    instructorLoggedInCourse={instructorLoggedInCourse}
                     modifyCourseDetailsPageSubtitle={(newSubtitle, index) => modifyCourseDetailsPageSubtitle(newSubtitle, index)}
                     {...subtitle}
                 />
@@ -79,6 +89,7 @@ function CourseDetailsPage() {
                     key={index}
                     exerciseTitle={exercise.exerciseName}
                     exerciseNum={index}
+                    instructorLoggedInCourse={instructorLoggedInCourse}
                     courseId={params.courseId}
                 />
             )
@@ -108,13 +119,13 @@ function CourseDetailsPage() {
                     <div className="top--container" >
                         <div className="container--left">
                             <div className="course--path">
-                                {userType !== "instructor" && 
+                                {!instructorLoggedInCourse && 
                                 <>
                                     <a className="all--hyperlink" href="">All Courses</a>
                                     <span>{" > "}</span>
                                     <a className="subject--hyperlink" href="">{course.Subject}</a>
                                 </>}
-                                {userType === "instructor" && <a className="all--hyperlink" href="">My Courses</a> }
+                                {instructorLoggedInCourse && <a className="all--hyperlink" href="">My Courses</a> }
                                 
                             </div>
                             <h1 className="coursedetails--fulltitle">{course.Title}</h1>
@@ -127,7 +138,7 @@ function CourseDetailsPage() {
                                     <span className='coursedetails--hourscount'>{course.TotalHours} {hourSpan}</span>
                                 </div>
                             </div>
-                            {userType !== "instructor" && <p className="coursedetails--instructor">Created by:{<a className="instructor--hyperlink" href="">{course.InstructorName}</a>}</p> }
+                            {!instructorLoggedInCourse && <p className="coursedetails--instructor">Created by:{<a className="instructor--hyperlink" href="">{course.InstructorName}</a>}</p> }
                         </div>
                         <div className="container--right">
                             <div className='coursedetails--courseimagepriceenroll'>
@@ -150,7 +161,8 @@ function CourseDetailsPage() {
                     <div className="coursedetails--subtitles">
                         <h2 className="coursedetails--previewheader">Course Preview</h2>
                         <CoursePreview userType={userType} courseId={params.courseId} CoursePreviewLink={course.CoursePreviewLink} 
-                        modifyCourseDetailsPagePreview={(newPreviewLink) => modifyCourseDetailsPagePreview(newPreviewLink)} />
+                        modifyCourseDetailsPagePreview={(newPreviewLink) => modifyCourseDetailsPagePreview(newPreviewLink)}
+                        instructorLoggedInCourse={instructorLoggedInCourse} />
                         <h2 className="coursedetails--subtitlesheader">Subtitles</h2>
                         {courseSubtitles}
                         <h2 className="coursedetails--exercisesheader">Exercises</h2>

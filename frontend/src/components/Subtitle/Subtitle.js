@@ -122,14 +122,14 @@ function Subtitle(props) {
 
     return (
         <>
-            <div className="subtitle" onClick={displaySubtitlesDetails}>
+            <div className="subtitle" onClick={displaySubtitlesDetails} >
                 {!showSubtitleDetails && <img src={ArrowDownIcon} alt='Arrow Down Icon' className='subtitle--arrow' />}
                 {showSubtitleDetails && <img src={ArrowUpIcon} alt='Arrow Up Icon' className='subtitle--arrow' />}
                 <p className="subtitle--name">{props.subtitle}</p>
                 {hours && <span className="subtitle--duration">{hours}hr {minutes}min</span>}
                 {!hours && <span className="subtitle--duration">{props.duration}min</span>}
             </div>
-            {props.userType === "instructor" && !props.youtubeLink && showSubtitleDetails && 
+            {props.userType === "instructor" && props.instructorLoggedInCourse && !props.youtubeLink && showSubtitleDetails && 
                 <form className="subtitle--details" onSubmit={handleSubmit}>
                     <input
                         id="youtubeLink"
@@ -155,16 +155,20 @@ function Subtitle(props) {
                     <p className={message.type}>{message.text}</p>
                 </form>
             }
-            {props.userType === "instructor" && props.youtubeLink && showSubtitleDetails && 
+            {props.youtubeLink && showSubtitleDetails && 
                 <div className="subtitle--detailsfilled">
                     <h4>Video:</h4>
                     <YouTube className="subtitle--video" videoId={validateYouTubeUrl(props.youtubeLink)} opts={opts} />
                     <h4>Video Short Description:</h4>
                     <p className="subtitle--description">{props.description}</p>
-                    <button className="subtitle--deletebutton" onClick={toggleConfirmationModal}><i class="fa-solid fa-trash"></i>&nbsp;&nbsp;Delete Video and Description</button>
-                    <ConfirmationModal confirmModal={deleteModal} toggleConfirmationModal={toggleConfirmationModal} 
-                    confirmationMessage="Are you sure you want to delete the Subtitle Video and Description?" actionCannotBeUndone={true} 
-                    handleConfirm={handleConfirm} />
+                    {props.instructorLoggedInCourse &&
+                        <>
+                            <button className="subtitle--deletebutton" onClick={toggleConfirmationModal}><i class="fa-solid fa-trash"></i>&nbsp;&nbsp;Delete Video and Description</button>
+                            <ConfirmationModal confirmModal={deleteModal} toggleConfirmationModal={toggleConfirmationModal} 
+                            confirmationMessage="Are you sure you want to delete the Subtitle Video and Description?" actionCannotBeUndone={true} 
+                            handleConfirm={handleConfirm} />
+                        </>
+                    }
                 </div>
             }
         </> 
