@@ -21,6 +21,9 @@ class InstructorService {
     addSubtitleDetails(index, newSubtitle, courseId) {
         return httpPost.put("/instructor/addSubtitleDetails/?courseId=" + courseId + "&index=" + index, newSubtitle);
     }
+    addCoursePreview(previewLink, courseId) {
+        return httpPost.put("/instructor/addCoursePreview/?courseId=" + courseId, {previewLink: previewLink});
+    }
 }
 
 export default new InstructorService();

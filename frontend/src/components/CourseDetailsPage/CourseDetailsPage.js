@@ -1,13 +1,15 @@
 import React from "react";
 import Header from "../Header/Header";
+import Banner from '../../images/Banner.jpg';
 import { Rating } from "@mui/material";
 import HourIcon from '../../images/HourIcon.png'
 import PriceIcon from '../../images/PriceIcon.png'
 import Subtitle from "../Subtitle/Subtitle";
 import Exercise from "../Exercise/Exercise";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import CourseService from "../../services/Course.service";
 import countryToCurrency  from 'country-to-currency';
+import CoursePreview from "../CoursePreview/CoursePreview"
 
 async function retrieveCourse(id, setIsLoading){
     setIsLoading(true);
@@ -19,12 +21,17 @@ async function retrieveCourse(id, setIsLoading){
 
 function CourseDetailsPage() {
 
-
-    function reloadCourseDetailsPage() {
-        window.location.reload();
+    function modifyCourseDetailsPageSubtitle(newSubtitle, index) {
+        let modifiedCourse = {...course};
+        modifiedCourse.Subtitles[index] = newSubtitle;
+        setCourse(modifiedCourse);
     }
 
-    const navigate = useNavigate();
+    function modifyCourseDetailsPagePreview(newPreviewLink) {
+        let modifiedCourse = {...course};
+        modifiedCourse.CoursePreviewLink = newPreviewLink;
+        setCourse(modifiedCourse);
+    }
     
     const userType = sessionStorage.getItem("Type");
 
@@ -60,7 +67,7 @@ function CourseDetailsPage() {
                     index={subtitleIndex}
                     courseId={params.courseId}
                     userType={userType}
-                    reloadCourseDetailsPage={reloadCourseDetailsPage}
+                    modifyCourseDetailsPageSubtitle={(newSubtitle, index) => modifyCourseDetailsPageSubtitle(newSubtitle, index)}
                     {...subtitle}
                 />
             )
@@ -141,6 +148,9 @@ function CourseDetailsPage() {
                         </div>
                     </div>
                     <div className="coursedetails--subtitles">
+                        <h2 className="coursedetails--previewheader">Course Preview</h2>
+                        <CoursePreview userType={userType} courseId={params.courseId} CoursePreviewLink={course.CoursePreviewLink} 
+                        modifyCourseDetailsPagePreview={(newPreviewLink) => modifyCourseDetailsPagePreview(newPreviewLink)} />
                         <h2 className="coursedetails--subtitlesheader">Subtitles</h2>
                         {courseSubtitles}
                         <h2 className="coursedetails--exercisesheader">Exercises</h2>

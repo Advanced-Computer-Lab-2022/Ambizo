@@ -122,8 +122,12 @@ router.post("/createCourse", verifyJWT, async (req, res) => {
     }
 });
 
-router.put("/addSubtitleDetails", async (req, res) => {
+router.put("/addSubtitleDetails", verifyJWT, async (req, res) => {
     try {
+        if(req.User.Type !== "instructor") {
+            return handleError(res, "Invalid Access")
+        }
+
         let courseId = req.query.courseId;
         let subtitleIndex = req.query.index;
         const updatedSubtitle = req.body;
@@ -136,6 +140,25 @@ router.put("/addSubtitleDetails", async (req, res) => {
         await course.findByIdAndUpdate(courseId, {
             Subtitles: newSubtitles
         })
+
+        res.status(200).send("Video added successfully");
+    } catch (err) {
+        handleError(res, err);
+    }
+});
+
+router.put("/addCoursePreview", verifyJWT, async (req, res) => {
+    try {
+        if(req.User.Type !== "instructor") {
+            return handleError(res, "Invalid Access")
+        }
+
+        let courseId = req.query.courseId;
+        await course.findByIdAndUpdate(courseId, {
+            CoursePreviewLink: req.body.previewLink
+        })
+
+        res.status(200).send("Video added successfully");
     } catch (err) {
         handleError(res, err);
     }
