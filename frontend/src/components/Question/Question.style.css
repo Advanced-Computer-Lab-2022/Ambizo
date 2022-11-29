@@ -63,6 +63,14 @@
     background-color: #cdcdcd;
 }
 
+.question--choice.correct{
+    background-color: #5de310;
+}
+
+.question--choice.wrong.checked {
+    background-color: #e30707;
+}
+
 .question--choice > input{
     visibility: hidden;
     position: absolute;

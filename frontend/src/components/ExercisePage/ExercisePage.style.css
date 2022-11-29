@@ -9,6 +9,11 @@
     display: flex;
 }
 
+.excercise--grade{
+    max-width: 10 px;
+    font: red;
+}
+
 .examNav--div{
     box-shadow: 3px 5px 10px 0 rgba(0,0,0,.3);
     border: 1px solid rgba(0, 0, 0, 0.6);
