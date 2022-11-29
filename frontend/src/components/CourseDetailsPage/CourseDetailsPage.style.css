@@ -81,13 +81,12 @@
 }
 
 .coursedetails--courseimagepriceenroll {
-    border-radius: 1px;
+    border-radius: 15px;
     background-color: transparent;
-    box-shadow: 5px 5px 50px 5px rgba(0,0,0,1);
+    box-shadow: 5px 5px 20px 7px rgba(0,0,0,1);
     height: fit-content;
     padding-top: 13px;
     padding-bottom: 30px;
-
 }
 
 .coursedetails--image {
