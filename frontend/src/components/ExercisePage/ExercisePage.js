@@ -4,6 +4,8 @@ import CourseService from "../../services/Course.service";
 import Header from "../Header/Header";
 import Question from "../Question/Question";
 import TraineeService from "../../services/Trainee.service";
+//import reactSelect from "react-select";
+import { useNavigate } from "react-router-dom";
 
 async function retrieveExercise(courseId, exerciseNum){
     return CourseService.getExercise(courseId, exerciseNum)
@@ -12,12 +14,23 @@ async function retrieveExercise(courseId, exerciseNum){
     })
 }
 
+async function retrieveAnswers(courseId, exerciseNum) {
+    return TraineeService.getAnswers(courseId, exerciseNum)
+        .then((result) => {
+            return result;
+        })
+}
+
 function ExercisePage() {
     const params = useParams();
     const [exercise, setExercise] = React.useState(null);
     const [traineeChoices, setTraineeChoices] = React.useState([]);
     const [currentQuestion, setCurrentQuestion] = React.useState(0);
     const [isLoading, setIsLoading] = React.useState(false); 
+    const [grade, setGrade] = React.useState(-1);
+
+    const navigate = useNavigate();
+    //const isFinished = useRef(false);
 
     React.useEffect(() => {
         document.title = "Exercise " + (Number.parseInt(params.exerciseNum)+1);
@@ -25,18 +38,34 @@ function ExercisePage() {
         retrieveExercise(params.courseId, params.exerciseNum)
         .then(exercise => {
             setExercise(exercise.data)
-            setIsLoading(false);
         })
         .catch((error) => {
             console.log(error);
         })
+
+        retrieveAnswers(params.courseId, params.exerciseNum)
+            .then(answers => {
+                if (answers.data.grade > -1) {
+                    setTraineeChoices(answers.data.choices);
+                    setGrade(answers.data.grade);
+                    //isFinished.current = true;
+                }
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }, [params.courseId, params.exerciseNum]);
 
-    function handleChoiceClick(event, index){
-        const {value} = event.target;
-        let newTraineeChoices = [...traineeChoices];
-        newTraineeChoices[index] = value;
-        setTraineeChoices(newTraineeChoices);
+
+
+    function handleChoiceClick(event, index) {
+        if (!(grade > -1)) {
+            const { value } = event.target;
+            let newTraineeChoices = [...traineeChoices];
+            newTraineeChoices[index] = value;
+            setTraineeChoices(newTraineeChoices);
+        }
     }
 
     function handleButtonClick(event){
@@ -49,16 +78,22 @@ function ExercisePage() {
         }
     }
 
-    async function handleSubmit(event){
+    function handleSubmit(event) {
         event.preventDefault();
-        return TraineeService.submitExercise(params.courseId, params.exerciseNum, traineeChoices)
+        let NewTraineeChoices = [];
+        for (let i = 0; i < exercise.questions.length; i++) {
+            NewTraineeChoices.push(traineeChoices[i]?traineeChoices[i]:null);
+        }
+        setTraineeChoices(NewTraineeChoices);
+
+        TraineeService.submitExercise(params.courseId, params.exerciseNum, NewTraineeChoices)
             .then((result) => {
                 console.log(result);
-                return null;
+                //isFinished.current = true;
+                navigate(0);
             })
             .catch((error) => {
                 console.log(error);
-                return null;
             })
     }
 
@@ -71,8 +106,10 @@ function ExercisePage() {
                 questionChoices ={question.choices}
                 questionNum = {index}
                 isHidden={currentQuestion !== index}
-                checked = {traineeChoices[index]}
-                handleChoiceClick = {(event) => handleChoiceClick(event, index)}
+                checked={traineeChoices[index]}
+                handleChoiceClick={(event) => handleChoiceClick(event, index)}
+                isFinished={grade > -1}
+                correctAnswer={exercise?.questions[index].answer}
             />
         )
     })
@@ -80,7 +117,7 @@ function ExercisePage() {
     const navigationBoxes = exercise?.questions.map((question, index) => {
 
         return (
-            <div 
+            <div
             key={index}
             className={"examNav--boxes--box" + 
             (index===currentQuestion? " current" : " notCurrent") +
@@ -107,6 +144,7 @@ function ExercisePage() {
             (
                 <>
                     <Header />
+                    {(grade > -1) && <p className="excercise--grade">You got {Math.floor(grade * 100)} % of the questions right</p>}
                     <p className="exercisePage--title">{exercise?.exerciseName}</p>
                     <div className="exercise--div">
                         {exerciseQuestions}
@@ -117,15 +155,18 @@ function ExercisePage() {
                             <div className="examNav--boxes">
                                 {navigationBoxes}
                             </div>
-                            <button 
-                            type="button" 
+                            {!(grade > -1) &&
+                            <button
+                            type="button"
                             className={"form--button finish navigation"} 
                             onClick={handleSubmit}
-                        >
+                            >
                             Submit Answers
-                        </button>
+                            </button>
+                            }
                         </div>
                     </div>
+                        
                     <p className="question--number--tag">{"Question " + (currentQuestion+1) +" Of " + exercise?.questions.length }</p>
                     <div className="form--buttons--div">
                         <button 

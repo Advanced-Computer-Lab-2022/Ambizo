@@ -40,6 +40,33 @@ router.get("/getExercise", verifyJWT, async (req, res) => {
     }
 });
 
+router.get("/getAnswers", verifyJWT, async (req, res) => {
+    try {
+        if (req.User.Type !== "corporateTrainee" && req.User.Type !== "individualTrainee") {
+            return handleError(res, "Invalid Access")
+        }
+
+        let Trainee = null;
+        if (req.User.Type === "individualTrainee") {
+            Trainee = await individualTrainee.findOne({ Username: req.User.Username });
+        }
+        else {
+            Trainee = await corporateTrainee.findOne({ Username: req.User.Username });
+        }
+
+        let Exercise = null;
+        Trainee.EnrolledCourses.forEach(course => {
+            if (course.courseId === req.query.courseId)
+                Exercise = course.exercises[Number.parseInt(req.query.exerciseNum)];
+        }
+        )
+        res.json(Exercise);
+    }
+    catch (error) {
+        handleError(res, error);
+    }
+});
+
 router.post("/submitExercise", verifyJWT, async (req, res) => {
     try{
         if(req.User.Type !== "corporateTrainee" && req.User.Type !== "individualTrainee"){
@@ -54,9 +81,22 @@ router.post("/submitExercise", verifyJWT, async (req, res) => {
             Trainee = await corporateTrainee.findOne({Username: req.User.Username});
         }
 
+        let enrolledCourse = await course.findById(req.query.courseId);
+        let enrolledCourseQuestions = enrolledCourse.Exercises[Number.parseInt(req.query.exerciseNum)].questions;
+        let submittedAnswers = req.body.traineeChoices;
+        let grade = 0;
+        for (let i = 0; i < submittedAnswers.length; i++){
+            if (enrolledCourseQuestions[i].answer == submittedAnswers[i]) {
+                grade++;
+            }
+        }
+        grade = grade / enrolledCourseQuestions.length;
+
+
         Trainee.EnrolledCourses.forEach(course => {
             if(course.courseId === req.query.courseId){
                 course.exercises[Number.parseInt(req.query.exerciseNum)].choices = req.body.traineeChoices;
+                course.exercises[Number.parseInt(req.query.exerciseNum)].grade = grade;
             }
         })
         
@@ -66,6 +106,7 @@ router.post("/submitExercise", verifyJWT, async (req, res) => {
         else{
             await corporateTrainee.findByIdAndUpdate(Trainee._id, {EnrolledCourses: Trainee.EnrolledCourses});
         }
+        res.json({message: "Exercise Submitted Successfully"});
     }
     catch(error){
         handleError(res,error);

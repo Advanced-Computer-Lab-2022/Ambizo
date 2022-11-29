@@ -6,6 +6,8 @@ import iconD from "../../images/D-icon.png";
 
 function Question(props) {
 
+    console.log();
+
     return(
         <>
             <div className="question--container" hidden={props.isHidden}>
@@ -15,7 +17,7 @@ function Question(props) {
                 </div>
             
 
-                <label className={"question--choice" + (props.checked === "0"? " checked" : "")}>
+                <label className={"question--choice" + (props.isFinished ? (props.correctAnswer === 0 ? " correct" : " wrong") : "") + (props.checked === "0" ? " checked" : "")}>
                     <img src={iconA} alt='Question A Icon' className='question--icon'/>
                     <input 
                         type="radio"
@@ -28,7 +30,7 @@ function Question(props) {
                     <div className="question--choice--text">{props.questionChoices[0]}</div>
                 </label>
 
-                <label className={"question--choice" + (props.checked === "1"? " checked" : "")}>
+                <label className={"question--choice" + (props.isFinished ? (props.correctAnswer === 1 ? " correct" : " wrong") : "") + (props.checked === "1" ? " checked" : "")}>
                     <img src={iconB} alt='Question B Icon' className='question--icon'/>
                     <input 
                         type="radio"
@@ -41,7 +43,7 @@ function Question(props) {
                     <div className="question--choice--text">{props.questionChoices[1]}</div>
                 </label>
 
-                <label className={"question--choice" + (props.checked === "2"? " checked" : "")}>
+                <label className={"question--choice" + (props.isFinished ? (props.correctAnswer === 2 ? " correct" : " wrong") : "") + (props.checked === "2" ? " checked" : "")}>
                     <img src={iconC} alt='Question C Icon' className='question--icon'/>
                     <input 
                         type="radio"
@@ -54,7 +56,7 @@ function Question(props) {
                     <div className="question--choice--text">{props.questionChoices[2]}</div>
                 </label>
 
-                <label className={"question--choice" + (props.checked === "3"? " checked" : "")}>
+                <label className={"question--choice" + (props.isFinished ? (props.correctAnswer === 3 ? " correct" : " wrong") : "") + (props.checked === "3" ? " checked" : "")}>
                     <img src={iconD} alt='Question D Icon' className='question--icon'/>
                     <input 
                         type="radio"
