@@ -81,7 +81,7 @@ function CoursePreview(props) {
 
     return (
         <>
-            {props.userType === "instructor" && !props.CoursePreviewLink &&
+            {props.userType === "instructor" && props.instructorLoggedInCourse && !props.CoursePreviewLink &&
                 <form className="course--preview" onSubmit={handleSubmit} >
                     <input
                         id="youtubeLink"
@@ -96,13 +96,17 @@ function CoursePreview(props) {
                     <p className={message.type}>{message.text}</p>
                 </form>
             }
-            {props.userType === "instructor" && props.CoursePreviewLink &&
+            {props.CoursePreviewLink &&
                 <div className="coursepreview--video">
                     <YouTube className="subtitle--video" videoId={validateYouTubeUrl(props.CoursePreviewLink)} opts={opts} />
-                    <button className="coursepreview--deletebutton" onClick={toggleConfirmationModal}><i class="fa-solid fa-trash"></i>&nbsp;&nbsp;Delete Preview Video</button>
-                    <ConfirmationModal confirmModal={deleteModal} toggleConfirmationModal={toggleConfirmationModal} 
-                    confirmationMessage="Are you sure you want to delete the Course Preview Video?" actionCannotBeUndone={true} 
-                    handleConfirm={handleConfirm} />
+                    {props.instructorLoggedInCourse &&
+                        <>
+                            <button className="coursepreview--deletebutton" onClick={toggleConfirmationModal}><i class="fa-solid fa-trash"></i>&nbsp;&nbsp;Delete Preview Video</button>
+                            <ConfirmationModal confirmModal={deleteModal} toggleConfirmationModal={toggleConfirmationModal} 
+                            confirmationMessage="Are you sure you want to delete the Course Preview Video?" actionCannotBeUndone={true} 
+                            handleConfirm={handleConfirm} />
+                        </>
+                    }
                 </div>
             }
         </>
