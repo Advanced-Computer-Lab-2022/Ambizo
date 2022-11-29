@@ -8,6 +8,8 @@ const currencyConverter = new currencyConverterLt();
 router.get("/getCourses", async (req,res) => {
     try{
         let filter = {}
+        let courses = null;
+        let exchangeRateToUSD = null;
 
         if(req.query.subject){
             filter = {...filter, Subject: req.query.subject.split(',')};
@@ -16,6 +18,7 @@ router.get("/getCourses", async (req,res) => {
             filter = {...filter, Rating: {$gte: req.query.rating}};
         }
         if(req.query.price){
+            exchangeRateToUSD = await currencyConverter.from(req.query.currencyCode).to("USD").convert()
             const priceRange = req.query.price.split(',');
             const minPrice = priceRange[0] * exchangeRateToUSD;
             let maxPrice = priceRange[1] * exchangeRateToUSD;
@@ -40,13 +43,19 @@ router.get("/getCourses", async (req,res) => {
             }
         }
 
-        const [courses, exchangeRateToUSD] = await Promise.all(
-            [
-                course.find(filter)
-                , 
-                currencyConverter.from(req.query.currencyCode).to("USD").convert()
-            ]
-            );
+        if(!req.query.price){
+             [courses, exchangeRateToUSD] = await Promise.all(
+                [
+                    course.find(filter)
+                    , 
+                    currencyConverter.from(req.query.currencyCode).to("USD").convert()
+                ]
+                );
+        }
+        else{
+            courses = await course.find(filter);
+        }
+
         const exchangeRateToCountry = 1/exchangeRateToUSD;
 
         courses.forEach(course => {
@@ -102,6 +111,17 @@ router.get("/getCourse/:courseId", async (req,res) => {
         handleError(res, err.message);
     }
 })
+
+router.get("/getSubtitleName", async (req, res) => {
+    try{
+        
+        const Course = await course.findById(req.query.courseId);
+        res.send(Course.Subtitles[Number.parseInt(req.query.subtitleNum)].subtitle);
+    }
+    catch(error){
+        handleError(res,error);
+    }
+});
 
 function handleError(res, err) {
     return res.status(400).send(err);

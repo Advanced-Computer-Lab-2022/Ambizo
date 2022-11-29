@@ -25,6 +25,10 @@ class CourseService {
     getExercise(courseId, exerciseNum){
         return http.get("/trainee/getExercise?courseId=" + courseId +"&exerciseNum=" + exerciseNum);
     }
+
+    getSubtitleName(courseId, subtitleNum){
+        return http.get("/guest/getSubtitleName?courseId=" + courseId +"&subtitleNum=" + subtitleNum);
+    }
 }
 
 export default new CourseService();

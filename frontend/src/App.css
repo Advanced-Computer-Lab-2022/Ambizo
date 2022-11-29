@@ -19,6 +19,7 @@
 @import "./components/AddCourse/AddCourse.style.css";
 @import "./components/ExercisePage/ExercisePage.style.css";
 @import "./components/Question/Question.style.css";
+@import "./components/AddExercise/AddExercise.style.css";
 
 * {
   box-sizing: border-box;
@@ -95,7 +96,8 @@ button {
   margin-bottom: 100px;
   text-align: center;
   border: 1px solid black;
-  width: 500px;
+  min-width: 500px;
+  max-width: fit-content;
   margin-left: auto;
   margin-right: auto;
 }

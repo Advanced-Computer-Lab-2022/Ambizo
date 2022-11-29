@@ -15,7 +15,8 @@ function Question(props) {
                 </div>
             
 
-                <label className={"question--choice" + (props.checked === "0"? " checked" : "")}>
+                <label className={"question--choice" + (props.checked === "0"? " checked" : " notChecked") + 
+                        (props.preview? " preview" : "")}>
                     <img src={iconA} alt='Question A Icon' className='question--icon'/>
                     <input 
                         type="radio"
@@ -28,7 +29,8 @@ function Question(props) {
                     <div className="question--choice--text">{props.questionChoices[0]}</div>
                 </label>
 
-                <label className={"question--choice" + (props.checked === "1"? " checked" : "")}>
+                <label className={"question--choice" + (props.checked === "1"? " checked" : " notChecked") + 
+                        (props.preview? " preview" : "")}>
                     <img src={iconB} alt='Question B Icon' className='question--icon'/>
                     <input 
                         type="radio"
@@ -41,7 +43,8 @@ function Question(props) {
                     <div className="question--choice--text">{props.questionChoices[1]}</div>
                 </label>
 
-                <label className={"question--choice" + (props.checked === "2"? " checked" : "")}>
+                <label className={"question--choice" + (props.checked === "2"? " checked" : " notChecked") + 
+                        (props.preview? " preview" : "")}>
                     <img src={iconC} alt='Question C Icon' className='question--icon'/>
                     <input 
                         type="radio"
@@ -54,7 +57,8 @@ function Question(props) {
                     <div className="question--choice--text">{props.questionChoices[2]}</div>
                 </label>
 
-                <label className={"question--choice" + (props.checked === "3"? " checked" : "")}>
+                <label className={"question--choice" + (props.checked === "3"? " checked" : " notChecked") + 
+                        (props.preview? " preview" : "")}>
                     <img src={iconD} alt='Question D Icon' className='question--icon'/>
                     <input 
                         type="radio"

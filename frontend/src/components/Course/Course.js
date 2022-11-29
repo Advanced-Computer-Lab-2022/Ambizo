@@ -9,7 +9,9 @@ function Course(props) {
 
     const navigate = useNavigate()
     function viewCourseDetails() {
-        navigate(`/coursedetails/${props._id}`)
+        setTimeout(() => {
+            navigate(`/coursedetails/${props._id}`)
+        }, 150);
     }
 
     let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";

@@ -73,6 +73,7 @@ function ExercisePage() {
                 isHidden={currentQuestion !== index}
                 checked = {traineeChoices[index]}
                 handleChoiceClick = {(event) => handleChoiceClick(event, index)}
+                preview= {false}
             />
         )
     })

@@ -2,22 +2,26 @@
     width: 360px;
     height: 423px;
     max-width: 360px;
-    border-radius: 5px;
-    box-shadow: 3px 5px 10px 0 rgba(0,0,0,.3);
-    border: 1px solid rgba(0, 0, 0, 0.1);
     overflow-y: scroll;
-    transition-duration: 0.25s;
+    transition-duration: 0.15s;
     cursor: pointer;
+    border: 3px solid rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    box-shadow: 0 4px rgba(0, 0, 0, 0.3);
   }
   
-.course::-webkit-scrollbar { 
-    display: none;
-}
+    .course::-webkit-scrollbar { 
+        display: none;
+    }
 
-.course:hover{
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    box-shadow: 15px 15px 8px rgba(0, 0, 0, 0.25);
-}
+    .course:hover{
+        box-shadow: 0 7px #b10918;
+        border-color: #b10918;
+    }
+    .course:hover:active {
+        box-shadow: 0 3px #b10918;
+        transform: translateY(5px);
+    }
   
 .course--image {
     width: 95%;

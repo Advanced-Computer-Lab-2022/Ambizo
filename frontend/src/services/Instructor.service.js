@@ -21,6 +21,9 @@ class InstructorService {
     addSubtitleDetails(index, newSubtitle, courseId) {
         return httpPost.put("/instructor/addSubtitleDetails/?courseId=" + courseId + "&index=" + index, newSubtitle);
     }
+    addExercise(courseId, exerciseNum, newExercise) {
+        return httpPost.post("/instructor/addExercise/?courseId=" + courseId + "&exerciseNum=" + exerciseNum, {newExercise: newExercise});
+    }
 }
 
 export default new InstructorService();

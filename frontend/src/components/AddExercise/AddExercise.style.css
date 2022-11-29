@@ -1,0 +1,54 @@
+.question--choice.checked.preview{
+    background-color: lightgreen;
+}
+
+.question--choice.Checked.preview:hover{
+    background-color: lightgreen;
+    cursor:default;
+}
+
+.question--choice.notChecked.preview:hover{
+    background-color: white;
+    cursor:default;
+}
+
+.form--div.exerciseform{
+    margin-bottom: 300px;
+    margin-top: 50px;
+}
+
+.form--buttons--div.exerciseForm{
+    margin-bottom: 20px;
+}
+
+.dynamic-form--div.exerciseForm{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    
+}
+
+.dynamic-form--div.exerciseForm > input{
+    display: flex;
+    margin-left: 0px;
+    height: 30px;
+    text-indent: 10px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    width: 400px;
+}
+
+.dynamic-form--div.choices{
+    margin-bottom: 50px;
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+.addExercise--answer{
+    width: 190px !important;
+}
+
+.addExercise--title{
+    width: 350px;
+    margin-bottom: 25px !important;
+}
