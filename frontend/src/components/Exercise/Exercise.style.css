@@ -39,8 +39,14 @@
 }
 
 .exercise--view--delete--div > button{
-    width: 145px;
+    width: 151px;
     margin: 0;
+    border-width: 1px;
+    height: 50px;
+}
+
+.exercise--view--delete--div > button:hover{
+    background-color: #e4e4e4;
 }
 
 .subtitle--description.addExercise{

@@ -107,8 +107,8 @@
 }
 
 .subtitle--deletebutton {
-    width: 300px;
-    min-width: 300px;
+    width: 312px;
+    min-width: 312px;
     height: 50px;
     border-width: 1px;
     margin: auto 10% 0px auto;
@@ -118,13 +118,17 @@
     background-color: #e4e4e4;
 }
 
+.subtitle--deletebutton.solve{
+    margin-bottom: 1.33rem;
+}
+
 .subtitle--createexercise {
     border-color: #bd0312;
     background-color: #a30506;
     border-style: solid;
     color: white;
-    width: 300px;
-    min-width: 300px;
+    width: 312px;
+    min-width: 312px;
     height: 50px;
     margin: auto 10% 1.33rem auto;
 }

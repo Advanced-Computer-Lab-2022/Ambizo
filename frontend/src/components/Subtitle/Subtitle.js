@@ -214,14 +214,14 @@ function Subtitle(props) {
                                         (
                                             <>
                                                 <i><p className="subtitle--description addExercise">Not Yet Solved</p></i>
-                                                <button className="subtitle--deletebutton" onClick={() => navigate("/exercise/" + props.courseId + "/" + props.index)}><i className="fa-solid fa-lightbulb"></i>&nbsp;&nbsp;Solve Exercise</button>
+                                                <button className="subtitle--deletebutton solve" onClick={() => navigate("/exercise/" + props.courseId + "/" + props.index)}><i className="fa-solid fa-lightbulb"></i>&nbsp;&nbsp;Solve Exercise</button>
                                             </>
                                         )
                                         :
                                         (
                                             <>
                                                 <p className="subtitle--description addExercise"><i>Grade: <b>{((grade * 100).toFixed(1) % 1) === 0 ? (grade * 100).toFixed(0) : (grade * 100).toFixed(1)}%</b></i> { grade < 0.5? "😞" : grade > 0.86?"😀🎉" : "😀"}</p>
-                                                <button className="subtitle--deletebutton" onClick={() => navigate("/exercise/" + props.courseId + "/" + props.index)}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Solution</button>          
+                                                <button className="subtitle--deletebutton solve" onClick={() => navigate("/exercise/" + props.courseId + "/" + props.index)}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Solution</button>          
                                             </>
                                         )  
                                     }
