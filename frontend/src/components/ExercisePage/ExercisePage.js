@@ -24,7 +24,7 @@ function ExercisePage() {
     const [exercise, setExercise] = React.useState(null);
     const [traineeChoices, setTraineeChoices] = React.useState([]);
     const [currentQuestion, setCurrentQuestion] = React.useState(0);
-    const [isLoading, setIsLoading] = React.useState(false); 
+    const [isLoading, setIsLoading] = React.useState(true); 
     const [grade, setGrade] = React.useState(-1);
     const [isSubmitted, setIsSubmitted] = React.useState(false); 
 
