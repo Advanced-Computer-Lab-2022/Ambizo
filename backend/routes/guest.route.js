@@ -1,19 +1,19 @@
 import express from "express";
 import course from "../models/course.model.js";
 import user from "../models/user.model.js";
-import currencyConverterLt from "currency-converter-lt";
 import instructor from "../models/instructor.model.js";
 import corporateTrainee from "../models/corporateTrainee.model.js";
 import individualTrainee from "../models/individualTrainee.model.js";
+import currencyConverter from "../middleware/currencyConverter.js";
 
 const router = express.Router();
-const currencyConverter = new currencyConverterLt();
 
 router.get("/getCourses", async (req,res) => {
     try{
         let filter = {}
         let courses = null;
         let exchangeRateToUSD = null;
+        let exchangeRateToCountry = null;
 
         if(req.query.subject){
             filter = {...filter, Subject: req.query.subject.split(',')};
@@ -48,19 +48,20 @@ router.get("/getCourses", async (req,res) => {
         }
 
         if(!req.query.price){
-             [courses, exchangeRateToUSD] = await Promise.all(
+             [courses, exchangeRateToUSD, exchangeRateToCountry] = await Promise.all(
                 [
                     course.find(filter)
                     , 
                     currencyConverter.from(req.query.currencyCode).to("USD").convert()
+                    ,
+                    currencyConverter.from("USD").to(req.query.currencyCode).convert()
                 ]
                 );
         }
         else{
             courses = await course.find(filter);
+            exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
         }
-
-        const exchangeRateToCountry = 1/exchangeRateToUSD;
 
         courses.forEach(course => {
             course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)

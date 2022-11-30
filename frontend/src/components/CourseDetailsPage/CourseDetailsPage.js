@@ -9,8 +9,7 @@ import CourseService from "../../services/Course.service";
 import countryToCurrency  from 'country-to-currency';
 import CoursePreview from "../CoursePreview/CoursePreview"
 
-async function retrieveCourse(id, setIsLoading){
-    setIsLoading(true);
+async function retrieveCourse(id){
     return CourseService.getCourse(id)
     .then((result) => {
         return result;
@@ -36,18 +35,17 @@ function CourseDetailsPage() {
 
     const params = useParams();
     const [course, setCourse] = React.useState({});
-    const [isLoading, setIsLoading] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(true);
 
     React.useEffect(() => {
         document.title = "Course Details";
-        retrieveCourse(params.courseId, setIsLoading)
+        retrieveCourse(params.courseId)
         .then(course => {
             setCourse(course.data.courseData)
             setIsLoading(false);
         })
         .catch(error => {
             console.log(error);  
-            setIsLoading(false); 
         })
     }, [params.courseId]);
 
@@ -100,12 +98,12 @@ function CourseDetailsPage() {
 
     return (
         <>
+            <div className={"loader-container" + (!isLoading? " hidden" : "")}>
+                <div className="spinner"> </div>
+            </div>
             {isLoading ?
             (
                 <>
-                    <div className="loader-container">
-                        <div className="spinner"> </div>
-                    </div>
                     <Header />
                     <div className="top--container" style={{"height":"500px"}} >
                     </div>

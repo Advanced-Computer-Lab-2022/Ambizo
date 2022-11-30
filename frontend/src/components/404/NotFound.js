@@ -14,12 +14,12 @@ function NotFound() {
 
     return (
         <>
+            <div className={"loader-container" + (!isLoading? " hidden" : "")}>
+                <div className="spinner"> </div>
+            </div>
             {isLoading?
             (
                 <>
-                    <div className="loader-container">
-                        <div className="spinner"> </div>
-                    </div>
                     <Header />
                 </>
             )
