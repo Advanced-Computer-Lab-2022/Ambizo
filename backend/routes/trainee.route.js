@@ -203,10 +203,11 @@ router.post('/rateCourse/:courseId', verifyJWT, async (req, res) => {
 
     courseToRate.Ratings.push(RatingEntry);
     courseToRate.Rating = calculateNewRating(courseToRate.Ratings);
+    courseToRate.NumberOfReviews += 1;
 
     courseToRate.save().then(
         _ => {
-            return res.status(201).json({message: 'The ratinng has been added successfully.'})
+            return res.status(201).json({message: 'The rating has been added successfully.'})
         }
     ).catch(error => {
         console.log(error);
@@ -364,6 +365,7 @@ router.delete('/deleteCourseRating/:courseId', verifyJWT, async (req, res) => {
     for(var rating in courseToRate.Ratings){
         if(courseToRate.Ratings[rating].TraineeUsername === Username){
             isRatingFound = true;
+            const oldNumberOfReviews = courseToRate.NumberOfReviews;
             
             course.updateOne(
                 {_id : courseId},
@@ -372,6 +374,7 @@ router.delete('/deleteCourseRating/:courseId', verifyJWT, async (req, res) => {
                         Ratings: {TraineeUsername: Username}
                     },
                     $set:{
+                        NumberOfReviews: oldNumberOfReviews - 1,
                         Rating: calculateNewRating(courseToRate.Ratings.filter(rating => rating.TraineeUsername !== Username))
                     }
                 }
