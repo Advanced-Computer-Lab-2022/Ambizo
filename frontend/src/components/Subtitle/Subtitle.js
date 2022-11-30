@@ -197,8 +197,8 @@ function Subtitle(props) {
                             {props.instructorLoggedInCourse &&
                                 <>
                                     <div className="exercise--view--delete--div">
-                                        <button className="subtitle--deletebutton" onClick={() => navigate("/exercise/" + props.courseId + "/" + props.index)}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Exercise</button>
-                                        <button className="subtitle--deletebutton" onClick={null}><i className="fa-solid fa-trash"></i>&nbsp;&nbsp;Delete Exercise</button>
+                                        <button onClick={() => navigate("/exercise/" + props.courseId + "/" + props.index)}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Exercise</button>
+                                        <button onClick={null}><i className="fa-solid fa-trash"></i>&nbsp;&nbsp;Delete Exercise</button>
                                     </div>
                                         <ConfirmationModal 
                                             confirmModal={deleteModal} 
@@ -233,7 +233,7 @@ function Subtitle(props) {
                         <>
                             <h4>Exercise:</h4>
                             <i><p className="subtitle--description addExercise">Not Yet Created</p></i>
-                            <button className="subtitle--deletebutton" onClick={() => navigate("/addExercise/" + props.courseId + "/" + props.index)}>+ Create Exercise</button>
+                            <button className="subtitle--createexercise" onClick={() => navigate("/addExercise/" + props.courseId + "/" + props.index)}><i className="fa-solid fa-plus"></i>&nbsp;&nbsp;Create Exercise</button>
                         </>          
                     }
                 </div>

@@ -176,7 +176,7 @@ function InstructorCoursesPage() {
                         <p>My Courses</p>
                     </div>
                     <div className="searchMyCourses">
-                        <SearchBar placeholder={"Search My Courses"} searchForCourses={searchForCourses}/>
+                        <SearchBar placeholder={"Search my courses ..."} searchForCourses={searchForCourses}/>
                     </div>
                     
                     <img src={FilterIcon} alt='Filter Icon' className='filter--icon'/>
