@@ -2,12 +2,12 @@
     background-color: lightgreen;
 }
 
-.question--choice.Checked.preview:hover{
+.checked.preview:hover{
     background-color: lightgreen;
     cursor:default;
 }
 
-.question--choice.notChecked.preview:hover{
+.preview:hover{
     background-color: white;
     cursor:default;
 }

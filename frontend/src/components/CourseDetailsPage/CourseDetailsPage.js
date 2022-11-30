@@ -1,12 +1,10 @@
 import React from "react";
 import Header from "../Header/Header";
-import Banner from '../../images/Banner.jpg';
 import { Rating } from "@mui/material";
-import HourIcon from '../../images/HourIcon.png'
 import PriceIcon from '../../images/PriceIcon.png'
 import Subtitle from "../Subtitle/Subtitle";
 import Exercise from "../Exercise/Exercise";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import CourseService from "../../services/Course.service";
 import countryToCurrency  from 'country-to-currency';
 import CoursePreview from "../CoursePreview/CoursePreview"
@@ -20,6 +18,7 @@ async function retrieveCourse(id, setIsLoading){
 }
 
 function CourseDetailsPage() {
+    const navigate = useNavigate();
 
     function modifyCourseDetailsPageSubtitle(newSubtitle, index) {
         let modifiedCourse = {...course};
@@ -67,6 +66,18 @@ function CourseDetailsPage() {
     let courseExercises;
 
     if (course.Subtitles && course.Exercises) {
+        courseExercises = course.Exercises.map((exercise, index) => {
+            return (
+                <Exercise 
+                    key={index}
+                    exerciseTitle={exercise.exerciseName}
+                    exerciseNum={index}
+                    instructorLoggedInCourse={instructorLoggedInCourse}
+                    courseId={params.courseId}
+                />
+            )
+        })
+
         let subtitleIndex = -1;
         courseSubtitles = course.Subtitles.map(subtitle => {
             subtitleIndex++;
@@ -78,19 +89,8 @@ function CourseDetailsPage() {
                     userType={userType}
                     instructorLoggedInCourse={instructorLoggedInCourse}
                     modifyCourseDetailsPageSubtitle={(newSubtitle, index) => modifyCourseDetailsPageSubtitle(newSubtitle, index)}
+                    exercise={courseExercises[subtitleIndex]? courseExercises[subtitleIndex] : null}
                     {...subtitle}
-                />
-            )
-        })
-
-        courseExercises = course.Exercises.map((exercise, index) => {
-            return (
-                <Exercise 
-                    key={index}
-                    exerciseTitle={exercise.exerciseName}
-                    exerciseNum={index}
-                    instructorLoggedInCourse={instructorLoggedInCourse}
-                    courseId={params.courseId}
                 />
             )
         })
@@ -121,11 +121,11 @@ function CourseDetailsPage() {
                             <div className="course--path">
                                 {!instructorLoggedInCourse && 
                                 <>
-                                    <a className="all--hyperlink" href="">All Courses</a>
+                                    <a className="all--hyperlink" onClick={() => navigate("/")}>All Courses</a>
                                     <span>{" > "}</span>
-                                    <a className="subject--hyperlink" href="">{course.Subject}</a>
+                                    <a className="subject--hyperlink" onClick={() => navigate("/search/" + course.Subject)}>{course.Subject}</a>
                                 </>}
-                                {instructorLoggedInCourse && <a className="all--hyperlink" href="">My Courses</a> }
+                                {instructorLoggedInCourse && <a className="all--hyperlink" onClick={() => navigate("/mycourses")}>My Courses</a> }
                                 
                             </div>
                             <h1 className="coursedetails--fulltitle">{course.Title}</h1>
@@ -133,10 +133,7 @@ function CourseDetailsPage() {
                             <div className="coursedetails--ratecounthourcount">
                                 <Rating className='coursedetails--rating' name="half-rating-read" defaultValue={course.Rating} precision={0.1} readOnly />
                                 <span className='coursedetails--numberratings'>({course.NumberOfReviews} ratings)</span>
-                                <div className="coursedetails--hour">
-                                    <img src={HourIcon} alt='Hour Icon' className='coursedetails--houricon'/>
-                                    <span className='coursedetails--hourscount'>{course.TotalHours} {hourSpan}</span>
-                                </div>
+                                <span className='coursedetails--hourscount'><i className="fa-solid fa-clock"></i> &nbsp;{course.TotalHours} {hourSpan}</span>
                             </div>
                             {!instructorLoggedInCourse && <p className="coursedetails--instructor">Created by:{<a className="instructor--hyperlink" href="">{course.InstructorName}</a>}</p> }
                         </div>
@@ -165,8 +162,6 @@ function CourseDetailsPage() {
                         instructorLoggedInCourse={instructorLoggedInCourse} />
                         <h2 className="coursedetails--subtitlesheader">Subtitles</h2>
                         {courseSubtitles}
-                        <h2 className="coursedetails--exercisesheader">Exercises</h2>
-                        {courseExercises}
                     </div>
                 </>
             )

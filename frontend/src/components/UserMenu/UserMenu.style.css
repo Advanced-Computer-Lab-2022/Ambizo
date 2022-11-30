@@ -1,10 +1,11 @@
 .userMenu--div{
     position: absolute;
-    background: #b10918;
+    background: #a30506;
     -webkit-animation: fadeinFromAbove 0.25s; 
     -moz-animation: fadeinFromAbove 0.25s; 
     -o-animation: fadeinFromAbove 0.25s; 
     animation: fadeinFromAbove 0.25s; 
+    color: white;
     width: 200px;
     height: fit-content;
     z-index: 1;
@@ -32,6 +33,5 @@
 }
 
 .userMenu--item:hover{
-    color: white;
     background: black;
 }

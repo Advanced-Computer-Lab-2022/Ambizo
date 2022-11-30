@@ -20,7 +20,7 @@ function ConfirmationModal(props) {
                 <div className="modal">
                     <div onClick={props.toggleConfirmationModal} className="overlay"></div>
                     <div className="modal-content-confirmation">
-                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <i className="fa-solid fa-circle-exclamation"></i>
                         <p className="confirmation--message">{props.confirmationMessage}</p>
                         {props.actionCannotBeUndone && <p className="action--cannotbeundone">This action cannot be undone.</p>}
                         <div className="confirmation--buttons">

@@ -11,13 +11,13 @@
 }
 
 .question--title--div{
-    background-color: #e6001c;
+    background-color: #a30506;
+    color: white;
 }
 
 .question--title{
     font-size: 22pt;
     margin: 0;
-    min-height: 100px;
     height: fit-content;
     padding-left: 16px;
     padding-right: 16px;
@@ -64,11 +64,25 @@
 }
 
 .question--choice.correct{
-    background-color: #5de310;
+    background-color: lightgreen;
 }
 
 .question--choice.wrong.checked {
-    background-color: #e30707;
+    background-color: #cdcdcd;
+}
+
+.question--choice--icon.wrong{
+    color:#a30506;
+    font-size:15pt;
+}
+
+.question--choice--icon.wrong:hover{
+    background-color: #cdcdcd;
+}
+
+.question--choice--icon.correct{
+    color:#32612D;
+    font-size:15pt;
 }
 
 .question--choice > input{
@@ -81,4 +95,16 @@
     display: inline-block;
     word-break: break-word;
     margin-right: 8px;
+}
+
+.correct:hover, .wrong:hover{
+    cursor:default;
+}
+
+.wrong.checked:hover{
+    background-color: #cdcdcd;
+}
+
+.wrong:hover{
+    background-color: white;
 }

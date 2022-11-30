@@ -4,8 +4,6 @@ import CourseService from "../../services/Course.service";
 import Header from "../Header/Header";
 import Question from "../Question/Question";
 import TraineeService from "../../services/Trainee.service";
-//import reactSelect from "react-select";
-import { useNavigate } from "react-router-dom";
 
 async function retrieveExercise(courseId, exerciseNum){
     return CourseService.getExercise(courseId, exerciseNum)
@@ -28,9 +26,7 @@ function ExercisePage() {
     const [currentQuestion, setCurrentQuestion] = React.useState(0);
     const [isLoading, setIsLoading] = React.useState(false); 
     const [grade, setGrade] = React.useState(-1);
-
-    const navigate = useNavigate();
-    //const isFinished = useRef(false);
+    const [isSubmitted, setIsSubmitted] = React.useState(false); 
 
     React.useEffect(() => {
         document.title = "Exercise " + (Number.parseInt(params.exerciseNum)+1);
@@ -43,19 +39,24 @@ function ExercisePage() {
             console.log(error);
         })
 
-        retrieveAnswers(params.courseId, params.exerciseNum)
+        if(sessionStorage.getItem("Type") === "instructor"){
+            setGrade(1);
+            setIsLoading(false);
+        }
+        else{
+            retrieveAnswers(params.courseId, params.exerciseNum)
             .then(answers => {
                 if (answers.data.grade > -1) {
                     setTraineeChoices(answers.data.choices);
                     setGrade(answers.data.grade);
-                    //isFinished.current = true;
                 }
                 setIsLoading(false);
             })
             .catch((error) => {
                 console.log(error);
             })
-    }, [params.courseId, params.exerciseNum]);
+        }
+    }, [params.courseId, params.exerciseNum, isSubmitted]);
 
 
 
@@ -87,10 +88,8 @@ function ExercisePage() {
         setTraineeChoices(NewTraineeChoices);
 
         TraineeService.submitExercise(params.courseId, params.exerciseNum, NewTraineeChoices)
-            .then((result) => {
-                console.log(result);
-                //isFinished.current = true;
-                navigate(0);
+            .then(() => {
+                setIsSubmitted(true);
             })
             .catch((error) => {
                 console.log(error);
@@ -145,7 +144,6 @@ function ExercisePage() {
             (
                 <>
                     <Header />
-                    {(grade > -1) && <p className="excercise--grade">You got {Math.floor(grade * 100)} % of the questions right</p>}
                     <p className="exercisePage--title">{exercise?.exerciseName}</p>
                     <div className="exercise--div">
                         {exerciseQuestions}
@@ -189,6 +187,7 @@ function ExercisePage() {
                             Next &gt;
                         </button>
                     </div>
+                    {sessionStorage.getItem("Type") !== "instructor" && (grade > -1) && <p className="exercise--grade">You got <b>{((grade * 100).toFixed(1) % 1) === 0 ? (grade * 100).toFixed(0) : (grade * 100).toFixed(1)}%</b> correct { grade < 0.5? "😞" : grade > 0.86?"😀🎉" : "😀"} </p>}
                 
                 </>
             )

@@ -16,9 +16,10 @@
 
 .all--hyperlink, .subject--hyperlink, .instructor--hyperlink {
     color: white;
-    text-decoration: none;
-    font-size: 20px;
-    font-weight: 700;
+    text-decoration: underline;
+    font-size: 13.5pt;
+    font-weight: 400;
+    cursor: pointer;
 }
 
 .instructor--hyperlink {
@@ -148,7 +149,7 @@
 .button--enrolldiscounted {
     margin: 0px 40px 0px auto;
     border-color: #bd0312;
-    background-color: #e6001c;
+    background-color: #a30506;
     border-style: solid;
     color: white;
     width: 35%;
@@ -160,7 +161,7 @@
 .button--enroll {
     margin: 0px 40px 0px auto;
     border-color: #bd0312;
-    background-color: #e6001c;
+    background-color: #a30506;
     border-style: solid;
     color: white;
     width: 35%;

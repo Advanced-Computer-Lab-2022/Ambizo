@@ -1,17 +1,35 @@
 import React from "react";
+import {useNavigate} from "react-router-dom"
 import ArrowDownIcon from '../../images/ArrowDownIcon.png'
 import ArrowUpIcon from '../../images/ArrowUpIcon.png'
 import InstructorService from "../../services/Instructor.service";
+import TraineeService from "../../services/Trainee.service";
 import YouTube from 'react-youtube';
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 
 function Subtitle(props) {
+    const navigate = useNavigate();
 
     const [deleteModal, setDeleteModal] = React.useState(false);
+    const [grade, setGrade] = React.useState(-1);
 
     const toggleConfirmationModal = () => {
         setDeleteModal(prevModal => !prevModal);
     };
+
+    React.useEffect(() => {
+        if(props.exercise && false /* badal false hena han7ot hena en el student enrolled */){
+            TraineeService.getAnswers(props.courseId, props.index)
+            .then(answers => {
+                if (answers.data.grade > -1) {
+                    setGrade(answers.data.grade);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
+    }, [props.exercise, props.courseId, props.index]);
 
     async function handleConfirm(event) {
         event.preventDefault();
@@ -151,11 +169,11 @@ function Subtitle(props) {
                         value={subtitleDetails.description}
                     >
                     </textarea>
-                    <button type="submit" className="subtitledetails--submitbutton"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add</button>
+                    <button type="submit" className="subtitledetails--submitbutton"><i className="fa-solid fa-plus"></i>&nbsp;&nbsp;Add</button>
                     <p className={message.type}>{message.text}</p>
                 </form>
             }
-            {props.youtubeLink && showSubtitleDetails && 
+            {props.youtubeLink && showSubtitleDetails && (props.instructorLoggedInCourse || true /* badal true han7ot hena en el student enrolled*/) &&
                 <div className="subtitle--detailsfilled">
                     <h4>Video:</h4>
                     <YouTube className="subtitle--video" videoId={validateYouTubeUrl(props.youtubeLink)} opts={opts} />
@@ -163,11 +181,60 @@ function Subtitle(props) {
                     <p className="subtitle--description">{props.description}</p>
                     {props.instructorLoggedInCourse &&
                         <>
-                            <button className="subtitle--deletebutton" onClick={toggleConfirmationModal}><i class="fa-solid fa-trash"></i>&nbsp;&nbsp;Delete Video and Description</button>
-                            <ConfirmationModal confirmModal={deleteModal} toggleConfirmationModal={toggleConfirmationModal} 
-                            confirmationMessage="Are you sure you want to delete the Subtitle Video and Description?" actionCannotBeUndone={true} 
-                            handleConfirm={handleConfirm} />
+                            <button className="subtitle--deletebutton" onClick={toggleConfirmationModal}><i className="fa-solid fa-trash"></i>&nbsp;&nbsp;Delete Video and Description</button>
+                            <ConfirmationModal 
+                                confirmModal={deleteModal} 
+                                toggleConfirmationModal={toggleConfirmationModal} 
+                                confirmationMessage="Are you sure you want to delete the Subtitle Video and Description?" 
+                                actionCannotBeUndone={true} 
+                                handleConfirm={handleConfirm} />
                         </>
+                    }
+                    { props.exercise &&
+                        <>
+                            <h4>Exercise:</h4>
+                            <p className="subtitle--description">{props.exercise.props.exerciseTitle}</p>
+                            {props.instructorLoggedInCourse &&
+                                <>
+                                    <div className="exercise--view--delete--div">
+                                        <button className="subtitle--deletebutton" onClick={() => navigate("/exercise/" + props.courseId + "/" + props.index)}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Exercise</button>
+                                        <button className="subtitle--deletebutton" onClick={null}><i className="fa-solid fa-trash"></i>&nbsp;&nbsp;Delete Exercise</button>
+                                    </div>
+                                        <ConfirmationModal 
+                                            confirmModal={deleteModal} 
+                                            toggleConfirmationModal={toggleConfirmationModal} 
+                                            confirmationMessage="Are you sure you want to delete the Exercise?" 
+                                            actionCannotBeUndone={true}  
+                                            handleConfirm={handleConfirm} />
+                                </>
+                            }
+                            {false /*badal false hena han7ot hena en el student enrolled*/ && 
+                                <>
+                                    {grade === -1?    
+                                        (
+                                            <>
+                                                <i><p className="subtitle--description addExercise">Not Yet Solved</p></i>
+                                                <button className="subtitle--deletebutton" onClick={() => navigate("/exercise/" + props.courseId + "/" + props.index)}><i className="fa-solid fa-lightbulb"></i>&nbsp;&nbsp;Solve Exercise</button>
+                                            </>
+                                        )
+                                        :
+                                        (
+                                            <>
+                                                <p className="subtitle--description addExercise"><i>Grade: <b>{((grade * 100).toFixed(1) % 1) === 0 ? (grade * 100).toFixed(0) : (grade * 100).toFixed(1)}%</b></i> { grade < 0.5? "😞" : grade > 0.86?"😀🎉" : "😀"}</p>
+                                                <button className="subtitle--deletebutton" onClick={() => navigate("/exercise/" + props.courseId + "/" + props.index)}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Solution</button>          
+                                            </>
+                                        )  
+                                    }
+                                </>
+                            }
+                        </>
+                    }
+                    { !props.exercise && props.instructorLoggedInCourse &&
+                        <>
+                            <h4>Exercise:</h4>
+                            <i><p className="subtitle--description addExercise">Not Yet Created</p></i>
+                            <button className="subtitle--deletebutton" onClick={() => navigate("/addExercise/" + props.courseId + "/" + props.index)}>+ Create Exercise</button>
+                        </>          
                     }
                 </div>
             }

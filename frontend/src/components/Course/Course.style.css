@@ -15,11 +15,11 @@
     }
 
     .course:hover{
-        box-shadow: 0 7px #b10918;
-        border-color: #b10918;
+        box-shadow: 0 7px #a30506;
+        border-color: #a30506;
     }
     .course:hover:active {
-        box-shadow: 0 3px #b10918;
+        box-shadow: 0 3px #a30506;
         transform: translateY(5px);
     }
   

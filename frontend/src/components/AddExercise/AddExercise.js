@@ -20,12 +20,13 @@ function AddExercise() {
 
     React.useEffect(() => {
         document.title = "Add Exercise";
+        window.scrollTo(0,0);
         CourseService.getSubtitleName(params.courseId, params.exerciseNum)
         .then(subtitleName => setSubtitleName(subtitleName.data))
         .catch(() => {
             navigate("/404")
         })
-    }, []);
+    }, [params.courseId, params.exerciseNum, navigate]);
 
     function getAnswerNumber(answer){
         switch(answer.trim()){
@@ -33,8 +34,8 @@ function AddExercise() {
             case 'b' : case 'B': return 1;
             case 'c' : case 'C': return 2;
             case 'd' : case 'D': return 3;
+            default: return 4;
         }
-        return 4;
     }
 
     async function handleSubmit(event) { 
@@ -90,7 +91,7 @@ function AddExercise() {
             return false;
         }
         if(!correctAnswer){
-            setMessage({ text: "Correct Answer Number must be between 1 and 4", type: "form--errormessage" })
+            setMessage({ text: "Correct Answer must be A, B, C or D", type: "form--errormessage" })
             return false;
         }
         return true;
@@ -190,7 +191,7 @@ function AddExercise() {
                                 <div key={(index+1)*-1} className="dynamic-form--div exerciseForm">
                                     <input
                                         type="text"
-                                        placeholder="Enter Question"
+                                        placeholder={"Enter Question " + (index+1)}
                                         onChange={event => handleQuestionsChange(index, event)}
                                         name="question"
                                         value={input.question}
@@ -209,28 +210,28 @@ function AddExercise() {
                                 <div key={index} className="dynamic-form--div choices">
                                     <input
                                         type="text"
-                                        placeholder="Enter Choice 1"
+                                        placeholder="Enter Choice A"
                                         onChange={event => handleQuestionsChange(index, event)}
                                         name="firstChoice"
                                         value={input.firstChoice}
                                     />      
                                     <input
                                         type="text"
-                                        placeholder="Enter Choice 2"
+                                        placeholder="Enter Choice B"
                                         onChange={event => handleQuestionsChange(index, event)}
                                         name="secondChoice"
                                         value={input.secondChoice}
                                     />      
                                     <input
                                         type="text"
-                                        placeholder="Enter Choice 3"
+                                        placeholder="Enter Choice C"
                                         onChange={event => handleQuestionsChange(index, event)}
                                         name="thirdChoice"
                                         value={input.thirdChoice}
                                     />      
                                     <input
                                         type="text"
-                                        placeholder="Enter Choice 4"
+                                        placeholder="Enter Choice D"
                                         onChange={event => handleQuestionsChange(index, event)}
                                         name="fourthChoice"
                                         value={input.fourthChoice}
@@ -259,13 +260,6 @@ function AddExercise() {
                             <div className="examNav--boxes">
                                 {navigationBoxes}
                             </div>
-                            <button 
-                            type="button" 
-                            className={"form--button finish navigation"} 
-                            disabled
-                        >
-                            Submit Answers
-                        </button>
                         </div>
                     </div>
                     <p className="question--number--tag">{"Question " + (currentQuestion+1) +" Of " + questions.length }</p>

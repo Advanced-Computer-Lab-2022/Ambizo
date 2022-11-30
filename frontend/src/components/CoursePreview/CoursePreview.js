@@ -92,7 +92,7 @@ function CoursePreview(props) {
                         onChange={handleCoursePreviewLinkChange}
                         value={coursePreviewYoutubeLink}
                     />
-                    <button type="submit" className="coursepreview--submitbutton"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add Course Preview</button>
+                    <button type="submit" className="coursepreview--submitbutton"><i className="fa-solid fa-plus"></i>&nbsp;&nbsp;Add Course Preview</button>
                     <p className={message.type}>{message.text}</p>
                 </form>
             }
@@ -101,7 +101,7 @@ function CoursePreview(props) {
                     <YouTube className="subtitle--video" videoId={validateYouTubeUrl(props.CoursePreviewLink)} opts={opts} />
                     {props.instructorLoggedInCourse &&
                         <>
-                            <button className="coursepreview--deletebutton" onClick={toggleConfirmationModal}><i class="fa-solid fa-trash"></i>&nbsp;&nbsp;Delete Preview Video</button>
+                            <button className="coursepreview--deletebutton" onClick={toggleConfirmationModal}><i className="fa-solid fa-trash"></i>&nbsp;&nbsp;Delete Preview Video</button>
                             <ConfirmationModal confirmModal={deleteModal} toggleConfirmationModal={toggleConfirmationModal} 
                             confirmationMessage="Are you sure you want to delete the Course Preview Video?" actionCannotBeUndone={true} 
                             handleConfirm={handleConfirm} />
