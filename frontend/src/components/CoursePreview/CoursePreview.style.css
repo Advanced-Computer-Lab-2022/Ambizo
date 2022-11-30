@@ -1,0 +1,41 @@
+.course--preview {
+    width: 50%;
+    height: fit-content;
+    border-width: 2px;
+    border-color: hsla(210,18%,87%,1);
+    border-style: solid;
+    padding: 40px 0px;
+}
+
+.coursepreview--submitbutton {
+    width: 235px;
+    min-width: 235px;
+    height: 50px;
+    margin: 0px auto;
+    border: solid;
+    border-width: 1px;
+    border-color: #bd0312;
+    background-color: #a30506;
+    color: white;
+}
+
+.coursepreview--submitbutton:hover {
+    opacity: 0.8;
+}
+
+.coursepreview--video {
+    width: 50%;
+    height: fit-content;
+}
+
+.coursepreview--deletebutton {
+    width: 220px;
+    min-width:220px;
+    height: 50px;
+    border-width: 1px;
+    margin: auto 18.5% 10px auto;
+}
+
+.coursepreview--deletebutton:hover {
+    background-color: #e4e4e4;
+}

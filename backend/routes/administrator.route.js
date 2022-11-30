@@ -1,4 +1,6 @@
 import express from "express";
+import bcrypt from "bcrypt";
+import verifyJWT from "../middleware/verifyJWT.js";
 import administrator from "../models/administrator.model.js";
 import corporateTrainee from "../models/corporateTrainee.model.js";
 import instructor from "../models/instructor.model.js";
@@ -11,27 +13,23 @@ function handleError(res, err) {
     return res.status(400).send(err);
 }
 
-router.get("/:id", async (req,res) => {
-    try{
-        let admin = await administrator.findById(req.params.id);
-        res.json(admin);
-    }
-    catch(err){
-        handleError(res, err.message);
-    }
-})
 
-
-router.post("/addAdministrator", async (req, res) => {
+router.post("/addAdministrator", verifyJWT, async (req, res) => {
     try{
+        if(req.User.Type !== "admin"){
+            return handleError(res, "Invalid Access")
+        }
+
         let checkDuplicate = await user.findOne({Username: req.body.username});
         if (checkDuplicate) {
             return handleError(res, "Username already exists!");
         } 
         else {
+            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+            
             const newAdministrator = new administrator({
                 Username: req.body.username,
-                Password: req.body.password
+                Password: hashedPassword
             });
 
             const newUser = new user({
@@ -49,29 +47,22 @@ router.post("/addAdministrator", async (req, res) => {
     }
 })
 
-router.post("/login", async (req, res) => {
+router.post("/addInstructor", verifyJWT, async (req, res) => {
     try{
-        let admin = await administrator.findOne({Username: req.body.username});
-        if (!admin || admin.Password !== req.body.password) {
-            return handleError(res, "Invalid username or password");
-        } 
-        res.json(admin)
-    }
-    catch(err){
-        handleError(res, err.message);
-    }
-})
+        if(req.User.Type !== "admin"){
+            return handleError(res, "Invalid Access")
+        }
 
-router.post("/addInstructor", async (req, res) => {
-    try{
         let checkDuplicate = await user.findOne({Username: req.body.username});
         if (checkDuplicate) {
             return handleError(res, "Username already exists!");
         } 
         else {
+            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
             const newInstructor = new instructor({
                 Username: req.body.username,
-                Password: req.body.password,
+                Password: hashedPassword,
                 Name: req.body.name,
                 Email: req.body.email
             });
@@ -91,16 +82,22 @@ router.post("/addInstructor", async (req, res) => {
     }
 })
 
-router.post("/addCorporateTrainee", async (req, res) => {
+router.post("/addCorporateTrainee", verifyJWT, async (req, res) => {
     try{
+        if(req.User.Type !== "admin"){
+            return handleError(res, "Invalid Access")
+        }
+        
         let checkDuplicate = await user.findOne({Username: req.body.username});
         if (checkDuplicate) {
             return handleError(res, "Username already exists!");
         } 
         else {
+            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
             const newCorporateTrainee = new corporateTrainee({
                 Username: req.body.username,
-                Password: req.body.password,
+                Password: hashedPassword,
                 Name: req.body.name,
                 Email: req.body.email
             });

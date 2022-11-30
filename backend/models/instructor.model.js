@@ -18,6 +18,14 @@ const instructorSchema = new Schema({
     Email: {
       type: String,
       required: true
+    },
+    Rating: {
+        type: Number,
+        default: 0
+    },
+    Ratings: {
+        type: Array,
+        default: []
     }
 }, {
     timestamps: true,

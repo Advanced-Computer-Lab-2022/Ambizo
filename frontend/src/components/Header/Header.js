@@ -22,17 +22,15 @@ function Header() {
     
     const toggleLogIn = () => {
         navigate("/login");
-        // sessionStorage.setItem('loggedIn', true);
-        // setIsLoggedIn(true);
     }
 
     const toggleLogOut = () => {
         sessionStorage.removeItem('Type');
         sessionStorage.removeItem('User');
+        sessionStorage.removeItem('Token');
         setIsLoggedIn(false);
         setUserMenu(false)
         navigate("/");
-        navigate(0);
     }
 
     const toggleUserMenu = () => {
@@ -52,7 +50,7 @@ function Header() {
     }, []);
 
     return (
-        <>
+        <header>
             <nav>
                 <Link to="/">
                     <img src={canChamLogo} alt='CanCham Logo' className='nav--logo'/>
@@ -94,7 +92,7 @@ function Header() {
 
             <CountryModal countryModal={countryModal} toggleCountryModal={toggleCountryModal} />
             
-        </>
+        </header>
     )
 }
 

@@ -1,14 +1,20 @@
 import express from "express";
-import instructorRepo from "../models/instructor.model.js";
+import verifyJWT from "../middleware/verifyJWT.js";
 import course from "../models/course.model.js";
 import currencyConverterLt from "currency-converter-lt";
 
 const router = express.Router();
 const currencyConverter = new currencyConverterLt();
 
-router.get("/getCourses", async (req,res) => {
+router.get("/getCourses", verifyJWT, async (req,res) => {
     try{
+        if(req.User.Type !== "instructor"){
+            return handleError(res, "Invalid Access")
+        }
+        
         let filter = {}
+        let courses = null;
+        let exchangeRateToUSD = null;
 
         if(req.query.subject){
             filter = {...filter, Subject: req.query.subject.split(',')};
@@ -17,6 +23,7 @@ router.get("/getCourses", async (req,res) => {
             filter = {...filter, Rating: {$gte: req.query.rating}};
         }
         if(req.query.price){
+            exchangeRateToUSD = await currencyConverter.from(req.query.currencyCode).to("USD").convert()
             const priceRange = req.query.price.split(',');
             const minPrice = priceRange[0] * exchangeRateToUSD;
             let maxPrice = priceRange[1] * exchangeRateToUSD;
@@ -42,18 +49,24 @@ router.get("/getCourses", async (req,res) => {
         }
 
         filter = {
-            InstructorUsername: req.query.username,
+            InstructorUsername: req.User.Username,
             ...filter
         }
 
-        const [courses, exchangeRateToUSD] = await Promise.all(
-            [
-                course.find(filter)
-                , 
-                currencyConverter.from(req.query.currencyCode).to("USD").convert()
-            ]
-            );
-        const exchangeRateToCountry = 1/exchangeRateToUSD;
+        if(!req.query.price){
+            [courses, exchangeRateToUSD] = await Promise.all(
+               [
+                   course.find(filter)
+                   , 
+                   currencyConverter.from(req.query.currencyCode).to("USD").convert()
+               ]
+               );
+       }
+       else{
+           courses = await course.find(filter);
+       }
+
+       const exchangeRateToCountry = 1/exchangeRateToUSD;
         
         courses.forEach(course => {
             course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
@@ -65,10 +78,14 @@ router.get("/getCourses", async (req,res) => {
     }
 })
 
-router.get("/searchCourses/:searchTerm", async (req, res) => {
+router.get("/searchCourses/:searchTerm", verifyJWT, async (req, res) => {
     try {
+        if(req.User.Type !== "instructor"){
+            return handleError(res, "Invalid Access")
+        }
+
         let filter ={
-            InstructorUsername: req.query.username,
+            InstructorUsername: req.User.Username,
             $or: [
                 {Title: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i'}},
                 {Subject: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i'}}
@@ -92,10 +109,14 @@ router.get("/searchCourses/:searchTerm", async (req, res) => {
     }
 });
 
-router.post("/createCourse", async (req, res) => {
+router.post("/createCourse", verifyJWT, async (req, res) => {
     try {
-        let instructorUsername = req.query.username;
-        let instructorName = req.query.name;
+        if(req.User.Type !== "instructor"){
+            return handleError(res, "Invalid Access")
+        }
+
+        let instructorUsername = req.User.Username;
+        let instructorName = req.User.Name;
         
         const newCourse = new course({
             InstructorUsername: instructorUsername,
@@ -110,19 +131,68 @@ router.post("/createCourse", async (req, res) => {
     }
 });
 
-router.post("/login", async (req, res) => {
-    try{
-        let instructor = await instructorRepo.findOne({Username: req.body.username});
-        if (!instructor || instructor.Password !== req.body.password) {
-            return handleError(res, "Invalid username or password");
-        } 
-        res.json(instructor)
-    }
-    catch(err){
-        handleError(res, err.message);
-    }
-})
+router.put("/addSubtitleDetails", verifyJWT, async (req, res) => {
+    try {
+        if(req.User.Type !== "instructor") {
+            return handleError(res, "Invalid Access")
+        }
 
+        let courseId = req.query.courseId;
+        let subtitleIndex = req.query.index;
+        const updatedSubtitle = req.body;
+
+        let oldCourse = await course.findById(courseId)
+
+        let newSubtitles = oldCourse.Subtitles;
+        newSubtitles[subtitleIndex] = updatedSubtitle;
+
+        await course.findByIdAndUpdate(courseId, {
+            Subtitles: newSubtitles
+        })
+
+        res.status(200).send("Video added successfully");
+    } catch (err) {
+        handleError(res, err);
+    }
+});
+
+router.put("/addCoursePreview", verifyJWT, async (req, res) => {
+    try {
+        if(req.User.Type !== "instructor") {
+            return handleError(res, "Invalid Access")
+        }
+
+        let courseId = req.query.courseId;
+        await course.findByIdAndUpdate(courseId, {
+            CoursePreviewLink: req.body.previewLink
+        })
+
+        res.status(200).send("Video added successfully");
+    } catch (err) {
+        handleError(res, err);
+    }
+});
+
+router.post("/addExercise", verifyJWT, async (req, res) => {
+    try {
+        if(req.User.Type !== "instructor"){
+            return handleError(res, "Invalid Access")
+        }
+
+        const Course = await course.findById(req.query.courseId);
+        if(req.User.Username !== Course.InstructorUsername){
+            return handleError(res, "You can only add exercises to your courses")
+        }
+
+        Course.Exercises[req.query.exerciseNum] = req.body.newExercise;
+        const updatedExercises = Course.Exercises;
+        await course.findByIdAndUpdate(req.query.courseId, {Exercises: updatedExercises})
+
+        res.status(201).json(req.body.newExercise);
+    } catch (err) {
+        handleError(res, err);
+    }
+});
 
 function handleError(res, err) {
     return res.status(400).send(err);

@@ -2,12 +2,23 @@ import http from "../http-common"
 import httpPost from "../http-common-post"
 
 class LoginService{
-    getUserType(userData) {
-        return http.get("/guest/getUserType/" + userData.username);
+    getLoggedInUserData() {
+        return http.get("/user/getLoggedInUserData");
     }
 
-    login(userData, type){
-        return httpPost.post("/" + type + "/login/", userData)
+    login(userData){
+        return httpPost.post("/user/login", userData)
+    }
+
+    requestPasswordReset(userData){
+        return httpPost.post("/user/requestPasswordReset", userData);
+    }
+
+    resetPassword(userData, resetToken){
+        return httpPost.post(
+            "/user/resetPassword", 
+            userData,
+        )
     }
 }
 

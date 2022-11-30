@@ -12,7 +12,7 @@
   
 .button--signup {
     border-color: #bd0312;
-    background-color: #e6001c;
+    background-color: #a30506;
     border-style: solid;
     color: white;
     width: 90px;
@@ -26,7 +26,7 @@
 }
   
 .country--icon {
-    height: 35px;
+    height: 30px;
     margin: auto 0px auto 10px;
 }
   

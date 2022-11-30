@@ -5,6 +5,7 @@
 @import "./components/CoursesPage/CoursesPage.style.css";
 @import "./components/CourseDetailsPage/CourseDetailsPage.style.css";
 @import "./components/Subtitle/Subtitle.style.css";
+@import "./components/CoursePreview/CoursePreview.style.css";
 @import "./components/Exercise/Exercise.style.css";
 @import "./components/FilterModal/FilterModal.style.css";
 @import "./components/Footer/Footer.style.css";
@@ -17,6 +18,10 @@
 @import "./components/LoginPage/LoginPage.style.css";
 @import "./components/UserMenu/UserMenu.style.css";
 @import "./components/AddCourse/AddCourse.style.css";
+@import "./components/ExercisePage/ExercisePage.style.css";
+@import "./components/Question/Question.style.css";
+@import "./components/AddExercise/AddExercise.style.css";
+@import "./components/ConfirmationModal/ConfirmationModal.style.css";
 
 * {
   box-sizing: border-box;
@@ -74,7 +79,7 @@ button {
   width: 64px;
   height: 64px;
   border: 8px solid;
-  border-color: #b10918 transparent #b10918 transparent;
+  border-color: #a30506 transparent #a30506 transparent;
   border-radius: 50%;
   animation: spin-anim 0.8s linear infinite;
 }
@@ -93,7 +98,8 @@ button {
   margin-bottom: 100px;
   text-align: center;
   border: 1px solid black;
-  width: 500px;
+  min-width: 500px;
+  max-width: fit-content;
   margin-left: auto;
   margin-right: auto;
 }
@@ -129,6 +135,10 @@ button {
   margin-left: auto;
 }
 
+.show-password-div{
+  text-align: center;
+}
+
 .form--errormessage{
   text-align: center;
   color: red;
@@ -138,3 +148,19 @@ button {
   color: green;
   text-align: center;
 }
+
+.reset-password , .reset-password:visited{
+  text-decoration: none;
+  color: red;
+}
+
+.reset-password:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
+.reset-password:active{
+  text-decoration: underline;
+  opacity: 0.6;
+}
+

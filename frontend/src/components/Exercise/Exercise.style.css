@@ -2,16 +2,53 @@
     display: flex;
     width: 50%;
     height: 80px;
+    border-width: 2px;
+    border-color: hsla(210,18%,87%,1);
+    border-style: solid;
+    background-color: #f7f9fa;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; 
+    -khtml-user-select: none;
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none;
+}
+
+.exercise:hover{
+    background-color: #d8e2e7;
 }
 
 .exerice--icon {
-    width: 7%;
+    width: 55px;
     height: fit-content;
-    margin: auto 0px auto 0px;
+    margin: auto 0px auto 40px;
 }
 
 .exercise--title {
     font-size: 20px;
     font-weight: 500;
     margin: auto auto auto 2%;
+}
+
+.exercise--view--delete--div{
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin: auto 10% 1.33em auto;
+}
+
+.exercise--view--delete--div > button{
+    width: 151px;
+    margin: 0;
+    border-width: 1px;
+    height: 50px;
+}
+
+.exercise--view--delete--div > button:hover{
+    background-color: #e4e4e4;
+}
+
+.subtitle--description.addExercise{
+    font-size: 11pt;
 }

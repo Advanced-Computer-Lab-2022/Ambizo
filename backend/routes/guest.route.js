@@ -2,6 +2,9 @@ import express from "express";
 import course from "../models/course.model.js";
 import user from "../models/user.model.js";
 import currencyConverterLt from "currency-converter-lt";
+import instructor from "../models/instructor.model.js";
+import corporateTrainee from "../models/corporateTrainee.model.js";
+import individualTrainee from "../models/individualTrainee.model.js";
 
 const router = express.Router();
 const currencyConverter = new currencyConverterLt();
@@ -9,6 +12,8 @@ const currencyConverter = new currencyConverterLt();
 router.get("/getCourses", async (req,res) => {
     try{
         let filter = {}
+        let courses = null;
+        let exchangeRateToUSD = null;
 
         if(req.query.subject){
             filter = {...filter, Subject: req.query.subject.split(',')};
@@ -17,6 +22,7 @@ router.get("/getCourses", async (req,res) => {
             filter = {...filter, Rating: {$gte: req.query.rating}};
         }
         if(req.query.price){
+            exchangeRateToUSD = await currencyConverter.from(req.query.currencyCode).to("USD").convert()
             const priceRange = req.query.price.split(',');
             const minPrice = priceRange[0] * exchangeRateToUSD;
             let maxPrice = priceRange[1] * exchangeRateToUSD;
@@ -41,13 +47,19 @@ router.get("/getCourses", async (req,res) => {
             }
         }
 
-        const [courses, exchangeRateToUSD] = await Promise.all(
-            [
-                course.find(filter)
-                , 
-                currencyConverter.from(req.query.currencyCode).to("USD").convert()
-            ]
-            );
+        if(!req.query.price){
+             [courses, exchangeRateToUSD] = await Promise.all(
+                [
+                    course.find(filter)
+                    , 
+                    currencyConverter.from(req.query.currencyCode).to("USD").convert()
+                ]
+                );
+        }
+        else{
+            courses = await course.find(filter);
+        }
+
         const exchangeRateToCountry = 1/exchangeRateToUSD;
 
         courses.forEach(course => {
@@ -96,26 +108,106 @@ router.get("/getCourse/:courseId", async (req,res) => {
             );
 
         Course.PriceInUSD = (Course.PriceInUSD * exchangeRateToCountry).toFixed(2);
+        
+        if( !req.body.TraineeUsername ){
+            let result = {
+                traineeEnrolled: false,
+                traineeCourseRate: null,
+                traineeInstructorRate: null,
+                courseData: Course,
+            }
+            return res.status(200).json(result);   
+        }
 
-        res.json(Course);    
+        const traineeUsername = req.body.TraineeUsername;
+
+        const userRequesting = await user.findOne({Username: traineeUsername});
+        
+        if( !userRequesting ){
+            return req.status(500).json({message: 'An error has occured while fetching the trainee.'});
+        }
+        
+        let userWithCourses;
+        switch(userRequesting.Type){
+            case 'individualTrainee':
+                userWithCourses = await individualTrainee.findOne({Username: traineeUsername});
+                break;
+            case 'corporateTrainee':
+                userWithCourses = await corporateTrainee.findOne({Username: traineeUsername});
+                break;
+        }
+    
+    
+        if(!userWithCourses || !userWithCourses.EnrolledCourses){
+            return res.status(500).json({message: 'An error has occured while fetching the user and the courses of the user'})
+        }
+
+        let courseFound = false;
+        for(var courseIndex in userWithCourses.EnrolledCourses){
+            if(userWithCourses.EnrolledCourses[courseIndex].courseId === req.params.courseId){
+                courseFound = true;
+                break;
+            }
+        }
+
+        if( !courseFound ){
+            let result = {
+                traineeEnrolled: false,
+                traineeCourseRate: null,
+                traineeInstructorRate: null,
+                courseData: Course,
+            }
+            res.status(200).json(result); 
+        }else{
+
+            let courseRating = null;
+            for(var rating in Course.Ratings){
+                if(Course.Ratings[rating].TraineeUsername === traineeUsername){
+                    courseRating = {
+                        Rating: Course.Ratings[rating].Rating,
+                        Review: Course.Ratings[rating].Review,
+                    };
+                    break;
+                }
+            }
+
+            let instructorRating = null;
+            const courseInstructor = await instructor.findOne({Username: Course.InstructorUsername});
+            for(var rate in courseInstructor.Ratings){
+                if(courseInstructor.Ratings[rate].TraineeUsername === traineeUsername){
+                    instructorRating = {
+                      Rating: courseInstructor.Ratings[rate].Rating,
+                      Review: courseInstructor.Ratings[rate].Review,
+                    };
+                    break;
+                }
+            }
+            let result = {
+                traineeEnrolled: true,
+                traineeCourseRate: courseRating,
+                traineeInstructorRate: instructorRating,
+                courseData: Course,
+            }
+            return res.status(200).json(result);
+        }
+    
+         
     }
     catch(err) {
         handleError(res, err.message);
     }
 })
 
-router.get("/getUserType/:username", async (req,res) => {
+router.get("/getSubtitleName", async (req, res) => {
     try{
-        let User = await user.findOne({Username: req.params.username});
-        if(!User){
-            return handleError(res, "Invalid username or password");    
-        }
-        res.json(User);
+        
+        const Course = await course.findById(req.query.courseId);
+        res.send(Course.Subtitles[Number.parseInt(req.query.subtitleNum)].subtitle);
     }
-    catch(err){
-        handleError(res, err.message);
+    catch(error){
+        handleError(res,error);
     }
-})
+});
 
 function handleError(res, err) {
     return res.status(400).send(err);

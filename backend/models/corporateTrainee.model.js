@@ -18,6 +18,10 @@ const corporateTraineeSchema = new Schema({
   Email: {
     type: String,
     required: true
+  },
+  EnrolledCourses: {
+    type: Array,
+    default: []
   }
 }, {
    timestamps: true,

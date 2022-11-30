@@ -164,7 +164,7 @@ function InstructorCoursesPage() {
 
     function searchForCourses(searchTerm){
         if(searchTerm.trim() !== ""){
-            navigate("/search/" + searchTerm + "/mycourses");
+            navigate("/mycourses/search/" + searchTerm);
         } 
     }
 
@@ -176,7 +176,7 @@ function InstructorCoursesPage() {
                         <p>My Courses</p>
                     </div>
                     <div className="searchMyCourses">
-                        <SearchBar placeholder={"Search My Courses"} searchForCourses={searchForCourses}/>
+                        <SearchBar placeholder={"Search my courses ..."} searchForCourses={searchForCourses}/>
                     </div>
                     
                     <img src={FilterIcon} alt='Filter Icon' className='filter--icon'/>
@@ -192,20 +192,11 @@ function InstructorCoursesPage() {
             </>
         )
     }
-    
     return (
         <>
             {isLoading ? 
             (
                 <>
-                    {
-                    /* Normal Loading Animation
-                        <div className="loader-container">
-                            <div className="spinner"> </div>
-                        </div>
-                    */
-                    }
-
                     <Header />
                     {renderCourseHeader(toggleFilterModal)}
                     <section className="courses-list">

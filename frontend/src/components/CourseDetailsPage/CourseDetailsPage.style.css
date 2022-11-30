@@ -1,10 +1,12 @@
 .top--container {
     width: 100%;
     height: fit-content;
-    background-color: #e6001c;
+    background-image: url("../../images/Banner.jpg");
+    background-repeat: round;
     padding: 50px 20% 50px 20%;
     display: flex;
     align-items: center;
+    color: white;
 }
 
 .container--left {
@@ -13,10 +15,11 @@
 }
 
 .all--hyperlink, .subject--hyperlink, .instructor--hyperlink {
-    color: black;
-    text-decoration: none;
-    font-size: 20px;
-    font-weight: 700;
+    color: white;
+    text-decoration: underline;
+    font-size: 13.5pt;
+    font-weight: 400;
+    cursor: pointer;
 }
 
 .instructor--hyperlink {
@@ -65,7 +68,7 @@
 }
 
 .top--container .MuiRating-decimal {
-    color: black;
+    color: white;
 }
 
 .coursedetails--instructor {
@@ -79,9 +82,9 @@
 }
 
 .coursedetails--courseimagepriceenroll {
-    border-radius: 1px;
-    background-color: white;
-    box-shadow: 12px 20px 40px 0 rgba(0,0,0,.3);
+    border-radius: 15px;
+    background-color: transparent;
+    box-shadow: 5px 5px 20px 7px rgba(0,0,0,1);
     height: fit-content;
     padding-top: 13px;
     padding-bottom: 30px;
@@ -101,6 +104,7 @@
     flex-wrap: wrap;
     height: fit-content;
     margin-top: 30px;
+    color: white;
 }
 
 .coursedetails--priceicondiscounted {
@@ -115,6 +119,12 @@
     margin: 0px 5px 0px 30px;
 }
 
+.coursedetails--priceiconinstr {
+    width: 8%;
+    height: fit-content;
+    margin: 0px 15px 0px 0px;
+}
+
 .coursedetials--pricediscount {
     display: flex;
     flex-direction: column;
@@ -124,7 +134,7 @@
 .coursedetails--price {
     font-size: 35px;
     font-weight: 700;
-    margin-top: 7xpx;
+    margin-top: 5px;
 }
 
 .coursedetails--oldprice {
@@ -139,7 +149,7 @@
 .button--enrolldiscounted {
     margin: 0px 40px 0px auto;
     border-color: #bd0312;
-    background-color: #e6001c;
+    background-color: #a30506;
     border-style: solid;
     color: white;
     width: 35%;
@@ -151,7 +161,7 @@
 .button--enroll {
     margin: 0px 40px 0px auto;
     border-color: #bd0312;
-    background-color: #e6001c;
+    background-color: #a30506;
     border-style: solid;
     color: white;
     width: 35%;
@@ -160,7 +170,7 @@
     padding-bottom: 40px;
 }
 
-.button--enroll:hover {
+.button--enroll:hover, .button--enrolldiscounted:hover {
     opacity: 0.8;
 }
 
