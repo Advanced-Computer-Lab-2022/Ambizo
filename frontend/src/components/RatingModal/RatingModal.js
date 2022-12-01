@@ -77,23 +77,24 @@ function RatingModal(props){
                                 <h3>Rating</h3>
                                 <Rating
                                     name="simple-controlled"
-                                    value={props.Rating? props.Rating : 5}
+                                    value={props.Rating? props.Rating : 0}
                                     size="large"
                                     precision={0.5}
                                     onChange={(_, newRating) => {
                                         props.updateRateModal('Rating', newRating)
                                     }}
                                 />
-                                <span className="ratingspan">{props.Rating? props.Rating : 5}</span>
+                                {/* <span className="ratingspan">{props.Rating? props.Rating : 5}</span> */}
                                 <h3>Review</h3>
                                 <textarea 
+                                    className="review--text"
                                     id="Review"
                                     name="Review"
                                     value= {props.Review}
                                     onChange = {(event) => {
                                         props.updateRateModal('Review', event.target.value);
                                     }}
-                                    placeholder="Enter your review." 
+                                    placeholder="Write a review ..." 
 
                                 />
                                 <div className="ratemodal--actionbuttons">
@@ -104,9 +105,9 @@ function RatingModal(props){
                                         ):
                                         (
                                             <>
-                                                <button onClick={handleSubmitRating}>Submit Rating</button>
+                                                <button className="rating--submitbutton" onClick={handleSubmitRating}>Submit</button>
                                                 {props.deleteAction && (
-                                                    <button onClick={handleDelete}>Delete Rating</button>
+                                                    <button className="rating--deletebutton" onClick={handleDelete}>Delete Rating</button>
                                                 )}
                                             </>
                                         )

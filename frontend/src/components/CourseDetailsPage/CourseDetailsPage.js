@@ -280,7 +280,7 @@ function CourseDetailsPage() {
                                   ((userType === 'individualTrainee' || userType === 'corporateTrainee') && traineeInfo.isTraineeEnrolled)?
                                   (
                                     <div className="coursedetails--enrolledoptions">
-                                        <h3>you are enrolled in this course.</h3>
+                                        <h3>You are enrolled in this course.</h3>
                                         <div className="enrolledoptions--ratebuttons">
                                             <button 
                                                 className="button--rate" 

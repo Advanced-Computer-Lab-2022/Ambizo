@@ -66,8 +66,6 @@ textarea {
     right: 5px;
     padding: 5px 7px;
 }
- 
-
 
 .ratingspan{
     color:white;
@@ -75,9 +73,37 @@ textarea {
     margin-left: 5px;
 }
 
-.ratemodal--actionbuttons{
+.review--text {
+    font-family: 'Poppins', sans-serif;
+}
+
+.ratemodal--actionbuttons {
     display: flex;
     justify-content: space-between;
+    margin-top: 10px;
+    gap: 10px;
+}
+
+.rating--submitbutton {
+    width: 120px;
+    min-width: 120px;
+    height: 50px;
+    border-width: 1px;
+    background-color: black;
+    color: white;
+    margin: 0.83em 0px 0.83em auto;
+}
+
+.rating--deletebutton {
+    width: 120px;
+    min-width: 120px;
+    height: 50px;
+    margin: auto auto auto 0px;
+    border-width: 1px;
+}
+
+.rating--deletebutton:hover {
+    background-color: #e4e4e4;
 }
 
 .ratemodal--spinner {

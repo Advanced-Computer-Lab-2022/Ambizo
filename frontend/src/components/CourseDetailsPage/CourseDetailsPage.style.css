@@ -203,6 +203,10 @@
     padding-bottom: 40px;
 }
 
+.button--rate:hover {
+    opacity: 0.8;
+}
+
 .enrolledoptions--ratebuttons{
     display: flex;
     margin: 0 auto;
