@@ -29,9 +29,6 @@ function RatingModal(props){
     }
 
 
-    console.log(props);
-    console.log('the rating is ' + props.Rating)
-    console.log('the review is ' + props.Review)
     const  [Loading, setLoading] = React.useState(false);
 
     function handleSubmitRating(){
