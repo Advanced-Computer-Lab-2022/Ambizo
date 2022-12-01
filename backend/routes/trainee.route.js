@@ -190,10 +190,11 @@ router.post('/rateCourse/:courseId', verifyJWT, async (req, res) => {
     }
 
     //Checking that the needed data is in the request body.
-    const { Rating, Review } = req.body;
-    if( !Rating || !Review ){
-        return req.status(400).json({message: 'The (Rating) and the (Review) fields must be provided in the body.'});
+    const { Rating} = req.body;
+    if( !Rating ){
+        return req.status(400).json({message: 'The (Rating) field must be provided in the body.'});
     }
+    const Review = (req.body.Review)? req.body.Review : '';
 
     const RatingEntry = {
         TraineeUsername: Username,
@@ -219,17 +220,17 @@ router.post('/rateCourse/:courseId', verifyJWT, async (req, res) => {
 router.put('/updateCourseRating/:courseId', verifyJWT, async (req, res) => {
 
     let Rating;
-    let Review;
+    
 
     if(req.body.Rating){
         Rating = req.body.Rating;
     }
 
-    if(req.body.Review){
-        Review = req.body.Review;
-    }
+    let Review = (req.body.Review === undefined)? undefined : (req.body.Review === ''? '' : req.body.Review);
 
-    if( !Rating && !Review){
+
+
+    if( !Rating && Review === undefined){
         return res.status(400).json({message: 'At least the (Rating) or the (Review) fields must be provided in the body.'}); 
     }
 
@@ -293,7 +294,7 @@ router.put('/updateCourseRating/:courseId', verifyJWT, async (req, res) => {
                     $set:{
                         Rating: calculateNewRating(listOfRatings),
                         "Ratings.$.Rating": Rating? Rating: oldRating,
-                        "Ratings.$.Review": Review? Review: oldReview,
+                        "Ratings.$.Review": Review? Review : (Review === '' ? Review : oldReview),
                     }
                 }
             ).then(_ => {
@@ -393,10 +394,12 @@ router.delete('/deleteCourseRating/:courseId', verifyJWT, async (req, res) => {
 
 router.post('/rateInstructor/:instructorUsername', verifyJWT, async (req, res) => {
 
-    if( !req.body.Rating || !req.body.Review){
-        return res.status(400).json({message: 'The (Rating) and the (Review) fields must be provided in the body.'});
+    if( !req.body.Rating){
+        return res.status(400).json({message: 'The (Rating) field must be provided in the body.'});
     }
-    const { Rating, Review } = req.body;
+    const { Rating } = req.body;
+    let Review = (req.body.Review)? req.body.Review : '';  
+
 
     if( !req.User || !req.User.Username || !req.User.Type){
         return res.status(401).json({message: 'Failed to authenticate the user.'});
@@ -441,19 +444,20 @@ router.post('/rateInstructor/:instructorUsername', verifyJWT, async (req, res) =
 
 router.put('/updateInstructorRating/:instructorUsername', verifyJWT, async (req, res) => {
     let Rating;
-    let Review;
+    
 
     if(req.body.Rating){
         Rating = req.body.Rating;
     }
 
-    if(req.body.Review){
-        Review = req.body.Review;
-    }
+    let Review = (req.body.Review === undefined)? undefined : (req.body.Review === ''? '' : req.body.Review);
 
-    if( !Rating && !Review){
+
+
+    if( !Rating && Review === undefined){
         return res.status(400).json({message: 'At least the (Rating) or the (Review) fields must be provided in the body.'}); 
     }
+
 
     if( !req.User || !req.User.Username || !req.User.Type){
         return res.status(401).json({message: 'An error has occurred while authenticating the user.'})
@@ -486,7 +490,7 @@ router.put('/updateInstructorRating/:instructorUsername', verifyJWT, async (req,
                     $set: {
                         Rating: calculateNewRating(instructorToRate.Ratings),
                         'Ratings.$.Rating': Rating? Rating : oldRating,
-                        'Ratings.$.Review': Review? Review : oldReview
+                        'Ratings.$.Review': Review? Review : (Review === '' ? Review : oldReview)
                     }
                 }
             ).then(_ => {

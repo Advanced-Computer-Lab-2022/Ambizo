@@ -97,7 +97,9 @@ router.get("/searchCourses/:searchTerm", async (req, res) => {
     }
 });
 
-router.get("/getCourse/:courseId", async (req,res) => {
+
+// This route should be GET but was changed to POST to make axios able to send a body;
+router.post("/getCourse/:courseId", async (req,res) => {
     try {
         const [Course, exchangeRateToCountry] = await Promise.all(
             [

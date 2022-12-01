@@ -1,4 +1,6 @@
 import http from "../http-common"
+import httpPost from "../http-common-post";
+
 import countryToCurrency  from 'country-to-currency';
 
 class CourseService {
@@ -12,9 +14,9 @@ class CourseService {
         return http.get("guest/getCourses/" + filterURL + "&currencyCode=" + currencyCode);
     }
 
-    getCourse(courseId) {
+    getCourse(courseId, traineeUsername) {
         let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
-        return http.get("/guest/getCourse/" + courseId + "?currencyCode=" + currencyCode);
+        return httpPost.post("/guest/getCourse/" + courseId + "?currencyCode=" + currencyCode, {TraineeUsername: traineeUsername});
     }
 
     searchCourses(searchTerm){

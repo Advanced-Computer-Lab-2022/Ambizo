@@ -22,6 +22,7 @@
 @import "./components/Question/Question.style.css";
 @import "./components/AddExercise/AddExercise.style.css";
 @import "./components/ConfirmationModal/ConfirmationModal.style.css";
+@import "./components/RatingModal/RatingModal.style.css";
 
 * {
   box-sizing: border-box;

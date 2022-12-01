@@ -186,3 +186,31 @@
 .coursedetails--exercisesheader {
     margin-bottom: 0px;
 }
+
+.coursedetails--enrolledoptions{
+    text-align: center;
+}
+
+.button--rate {
+    margin: 0px 5px;
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 40%;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+.enrolledoptions--ratebuttons{
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+
+
+
+
+
