@@ -74,6 +74,12 @@ button {
   position: fixed;
   background: rgba(0, 0, 0, 0.834);
   z-index: 1;
+  transition: opacity 0.5s ease-in-out, visibility 1s ease-in-out;
+}
+
+.loader-container.hidden {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .spinner {

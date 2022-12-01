@@ -170,7 +170,7 @@
     padding-bottom: 40px;
 }
 
-.button--enroll:hover {
+.button--enroll:hover, .button--enrolldiscounted:hover {
     opacity: 0.8;
 }
 

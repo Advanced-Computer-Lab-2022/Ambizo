@@ -11,8 +11,7 @@ import countryToCurrency  from 'country-to-currency';
 import CoursePreview from "../CoursePreview/CoursePreview"
 import RateModal from "../RatingModal/RatingModal";
 
-async function retrieveCourse(id, traineeUsername ,setIsLoading){
-    setIsLoading(true);
+async function retrieveCourse(id, traineeUsername){
     return CourseService.getCourse(id, traineeUsername)
     .then((result) => {
         return result;
@@ -45,7 +44,7 @@ function CourseDetailsPage() {
 
     const params = useParams();
     const [course, setCourse] = React.useState({});
-    const [isLoading, setIsLoading] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(true);
 
     // This is the state object that controls the rating modal and behavior. 
     const [modalConfig, setModalConfig] = React.useState({
@@ -90,7 +89,6 @@ function CourseDetailsPage() {
         })
         .catch(error => {
             console.log(error);  
-            setIsLoading(false); 
         })
     }, [params.courseId]);
 
@@ -238,12 +236,12 @@ function CourseDetailsPage() {
     let hourSpan = course.TotalHours>1? "Hours" : "Hour"
     return (
         <>
+            <div className={"loader-container" + (!isLoading? " hidden" : "")}>
+                <div className="spinner"> </div>
+            </div>
             {isLoading ?
             (
                 <>
-                    <div className="loader-container">
-                        <div className="spinner"> </div>
-                    </div>
                     <Header />
                     <div className="top--container" style={{"height":"500px"}} >
                     </div>

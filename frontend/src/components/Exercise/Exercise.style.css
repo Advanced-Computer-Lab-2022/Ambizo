@@ -34,14 +34,19 @@
 .exercise--view--delete--div{
     display: flex;
     justify-content: flex-end;
-    gap: 20px;
-    margin-right: 2%;
+    gap: 10px;
+    margin: auto 10% 1.33em auto;
 }
 
 .exercise--view--delete--div > button{
-    min-width: 170px;
-    width: fit-content;
+    width: 151px;
     margin: 0;
+    border-width: 1px;
+    height: 50px;
+}
+
+.exercise--view--delete--div > button:hover{
+    background-color: #e4e4e4;
 }
 
 .subtitle--description.addExercise{

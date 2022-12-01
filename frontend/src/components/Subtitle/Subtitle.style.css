@@ -96,6 +96,22 @@
     border-color: hsla(210,18%,87%,1);
     border-style: solid;
     padding: 20px 50px;
+    -webkit-animation: fadeinSubtitle 0.5s; 
+    -moz-animation: fadeinSubtitle 0.5s;
+    -o-animation: fadeinSubtitle 0.5s;
+    animation: fadeinSubtitle 0.5s;
+    border-top: 0px;
+}
+
+@keyframes fadeinSubtitle {
+    0% {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
 }
 
 .subtitle--video {
@@ -107,8 +123,8 @@
 }
 
 .subtitle--deletebutton {
-    width: 280px;
-    min-width:280px;
+    width: 312px;
+    min-width: 312px;
     height: 50px;
     border-width: 1px;
     margin: auto 10% 0px auto;
@@ -116,4 +132,24 @@
 
 .subtitle--deletebutton:hover {
     background-color: #e4e4e4;
+}
+
+.subtitle--deletebutton.solve{
+    margin-bottom: 1.33rem;
+}
+
+.subtitle--createexercise {
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 312px;
+    min-width: 312px;
+    height: 50px;
+    margin: auto 10% 1.33rem auto;
+}
+
+  
+.subtitle--createexercise:hover {
+    opacity: 0.8;
 }
