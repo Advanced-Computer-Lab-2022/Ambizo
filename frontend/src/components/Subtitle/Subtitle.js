@@ -200,12 +200,6 @@ function Subtitle(props) {
                                         <button onClick={() => navigate("/exercise/" + props.courseId + "/" + props.index)}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Exercise</button>
                                         <button onClick={null}><i className="fa-solid fa-trash"></i>&nbsp;&nbsp;Delete Exercise</button>
                                     </div>
-                                        <ConfirmationModal 
-                                            confirmModal={deleteModal} 
-                                            toggleConfirmationModal={toggleConfirmationModal} 
-                                            confirmationMessage="Are you sure you want to delete the Exercise?" 
-                                            actionCannotBeUndone={true}  
-                                            handleConfirm={handleConfirm} />
                                 </>
                             }
                             {false /*badal false hena han7ot hena en el student enrolled*/ && 
