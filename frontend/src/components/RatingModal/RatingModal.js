@@ -1,4 +1,4 @@
-import React, { cloneElement } from "react";
+import React from "react";
 import XIcon from '../../images/XIcon.png';
 import { Rating } from "@mui/material";
 
@@ -28,37 +28,85 @@ function RatingModal(props){
         document.body.classList.remove('active-modal')
     }
 
+    const  [errorMessage, setErrorMessage] = React.useState({
+        emptyRatingMessage: '',
+        submitErrorMessage: ''
+    });
 
     const  [Loading, setLoading] = React.useState(false);
 
-    function handleSubmitRating(){
-
-        const newRating = {
-            Rating: (props.Rating)? props.Rating : 5,
-            Review: (props.Review)? props.Review : ''
-        }
-
-        setLoading(true);
-        props.submitAction(props.subjectId, newRating).then(
-            _ => {
-                props.updateTraineeInfo(props.ratingSubject, newRating)
-                setLoading(false);
-                props.toggleRateModal();
-            }
-        ).catch(error => {
-            console.log(error);
+    function handleCloseModal(){
+        setErrorMessage({
+            emptyRatingMessage: '',
+            submitErrorMessage: ''
         });
+        props.toggleRateModal();
+    }
+
+
+    function handleSubmitRating(){
+        if(!props.Rating){
+            setErrorMessage(prevErrors => (
+                {
+                    ...prevErrors,
+                    emptyRatingMessage: 'Please choose a rating.'
+                }
+            ));
+        }else{
+            setErrorMessage({
+                emptyRatingMessage: '',
+                submitErrorMessage: '',
+            });
+            const newRating = {
+                Rating: props.Rating,
+                Review: (props.Review)? props.Review : ''
+            }
+
+            setLoading(true);
+            props.submitAction(props.subjectId, newRating).then(
+                _ => {
+                    props.updateTraineeInfo(props.ratingSubject, newRating)
+                    setLoading(false);
+                    props.toggleRateModal();
+                }
+            ).catch(error => {
+                console.log(error);
+                setLoading(false);
+                setErrorMessage(prevErrors => (
+                    {
+                        ...prevErrors,
+                        submitErrorMessage: 'An error has occured. Try again later.'
+                    }
+                ));
+    
+            });
+        }
     }
 
     function handleDelete(){
         setLoading(true);
+        setErrorMessage(prevErrors => (
+            {
+                ...prevErrors,
+                submitErrorMessage: ''
+            }
+        ));
         props.deleteAction(props.subjectId).then(
             _ => {
                 props.updateTraineeInfo(props.ratingSubject, null);
                 setLoading(false);
                 props.toggleRateModal();
             }
-        )
+        ).catch(error => {
+            console.log(error);
+            setLoading(false);
+            setErrorMessage(prevErrors => (
+                {
+                    ...prevErrors,
+                    submitErrorMessage: 'An error has occured. Try again later.'
+                }
+            ));
+        })
     }
     
 
@@ -68,10 +116,10 @@ function RatingModal(props){
             (
                 <>
                     <div className="modal">
-                        <div onClick={props.toggleRateModal} className="overlay"></div>
+                        <div onClick={handleCloseModal} className="overlay"></div>
                         <div className="modal-content">
                             <img src={XIcon} alt='X Icon' className='x--icon'/>
-                            <button className="close-modal" onClick={props.toggleRateModal}></button>
+                            <button className="close-modal" onClick={handleCloseModal}></button>
                             <h2>How do you rate {(props.ratingSubject === 'course')? 'this course' : 'the instructor of this course'}?</h2>
                             <div className="modal--content--rating">
                                 <h3>Rating</h3>
@@ -82,9 +130,16 @@ function RatingModal(props){
                                     precision={0.5}
                                     onChange={(_, newRating) => {
                                         props.updateRateModal('Rating', newRating)
+                                        setErrorMessage(prevErrors => (
+                                            {
+                                                ...prevErrors,
+                                                emptyRatingMessage: ''
+                                            }
+                                        ));
                                     }}
                                 />
                                 {/* <span className="ratingspan">{props.Rating? props.Rating : 5}</span> */}
+                                <p className="error--emptyrating">{errorMessage.emptyRatingMessage}</p>
                                 <h3>Review</h3>
                                 <textarea 
                                     className="review--text"
@@ -113,6 +168,7 @@ function RatingModal(props){
                                         )
                                     }
                                 </div>
+                                <p className="error--submitrating">{errorMessage.submitErrorMessage}</p>
                             </div>
                         </div>
                     </div>
