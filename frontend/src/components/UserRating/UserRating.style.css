@@ -1,9 +1,8 @@
 .rating {
     width: 360px;
     min-width: 240px;
-    height: fit-content;
+    height: 300px;
     max-width: 360px;
-    cursor: pointer;
     border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 1px;
     padding: 20px 3%;
