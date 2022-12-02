@@ -126,3 +126,12 @@ textarea {
     100% { transform: rotate(360deg); }
 }
   
+.error--emptyrating{
+    color: white
+}
+
+.error--submitrating{
+    color: white;
+    margin: 0 auto;
+    text-align: center;
+}
