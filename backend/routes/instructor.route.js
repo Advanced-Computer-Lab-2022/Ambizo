@@ -134,7 +134,6 @@ router.get("/getInstructorInfo/" , async (req, res) => {
             ProfileImage: fetchedInfo.ProfileImage
         })
     } catch (err) {
-        console.log("hena backend")
         handleError(res, err);
     }
 })

@@ -65,7 +65,7 @@ function UserProfile() {
   const [coursesData, setCoursesData] = React.useState([]);
 
   React.useEffect(() => {
-    document.title = "Instructor Courses";
+    document.title = "User Profile";
     retrieveAllCourses(setIsLoading, profileInstr, myProfileInstr, username)
     .then(coursesList => setCoursesData(coursesList.data))
     .catch(error => {
@@ -85,7 +85,7 @@ function UserProfile() {
   const [instructorInfo, setInstructorInfo] = React.useState({});
 
   React.useEffect(() => {
-    document.title = "Instructor Info";
+    document.title = "User Profile";
     retrieveInstructorInfo(setIsLoading, profileInstr, myProfileInstr, username)
     .then(instrInfo => setInstructorInfo(instrInfo))
     .catch(error => {
@@ -116,11 +116,11 @@ function UserProfile() {
                       {(profileInstr || myProfileInstr) && 
                       <>
                         <h4 className="usertype--user">INSTRUCTOR</h4>
-                        <h5 className="userprofile--website"><i class="fa-solid fa-earth-americas"></i>&nbsp;&nbsp;slimabdelzaher.com</h5>
-                        <h5 className="userprofile--linkedin"><i class="fa-brands fa-linkedin"></i>&nbsp;&nbsp;linkedin.com/in/slimabdelzaher</h5>
+                        <h5 className="userprofile--website"><i className="fa-solid fa-earth-americas"></i>&nbsp;&nbsp;{instructorInfo.Website ? (instructorInfo.Website.substring(0, 5) === "https" ? instructorInfo.Website.substring(12, instructorInfo.Website.length -1) : (instructorInfo.Website.substring(0, 4) === "http" ? instructorInfo.Website.substring(11, instructorInfo.Website.length -1) : instructorInfo.Website)) : <i>Not added yet.</i>}</h5>
+                        <h5 className="userprofile--linkedin"><i className="fa-brands fa-linkedin"></i>&nbsp;&nbsp;{instructorInfo.LinkedIn ? (instructorInfo.LinkedIn.substring(0, 5) === "https" ? instructorInfo.LinkedIn.substring(12, instructorInfo.LinkedIn.length -1) : (instructorInfo.LinkedIn.substring(0, 4) === "http" ? instructorInfo.LinkedIn.substring(11, instructorInfo.LinkedIn.length -1) : instructorInfo.LinkedIn)) : <i>Not added yet.</i>}</h5>
                         <div className="userprofile--emailandedit">
-                          <h5 className="userprofile--email"><i class="fa-solid fa-envelope"></i>&nbsp;&nbsp;{instructorInfo.Email}</h5>
-                          {myProfileInstr && <button className="userprofile--editbutton"><i class="fa-solid fa-pen-to-square"></i>&nbsp;&nbsp;</button>}
+                          <h5 className="userprofile--email"><i className="fa-solid fa-envelope"></i>&nbsp;&nbsp;{instructorInfo.Email}</h5>
+                          {myProfileInstr && <button className="userprofile--editbutton"><i className="fa-solid fa-pen-to-square"></i>&nbsp;&nbsp;</button>}
                         </div>
                         {!myProfileInstr &&
                           <div className="userprofile--reviewcoursesbuttons">
@@ -145,7 +145,7 @@ function UserProfile() {
                   <div className="userprofile--bio">
                     <div className="userprofile--editbio">
                       <h3 className="userprofile--bioheader">Bio</h3>
-                      {myProfileInstr && <button className="userprofile--editbutton"><i class="fa-solid fa-pen-to-square"></i>&nbsp;&nbsp;</button>}
+                      {myProfileInstr && <button className="userprofile--editbutton"><i className="fa-solid fa-pen-to-square"></i>&nbsp;&nbsp;</button>}
                     </div>
                     <p>{instructorInfo.Bio}</p>
                     {/* lsa h3ml else add bio w lsa edits kolaha */}

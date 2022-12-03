@@ -1,22 +1,45 @@
 import React from "react"
 import { Rating } from "@mui/material";
+import Trainee from "../../services/Trainee.service"
 
-function UserRating() {
-    //230
-    let reviewText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat";
+async function getTraineeName(traineeUsername){
+      return Trainee.getTraineeName(traineeUsername)
+      .then((result) => {
+          return result.data;
+      })
+      .catch((error) => {
+          console.log(error)
+          return null;
+      })
+  }
+  
+
+function UserRating(props) {
+    const traineeUsername = props.TraineeUsername;
+
+    const [traineeName, setTraineeName] = React.useState("");
+
+    React.useEffect(() => {
+        document.title = "User Rating";
+        getTraineeName(traineeUsername)
+        .then(traineeName => setTraineeName(traineeName.Name))
+        .catch(error => {
+            console.log(error);
+        })
+      },[traineeUsername]);
 
     return (
         <div className="rating">
             <div className="rating--icon--username--starscount">
-                <p className="rating--usericon"><i class="fa-solid fa-user"></i></p>
+                <p className="rating--usericon"><i className="fa-solid fa-user"></i></p>
                 <div className="rating--username--starscount">
-                    <h4 className="rating--username">Omar Sameh</h4>
-                    <Rating className='rating--starscount' name="half-rating-read" defaultValue={4.5} precision={0.1} readOnly />
+                    <h4 className="rating--username">{traineeName}</h4>
+                    <Rating className='rating--starscount' name="half-rating-read" defaultValue={props.Rating} precision={0.5} readOnly />
                 </div>
             </div>
             <div className="rating--review">
-                <p className="rating--reviewtext">{reviewText.length >= 230 ? reviewText.substring(0, 230) + "..." : reviewText}</p>
-                {reviewText.length >= 230 && 
+                <p className="rating--reviewtext">{props.Review.length >= 230 ? props.Review.substring(0, 230) + "..." : props.Review}</p>
+                {props.Review.length >= 230 && 
                     <a className="fullrating--hyperlink" href="">Show more</a>
                 }
             </div>

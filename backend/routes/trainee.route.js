@@ -570,6 +570,24 @@ router.delete('/deleteInstructorRating/:instructorUsername', verifyJWT, async (r
     }
 });
 
+router.get("/getTraineeName/", async (req, res) => {
+    try {
+        let username = req.query.traineeUsername;
+
+        let trainee = await individualTrainee.findOne({Username: username});
+
+        if(trainee == null){
+            trainee = await corporateTrainee.findOne({Username: username});
+        }
+
+        res.json({
+            Name: trainee.Name,
+        })
+    } catch (err) {
+        handleError(res, err);
+    }
+})
+
 function handleError(res, err) {
     return res.status(400).send(err);
 }
