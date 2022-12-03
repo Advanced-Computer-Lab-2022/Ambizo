@@ -27,6 +27,12 @@ class InstructorService {
     addCoursePreview(previewLink, courseId) {
         return httpPost.put("/instructor/addCoursePreview/?courseId=" + courseId, {previewLink: previewLink});
     }
+    isContractAccepted(){
+        return http.get("/instructor/isContractAccepted");
+    }
+    acceptContract(){
+        return httpPost.put("/instructor/acceptContract");
+    }
 }
 
 export default new InstructorService();

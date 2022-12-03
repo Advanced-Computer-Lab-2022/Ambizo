@@ -18,7 +18,7 @@ function Subtitle(props) {
     };
 
     React.useEffect(() => {
-        if(props.exercise && false /* badal false hena han7ot hena en el student enrolled */){
+        if(props.exercise && props.isTraineeEnrolled){
             TraineeService.getAnswers(props.courseId, props.index)
             .then(answers => {
                 if (answers.data.grade > -1) {
@@ -173,7 +173,7 @@ function Subtitle(props) {
                     <p className={message.type}>{message.text}</p>
                 </form>
             }
-            {props.youtubeLink && showSubtitleDetails && (props.instructorLoggedInCourse || true /* badal true han7ot hena en el student enrolled*/) &&
+            {props.youtubeLink && showSubtitleDetails && (props.instructorLoggedInCourse || props.isTraineeEnrolled) &&
                 <div className="subtitle--detailsfilled">
                     <h4>Video:</h4>
                     <YouTube className="subtitle--video" videoId={validateYouTubeUrl(props.youtubeLink)} opts={opts} />
@@ -202,7 +202,7 @@ function Subtitle(props) {
                                     </div>
                                 </>
                             }
-                            {false /*badal false hena han7ot hena en el student enrolled*/ && 
+                            {props.isTraineeEnrolled && 
                                 <>
                                     {grade === -1?    
                                         (

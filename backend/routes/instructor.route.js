@@ -2,6 +2,7 @@ import express from "express";
 import verifyJWT from "../middleware/verifyJWT.js";
 import course from "../models/course.model.js";
 import currencyConverter from "../middleware/currencyConverter.js";
+import instructor from "../models/instructor.model.js"
 
 const router = express.Router();
 
@@ -190,6 +191,39 @@ router.post("/addExercise", verifyJWT, async (req, res) => {
         await course.findByIdAndUpdate(req.query.courseId, {Exercises: updatedExercises})
 
         res.status(201).json(req.body.newExercise);
+    } catch (err) {
+        handleError(res, err);
+    }
+});
+
+router.put("/acceptContract", verifyJWT, async (req, res) => {
+    try {
+        if(req.User.Type !== "instructor"){
+            return handleError(res, "Invalid Access")
+        }
+
+        await instructor.findOneAndUpdate({Username: req.User.Username}, {AcceptedContract: true})
+        res.send("Contract accepted successfully")
+    
+    } catch (err) {
+        handleError(res, err);
+    }
+});
+
+router.get("/isContractAccepted", verifyJWT, async (req, res) => {
+    try {
+        if(req.User.Type !== "instructor"){
+            return handleError(res, "Invalid Access")
+        }
+
+        const Instructor = await instructor.findOne({Username: req.User.Username})
+        if(Instructor.AcceptedContract){
+            res.json({isAccepted: true})
+        }
+        else{
+            res.json({isAccepted: false})
+        }
+    
     } catch (err) {
         handleError(res, err);
     }

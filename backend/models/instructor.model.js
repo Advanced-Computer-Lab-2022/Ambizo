@@ -26,6 +26,10 @@ const instructorSchema = new Schema({
     Ratings: {
         type: Array,
         default: []
+    },
+    AcceptedContract: {
+        type: Boolean,
+        default: false
     }
 }, {
     timestamps: true,
