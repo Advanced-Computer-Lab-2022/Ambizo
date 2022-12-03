@@ -15,7 +15,7 @@ import ExercisePage from './components/ExercisePage/ExercisePage';
 import RequestPasswordResetPage from './components/RequestPasswordResetPage/RequestPasswordResetPage';
 import PasswordResetPage from './components/PasswordResetPage/PasswordResetPage';
 import AddExercise from './components/AddExercise/AddExercise';
-import InstructorProfile from './components/InstructorProfile/InstructorProfile';
+import UserProfile from './components/UserProfile/UserProfile';
 
 function App() {
     return (
@@ -38,7 +38,7 @@ function App() {
                     <Route path="/addinstructor" element={sessionStorage.getItem("Type") === "admin" ? <AddInstructor />  : <Navigate to="/404" />} />
                     <Route path='/exercise/:courseId/:exerciseNum' element={<ExercisePage />} />
                     <Route path='/addExercise/:courseId/:exerciseNum' element={sessionStorage.getItem("Type") === "instructor" ? <AddExercise /> : <Navigate to="/404" />}  />
-                    <Route path='/instructor' element={<InstructorProfile />} />
+                    <Route path='/user/:username' element={<UserProfile />} />
                 </Routes>
                 <Footer />
             </div>

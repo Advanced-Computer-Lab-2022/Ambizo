@@ -2,6 +2,7 @@ import express from "express";
 import verifyJWT from "../middleware/verifyJWT.js";
 import course from "../models/course.model.js";
 import currencyConverter from "../middleware/currencyConverter.js";
+import instructor from "../models/instructor.model.js"
 
 const router = express.Router();
 
@@ -76,6 +77,65 @@ router.get("/getCourses", verifyJWT, async (req,res) => {
     }
     catch(err){
         handleError(res, err.message);
+    }
+})
+
+router.get("/getInstructorCourses", async (req,res) => {
+    try{        
+        
+        let courses = null;
+        let exchangeRateToUSD = null;
+        let exchangeRateToCountry = null;
+
+        let instructorUsernameReceived = req.query.instrusername;
+        
+        let filter = {
+            InstructorUsername: instructorUsernameReceived,
+        }
+
+        if(!req.query.price){
+            [courses, exchangeRateToUSD, exchangeRateToCountry] = await Promise.all(
+               [
+                   course.find(filter)
+                   , 
+                   currencyConverter.from(req.query.currencyCode).to("USD").convert()
+                   ,
+                   currencyConverter.from("USD").to(req.query.currencyCode).convert()
+               ]
+               );
+        }
+        else{
+            courses = await course.find(filter);
+            exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
+        }
+        
+        courses.forEach(course => {
+            course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
+        })
+        res.json(courses);
+    }
+    catch(err){
+        handleError(res, err.message);
+    }
+})
+
+router.get("/getInstructorInfo/" , async (req, res) => {
+    try{
+        let instructorUsernameReceived = req.query.instrusername;
+
+        const fetchedInfo = await instructor.findOne({Username: instructorUsernameReceived})
+        res.json({
+            Name: fetchedInfo.Name,
+            Email: fetchedInfo.Email,
+            Ratings: fetchedInfo.Ratings,
+            Bio: fetchedInfo.Bio,
+            Website: fetchedInfo.Website,
+            LinkedIn: fetchedInfo.LinkedIn,
+            ProfileImage: fetchedInfo.ProfileImage
+        })
+    } catch (err) {
+        console.log("hena backend")
+        handleError(res, err);
     }
 })
 

@@ -26,6 +26,22 @@ const instructorSchema = new Schema({
     Ratings: {
         type: Array,
         default: []
+    },
+    Bio: {
+        type: String,
+        default: ""
+    },
+    Website: {
+        type: String,
+        default: ""
+    },
+    LinkedIn: {
+        type: String,
+        default: ""
+    },
+    ProfileImage: {
+        type: String,
+        default: ""
     }
 }, {
     timestamps: true,
