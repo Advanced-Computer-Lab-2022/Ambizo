@@ -64,8 +64,12 @@ function RatingModal(props){
 
             setLoading(true);
             props.submitAction(props.subjectId, newRating).then(
-                _ => {
-                    props.updateTraineeInfo(props.ratingSubject, newRating)
+                response => {
+                    const ratingsStats = (props.ratingSubject === 'course')? {
+                        newNumberOfRatings: response.data.newNumberOfRatings,
+                        newAverageRating: response.data.newAverageRating 
+                    }: null;
+                    props.updateTraineeInfo(props.ratingSubject, newRating, ratingsStats);
                     setLoading(false);
                     props.toggleRateModal();
                 }
@@ -92,8 +96,13 @@ function RatingModal(props){
             }
         ));
         props.deleteAction(props.subjectId).then(
-            _ => {
-                props.updateTraineeInfo(props.ratingSubject, null);
+            response => {
+                const ratingsStats = (props.ratingSubject === 'course')? {
+                    newNumberOfRatings: response.data.newNumberOfRatings,
+                    newAverageRating: response.data.newAverageRating 
+                }: null;
+
+                props.updateTraineeInfo(props.ratingSubject, null, ratingsStats);
                 setLoading(false);
                 props.toggleRateModal();
             }
@@ -138,7 +147,6 @@ function RatingModal(props){
                                         ));
                                     }}
                                 />
-                                {/* <span className="ratingspan">{props.Rating? props.Rating : 5}</span> */}
                                 <p className="error--emptyrating">{errorMessage.emptyRatingMessage}</p>
                                 <h3>Review</h3>
                                 <textarea 

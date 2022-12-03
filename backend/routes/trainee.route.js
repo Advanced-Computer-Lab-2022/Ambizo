@@ -208,7 +208,11 @@ router.post('/rateCourse/:courseId', verifyJWT, async (req, res) => {
 
     courseToRate.save().then(
         _ => {
-            return res.status(201).json({message: 'The rating has been added successfully.'})
+            return res.status(201).json({
+                message: 'The rating has been added successfully.',
+                newNumberOfRatings: courseToRate.NumberOfReviews,
+                newAverageRating: courseToRate.Rating
+            })
         }
     ).catch(error => {
         console.log(error);
@@ -287,18 +291,22 @@ router.put('/updateCourseRating/:courseId', verifyJWT, async (req, res) => {
             const oldReview = listOfRatings[rating].Review;
 
             listOfRatings[rating].Rating = Rating? Rating: oldRating;
-
+            const newAverageRating = calculateNewRating(listOfRatings);
             course.updateOne(
                 {_id:courseId, "Ratings.TraineeUsername": Username},
                 {
                     $set:{
-                        Rating: calculateNewRating(listOfRatings),
+                        Rating: newAverageRating,
                         "Ratings.$.Rating": Rating? Rating: oldRating,
                         "Ratings.$.Review": Review? Review : (Review === '' ? Review : oldReview),
                     }
                 }
             ).then(_ => {
-                return res.status(201).json({message: 'The rating was updated successfully.'});
+                return res.status(201).json({
+                    message: 'The rating was updated successfully.',
+                    newNumberOfRatings: courseToRate.NumberOfReviews,
+                    newAverageRating: newAverageRating
+                });
             })
             .catch(error => {
                 console.log(error);
@@ -368,6 +376,7 @@ router.delete('/deleteCourseRating/:courseId', verifyJWT, async (req, res) => {
             isRatingFound = true;
             const oldNumberOfReviews = courseToRate.NumberOfReviews;
             
+            const newAverageRating = calculateNewRating(courseToRate.Ratings.filter(rating => rating.TraineeUsername !== Username))
             course.updateOne(
                 {_id : courseId},
                 {
@@ -376,11 +385,15 @@ router.delete('/deleteCourseRating/:courseId', verifyJWT, async (req, res) => {
                     },
                     $set:{
                         NumberOfReviews: oldNumberOfReviews - 1,
-                        Rating: calculateNewRating(courseToRate.Ratings.filter(rating => rating.TraineeUsername !== Username))
+                        Rating: newAverageRating
                     }
                 }
             ).then(_ => {
-                return res.status(200).json({message: 'The rating has been removed successfully'})
+                return res.status(200).json({
+                    message: 'The rating has been removed successfully',
+                    newNumberOfRatings: oldNumberOfReviews - 1,
+                    newAverageRating: newAverageRating
+                })
             }).catch(error => {
                 console.log(error);
                 return res.status(500).json({message: 'An error has occurred while deleting the rating.'});

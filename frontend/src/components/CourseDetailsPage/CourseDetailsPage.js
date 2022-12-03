@@ -43,7 +43,7 @@ function CourseDetailsPage() {
     const userType = sessionStorage.getItem("Type");
 
     const params = useParams();
-    const [course, setCourse] = React.useState({});
+    const [course, setCourse] = React.useState({});    
     const [isLoading, setIsLoading] = React.useState(true);
 
     // This is the state object that controls the rating modal and behavior. 
@@ -101,14 +101,21 @@ function CourseDetailsPage() {
         ));
     }
 
-    function updateTraineeRating(subject, newRating){
+    function updateTraineeRating(subject, newRating, ratingStats){
         if(subject === 'course'){
             setTraineeInfo(prevTraineeInfo => (
                 {
                     ...prevTraineeInfo,
                     traineeCourseRate: newRating? newRating: null
                 }
-            ));
+            ));         
+            setCourse(prevCourseData =>{
+                return ({
+                    ...prevCourseData,
+                    Rating: ratingStats.newAverageRating,
+                    NumberOfReviews: ratingStats.newNumberOfRatings
+                })
+            });
         }else{
             setTraineeInfo(prevTraineeInfo => (
                 {
@@ -267,7 +274,7 @@ function CourseDetailsPage() {
                             <h1 className="coursedetails--fulltitle">{course.Title}</h1>
                             <p className="coursedetails--description">{course.Description}</p>
                             <div className="coursedetails--ratecounthourcount">
-                                <Rating className='coursedetails--rating' name="half-rating-read" defaultValue={course.Rating} precision={0.1} readOnly />
+                                <Rating className='coursedetails--rating' name="read-only" value={course.Rating} precision={0.1} readOnly />
                                 <span className='coursedetails--numberratings'>({course.NumberOfReviews} ratings)</span>
                                 <span className='coursedetails--hourscount'><i className="fa-solid fa-clock"></i> &nbsp;{course.TotalHours} {hourSpan}</span>
                             </div>
