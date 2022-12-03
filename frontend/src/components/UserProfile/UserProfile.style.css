@@ -113,3 +113,7 @@
 .userprofile--editbutton {
     border-width: 0px;
 }
+
+.userprofile--settingshyperlink {
+    cursor: pointer;
+}
