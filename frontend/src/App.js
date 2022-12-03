@@ -17,6 +17,7 @@ import PasswordResetPage from './components/PasswordResetPage/PasswordResetPage'
 import AddExercise from './components/AddExercise/AddExercise';
 import UserProfile from './components/UserProfile/UserProfile';
 import ScrollToTopButton from './components/ScrollToTopButton/ScrollToTopButton';
+import SettingsPage from './components/SettingsPage/SettingsPage';
 
 function App() {
     return (
@@ -40,6 +41,7 @@ function App() {
                     <Route path='/exercise/:courseId/:exerciseNum' element={<ExercisePage />} />
                     <Route path='/addExercise/:courseId/:exerciseNum' element={sessionStorage.getItem("Type") === "instructor" ? <AddExercise /> : <Navigate to="/404" />}  />
                     <Route path='/user/:username' element={<UserProfile />} />
+                    <Route path='/settings' element={<SettingsPage />} />
                 </Routes>
                 <Footer />
                 <ScrollToTopButton />

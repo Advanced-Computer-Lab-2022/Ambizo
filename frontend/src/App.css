@@ -26,6 +26,7 @@
 @import "./components/UserProfile/UserProfile.style.css";
 @import "./components/UserRating/UserRating.style.css";
 @import "./components/ScrollToTopButton/ScrollToTopButton.style.css";
+@import "./components/SettingsPage/SettingsPage.style.css";
 
 * {
   box-sizing: border-box;
