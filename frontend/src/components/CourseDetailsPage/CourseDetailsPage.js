@@ -235,6 +235,7 @@ function CourseDetailsPage() {
                     instructorLoggedInCourse={instructorLoggedInCourse}
                     modifyCourseDetailsPageSubtitle={(newSubtitle, index) => modifyCourseDetailsPageSubtitle(newSubtitle, index)}
                     exercise={courseExercises[subtitleIndex]? courseExercises[subtitleIndex] : null}
+                    isTraineeEnrolled={traineeInfo.isTraineeEnrolled}
                     {...subtitle}
                 />
             )

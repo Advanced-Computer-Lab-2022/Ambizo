@@ -1,6 +1,7 @@
 .course {
     width: 360px;
-    height: 423px;
+    min-width: 240px;
+    height: fit-content;
     max-width: 360px;
     overflow-y: scroll;
     transition-duration: 0.15s;
@@ -25,14 +26,12 @@
   
 .course--image {
     width: 95%;
-    margin: 15px 0px 0px 9px;
+    margin: 15px 2% 0px 2.4%;
     border-radius: 10px;
 }
   
 .course--title {
-    margin-left: 12px;
-    margin-right: 12px;
-    margin-bottom: 0px;
+    margin: 5% 12px 0px 12px;
 }
 
 .course--instructor {

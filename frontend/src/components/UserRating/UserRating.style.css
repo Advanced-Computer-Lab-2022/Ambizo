@@ -1,0 +1,41 @@
+.rating {
+    width: 360px;
+    min-width: 240px;
+    height: 300px;
+    max-width: 360px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 1px;
+    padding: 20px 3%;
+}
+
+.rating--icon--username--starscount {
+    display: flex;
+    margin-top: 0px;
+}
+
+.rating--usericon {
+    margin: 0px;
+    font-size: 30px;
+}
+
+.rating--username--starscount {
+    margin-left: 10px;
+}
+
+.rating--username {
+    margin: 0px 0px -2px 0px;
+
+}
+
+.rating--icon--username--starscount .MuiRating-decimal {
+    font-size: 1.0rem;
+}
+
+.rating--reviewtext {
+    margin-bottom: 10px;
+}
+
+.fullrating--hyperlink {
+    color: black;
+    font-weight: 700;
+}

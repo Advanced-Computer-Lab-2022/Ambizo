@@ -1,0 +1,115 @@
+.user--profile {
+    width: 100%;
+    height: fit-content;
+    padding: 50px 32% 50px 32%;
+    /* align-items: center; */
+    color: black;
+}
+
+.userprofile--topcontainer {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.userprofile--leftcontainer {
+    width: 57%;
+    margin-right: auto;
+}
+
+.userprofile--username {
+    margin-bottom: 0px;
+}
+
+.usertype--user {
+    color: #6a6f73;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+.userprofile--website, .userprofile--linkedin, .userprofile--email {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.userprofile--reviewcoursesbuttons {
+    display: flex;
+    margin-top: 20px;
+    gap: 15px;
+}
+
+.userprofile--reviewcoursesbuttons > button {
+    width: 120px;
+    min-width: 90px;
+    height: 32px;
+    border-width: 1px;  
+    font-size: 13.5px; 
+}
+
+.user--reviewcoursesbuttons > button:hover {
+    background-color: #e4e4e4;
+}
+
+
+/* .container--right {
+    width: 30%;
+    min-width: 490px;
+} */
+
+.user--userimage {
+    border-radius: 50%;
+    object-fit: cover;
+    width: 200px;
+    height: 200px;
+}
+
+.userprofile--bio, .userprofile--courses, .userprofile--ratings {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.userprofile--line {
+    width: 100%;
+    margin: auto;
+    line-height: 10px;
+}
+
+.userprofile--bioheader {
+    margin-top: -5px;
+    margin-bottom: -6px;
+}
+
+.userprofile--coursesheader {
+    margin-top: -5px;
+    margin-bottom: 15px;
+}
+
+.userprofile--allcourses {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.userprofile--courses .course {
+    width: 240px;
+}
+
+.userprofile--courses .course--image {
+    width: 95%;
+    margin: 15px 2% 0px 2.55%;
+    border-radius: 10px;
+}
+
+.userprofile--ratingsheader {
+    margin-top: -5px;
+}
+
+.userprofile--emailandedit, .userprofile--editbio {
+    display: flex;
+    gap: 10px;
+}
+
+.userprofile--editbutton {
+    border-width: 0px;
+}
