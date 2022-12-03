@@ -123,6 +123,8 @@
     background-size: 800px 104px;
     height: 31px;
     width: 35%;
+    margin-top: 24px;
+    margin-bottom: 24px;
  }
 
 .product-loading-4 {
@@ -136,6 +138,7 @@
     background-size: 800px 104px;
     height: 35px;
     width: 45%;
+    margin-bottom: 25px;
 }
 
 .background-masker {
