@@ -106,6 +106,10 @@ function UserProfile() {
     })
   }
 
+  function scrollTo(id){
+    document.getElementById(id).scrollIntoView( { behavior: 'smooth', block: 'start' } );
+  }
+
   return (
       <>
           <Header />
@@ -124,10 +128,11 @@ function UserProfile() {
                         </div>
                         {!myProfileInstr &&
                           <div className="userprofile--reviewcoursesbuttons">
-                            <button>Courses</button>
-                            <button>Ratings</button>
+                            <button type="button" onClick={() => scrollTo("instructorCourses")}>Courses</button>
+                            <button type="button" onClick={() => scrollTo("instructorRatings")}>Ratings</button>
                           </div>
                         }
+                        {myProfileInstr && <p className="userprofile--settingshyperlink"><i className="fa-solid fa-gear"></i>&nbsp;&nbsp;Settings & Privacy</p>}
                       </>
                       }
                       {/* else n7ot usertype 7asab hwa anhe mn el etnen el tanyen w mafesh links wla zarayr esm w type bs */}
@@ -157,7 +162,7 @@ function UserProfile() {
                 <>
                   <hr className="user--line"/>
                   <div className="userprofile--courses">
-                    <h3 className="userprofile--coursesheader">Courses</h3>
+                    <h3 className="userprofile--coursesheader" id="instructorCourses">Courses</h3>
                     <div className="userprofile--allcourses">
                       {coursesDataElements}
                     </div>
@@ -169,7 +174,7 @@ function UserProfile() {
                 <>
                   <hr className="user--line"/>
                   <div className="userprofile--ratings">
-                      <h3 className="userprofile--ratingssheader">Ratings</h3>
+                      <h3 className="userprofile--ratingssheader" id="instructorRatings">Ratings</h3>
                       <div className="userprofile--allcourses">
                           {ratingDataElements}
                       </div>

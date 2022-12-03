@@ -279,7 +279,7 @@ function CourseDetailsPage() {
                                 <span className='coursedetails--numberratings'>({course.NumberOfReviews} ratings)</span>
                                 <span className='coursedetails--hourscount'><i className="fa-solid fa-clock"></i> &nbsp;{course.TotalHours} {hourSpan}</span>
                             </div>
-                            {!instructorLoggedInCourse && <p className="coursedetails--instructor">Created by:{<a className="instructor--hyperlink" href="">{course.InstructorName}</a>}</p> }
+                            {!instructorLoggedInCourse && <p className="coursedetails--instructor">Created by:{<a className="instructor--hyperlink" onClick={() => navigate("/user/"+course.InstructorUsername)}>{course.InstructorName}</a>}</p> }
                         </div>
                         <div className="container--right">
                             <div className='coursedetails--courseimagepriceenroll'>

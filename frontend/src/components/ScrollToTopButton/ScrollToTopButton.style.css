@@ -1,0 +1,15 @@
+.scrollToTopButton{
+    position: fixed; 
+    width: fit-content;
+    left: 95%;
+    bottom: 40px;
+    height: fit-content;
+    font-size: 3rem;
+    z-index: 1;
+    cursor: pointer;
+    color: #a30506;
+    -webkit-animation: fadein 0.25s; 
+    -moz-animation: fadein 0.25s; 
+    -o-animation: fadein 0.25s; 
+    animation: fadein 0.25s;
+}

@@ -16,11 +16,12 @@ import RequestPasswordResetPage from './components/RequestPasswordResetPage/Requ
 import PasswordResetPage from './components/PasswordResetPage/PasswordResetPage';
 import AddExercise from './components/AddExercise/AddExercise';
 import UserProfile from './components/UserProfile/UserProfile';
+import ScrollToTopButton from './components/ScrollToTopButton/ScrollToTopButton';
 
 function App() {
     return (
         <Router>
-            <div>
+            <>
                 <Routes>
                     <Route path='*' element={<Navigate to="/404" />} />
                     <Route path='/404' element={<NotFound />} />
@@ -41,7 +42,8 @@ function App() {
                     <Route path='/user/:username' element={<UserProfile />} />
                 </Routes>
                 <Footer />
-            </div>
+                <ScrollToTopButton />
+            </>
         </Router>
     )
 } 
