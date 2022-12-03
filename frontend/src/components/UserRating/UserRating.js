@@ -20,7 +20,6 @@ function UserRating(props) {
     const [traineeName, setTraineeName] = React.useState("");
 
     React.useEffect(() => {
-        document.title = "User Rating";
         getTraineeName(traineeUsername)
         .then(traineeName => setTraineeName(traineeName.Name))
         .catch(error => {
