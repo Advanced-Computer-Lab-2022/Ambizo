@@ -1,4 +1,4 @@
-.instructor--profile {
+.user--profile {
     width: 100%;
     height: fit-content;
     padding: 50px 32% 50px 32%;
@@ -6,38 +6,38 @@
     color: black;
 }
 
-.instructorprofile--topcontainer {
+.userprofile--topcontainer {
     display: flex;
     margin-bottom: 20px;
 }
 
-.instructorprofile--leftcontainer {
+.userprofile--leftcontainer {
     width: 57%;
     margin-right: auto;
 }
 
-.instructorprofile--instructorname {
+.userprofile--username {
     margin-bottom: 0px;
 }
 
-.usertype--instructor {
+.usertype--user {
     color: #6a6f73;
     margin-top: 0px;
     margin-bottom: 20px;
 }
 
-.instructorprofile--website, .instructorprofile--linkedin, .instructorprofile--email {
+.userprofile--website, .userprofile--linkedin, .userprofile--email {
     margin-top: 0px;
     margin-bottom: 0px;
 }
 
-.instructorprofile--reviewcoursesbuttons {
+.userprofile--reviewcoursesbuttons {
     display: flex;
     margin-top: 20px;
     gap: 15px;
 }
 
-.instructorprofile--reviewcoursesbuttons > button {
+.userprofile--reviewcoursesbuttons > button {
     width: 120px;
     min-width: 90px;
     height: 32px;
@@ -45,7 +45,7 @@
     font-size: 13.5px; 
 }
 
-.instructor--reviewcoursesbuttons > button:hover {
+.user--reviewcoursesbuttons > button:hover {
     background-color: #e4e4e4;
 }
 
@@ -55,35 +55,35 @@
     min-width: 490px;
 } */
 
-.instructor--instructorimage {
+.user--userimage {
     border-radius: 50%;
     object-fit: cover;
     width: 200px;
     height: 200px;
 }
 
-.instructorprofile--bio, .instructorprofile--courses, .instructorprofile--ratings {
+.userprofile--bio, .userprofile--courses, .userprofile--ratings {
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-.instructorprofile--line {
+.userprofile--line {
     width: 100%;
     margin: auto;
     line-height: 10px;
 }
 
-.instructorprofile--bioheader {
+.userprofile--bioheader {
     margin-top: -5px;
     margin-bottom: -6px;
 }
 
-.instructorprofile--coursesheader {
+.userprofile--coursesheader {
     margin-top: -5px;
     margin-bottom: 15px;
 }
 
-.instructorprofile--allcourses {
+.userprofile--allcourses {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
@@ -91,16 +91,25 @@
     justify-content: center;
 }
 
-.instructorprofile--courses .course {
+.userprofile--courses .course {
     width: 240px;
 }
 
-.instructorprofile--courses .course--image {
+.userprofile--courses .course--image {
     width: 95%;
     margin: 15px 2% 0px 2.55%;
     border-radius: 10px;
 }
 
-.instructorprofile--ratingsheader {
+.userprofile--ratingsheader {
     margin-top: -5px;
+}
+
+.userprofile--emailandedit, .userprofile--editbio {
+    display: flex;
+    gap: 10px;
+}
+
+.userprofile--editbutton {
+    border-width: 0px;
 }

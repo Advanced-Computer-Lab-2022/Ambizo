@@ -114,7 +114,7 @@ function AddCorporateTrainee() {
                         value={traineeData.username}
                     />
                     <input
-                        type="text"
+                        type="email"
                         placeholder="Enter Email"
                         onChange={handleChange}
                         name="email"

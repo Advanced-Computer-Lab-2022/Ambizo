@@ -30,6 +30,22 @@ const instructorSchema = new Schema({
     AcceptedContract: {
         type: Boolean,
         default: false
+    },
+    Bio: {
+        type: String,
+        default: ""
+    },
+    Website: {
+        type: String,
+        default: ""
+    },
+    LinkedIn: {
+        type: String,
+        default: ""
+    },
+    ProfileImage: {
+        type: String,
+        default: ""
     }
 }, {
     timestamps: true,

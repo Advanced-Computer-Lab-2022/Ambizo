@@ -7,6 +7,13 @@ class InstructorService {
         let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
         return http.get("/instructor/getCourses/?currencyCode=" + currencyCode);
     }
+    getInstructorCourses(instructorUsername) {
+        let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
+        return http.get("/instructor/getInstructorCourses/?instrusername=" + instructorUsername + "&currencyCode=" + currencyCode);
+    }
+    getInstructorInfo(instructorUsername) {
+        return http.get("/instructor/getInstructorInfo/?instrusername=" + instructorUsername);
+    }
     getFilteredCourses(filterURL) {
         let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
         return http.get("/instructor/getCourses/" + filterURL + "&currencyCode=" + currencyCode);
