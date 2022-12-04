@@ -96,6 +96,22 @@
     border-color: hsla(210,18%,87%,1);
     border-style: solid;
     padding: 20px 50px;
+    -webkit-animation: fadeinSubtitle 0.5s; 
+    -moz-animation: fadeinSubtitle 0.5s;
+    -o-animation: fadeinSubtitle 0.5s;
+    animation: fadeinSubtitle 0.5s;
+    border-top: 0px;
+}
+
+@keyframes fadeinSubtitle {
+    0% {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
 }
 
 .subtitle--video {

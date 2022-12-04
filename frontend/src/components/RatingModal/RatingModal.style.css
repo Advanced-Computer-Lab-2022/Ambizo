@@ -1,0 +1,137 @@
+textarea {
+    width: 100%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+}
+
+.modal, .overlay {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+    z-index: 1;
+    -webkit-animation: fadein 0.25s; 
+    -moz-animation: fadein 0.25s; 
+    -o-animation: fadein 0.25s; 
+    animation: fadein 0.25s; 
+}
+  
+.overlay {
+    background: rgba(49,49,49,0.8);
+}
+  
+.modal-content {
+    position: absolute;
+    top: 47%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: fit-content;
+    line-height: 1.4;
+    background: #b10918;
+    padding: 14px 28px;
+    border-radius: 3px;
+    max-width: 1000px;
+    min-width: 460px;
+    width: 30%;
+    z-index: 1;
+}
+  
+.x--icon {
+    width: 40px;
+    min-width: 40px;
+    position: absolute;
+    top: 5px;
+    right: 0px;
+    padding: 5px 7px;
+}
+  
+.close-modal {
+    width: 30px;
+    min-width: 30px;
+    height: 30px;
+    border-radius: 12px;
+    border-width: 0px;
+    background-color: transparent;
+    position: absolute;
+    top: 7px;
+    right: 5px;
+    padding: 5px 7px;
+}
+
+.ratingspan{
+    color:white;
+    font-size: 30px;
+    margin-left: 5px;
+}
+
+.review--text {
+    font-family: 'Poppins', sans-serif;
+}
+
+.ratemodal--actionbuttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    gap: 10px;
+}
+
+.rating--submitbutton {
+    width: 120px;
+    min-width: 120px;
+    height: 50px;
+    border-width: 1px;
+    background-color: black;
+    color: white;
+    margin: 0.83em 0px 0.83em auto;
+}
+
+.rating--deletebutton {
+    width: 120px;
+    min-width: 120px;
+    height: 50px;
+    margin: auto auto auto 0px;
+    border-width: 1px;
+}
+
+.rating--deletebutton:hover {
+    background-color: #e4e4e4;
+}
+
+.ratemodal--spinner {
+    margin: 5px auto;
+    width: 64px;
+    height: 64px;
+    border: 8px solid;
+    border-color: white transparent white transparent;
+    border-radius: 50%;
+    animation: spin-anim 0.8s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+  
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+  
+.error--emptyrating{
+    color: white
+}
+
+.error--submitrating{
+    color: white;
+    margin: 0 auto;
+    text-align: center;
+}

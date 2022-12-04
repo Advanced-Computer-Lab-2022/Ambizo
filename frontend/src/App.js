@@ -15,11 +15,14 @@ import ExercisePage from './components/ExercisePage/ExercisePage';
 import RequestPasswordResetPage from './components/RequestPasswordResetPage/RequestPasswordResetPage';
 import PasswordResetPage from './components/PasswordResetPage/PasswordResetPage';
 import AddExercise from './components/AddExercise/AddExercise';
+import UserProfile from './components/UserProfile/UserProfile';
+import ScrollToTopButton from './components/ScrollToTopButton/ScrollToTopButton';
+import SettingsPage from './components/SettingsPage/SettingsPage';
 
 function App() {
     return (
         <Router>
-            <div>
+            <>
                 <Routes>
                     <Route path='*' element={<Navigate to="/404" />} />
                     <Route path='/404' element={<NotFound />} />
@@ -37,9 +40,12 @@ function App() {
                     <Route path="/addinstructor" element={sessionStorage.getItem("Type") === "admin" ? <AddInstructor />  : <Navigate to="/404" />} />
                     <Route path='/exercise/:courseId/:exerciseNum' element={<ExercisePage />} />
                     <Route path='/addExercise/:courseId/:exerciseNum' element={sessionStorage.getItem("Type") === "instructor" ? <AddExercise /> : <Navigate to="/404" />}  />
+                    <Route path='/user/:username' element={<UserProfile />} />
+                    <Route path='/settings' element={sessionStorage.getItem("Type") === "instructor" || sessionStorage.getItem("Type") === "individualTrainee" || sessionStorage.getItem("Type") === "corporateTrainee" ? <SettingsPage /> : <Navigate to="/404" />} />
                 </Routes>
                 <Footer />
-            </div>
+                <ScrollToTopButton />
+            </>
         </Router>
     )
 } 

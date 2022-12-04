@@ -8,6 +8,54 @@ import user from "../models/user.model.js";
 
 const router = express.Router();
 
+router.get('/getTraineeInfo/:username', async (req, res) => {
+    if( !req.params.username ){
+        return res.status(400).json({message: 'The username must be provided in URI.'});
+    }
+    const targetUser = await user.findOne({Username: req.params.username});
+    if( !targetUser ){
+        return res.status(404).json({message: 'No trainee found with this username.'});
+    }
+
+    let traineeWithInfo;
+    switch(targetUser.Type){
+        case 'individualTrainee':
+            traineeWithInfo = await individualTrainee.findOne({Username: req.params.username});
+            break;
+        case 'corporateTrainee':
+            traineeWithInfo = await corporateTrainee.findOne({Username: req.params.username});
+            break;
+        default:
+            return res.status(500).json({message: 'An error has occured while fetchin the trainee from his collection.'});
+    }
+
+    if( !traineeWithInfo ){
+        return res.status(500).json({message: 'An error has occured while fetchin the trainee from his collection.'});
+    }
+
+    let enrolledCoursesIds = [];
+    for(var courseIndex in traineeWithInfo.EnrolledCourses){
+        enrolledCoursesIds.push(traineeWithInfo.EnrolledCourses[courseIndex].courseId);
+    }
+
+    const enrolledCourseData = await course.find({
+        _id: {
+            $in: enrolledCoursesIds
+        }
+    });
+    const result = {
+        Name: traineeWithInfo.Name,
+        Email: traineeWithInfo.Email,
+        Username: traineeWithInfo.Username,
+        Type: targetUser.Type,
+        CourseInfo: enrolledCourseData
+    };
+    
+    return res.status(200).json(result);
+
+});
+
+
 router.get("/getExercise", verifyJWT, async (req, res) => {
     try{
         if(req.User.Type !== "corporateTrainee" && req.User.Type !== "individualTrainee" && req.User.Type !== "instructor"){
@@ -190,10 +238,11 @@ router.post('/rateCourse/:courseId', verifyJWT, async (req, res) => {
     }
 
     //Checking that the needed data is in the request body.
-    const { Rating, Review } = req.body;
-    if( !Rating || !Review ){
-        return req.status(400).json({message: 'The (Rating) and the (Review) fields must be provided in the body.'});
+    const { Rating} = req.body;
+    if( !Rating ){
+        return req.status(400).json({message: 'The (Rating) field must be provided in the body.'});
     }
+    const Review = (req.body.Review)? req.body.Review : '';
 
     const RatingEntry = {
         TraineeUsername: Username,
@@ -207,7 +256,11 @@ router.post('/rateCourse/:courseId', verifyJWT, async (req, res) => {
 
     courseToRate.save().then(
         _ => {
-            return res.status(201).json({message: 'The rating has been added successfully.'})
+            return res.status(201).json({
+                message: 'The rating has been added successfully.',
+                newNumberOfRatings: courseToRate.NumberOfReviews,
+                newAverageRating: courseToRate.Rating
+            })
         }
     ).catch(error => {
         console.log(error);
@@ -219,17 +272,17 @@ router.post('/rateCourse/:courseId', verifyJWT, async (req, res) => {
 router.put('/updateCourseRating/:courseId', verifyJWT, async (req, res) => {
 
     let Rating;
-    let Review;
+    
 
     if(req.body.Rating){
         Rating = req.body.Rating;
     }
 
-    if(req.body.Review){
-        Review = req.body.Review;
-    }
+    let Review = (req.body.Review === undefined)? undefined : (req.body.Review === ''? '' : req.body.Review);
 
-    if( !Rating && !Review){
+
+
+    if( !Rating && Review === undefined){
         return res.status(400).json({message: 'At least the (Rating) or the (Review) fields must be provided in the body.'}); 
     }
 
@@ -286,18 +339,22 @@ router.put('/updateCourseRating/:courseId', verifyJWT, async (req, res) => {
             const oldReview = listOfRatings[rating].Review;
 
             listOfRatings[rating].Rating = Rating? Rating: oldRating;
-
+            const newAverageRating = calculateNewRating(listOfRatings);
             course.updateOne(
                 {_id:courseId, "Ratings.TraineeUsername": Username},
                 {
                     $set:{
-                        Rating: calculateNewRating(listOfRatings),
+                        Rating: newAverageRating,
                         "Ratings.$.Rating": Rating? Rating: oldRating,
-                        "Ratings.$.Review": Review? Review: oldReview,
+                        "Ratings.$.Review": Review? Review : (Review === '' ? Review : oldReview),
                     }
                 }
             ).then(_ => {
-                return res.status(201).json({message: 'The rating was updated successfully.'});
+                return res.status(201).json({
+                    message: 'The rating was updated successfully.',
+                    newNumberOfRatings: courseToRate.NumberOfReviews,
+                    newAverageRating: newAverageRating
+                });
             })
             .catch(error => {
                 console.log(error);
@@ -367,6 +424,7 @@ router.delete('/deleteCourseRating/:courseId', verifyJWT, async (req, res) => {
             isRatingFound = true;
             const oldNumberOfReviews = courseToRate.NumberOfReviews;
             
+            const newAverageRating = calculateNewRating(courseToRate.Ratings.filter(rating => rating.TraineeUsername !== Username))
             course.updateOne(
                 {_id : courseId},
                 {
@@ -375,11 +433,15 @@ router.delete('/deleteCourseRating/:courseId', verifyJWT, async (req, res) => {
                     },
                     $set:{
                         NumberOfReviews: oldNumberOfReviews - 1,
-                        Rating: calculateNewRating(courseToRate.Ratings.filter(rating => rating.TraineeUsername !== Username))
+                        Rating: newAverageRating
                     }
                 }
             ).then(_ => {
-                return res.status(200).json({message: 'The rating has been removed successfully'})
+                return res.status(200).json({
+                    message: 'The rating has been removed successfully',
+                    newNumberOfRatings: oldNumberOfReviews - 1,
+                    newAverageRating: newAverageRating
+                })
             }).catch(error => {
                 console.log(error);
                 return res.status(500).json({message: 'An error has occurred while deleting the rating.'});
@@ -393,10 +455,12 @@ router.delete('/deleteCourseRating/:courseId', verifyJWT, async (req, res) => {
 
 router.post('/rateInstructor/:instructorUsername', verifyJWT, async (req, res) => {
 
-    if( !req.body.Rating || !req.body.Review){
-        return res.status(400).json({message: 'The (Rating) and the (Review) fields must be provided in the body.'});
+    if( !req.body.Rating){
+        return res.status(400).json({message: 'The (Rating) field must be provided in the body.'});
     }
-    const { Rating, Review } = req.body;
+    const { Rating } = req.body;
+    let Review = (req.body.Review)? req.body.Review : '';  
+
 
     if( !req.User || !req.User.Username || !req.User.Type){
         return res.status(401).json({message: 'Failed to authenticate the user.'});
@@ -441,19 +505,20 @@ router.post('/rateInstructor/:instructorUsername', verifyJWT, async (req, res) =
 
 router.put('/updateInstructorRating/:instructorUsername', verifyJWT, async (req, res) => {
     let Rating;
-    let Review;
+    
 
     if(req.body.Rating){
         Rating = req.body.Rating;
     }
 
-    if(req.body.Review){
-        Review = req.body.Review;
-    }
+    let Review = (req.body.Review === undefined)? undefined : (req.body.Review === ''? '' : req.body.Review);
 
-    if( !Rating && !Review){
+
+
+    if( !Rating && Review === undefined){
         return res.status(400).json({message: 'At least the (Rating) or the (Review) fields must be provided in the body.'}); 
     }
+
 
     if( !req.User || !req.User.Username || !req.User.Type){
         return res.status(401).json({message: 'An error has occurred while authenticating the user.'})
@@ -486,13 +551,13 @@ router.put('/updateInstructorRating/:instructorUsername', verifyJWT, async (req,
                     $set: {
                         Rating: calculateNewRating(instructorToRate.Ratings),
                         'Ratings.$.Rating': Rating? Rating : oldRating,
-                        'Ratings.$.Review': Review? Review : oldReview
+                        'Ratings.$.Review': Review? Review : (Review === '' ? Review : oldReview)
                     }
                 }
             ).then(_ => {
                 return res.status(201).json({message: 'The rating has been updated successfully.'})
             }).catch(error => {
-                //console.log(error);
+                console.log(error);
                 return res.status(500).json({message: 'An error has occurred while updating the rating.'})
             });
         }
@@ -552,6 +617,24 @@ router.delete('/deleteInstructorRating/:instructorUsername', verifyJWT, async (r
         return res.status(409).json({message: 'The user did not rate this instructor before.'});
     }
 });
+
+router.get("/getTraineeName/", async (req, res) => {
+    try {
+        let username = req.query.traineeUsername;
+
+        let trainee = await individualTrainee.findOne({Username: username});
+
+        if(trainee == null){
+            trainee = await corporateTrainee.findOne({Username: username});
+        }
+
+        res.json({
+            Name: trainee.Name,
+        })
+    } catch (err) {
+        handleError(res, err);
+    }
+})
 
 function handleError(res, err) {
     return res.status(400).send(err);

@@ -1,6 +1,7 @@
 .course {
     width: 360px;
-    height: 423px;
+    min-width: 240px;
+    height: fit-content;
     max-width: 360px;
     overflow-y: scroll;
     transition-duration: 0.15s;
@@ -25,14 +26,12 @@
   
 .course--image {
     width: 95%;
-    margin: 15px 0px 0px 9px;
+    margin: 15px 2% 0px 2.4%;
     border-radius: 10px;
 }
   
 .course--title {
-    margin-left: 12px;
-    margin-right: 12px;
-    margin-bottom: 0px;
+    margin: 5% 12px 0px 12px;
 }
 
 .course--instructor {
@@ -124,6 +123,8 @@
     background-size: 800px 104px;
     height: 31px;
     width: 35%;
+    margin-top: 24px;
+    margin-bottom: 24px;
  }
 
 .product-loading-4 {
@@ -137,6 +138,7 @@
     background-size: 800px 104px;
     height: 35px;
     width: 45%;
+    margin-bottom: 25px;
 }
 
 .background-masker {

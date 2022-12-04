@@ -9,6 +9,8 @@ import instructor from "../models/instructor.model.js";
 import administrator from "../models/administrator.model.js";
 import corporateTrainee from "../models/corporateTrainee.model.js";
 import individualTrainee from "../models/individualTrainee.model.js";
+import usedResetPasswordToken from "../models/usedResetPasswordToken.model.js";
+
 
 const router = express.Router();
 
@@ -139,39 +141,51 @@ router.post('/requestPasswordReset', async (req, res) => {
         jwtPayload,
         process.env.RESET_PASSWORD_ACCESS_TOKEN_SECRET,
         {expiresIn: 7200},
-        (error, token) => {
+        async (error, token) => {
             if(error){
                 console.log(error);
                 return res.status(500).json({
                     message: 'An error has occured while creating the JWT for the request.'
                 });
             }
-            const link = `${process.env.FRONTEND_URL}resetPassword/${token}`
-
-            var mailOptions = {
-                from: process.env.BUSINESS_EMAIL.toString(),
-                to: Email,
-                subject: 'Password Reset',
-                html: `<h1>Hi ${Name},</h1><p>It seem's you have forgotten your password.</p><p>Don't worry, Click <span><a href=${link}>HERE</a></span> to reset it.</p><p>Please note that the link will expire after 2 hours. After the 2 hours, you have to submit a new reset password request.</p>`
-            }
-            transporter.sendMail(mailOptions)
-            .then(info => {
-                return res.status(200).json({
-                    message: 'Reset password email has been sent successfully.',
-                    emailSentTo: Email
-                })
-            })
-            .catch(error => {
-                console.log(error);
-                return res.status(500).json({
-                    message: 'Sending the reset password email failed.',
-                });
+            const newUsedResetPasswordToken = new usedResetPasswordToken({
+                ResetToken: token.toString()
             });
+
+            newUsedResetPasswordToken.save().then(
+                _ => {
+                    const link = `${process.env.FRONTEND_URL}resetPassword/${token}`
+
+                    var mailOptions = {
+                        from: process.env.BUSINESS_EMAIL.toString(),
+                        to: Email,
+                        subject: 'Password Reset',
+                        html: `<h1>Hi ${Name},</h1><p>It seem's you have forgotten your password.</p><p>Don't worry, Click <span><a href=${link}>HERE</a></span> to reset it.</p><p>Please note that the link will expire after 2 hours. After the 2 hours, you have to submit a new reset password request.</p>`
+                    }
+                    transporter.sendMail(mailOptions)
+                    .then(info => {
+                        return res.status(200).json({
+                            message: 'Reset password email has been sent successfully.',
+                            emailSentTo: Email
+                        })
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        return res.status(500).json({
+                            message: 'Sending the reset password email failed.',
+                        });
+                    });
+                }
+            ).catch(error => {
+                console.log(error);
+                return res.status(500).json({message: 'An error happened while saving the reset token to the database.'})
+            })
         }
       );
 });
 
 router.post('/resetPassword', resetPasswordVerifyJWT , async (req, res) => {
+
     const { newPassword } = req.body;
     if(! newPassword ){
         return res.status(400)
@@ -194,16 +208,16 @@ router.post('/resetPassword', resetPasswordVerifyJWT , async (req, res) => {
     let updateResult;
     switch(requestingUser.Type){
         case "admin": 
-            updateResult = await administrator.updateOne({_id: UserId, Username: Username}, {Password: hashedPassword}); 
+            updateResult = await administrator.updateOne({Username: Username}, {Password: hashedPassword}); 
             break;
         case "instructor": 
-            updateResult = await instructor.updateOne({_id: UserId, Username: Username}, {Password: hashedPassword}); 
+            updateResult = await instructor.updateOne({Username: Username}, {Password: hashedPassword}); 
             break;
         case "corporateTrainee": 
-            updateResult = await corporateTrainee.updateOne({_id: UserId, Username: Username}, {Password: hashedPassword}); 
+            updateResult = await corporateTrainee.updateOne({Username: Username}, {Password: hashedPassword}); 
             break;
         case "individualTrainee":
-            updateResult = await individualTrainee.updateOne({_id: UserId, Username: Username}, {Password: hashedPassword});
+            updateResult = await individualTrainee.updateOne({Username: Username}, {Password: hashedPassword});
         default:
             return res.status(400).json({message: 'Invalid user type.'});
     }
@@ -215,6 +229,67 @@ router.post('/resetPassword', resetPasswordVerifyJWT , async (req, res) => {
     }
 });
 
+router.post('/changePassword', verifyJWT, async (req, res) => {
+    if( !req.body.oldPassword || !req.body.newPassword){
+        return res.status(400).json({message: 'The (newPassword) and (oldPassword) fields must be provided in the request body.'})
+    }
+
+    const { oldPassword, newPassword } = req.body;
+
+    const { Username } = req.User;
+    if( !Username ){
+        return res.status(500)
+        .json({ message: 'A error occured due to the decoding of the JWT in a wrong way' });
+    }
+
+    let requestingUser = await user.findOne({Username: Username});
+    if( !requestingUser ){
+        return res.status(400)
+        .json({ message: 'There is no user with this username.' });
+    }
+
+    let userToUpdate;
+    switch(requestingUser.Type){
+        case "admin": 
+            userToUpdate = await administrator.findOne({Username: Username}); 
+            break;
+        case "instructor": 
+            userToUpdate = await instructor.findOne({Username: Username}); 
+            break;
+        case "corporateTrainee": 
+            userToUpdate = await corporateTrainee.findOne({Username: Username}); 
+            break;
+        case "individualTrainee": 
+            userToUpdate = await individualTrainee.findOne({Username: Username});
+            break;
+        default:
+            return res.status(500)
+            .json({
+                message: 'Failed in finding user to update.'
+            });
+    }
+
+    if( !userToUpdate ){
+        return res.status(500).json({ message: 'Failed in finding user to update.' })
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(oldPassword, userToUpdate.Password);
+    if(!isPasswordCorrect){
+        return res.status(403).json({message: 'The old password provided is wrong. Hence, can not change the password.'})
+    }
+
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    userToUpdate.Password = hashedNewPassword;
+    userToUpdate.save().then(
+        _ => {
+            return res.status(201).json({message: 'The password was changed successfully.'})
+        }
+    ).catch(error => {
+        console.log(error);
+        return res.status(500).json({message: 'An error has occured while changing the password.'})
+    });
+
+});
 
 
 function handleError(res, err) {

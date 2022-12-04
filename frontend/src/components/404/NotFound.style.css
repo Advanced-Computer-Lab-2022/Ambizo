@@ -1,0 +1,12 @@
+.error404Image{
+    display: block;
+    margin-top: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50vw;
+    padding: 60px 30px;
+}
+
+.error404Text{
+    text-align: center;
+}

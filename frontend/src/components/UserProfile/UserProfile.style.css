@@ -1,0 +1,226 @@
+.user--profile {
+    width: 100%;
+    height: fit-content;
+    padding: 50px 32% 50px 32%;
+    /* align-items: center; */
+    color: black;
+}
+
+.userprofile--topcontainer {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.userprofile--leftcontainer {
+    width: 57%;
+    margin-right: auto;
+}
+
+.userprofile--username {
+    margin-bottom: 0px;
+}
+
+.usertype--user {
+    color: #6a6f73;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+.userprofile--website, .userprofile--linkedin, .userprofile--email {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.userprofile--reviewcoursesbuttons {
+    display: flex;
+    margin-top: 20px;
+    gap: 15px;
+}
+
+.userprofile--reviewcoursesbuttons > button {
+    width: 120px;
+    min-width: 90px;
+    height: 32px;
+    border-width: 1px;  
+    font-size: 13.5px; 
+}
+
+.user--reviewcoursesbuttons > button:hover {
+    background-color: #e4e4e4;
+}
+
+
+/* .container--right {
+    width: 30%;
+    min-width: 490px;
+} */
+
+.user--userimage {
+    border-radius: 50%;
+    object-fit: cover;
+    width: 200px;
+    height: 200px;
+}
+
+.userprofile--bio, .userprofile--courses, .userprofile--ratings {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.userprofile--line {
+    width: 100%;
+    margin: auto;
+    line-height: 10px;
+}
+
+.userprofile--bioheader {
+    margin-top: -5px;
+    margin-bottom: -6px;
+}
+
+.userprofile--coursesheader {
+    margin-top: -5px;
+    margin-bottom: 15px;
+}
+
+.userprofile--allcourses {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.userprofile--courses .course {
+    width: 240px;
+}
+
+.userprofile--courses .course--image {
+    width: 95%;
+    margin: 15px 2% 0px 2.55%;
+    border-radius: 10px;
+}
+
+.userprofile--ratingsheader {
+    margin-top: -5px;
+}
+
+.userprofile--emailandedit, .userprofile--editbio {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.userprofile--editbutton {
+    border-width: 0px;
+}
+
+.userprofile--settingshyperlink {
+    cursor: pointer;
+}
+.userprofile--settingshyperlink , .userprofile--settingshyperlink:visited{
+    text-decoration: none;
+    color: black;
+  }
+  
+  .userprofile--settingshyperlink:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+  }
+  
+  .userprofile--settingshyperlink:active{
+    text-decoration: underline;
+    opacity: 0.6;
+  }
+
+  .userprofile--editemailinput {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .userprofile--emailinput {
+    font-family: 'Poppins', sans-serif;
+    border-color: black;
+    width: 250px;
+    padding-left: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+  .userprofile--updatebutton {
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 20%;
+    height: 30px;
+    border-width: 1px;
+    font-size: 12px;
+  }
+
+  .userprofile--updatebutton:hover, .userprofile--addbutton:hover {
+    opacity: 0.8;
+}
+
+.userprofile--cancelbutton {
+    width: 20%;
+    height: 30px;
+    border-width: 1px;
+    font-size: 12px;
+}
+
+.userprofile--cancelbutton:hover {
+    background-color: #e4e4e4;
+}
+
+.userprofile--addbio {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.userprofile--addbutton {
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 12%;
+    height: 30px;
+    border-width: 1px;
+    font-size: 12px;
+}
+
+.bio--input {
+    min-height: 40px;
+    height: 150px;
+    padding-top: 10px;
+    padding-left: 15px;
+    border: solid;
+    border-width: 1px;
+    border-radius: 3px;
+    font-family: 'Poppins', sans-serif;
+    display: block;
+    margin : 0px auto 5px auto;
+}
+
+.userprofile--enterbiobuttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.userprofile--biocancelbutton {
+    width: 12%;
+    height: 30px;
+    border-width: 1px;
+    font-size: 12px;
+}
+
+.userprofile--biocancelbutton:hover {
+    background-color: #e4e4e4;
+}

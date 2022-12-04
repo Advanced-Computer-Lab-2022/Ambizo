@@ -22,6 +22,11 @@
 @import "./components/Question/Question.style.css";
 @import "./components/AddExercise/AddExercise.style.css";
 @import "./components/ConfirmationModal/ConfirmationModal.style.css";
+@import "./components/RatingModal/RatingModal.style.css";
+@import "./components/UserProfile/UserProfile.style.css";
+@import "./components/UserRating/UserRating.style.css";
+@import "./components/ScrollToTopButton/ScrollToTopButton.style.css";
+@import "./components/SettingsPage/SettingsPage.style.css";
 
 * {
   box-sizing: border-box;
@@ -73,6 +78,12 @@ button {
   position: fixed;
   background: rgba(0, 0, 0, 0.834);
   z-index: 1;
+  transition: opacity 0.5s ease-in-out, visibility 1s ease-in-out;
+}
+
+.loader-container.hidden {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .spinner {

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"
 import Header from "../Header/Header.js"
 import LoginService from "../../services/Login.service";
+import InstructorService from "../../services/Instructor.service";
+import InstructorContractModal from "../InstructorContractModal/InstructorContractModal.js";
 
 function LoginPage() {
 
@@ -12,8 +14,21 @@ function LoginPage() {
     const [message, setMessage] = useState(
         { text: "", type: ""}
     )
+
+    const [contractModal, setContractModal] = React.useState(false);
+    
+
     const navigate = useNavigate();
     
+    function handleAcceptContract(){
+        
+        InstructorService.acceptContract()
+        .then(() => {
+            navigate("/mycourses");
+            navigate(0);
+        })
+    }
+
     function handleChange(event) {
         const { name, value, type, checked } = event.target
         setUserData(prevUserData => ({
@@ -36,6 +51,10 @@ function LoginPage() {
         return true;
     }
 
+    const toggleContractModal = () => {
+        setContractModal(prevModal => !prevModal);
+    };
+
     async function handleSubmit(event) {
         event.preventDefault();
         if(checkSubmit()) {
@@ -47,11 +66,24 @@ function LoginPage() {
                     sessionStorage.setItem("User", JSON.stringify(userRes.data));
                     sessionStorage.setItem("Type", userRes.data.Type);
                     if(userRes.data.Type === "instructor"){
-                        navigate("/mycourses");
-                    }else{
+                        let isContractAccepted = null
+                        InstructorService.isContractAccepted()
+                        .then((contractRes) => {
+                            isContractAccepted = contractRes.data.isAccepted
+                        if(isContractAccepted){
+                            navigate("/mycourses");
+                            navigate(0);
+                        }
+                        else{
+                            toggleContractModal()
+                        }
+                        })
+                        
+                    }
+                    else{
                         navigate("/");
                     }
-                    navigate(0);
+                    
                 })
                 .catch((error) => {
                     setMessage({ text: error.response.data, type: "form--errormessage" })
@@ -65,6 +97,9 @@ function LoginPage() {
 
     return (
         <>
+
+            <InstructorContractModal toggleContractModal = {toggleContractModal} contractModal = {contractModal} handleAcceptContract = {handleAcceptContract}/>
+            
             <Header />
             <div className="form--div">
                 <h1>Login</h1>
@@ -98,7 +133,6 @@ function LoginPage() {
                     <p className={message.type}>{message.text}</p>
                 </ form>
             </div>
-           
         </>
     )
 }

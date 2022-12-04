@@ -18,7 +18,7 @@ function Subtitle(props) {
     };
 
     React.useEffect(() => {
-        if(props.exercise && false /* badal false hena han7ot hena en el student enrolled */){
+        if(props.exercise && props.isTraineeEnrolled){
             TraineeService.getAnswers(props.courseId, props.index)
             .then(answers => {
                 if (answers.data.grade > -1) {
@@ -173,7 +173,7 @@ function Subtitle(props) {
                     <p className={message.type}>{message.text}</p>
                 </form>
             }
-            {props.youtubeLink && showSubtitleDetails && (props.instructorLoggedInCourse || true /* badal true han7ot hena en el student enrolled*/) &&
+            {props.youtubeLink && showSubtitleDetails && (props.instructorLoggedInCourse || props.isTraineeEnrolled) &&
                 <div className="subtitle--detailsfilled">
                     <h4>Video:</h4>
                     <YouTube className="subtitle--video" videoId={validateYouTubeUrl(props.youtubeLink)} opts={opts} />
@@ -200,15 +200,9 @@ function Subtitle(props) {
                                         <button onClick={() => navigate("/exercise/" + props.courseId + "/" + props.index)}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Exercise</button>
                                         <button onClick={null}><i className="fa-solid fa-trash"></i>&nbsp;&nbsp;Delete Exercise</button>
                                     </div>
-                                        <ConfirmationModal 
-                                            confirmModal={deleteModal} 
-                                            toggleConfirmationModal={toggleConfirmationModal} 
-                                            confirmationMessage="Are you sure you want to delete the Exercise?" 
-                                            actionCannotBeUndone={true}  
-                                            handleConfirm={handleConfirm} />
                                 </>
                             }
-                            {false /*badal false hena han7ot hena en el student enrolled*/ && 
+                            {props.isTraineeEnrolled && 
                                 <>
                                     {grade === -1?    
                                         (

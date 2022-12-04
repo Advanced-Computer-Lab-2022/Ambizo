@@ -132,7 +132,6 @@ function PasswordResetPage(){
                         ...prevMessages,
                         passwordResetFailureMessage: 'An Error has occurred. Try Again.'
                     }));
-                    console.log(response.data.message);
                 }
             })
             .catch(error =>{
@@ -145,6 +144,8 @@ function PasswordResetPage(){
                 }
                 if(error.response.status === 400){
                     errorMessage = 'Wrong username provided.'
+                }if(error.response.status === 410){
+                    errorMessage = 'You can not use this link any more.\nPlease create a new Reset password request to recieve a new email.'
                 }
 
                 setMessages(prevMessages => ({

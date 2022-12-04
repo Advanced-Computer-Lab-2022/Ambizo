@@ -51,6 +51,12 @@
 .coursedetails--numberratings {
     font-size: 18px;
     margin-right: 50px;
+    cursor: pointer;
+}
+
+.coursedetails--ratingsUnderline{
+    text-decoration: underline;
+    
 }
 
 .coursedetails--hour {
@@ -186,3 +192,45 @@
 .coursedetails--exercisesheader {
     margin-bottom: 0px;
 }
+
+.coursedetails--enrolledoptions{
+    text-align: center;
+}
+
+.button--rate {
+    margin: 0px 5px;
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 40%;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+.button--rate:hover {
+    opacity: 0.8;
+}
+
+.enrolledoptions--ratebuttons{
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.coursedetails--ratings{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    width: 80%;
+}
+
+.courseDetails--noratings{
+    margin-left: 30px;
+    font-size: 20px;
+    font-weight: 20px;
+}
+
+
+

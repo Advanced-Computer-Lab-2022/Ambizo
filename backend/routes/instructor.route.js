@@ -1,10 +1,10 @@
 import express from "express";
 import verifyJWT from "../middleware/verifyJWT.js";
 import course from "../models/course.model.js";
-import currencyConverterLt from "currency-converter-lt";
+import currencyConverter from "../middleware/currencyConverter.js";
+import instructor from "../models/instructor.model.js"
 
 const router = express.Router();
-const currencyConverter = new currencyConverterLt();
 
 router.get("/getCourses", verifyJWT, async (req,res) => {
     try{
@@ -15,6 +15,7 @@ router.get("/getCourses", verifyJWT, async (req,res) => {
         let filter = {}
         let courses = null;
         let exchangeRateToUSD = null;
+        let exchangeRateToCountry = null;
 
         if(req.query.subject){
             filter = {...filter, Subject: req.query.subject.split(',')};
@@ -54,19 +55,20 @@ router.get("/getCourses", verifyJWT, async (req,res) => {
         }
 
         if(!req.query.price){
-            [courses, exchangeRateToUSD] = await Promise.all(
+            [courses, exchangeRateToUSD, exchangeRateToCountry] = await Promise.all(
                [
                    course.find(filter)
                    , 
                    currencyConverter.from(req.query.currencyCode).to("USD").convert()
+                   ,
+                   currencyConverter.from("USD").to(req.query.currencyCode).convert()
                ]
                );
        }
        else{
            courses = await course.find(filter);
+           exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
        }
-
-       const exchangeRateToCountry = 1/exchangeRateToUSD;
         
         courses.forEach(course => {
             course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
@@ -75,6 +77,64 @@ router.get("/getCourses", verifyJWT, async (req,res) => {
     }
     catch(err){
         handleError(res, err.message);
+    }
+})
+
+router.get("/getInstructorCourses", async (req,res) => {
+    try{        
+        
+        let courses = null;
+        let exchangeRateToUSD = null;
+        let exchangeRateToCountry = null;
+
+        let instructorUsernameReceived = req.query.instrusername;
+        
+        let filter = {
+            InstructorUsername: instructorUsernameReceived,
+        }
+
+        if(!req.query.price){
+            [courses, exchangeRateToUSD, exchangeRateToCountry] = await Promise.all(
+               [
+                   course.find(filter)
+                   , 
+                   currencyConverter.from(req.query.currencyCode).to("USD").convert()
+                   ,
+                   currencyConverter.from("USD").to(req.query.currencyCode).convert()
+               ]
+               );
+        }
+        else{
+            courses = await course.find(filter);
+            exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
+        }
+        
+        courses.forEach(course => {
+            course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
+        })
+        res.json(courses);
+    }
+    catch(err){
+        handleError(res, err.message);
+    }
+})
+
+router.get("/getInstructorInfo/" , async (req, res) => {
+    try{
+        let instructorUsernameReceived = req.query.instrusername;
+
+        const fetchedInfo = await instructor.findOne({Username: instructorUsernameReceived})
+        res.json({
+            Name: fetchedInfo.Name,
+            Email: fetchedInfo.Email,
+            Ratings: fetchedInfo.Ratings,
+            Bio: fetchedInfo.Bio,
+            Website: fetchedInfo.Website,
+            LinkedIn: fetchedInfo.LinkedIn,
+            ProfileImage: fetchedInfo.ProfileImage
+        })
+    } catch (err) {
+        handleError(res, err);
     }
 })
 
@@ -173,6 +233,67 @@ router.put("/addCoursePreview", verifyJWT, async (req, res) => {
     }
 });
 
+router.put("/updateEmail", verifyJWT, async (req, res) => {
+    try {
+        if(req.User.Type !== "instructor") {
+            return handleError(res, "Invalid Access")
+        }
+
+        let instructorUsername = req.query.instrusername;
+        let updatedEmail = req.query.updatedEmail;
+
+        await instructor.findOneAndUpdate({Username: instructorUsername}, {
+            Email: updatedEmail
+        })
+
+        res.status(200).send("Email updated successfully");
+    } catch (err) {
+        handleError(res, err);
+    }
+});
+
+router.put("/updateBio", verifyJWT, async (req, res) => {
+    try {
+        if(req.User.Type !== "instructor") {
+            return handleError(res, "Invalid Access")
+        }
+
+        let instructorUsername = req.query.instrusername;
+        let enteredBio = req.query.enteredBio;
+
+        await instructor.findOneAndUpdate({Username: instructorUsername}, {
+            Bio: enteredBio
+        })
+
+        res.status(200).send("Bio added/updated successfully");
+    } catch (err) {
+        handleError(res, err);
+    }
+});
+
+router.get("/checkIfInstructor" , async (req, res) => {
+    try{
+        let usernameReceived = req.query.username;
+
+        const User = await instructor.findOne({Username: usernameReceived})
+        if(User){
+            res.json({
+                isInstructor: true
+            })
+        }
+        else{
+            res.json({
+                isInstructor: false
+            })
+        }
+
+    } catch (err) {
+        res.json({
+            isInstructor: false
+        })
+    }
+})
+
 router.post("/addExercise", verifyJWT, async (req, res) => {
     try {
         if(req.User.Type !== "instructor"){
@@ -189,6 +310,39 @@ router.post("/addExercise", verifyJWT, async (req, res) => {
         await course.findByIdAndUpdate(req.query.courseId, {Exercises: updatedExercises})
 
         res.status(201).json(req.body.newExercise);
+    } catch (err) {
+        handleError(res, err);
+    }
+});
+
+router.put("/acceptContract", verifyJWT, async (req, res) => {
+    try {
+        if(req.User.Type !== "instructor"){
+            return handleError(res, "Invalid Access")
+        }
+
+        await instructor.findOneAndUpdate({Username: req.User.Username}, {AcceptedContract: true})
+        res.send("Contract accepted successfully")
+    
+    } catch (err) {
+        handleError(res, err);
+    }
+});
+
+router.get("/isContractAccepted", verifyJWT, async (req, res) => {
+    try {
+        if(req.User.Type !== "instructor"){
+            return handleError(res, "Invalid Access")
+        }
+
+        const Instructor = await instructor.findOne({Username: req.User.Username})
+        if(Instructor.AcceptedContract){
+            res.json({isAccepted: true})
+        }
+        else{
+            res.json({isAccepted: false})
+        }
+    
     } catch (err) {
         handleError(res, err);
     }

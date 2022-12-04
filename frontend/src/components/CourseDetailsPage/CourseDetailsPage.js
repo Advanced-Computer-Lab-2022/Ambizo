@@ -6,19 +6,28 @@ import Subtitle from "../Subtitle/Subtitle";
 import Exercise from "../Exercise/Exercise";
 import { useParams, useNavigate } from "react-router-dom";
 import CourseService from "../../services/Course.service";
+import TraineeService from "../../services/Trainee.service";
 import countryToCurrency  from 'country-to-currency';
 import CoursePreview from "../CoursePreview/CoursePreview"
+import RateModal from "../RatingModal/RatingModal";
+import UserRating from "../UserRating/UserRating";
 
-async function retrieveCourse(id, setIsLoading){
-    setIsLoading(true);
-    return CourseService.getCourse(id)
+async function retrieveCourse(id, traineeUsername){
+    return CourseService.getCourse(id, traineeUsername)
     .then((result) => {
         return result;
     })
 }
 
+
 function CourseDetailsPage() {
     const navigate = useNavigate();
+
+    const [rateModal, setRateModal] = React.useState(false);
+
+    const toggleRateModal = () => {
+        setRateModal(prevModal => !prevModal);
+    };
 
     function modifyCourseDetailsPageSubtitle(newSubtitle, index) {
         let modifiedCourse = {...course};
@@ -35,21 +44,159 @@ function CourseDetailsPage() {
     const userType = sessionStorage.getItem("Type");
 
     const params = useParams();
-    const [course, setCourse] = React.useState({});
-    const [isLoading, setIsLoading] = React.useState(false);
+    const [course, setCourse] = React.useState({});    
+    const [isLoading, setIsLoading] = React.useState(true);
+
+    // This is the state object that controls the rating modal and behavior. 
+    const [modalConfig, setModalConfig] = React.useState({
+        showRateModal: rateModal,
+        toggleRateModal: toggleRateModal,
+        updateRateModal: null,
+        subjectId: null,
+        submitAction: null,
+        deleteAction:null,
+        ratingSubject: null,
+        Rating:null,
+        Review: null,
+        updateTraineeInfo: null
+    });
+
+    // case user is trainee;
+    const [traineeInfo, setTraineeInfo] = React.useState({
+        isTraineeEnrolled: false,
+        traineeCourseRate: null,
+        traineeInstructorRate: null
+    });
+
+
 
     React.useEffect(() => {
         document.title = "Course Details";
-        retrieveCourse(params.courseId, setIsLoading)
+
+        let traineeUsername = (userType === 'individualTrainee' || userType === 'corporateTrainee')?
+        (JSON.parse(sessionStorage.getItem('User')).Username):
+        null;        
+        retrieveCourse(params.courseId, traineeUsername ,setIsLoading)
         .then(course => {
             setCourse(course.data.courseData)
+            setTraineeInfo({
+                isTraineeEnrolled: course.data.traineeEnrolled,
+                traineeCourseRate: course.data.traineeCourseRate,
+                traineeInstructorRate: course.data.traineeInstructorRate
+            });
+
+
             setIsLoading(false);
         })
         .catch(error => {
             console.log(error);  
-            setIsLoading(false); 
         })
-    }, [params.courseId]);
+    }, [params.courseId, modalConfig.Rating, modalConfig.Review]);
+
+    function modifyModalConfigFromModal(key , value){
+        setModalConfig(prevValue => (
+            {
+                ...prevValue,
+                [key]: value
+            }
+        ));
+    }
+
+    function updateTraineeRating(subject, newRating, ratingStats){
+        if(subject === 'course'){
+            setTraineeInfo(prevTraineeInfo => (
+                {
+                    ...prevTraineeInfo,
+                    traineeCourseRate: newRating? newRating: null
+                }
+            ));         
+            setCourse(prevCourseData =>{
+                return ({
+                    ...prevCourseData,
+                    Rating: ratingStats.newAverageRating,
+                    NumberOfReviews: ratingStats.newNumberOfRatings
+                })
+            });
+            navigate(0); //to update ratings section at the bottom of the page
+        }else{
+            setTraineeInfo(prevTraineeInfo => (
+                {
+                    ...prevTraineeInfo,
+                    traineeInstructorRate: newRating? newRating: null
+                }
+            ));
+        }
+        
+    }
+
+    // Configure the modal for rating course and opening it
+    function rateCourseModalConfig(){
+        setModalConfig({
+            showRateModal: rateModal,
+            toggleRateModal: toggleRateModal,
+            updateRateModal: modifyModalConfigFromModal,
+            subjectId: params.courseId,
+            submitAction: TraineeService.rateCourse,
+            deleteAction:null,
+            ratingSubject: 'course',
+            Rating:null,
+            Review: null,
+            updateTraineeInfo: updateTraineeRating
+        });
+        toggleRateModal();
+    }
+    // config the modal to update a course Rating.
+    function updateRateModalConfig(){
+        setModalConfig({
+            showRateModal: rateModal,
+            toggleRateModal: toggleRateModal,
+            updateRateModal: modifyModalConfigFromModal,
+            subjectId: params.courseId,
+            submitAction: TraineeService.updateCourseRating,
+            deleteAction:TraineeService.deleteCourseRating,
+            ratingSubject: 'course',
+            Rating:traineeInfo.traineeCourseRate.Rating,
+            Review: traineeInfo.traineeCourseRate.Review,
+            updateTraineeInfo: updateTraineeRating
+        });
+        toggleRateModal();
+
+    }
+
+    // config the modal to rate an instructor.
+    function rateInstructorModalConfig(){
+        setModalConfig({
+            showRateModal: rateModal,
+            toggleRateModal: toggleRateModal,
+            updateRateModal: modifyModalConfigFromModal,
+            subjectId: course.InstructorUsername,
+            submitAction: TraineeService.rateInstructor,
+            deleteAction:null,
+            ratingSubject: 'instructor',
+            Rating:null,
+            Review: null,
+            updateTraineeInfo: updateTraineeRating
+        });
+        toggleRateModal();
+    }
+
+    // config the modal to update the instructor rating.
+    function updateinstructorModalConfig(){
+        setModalConfig({
+            showRateModal: rateModal,
+            toggleRateModal: toggleRateModal,
+            updateRateModal: modifyModalConfigFromModal,
+            subjectId: course.InstructorUsername,
+            submitAction: TraineeService.updateInstructorRating,
+            deleteAction:TraineeService.deleteInstructorRating,
+            ratingSubject: 'instructor',
+            Rating:traineeInfo.traineeInstructorRate.Rating,
+            Review: traineeInfo.traineeInstructorRate.Review,
+            updateTraineeInfo: updateTraineeRating
+        });
+        toggleRateModal();
+    }
+
 
     let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
 
@@ -90,22 +237,39 @@ function CourseDetailsPage() {
                     instructorLoggedInCourse={instructorLoggedInCourse}
                     modifyCourseDetailsPageSubtitle={(newSubtitle, index) => modifyCourseDetailsPageSubtitle(newSubtitle, index)}
                     exercise={courseExercises[subtitleIndex]? courseExercises[subtitleIndex] : null}
+                    isTraineeEnrolled={traineeInfo.isTraineeEnrolled}
                     {...subtitle}
                 />
             )
         })
     }
 
-    let hourSpan = course.TotalHours>1? "Hours" : "Hour"
+    let ratingDataElements = [];
+    let ratingKey = 0;
+    if(course.Ratings) {
+        ratingDataElements = course.Ratings.map(rating => {
+        return (
+            <UserRating 
+            key={ratingKey++}
+            {...rating}
+            />
+        )
+        })
+  }
 
+  function scrollTo(id){
+    document.getElementById(id).scrollIntoView( { behavior: 'smooth', block: 'start' } );
+  }
+
+    let hourSpan = course.TotalHours>1? "Hours" : "Hour"
     return (
         <>
+            <div className={"loader-container" + (!isLoading? " hidden" : "")}>
+                <div className="spinner"> </div>
+            </div>
             {isLoading ?
             (
                 <>
-                    <div className="loader-container">
-                        <div className="spinner"> </div>
-                    </div>
                     <Header />
                     <div className="top--container" style={{"height":"500px"}} >
                     </div>
@@ -131,27 +295,50 @@ function CourseDetailsPage() {
                             <h1 className="coursedetails--fulltitle">{course.Title}</h1>
                             <p className="coursedetails--description">{course.Description}</p>
                             <div className="coursedetails--ratecounthourcount">
-                                <Rating className='coursedetails--rating' name="half-rating-read" defaultValue={course.Rating} precision={0.1} readOnly />
-                                <span className='coursedetails--numberratings'>({course.NumberOfReviews} ratings)</span>
+                                <Rating className='coursedetails--rating' name="read-only" value={course.Rating} precision={0.1} readOnly />
+                                <span className='coursedetails--numberratings' onClick = {() => scrollTo("allRatings")}>(<span className = "coursedetails--ratingsUnderline">{course.NumberOfReviews} {course.NumberOfReviews === 1 ? "rating" : "ratings"}</span>)</span>
                                 <span className='coursedetails--hourscount'><i className="fa-solid fa-clock"></i> &nbsp;{course.TotalHours} {hourSpan}</span>
                             </div>
-                            {!instructorLoggedInCourse && <p className="coursedetails--instructor">Created by:{<a className="instructor--hyperlink" href="">{course.InstructorName}</a>}</p> }
+                            {!instructorLoggedInCourse && <p className="coursedetails--instructor">Created by:{<a className="instructor--hyperlink" onClick={() => navigate("/user/"+course.InstructorUsername)}>{course.InstructorName}</a>}</p> }
                         </div>
                         <div className="container--right">
                             <div className='coursedetails--courseimagepriceenroll'>
                                 <img className="coursedetails--image" src={course.ImgURL} alt='Course' />
-                                <div className="coursedetails--priceenroll">
-                                    {userType !== "instructor" && <img src={PriceIcon} alt='Price Icon' className={course.Discount === 0 ? 'coursedetails--priceicon' : 'coursedetails--priceicondiscounted'} />}
-                                    {userType === "instructor" && <img src={PriceIcon} alt='Price Icon' className='coursedetails--priceiconinstr' />}
-                                    <div className="coursedetials--pricediscount">
-                                        {course.PriceInUSD === 0 && <span className='coursedetails--price'>FREE</span>}
-                                        {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--price'>{(course.PriceInUSD*((100-course.Discount)/100)).toFixed(2)} {currencyCode}</span>}
-                                        {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--oldprice'>{course.PriceInUSD} {currencyCode}</span>}
-                                        {course.PriceInUSD !== 0 && course.Discount===0 && <span className='coursedetails--price'>{course.PriceInUSD} {currencyCode}</span>}
-                                        {!userType === "instructor" && course.Discount>0 && <p className="coursedetails--discount">Don't miss out on the {course.Discount}% discount!</p>}
+                                {
+                                  ((userType === 'individualTrainee' || userType === 'corporateTrainee') && traineeInfo.isTraineeEnrolled)?
+                                  (
+                                    <div className="coursedetails--enrolledoptions">
+                                        <h3>You are enrolled in this course.</h3>
+                                        <div className="enrolledoptions--ratebuttons">
+                                            <button 
+                                                className="button--rate" 
+                                                onClick={!traineeInfo.traineeCourseRate? rateCourseModalConfig: updateRateModalConfig}>
+                                                    {!traineeInfo.traineeCourseRate? "Rate Course": "Edit Course Rating"}
+                                            </button>
+                                            <button 
+                                                className="button--rate" 
+                                                onClick={!traineeInfo.traineeInstructorRate? rateInstructorModalConfig: updateinstructorModalConfig}>
+                                                    {!traineeInfo.traineeInstructorRate? "Rate Instructor": "Edit Instructor Rating"}
+                                            </button>
+                                        </div>
                                     </div>
-                                    {userType !== "instructor" && <button className={course.Discount === 0 ? 'button--enroll' : 'button--enrolldiscounted'}>Enroll now</button>}
-                                </div>
+                                  ) :
+                                  (
+                                    <div className="coursedetails--priceenroll">
+                                        {userType !== "instructor" && <img src={PriceIcon} alt='Price Icon' className={course.Discount === 0 ? 'coursedetails--priceicon' : 'coursedetails--priceicondiscounted'} />}
+                                        {userType === "instructor" && <img src={PriceIcon} alt='Price Icon' className='coursedetails--priceiconinstr' />}
+                                        <div className="coursedetials--pricediscount">
+                                            {course.PriceInUSD === 0 && <span className='coursedetails--price'>FREE</span>}
+                                            {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--price'>{(course.PriceInUSD*((100-course.Discount)/100)).toFixed(2)} {currencyCode}</span>}
+                                            {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--oldprice'>{course.PriceInUSD} {currencyCode}</span>}
+                                            {course.PriceInUSD !== 0 && course.Discount===0 && <span className='coursedetails--price'>{course.PriceInUSD} {currencyCode}</span>}
+                                            {!userType === "instructor" && course.Discount>0 && <p className="coursedetails--discount">Don't miss out on the {course.Discount}% discount!</p>}
+                                        </div>
+                                        {userType !== "instructor" && <button className={course.Discount === 0 ? 'button--enroll' : 'button--enrolldiscounted'}>Enroll now</button>}
+                                    </div>
+                                  )
+                                }
+                                
                             </div>
                         </div>
                     </div>
@@ -162,7 +349,25 @@ function CourseDetailsPage() {
                         instructorLoggedInCourse={instructorLoggedInCourse} />
                         <h2 className="coursedetails--subtitlesheader">Subtitles</h2>
                         {courseSubtitles}
+                        <h2 className="coursedetails--subtitlesheader"  id = "allRatings">Reviews</h2>
+                        <div className="coursedetails--ratings">
+                            {course.Ratings?.length>0 ? ratingDataElements: <p className = "courseDetails--noratings">No Reviews</p>}
+                            
+                        </div>
                     </div>
+
+                    <RateModal showRateModal={rateModal} 
+                        toggleRateModal={toggleRateModal}
+                        subjectId={modalConfig.subjectId}
+                        submitAction= {modalConfig.submitAction}
+                        deleteAction={modalConfig.deleteAction}
+                        ratingSubject={modalConfig.ratingSubject}
+                        Rating = {modalConfig.Rating}
+                        Review = {modalConfig.Review}
+                        updateRateModal = {modalConfig.updateRateModal}
+                        updateTraineeInfo= {modalConfig.updateTraineeInfo}
+                    />
+
                 </>
             )
             }
