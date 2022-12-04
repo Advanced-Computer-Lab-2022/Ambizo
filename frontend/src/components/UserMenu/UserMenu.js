@@ -6,7 +6,7 @@ function UserMenu(props) {
 
     return (
         <div className="userMenu--div">
-                {props.userType === "instructor" && <div className="userMenu--item" onClick={() => navigate(`/user/${JSON.parse(sessionStorage.getItem("User")).Username}`)}><i class="fa-solid fa-user"></i>&nbsp;&nbsp;My Profile</div>}
+                {(props.userType === "instructor" || props.userType === "individualTrainee" || props.userType === "corporateTrainee") && <div className="userMenu--item" onClick={() => navigate(`/user/${JSON.parse(sessionStorage.getItem("User")).Username}`)}><i class="fa-solid fa-user"></i>&nbsp;&nbsp;My Profile</div>}
                 {props.userType === "instructor" && <div className="userMenu--item" onClick={() => navigate("/mycourses")}><i class="fa-solid fa-person-chalkboard"></i>&nbsp;&nbsp;My Courses</div>}
                 {props.userType === "instructor" && <div className="userMenu--item" onClick={() => navigate("/addcourse")}><i className="fa-solid fa-plus"></i>&nbsp;&nbsp;Add Course</div>}
                 {props.userType === "admin" && <div className="userMenu--item" onClick={() => navigate("/addAdmin")}><i className="fa-solid fa-plus"></i>&nbsp;&nbsp;Add Admin</div>}

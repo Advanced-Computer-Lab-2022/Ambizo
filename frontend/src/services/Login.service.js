@@ -20,6 +20,12 @@ class LoginService{
             userData,
         )
     }
+    changePassword(userData){
+        return httpPost.post(
+            '/user/changePassword',
+            userData,
+        )
+    }
 }
 
 export default new LoginService();

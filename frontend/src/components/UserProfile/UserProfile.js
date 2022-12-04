@@ -2,8 +2,9 @@ import React from "react";
 import Header from "../Header/Header";
 import Course from "../Course/Course";
 import UserRating from "../UserRating/UserRating";
-import { useParams } from "react-router-dom";
-import InstructorService from "../../services/Instructor.service";
+import { useParams, useNavigate } from "react-router-dom";
+import InstructorService from "../../services/Instructor.service.js";
+import TraineeService from "../../services/Trainee.service.js";
 
 async function retrieveAllCourses(setIsLoading, instrProfile, myInstrProfile, instructorUsername){
   setIsLoading(true);
@@ -48,6 +49,9 @@ function UserProfile() {
 
   let user = sessionStorage.getItem("User");
   let usernameSession = "";
+
+  const navigate = useNavigate();
+
   if(user) {
     usernameSession = JSON.parse(user).Username;
   }
@@ -61,41 +65,78 @@ function UserProfile() {
   if(userTypeSession === "instructor" &&  usernameSession === username) {
     myProfileInstr = true;
   }
+  let myProfileTrainee = (userTypeSession === 'individualTrainee' || userTypeSession === 'corporateTrainee') && (usernameSession === username);
+  let inValidAccess = (userTypeSession === 'individualTrainee' || userTypeSession === 'corporateTrainee') && (usernameSession !== username);
+  const [traineeInfo, setTraineeInfo] = React.useState({});
 
   const [coursesData, setCoursesData] = React.useState([]);
+  
 
-  React.useEffect(() => {
-    document.title = "User Profile";
-    retrieveAllCourses(setIsLoading, profileInstr, myProfileInstr, username)
-    .then(coursesList => setCoursesData(coursesList.data))
-    .catch(error => {
-        console.log(error);
-    })
-  }, [profileInstr, myProfileInstr, username]);
-
-  const coursesDataElements = coursesData.map(course => {
-    return (
-        <Course
-            key={course._id}
-            {...course}
-        />
-    )
-  })
 
   const [instructorInfo, setInstructorInfo] = React.useState({});
 
   React.useEffect(() => {
     document.title = "User Profile";
+    if (inValidAccess) {
+      navigate("/404");
+    }
+
+    console.log('here1')
+    console.log(myProfileTrainee);
+    if(myProfileTrainee){
+      setIsLoading(true);
+      console.log('here')
+      TraineeService.getTraineeData(username).then(
+        response => {
+          setTraineeInfo(response.data);
+          setIsLoading(false);
+          
+          console.log('here')
+        }
+      ).catch(error => {
+        console.log(error);
+        setIsLoading(false);
+        console.log('here')
+      })
+    }
+
+    retrieveAllCourses(setIsLoading, profileInstr, myProfileInstr, username)
+    .then(coursesList => setCoursesData(coursesList?.data))
+    .catch(error => {
+        console.log(error);
+    })
+
     retrieveInstructorInfo(setIsLoading, profileInstr, myProfileInstr, username)
     .then(instrInfo => setInstructorInfo(instrInfo))
     .catch(error => {
         console.log(error);
     })
-  }, [profileInstr, myProfileInstr, username]);
+  }, [profileInstr, myProfileTrainee ,myProfileInstr, username]);
+
+  let coursesDataElements;
+  if( !myProfileTrainee ){
+    coursesDataElements = coursesData.map(course => {
+      return (
+          <Course
+              key={course._id}
+              {...course}
+          />
+      )
+    })
+  }else{
+    coursesDataElements = traineeInfo.CourseInfo?.map(course => {
+      return (
+          <Course
+              key={course._id}
+              {...course}
+          />
+      )
+    });
+  }
 
   let ratingDataElements = [];
   let ratingKey = 0;
-  if(instructorInfo.Ratings) {
+  if(!myProfileTrainee && instructorInfo.Ratings) {
     ratingDataElements = instructorInfo.Ratings.map(rating => {
       return (
         <UserRating 
@@ -116,7 +157,7 @@ function UserProfile() {
           <div className="user--profile">
               <div className="userprofile--topcontainer">
                   <div className="userprofile--leftcontainer">
-                      <h1 className="userprofile--username">Slim Abdelzaher</h1>
+                      <h1 className="userprofile--username">{(myProfileTrainee)? traineeInfo.Name : instructorInfo.Name}</h1>
                       {(profileInstr || myProfileInstr) && 
                       <>
                         <h4 className="usertype--user">INSTRUCTOR</h4>
@@ -132,10 +173,11 @@ function UserProfile() {
                             <button type="button" onClick={() => scrollTo("instructorRatings")}>Ratings</button>
                           </div>
                         }
-                        {myProfileInstr && <p className="userprofile--settingshyperlink"><i className="fa-solid fa-gear"></i>&nbsp;&nbsp;Settings & Privacy</p>}
+                        {myProfileInstr && <a className="userprofile--settingshyperlink" href="/settings"><i className="fa-solid fa-gear"></i>&nbsp;&nbsp;Settings & Privacy</a>}
                       </>
                       }
-                      {/* else n7ot usertype 7asab hwa anhe mn el etnen el tanyen w mafesh links wla zarayr esm w type bs */}
+                      {!(myProfileInstr || profileInstr) &&<h4 className="usertype--user">{traineeInfo.Type === 'individualTrainee'? 'INDIVIDUAL TRAINEE' :'CORPORATE TRAINEE'}</h4>}
+                      {myProfileTrainee && <a className="userprofile--settingshyperlink" href="/settings"><i className="fa-solid fa-gear"></i>&nbsp;&nbsp;Settings & Privacy</a>}
                   </div>
                   {(profileInstr || myProfileInstr) && instructorInfo.ProfileImage &&
                     <div className="user--rightcontainer">
@@ -158,11 +200,22 @@ function UserProfile() {
                 </>
               }
               {/* else mafesh bio */}
-              {!myProfileInstr &&
+              {(!myProfileInstr && !myProfileTrainee) &&
                 <>
                   <hr className="user--line"/>
                   <div className="userprofile--courses">
                     <h3 className="userprofile--coursesheader" id="instructorCourses">Courses</h3>
+                    <div className="userprofile--allcourses">
+                      {coursesDataElements}
+                    </div>
+                  </div>
+                </>
+              }
+              {myProfileTrainee &&
+                <>
+                  <hr className="user--line"/>
+                  <div className="userprofile--courses">
+                    <h3 className="userprofile--coursesheader" id="instructorCourses">Enrolled In</h3>
                     <div className="userprofile--allcourses">
                       {coursesDataElements}
                     </div>

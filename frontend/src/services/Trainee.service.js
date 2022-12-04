@@ -32,6 +32,10 @@ class TraineeService{
     deleteInstructorRating(instructorUsername){
         return httpPost.delete(`/trainee/deleteInstructorRating/${instructorUsername}`);
     }
+    
+    getTraineeData(TraineeUsername){
+        return http.get(`/trainee/getTraineeInfo/${TraineeUsername}`);
+    }
 
     getTraineeName(TraineeUsername) {
         return http.get("/trainee/getTraineeName/?traineeUsername=" + TraineeUsername);

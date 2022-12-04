@@ -229,7 +229,7 @@ router.post('/resetPassword', resetPasswordVerifyJWT , async (req, res) => {
     }
 });
 
-router.patch('/changePassword', verifyJWT, async (req, res) => {
+router.post('/changePassword', verifyJWT, async (req, res) => {
     if( !req.body.oldPassword || !req.body.newPassword){
         return res.status(400).json({message: 'The (newPassword) and (oldPassword) fields must be provided in the request body.'})
     }

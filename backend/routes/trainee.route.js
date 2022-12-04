@@ -8,6 +8,56 @@ import user from "../models/user.model.js";
 
 const router = express.Router();
 
+router.get('/getTraineeInfo/:username', async (req, res) => {
+    if( !req.params.username ){
+        return res.status(400).json({message: 'The username must be provided in URI.'});
+    }
+    const targetUser = await user.findOne({Username: req.params.username});
+    if( !targetUser ){
+        return res.status(404).json({message: 'No trainee found with this username.'});
+    }
+
+    let traineeWithInfo;
+    switch(targetUser.Type){
+        case 'individualTrainee':
+            traineeWithInfo = await individualTrainee.findOne({Username: req.params.username});
+            break;
+        case 'corporateTrainee':
+            traineeWithInfo = await corporateTrainee.findOne({Username: req.params.username});
+            break;
+        default:
+            return res.status(500).json({message: 'An error has occured while fetchin the trainee from his collection.'});
+    }
+
+    if( !traineeWithInfo ){
+        return res.status(500).json({message: 'An error has occured while fetchin the trainee from his collection.'});
+    }
+
+    let enrolledCoursesIds = [];
+    for(var courseIndex in traineeWithInfo.EnrolledCourses){
+        enrolledCoursesIds.push(traineeWithInfo.EnrolledCourses[courseIndex].courseId);
+    }
+
+    const enrolledCourseData = await course.find({
+        _id: {
+            $in: enrolledCoursesIds
+        }
+    });
+    const result = {
+        Name: traineeWithInfo.Name,
+        Email: traineeWithInfo.Email,
+        Username: traineeWithInfo.Username,
+        Type: targetUser.Type,
+        CourseInfo: enrolledCourseData
+    };
+
+    console.log(result);
+    
+    return res.status(200).json(result);
+
+});
+
+
 router.get("/getExercise", verifyJWT, async (req, res) => {
     try{
         if(req.User.Type !== "corporateTrainee" && req.User.Type !== "individualTrainee" && req.User.Type !== "instructor"){

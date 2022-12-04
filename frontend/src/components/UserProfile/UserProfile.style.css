@@ -117,3 +117,17 @@
 .userprofile--settingshyperlink {
     cursor: pointer;
 }
+.userprofile--settingshyperlink , .userprofile--settingshyperlink:visited{
+    text-decoration: none;
+    color: blue;
+  }
+  
+  .userprofile--settingshyperlink:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+  }
+  
+  .userprofile--settingshyperlink:active{
+    text-decoration: underline;
+    opacity: 0.6;
+  }
