@@ -22,9 +22,9 @@ import React from "react"
                     <div className="modal-content-confirmation">
                         <i className="fa-solid fa-circle-exclamation"></i>
                         <p className="confirmation--message"> By clicking "Accept", you hereby accept CCC's terms and conditions 
-                        and contracts regarding the rights to the posted videos and materials as well as the % taken by the company</p>
+                        and contracts regarding the rights to the posted videos and material as well as the % taken by the company</p>
                         <div className="confirmation--buttons">
-                            <button className='button--yessure' onClick={props.handleAcceptContract} >Yes, I'm sure</button>
+                            <button className='button--yessure' onClick={props.handleAcceptContract} > Accept </button>
                             <button className='button--cancel' onClick={handleCancel} >Cancel</button>
                         </div>
                     </div>

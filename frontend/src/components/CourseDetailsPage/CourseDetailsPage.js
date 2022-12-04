@@ -10,6 +10,7 @@ import TraineeService from "../../services/Trainee.service";
 import countryToCurrency  from 'country-to-currency';
 import CoursePreview from "../CoursePreview/CoursePreview"
 import RateModal from "../RatingModal/RatingModal";
+import UserRating from "../UserRating/UserRating";
 
 async function retrieveCourse(id, traineeUsername){
     return CourseService.getCourse(id, traineeUsername)
@@ -90,7 +91,7 @@ function CourseDetailsPage() {
         .catch(error => {
             console.log(error);  
         })
-    }, [params.courseId]);
+    }, [params.courseId, modalConfig.Rating, modalConfig.Review]);
 
     function modifyModalConfigFromModal(key , value){
         setModalConfig(prevValue => (
@@ -241,6 +242,24 @@ function CourseDetailsPage() {
             )
         })
     }
+
+    let ratingDataElements = [];
+    let ratingKey = 0;
+    if(course.Ratings) {
+        ratingDataElements = course.Ratings.map(rating => {
+        return (
+            <UserRating 
+            key={ratingKey++}
+            {...rating}
+            />
+        )
+        })
+  }
+
+  function scrollTo(id){
+    document.getElementById(id).scrollIntoView( { behavior: 'smooth', block: 'start' } );
+  }
+
     let hourSpan = course.TotalHours>1? "Hours" : "Hour"
     return (
         <>
@@ -276,7 +295,7 @@ function CourseDetailsPage() {
                             <p className="coursedetails--description">{course.Description}</p>
                             <div className="coursedetails--ratecounthourcount">
                                 <Rating className='coursedetails--rating' name="read-only" value={course.Rating} precision={0.1} readOnly />
-                                <span className='coursedetails--numberratings'>({course.NumberOfReviews} ratings)</span>
+                                <span className='coursedetails--numberratings' onClick = {() => scrollTo("allRatings")}>(<span className = "coursedetails--ratingsUnderline">{course.NumberOfReviews} {course.NumberOfReviews === 1 ? "rating" : "ratings"}</span>)</span>
                                 <span className='coursedetails--hourscount'><i className="fa-solid fa-clock"></i> &nbsp;{course.TotalHours} {hourSpan}</span>
                             </div>
                             {!instructorLoggedInCourse && <p className="coursedetails--instructor">Created by:{<a className="instructor--hyperlink" onClick={() => navigate("/user/"+course.InstructorUsername)}>{course.InstructorName}</a>}</p> }
@@ -329,6 +348,11 @@ function CourseDetailsPage() {
                         instructorLoggedInCourse={instructorLoggedInCourse} />
                         <h2 className="coursedetails--subtitlesheader">Subtitles</h2>
                         {courseSubtitles}
+                        <h2 className="coursedetails--subtitlesheader"  id = "allRatings">Reviews</h2>
+                        <div className="coursedetails--ratings">
+                            {course.Ratings?.length>0 ? ratingDataElements: <p className = "courseDetails--noratings">No Reviews</p>}
+                            
+                        </div>
                     </div>
 
                     <RateModal showRateModal={rateModal} 
@@ -342,6 +366,7 @@ function CourseDetailsPage() {
                         updateRateModal = {modalConfig.updateRateModal}
                         updateTraineeInfo= {modalConfig.updateTraineeInfo}
                     />
+
                 </>
             )
             }
