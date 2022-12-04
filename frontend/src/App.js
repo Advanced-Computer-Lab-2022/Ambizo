@@ -41,7 +41,7 @@ function App() {
                     <Route path='/exercise/:courseId/:exerciseNum' element={<ExercisePage />} />
                     <Route path='/addExercise/:courseId/:exerciseNum' element={sessionStorage.getItem("Type") === "instructor" ? <AddExercise /> : <Navigate to="/404" />}  />
                     <Route path='/user/:username' element={<UserProfile />} />
-                    <Route path='/settings' element={<SettingsPage />} />
+                    <Route path='/settings' element={sessionStorage.getItem("Type") === "instructor" || sessionStorage.getItem("Type") === "individualTrainee" || sessionStorage.getItem("Type") === "corporateTrainee" ? <SettingsPage /> : <Navigate to="/404" />} />
                 </Routes>
                 <Footer />
                 <ScrollToTopButton />

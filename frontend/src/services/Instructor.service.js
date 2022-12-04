@@ -14,6 +14,15 @@ class InstructorService {
     getInstructorInfo(instructorUsername) {
         return http.get("/instructor/getInstructorInfo/?instrusername=" + instructorUsername);
     }
+    updateEmail(instructorUsername, updatedEmail) {
+        return httpPost.put("/instructor/updateEmail/?instrusername=" + instructorUsername + "&updatedEmail=" + updatedEmail)
+    }
+    updateBio(instructorUsername, enteredBio) {
+        return httpPost.put("/instructor/updateBio/?instrusername=" + instructorUsername + "&enteredBio=" + enteredBio)
+    }
+    checkIfInstructor(username) {
+        return http.get("/instructor/checkIfInstructor/?username=" + username)
+    }
     getFilteredCourses(filterURL) {
         let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
         return http.get("/instructor/getCourses/" + filterURL + "&currencyCode=" + currencyCode);

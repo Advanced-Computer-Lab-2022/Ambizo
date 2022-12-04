@@ -26,7 +26,7 @@ function ScrollToTopButton() {
             className="scrollToTopButton"
             style={{display: visible ? 'inline' : 'none'}} 
             >
-            <i class="fa-solid fa-circle-arrow-up"></i> 
+            <i className="fa-solid fa-circle-arrow-up"></i> 
         </div>
     );
 }

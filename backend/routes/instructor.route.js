@@ -233,6 +233,59 @@ router.put("/addCoursePreview", verifyJWT, async (req, res) => {
     }
 });
 
+router.put("/updateEmail", verifyJWT, async (req, res) => {
+    try {
+        if(req.User.Type !== "instructor") {
+            return handleError(res, "Invalid Access")
+        }
+
+        let instructorUsername = req.query.instrusername;
+        let updatedEmail = req.query.updatedEmail;
+
+        await instructor.findOneAndUpdate({Username: instructorUsername}, {
+            Email: updatedEmail
+        })
+
+        res.status(200).send("Email updated successfully");
+    } catch (err) {
+        handleError(res, err);
+    }
+});
+
+router.put("/updateBio", verifyJWT, async (req, res) => {
+    try {
+        if(req.User.Type !== "instructor") {
+            return handleError(res, "Invalid Access")
+        }
+
+        let instructorUsername = req.query.instrusername;
+        let enteredBio = req.query.enteredBio;
+
+        await instructor.findOneAndUpdate({Username: instructorUsername}, {
+            Bio: enteredBio
+        })
+
+        res.status(200).send("Bio added/updated successfully");
+    } catch (err) {
+        handleError(res, err);
+    }
+});
+
+router.get("/checkIfInstructor" , async (req, res) => {
+    try{
+        let usernameReceived = req.query.username;
+
+        await instructor.findOne({Username: usernameReceived})
+        res.json({
+            isInstructor: true
+        })
+    } catch (err) {
+        res.json({
+            isInstructor: false
+        })
+    }
+})
+
 router.post("/addExercise", verifyJWT, async (req, res) => {
     try {
         if(req.User.Type !== "instructor"){
