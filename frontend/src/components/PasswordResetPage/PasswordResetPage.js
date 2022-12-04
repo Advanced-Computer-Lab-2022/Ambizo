@@ -132,7 +132,6 @@ function PasswordResetPage(){
                         ...prevMessages,
                         passwordResetFailureMessage: 'An Error has occurred. Try Again.'
                     }));
-                    console.log(response.data.message);
                 }
             })
             .catch(error =>{

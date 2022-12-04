@@ -275,10 +275,18 @@ router.get("/checkIfInstructor" , async (req, res) => {
     try{
         let usernameReceived = req.query.username;
 
-        await instructor.findOne({Username: usernameReceived})
-        res.json({
-            isInstructor: true
-        })
+        const User = await instructor.findOne({Username: usernameReceived})
+        if(User){
+            res.json({
+                isInstructor: true
+            })
+        }
+        else{
+            res.json({
+                isInstructor: false
+            })
+        }
+
     } catch (err) {
         res.json({
             isInstructor: false

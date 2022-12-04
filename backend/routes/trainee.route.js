@@ -50,8 +50,6 @@ router.get('/getTraineeInfo/:username', async (req, res) => {
         Type: targetUser.Type,
         CourseInfo: enrolledCourseData
     };
-
-    console.log(result);
     
     return res.status(200).json(result);
 
@@ -559,7 +557,7 @@ router.put('/updateInstructorRating/:instructorUsername', verifyJWT, async (req,
             ).then(_ => {
                 return res.status(201).json({message: 'The rating has been updated successfully.'})
             }).catch(error => {
-                //console.log(error);
+                console.log(error);
                 return res.status(500).json({message: 'An error has occurred while updating the rating.'})
             });
         }

@@ -6,8 +6,6 @@ import iconD from "../../images/D-icon.png";
 
 function Question(props) {
 
-    console.log();
-
     return(
         <>
             <div className="question--container" hidden={props.isHidden}>

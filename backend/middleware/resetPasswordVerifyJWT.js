@@ -6,7 +6,7 @@ async function resetPasswordVerifyJWT(req, res, next){
     if(!token){
         return res.status(401)
         .json({
-            message: 'authorization header must be sent containig the Bearer token.'
+            message: 'authorization header must be sent containing the Bearer token.'
         })
     }
 
@@ -23,12 +23,7 @@ async function resetPasswordVerifyJWT(req, res, next){
     const usedTokenCreationTime = usedToken.createdAt;
     const usedTokenDeadline = usedTokenCreationTime.setHours(usedTokenCreationTime.getHours() + 2);
 
-    console.log(currentDate);
-    console.log(new Date(usedTokenDeadline))
-
     if(currentDate > new Date(usedTokenDeadline)){
-        console.log("link is used after two hours.");
-
         return res.status(410).json({message: "The reset token has timed out."})
     }
     
@@ -48,7 +43,6 @@ async function resetPasswordVerifyJWT(req, res, next){
         
 
         const compareDate = new Date(currentDate.setHours(currentDate.getHours()-2));
-        console.log(compareDate);
         
         const deleteResult = await usedResetPasswordToken.deleteMany(
             {
@@ -58,9 +52,6 @@ async function resetPasswordVerifyJWT(req, res, next){
                 ]
             }
         );
-
-
-        console.log(deleteResult);
 
         next();
     });

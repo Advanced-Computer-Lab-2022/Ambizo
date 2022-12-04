@@ -117,6 +117,7 @@ function CourseDetailsPage() {
                     NumberOfReviews: ratingStats.newNumberOfRatings
                 })
             });
+            navigate(0); //to update ratings section at the bottom of the page
         }else{
             setTraineeInfo(prevTraineeInfo => (
                 {

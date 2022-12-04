@@ -11,11 +11,14 @@ function SettingsPage() {
         { emptyFieldsMessage: '', passwordStrengthMessage: '', passwordMatchingMessage: '', passwordResetFailureMessage: '' }
     );
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [isPasswordReset, setIsPasswordReset] = useState(false);
 
     useEffect(() => {
         document.title = 'Settings & Privacy';
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 50);
     }, []);
 
     function handleChange(event){
@@ -118,7 +121,6 @@ function SettingsPage() {
                         ...prevMessages,
                         passwordResetFailureMessage: 'An Error has occurred. Try Again.'
                     }));
-                    console.log(response.data.message);
                 }
             })
             .catch(error =>{
@@ -142,77 +144,81 @@ function SettingsPage() {
 
     return (
         <>
+            <div className={"loader-container" + (!isLoading? " hidden" : "")}>
+                <div className="spinner"> </div>
+            </div>
             {isLoading?
                 (
-                    <div className="loader-container">
-                        <div className="spinner"> </div>
-                    </div>
-                ):
-                (
-                    <></>
+                    <Header />
                 )
-            }
-            <Header />
-            <div className="settingspage">
-                <div className="settingspage--leftcontainer">
-                    <h1 className="settingspage--header"><i className="fa-solid fa-gear"></i>&nbsp;&nbsp;Settings</h1>  
-                    <p className="settingspage--signinsecurity"><i className="fa-solid fa-lock"></i>&nbsp;&nbsp;Sign in & security</p>
-                </div>
-                <div className="settingspage--rightcontainer">
-                {
-                (!isPasswordReset)?
+                :
                 (
-                    <div className="form--div">
-                        <h1>Create New Password</h1>
-                        <form className="form" onSubmit={handleSubmit}>
-                            <input
-                                type={passwordData.showpassword ? "text" : "password"}
-                                placeholder="Enter old Password"
-                                onChange={handleChange}
-                                name="oldPassword"
-                                value={passwordData.oldPassword}
-                            />
-                            <input
-                                type={passwordData.showpassword ? "text" : "password"}
-                                placeholder="Enter new Password"
-                                onChange={handleChange}
-                                name="newPassword"
-                                value={passwordData.newPassword}
-                            />
-                            <p className='form--errormessage'>{messages.passwordStrengthMessage}</p>
-                            <input
-                                type={passwordData.showpassword ? "text" : "password"}
-                                placeholder="Confirm new Password"
-                                onChange={handleChange}
-                                name="newPasswordConfirmation"
-                                value={passwordData.newPasswordConfirmation}
-                            />
-                            <p className='form--errormessage'>{messages.passwordMatchingMessage}</p>
-                            <div className="show-password-div">
-                                <input
-                                    type="checkbox"
-                                    id="showpassword"
-                                    checked={passwordData.showpassword}
-                                    onChange={handleChange}
-                                    name="showpassword"
-                                />
-                                <label htmlFor="showpassword">Show Password</label>
+                    <>
+                        <Header />
+                        <div className="settingspage">
+                            <div className="settingspage--leftcontainer">
+                                <h1 className="settingspage--header"><i className="fa-solid fa-gear"></i>&nbsp;&nbsp;Settings</h1>  
+                                <p className="settingspage--signinsecurity"><i className="fa-solid fa-lock"></i>&nbsp;&nbsp;Sign in & security</p>
                             </div>
-                            <button className="form--button">Submit</button>
-                            <p className='form--errormessage'>{messages.emptyFieldsMessage}</p>
-                            <p className='form--errormessage'>{messages.passwordResetFailureMessage}</p>
-                        </form>
-                    </div>
-                ):
-                (
-                    <div className="form--div">
-                        <h2>Password Changed Successfully</h2>
-                        <p>You can use your newly created password to log into your account</p>
-                    </div>
+                            <div className="settingspage--rightcontainer">
+                            {
+                            (!isPasswordReset)?
+                            (
+                                <div className="form--div">
+                                    <h1>Create New Password</h1>
+                                    <form className="form" onSubmit={handleSubmit}>
+                                        <input
+                                            type={passwordData.showpassword ? "text" : "password"}
+                                            placeholder="Enter old Password"
+                                            onChange={handleChange}
+                                            name="oldPassword"
+                                            value={passwordData.oldPassword}
+                                        />
+                                        <input
+                                            type={passwordData.showpassword ? "text" : "password"}
+                                            placeholder="Enter new Password"
+                                            onChange={handleChange}
+                                            name="newPassword"
+                                            value={passwordData.newPassword}
+                                        />
+                                        <p className='form--errormessage'>{messages.passwordStrengthMessage}</p>
+                                        <input
+                                            type={passwordData.showpassword ? "text" : "password"}
+                                            placeholder="Confirm new Password"
+                                            onChange={handleChange}
+                                            name="newPasswordConfirmation"
+                                            value={passwordData.newPasswordConfirmation}
+                                        />
+                                        <p className='form--errormessage'>{messages.passwordMatchingMessage}</p>
+                                        <div className="show-password-div">
+                                            <input
+                                                type="checkbox"
+                                                id="showpassword"
+                                                checked={passwordData.showpassword}
+                                                onChange={handleChange}
+                                                name="showpassword"
+                                            />
+                                            <label htmlFor="showpassword">Show Password</label>
+                                        </div>
+                                        <button className="form--button">Submit</button>
+                                        <p className='form--errormessage'>{messages.emptyFieldsMessage}</p>
+                                        <p className='form--errormessage'>{messages.passwordResetFailureMessage}</p>
+                                    </form>
+                                </div>
+                            ):
+                            (
+                                <div className="form--div">
+                                    <h2>Password Changed Successfully</h2>
+                                    <p>You can use your newly created password to log into your account</p>
+                                </div>
+                            )
+                        }
+                            </div>
+                        </div>
+                    </>
                 )
             }
-                </div>
-            </div>
+            
         </>
     )
 }
