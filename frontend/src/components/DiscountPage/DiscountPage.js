@@ -15,10 +15,10 @@ function DiscountPage() {
             <div className="definediscount--page">
                 <p className="discount--goback">{"<"} Back to Course details</p>
                 <h1 className="discountpage--header"><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;Define a Promotion</h1>
-                <p>Course title:</p>
+                <p className="discount--titles">Course title:</p>
                 <h3>Developing Effective Time Management Habits</h3>
                 <div className="discount--input">
-                    <p>Discount percentage:</p>
+                    <p className="discount--titles">Discount percentage:</p>
                     <input 
                         id='discount' 
                         className="discount--percentageinput" 
@@ -32,16 +32,16 @@ function DiscountPage() {
                     />
                 </div>
                 <div className="discount--calendar">
-                    <p>Expiry date:</p>
+                    <p className="discount--titles">Expiry date:</p>
                     <Calendar onChange={onChange} value={date} />
                 </div>
                 <div className="discount--oldnewprice">
                     <div>
-                        <p>Current Price:</p>
+                        <p className="discount--titles">Current Price:</p>
                         <h3>713.15 EGP</h3>
                     </div>
                     <div>
-                        <p>New Price:</p>
+                        <p className="discount--titles">New Price:</p>
                         <h3>512.25 EGP</h3>
                     </div>
                 </div>
