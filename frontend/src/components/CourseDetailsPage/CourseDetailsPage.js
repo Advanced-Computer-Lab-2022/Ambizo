@@ -308,7 +308,7 @@ function CourseDetailsPage() {
                                   ((userType === 'individualTrainee' || userType === 'corporateTrainee') && traineeInfo.isTraineeEnrolled)?
                                   (
                                     <div className="coursedetails--enrolledoptions">
-                                        <h3>You are enrolled in this course.</h3>
+                                        <h3 className="youareenrolled">You are enrolled in this course.</h3>
                                         <div className="enrolledoptions--ratebuttons">
                                             <button 
                                                 className="button--rate" 
@@ -325,16 +325,16 @@ function CourseDetailsPage() {
                                   ) :
                                   (
                                     <div className="coursedetails--priceenroll">
-                                        {userType !== "instructor" && <img src={PriceIcon} alt='Price Icon' className={course.Discount === 0 ? 'coursedetails--priceicon' : 'coursedetails--priceicondiscounted'} />}
-                                        {userType === "instructor" && <img src={PriceIcon} alt='Price Icon' className='coursedetails--priceiconinstr' />}
+                                        {/* {userType !== "instructor" && <img src={PriceIcon} alt='Price Icon' className={course.Discount === 0 ? 'coursedetails--priceicon' : 'coursedetails--priceicondiscounted'} />}
+                                        {userType === "instructor" && <img src={PriceIcon} alt='Price Icon' className='coursedetails--priceiconinstr' />} */}
                                         <div className="coursedetials--pricediscount">
-                                            {course.PriceInUSD === 0 && <span className='coursedetails--price'>FREE</span>}
-                                            {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--price'>{(course.PriceInUSD*((100-course.Discount)/100)).toFixed(2)} {currencyCode}</span>}
+                                            {course.PriceInUSD === 0 && <span className='coursedetails--price'><i class="fa-solid fa-tag"></i>&nbsp;FREE</span>}
+                                            {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--price'><i class="fa-solid fa-tag"></i>&nbsp;{(course.PriceInUSD*((100-course.Discount)/100)).toFixed(2)} {currencyCode}&nbsp;</span>}
                                             {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--oldprice'>{course.PriceInUSD} {currencyCode}</span>}
-                                            {course.PriceInUSD !== 0 && course.Discount===0 && <span className='coursedetails--price'>{course.PriceInUSD} {currencyCode}</span>}
-                                            {!userType === "instructor" && course.Discount>0 && <p className="coursedetails--discount">Don't miss out on the {course.Discount}% discount!</p>}
+                                            {course.PriceInUSD !== 0 && course.Discount===0 && <span className='coursedetails--price'><i class="fa-solid fa-tag"></i>&nbsp;{course.PriceInUSD} {currencyCode}</span>}
+                                            {userType !== "instructor" && course.Discount>0 && <p className="coursedetails--discount">Don't miss out on the {course.Discount}% discount!</p>}
                                         </div>
-                                        {userType !== "instructor" && <button className={course.Discount === 0 ? 'button--enroll' : 'button--enrolldiscounted'}>Enroll now</button>}
+                                        {userType !== "instructor" && <button className='button--enroll'>Enroll now</button>}
                                     </div>
                                   )
                                 }
