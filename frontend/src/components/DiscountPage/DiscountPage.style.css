@@ -1,0 +1,71 @@
+.definediscount--page {
+    height: 100vh;
+    background-color: #f3f2ef;
+    padding: 100px 30%;
+}
+
+.discountpage--header {
+    margin-top: 0px;
+}
+
+p {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.discount--goback {
+    font-size: 15px;
+    font-weight: 400;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.discount--input {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.discount--calendar {
+    display: flex;
+    gap: 110px;
+}
+
+.definediscount--page .react-calendar {
+    border-color: black;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button  {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.discount--percentageinput {
+    font-family: 'Poppins', sans-serif;
+    border-color: black;
+    width: 32%;
+    height: 35px;
+    font-size: 12px;
+    padding: 2px 10px;
+}
+
+.discount--oldnewprice {
+    display: flex;
+    gap: 12%;
+}
+
+.discount--applybutton {
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 20%;
+    height: 40px;
+    border-width: 1px;
+    font-size: 12px;
+}
+
+.discount--applybutton:hover {
+    opacity: 0.8;
+}
