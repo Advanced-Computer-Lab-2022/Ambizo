@@ -1,7 +1,7 @@
 .definediscount--page {
     height: 100vh;
     background-color: #f3f2ef;
-    padding: 100px 30%;
+    padding: 100px 24%;
 }
 
 .discountpage--header {
@@ -44,7 +44,7 @@ input::-webkit-inner-spin-button  {
 .discount--percentageinput {
     font-family: 'Poppins', sans-serif;
     border-color: black;
-    width: 32%;
+    width: 350px;
     height: 35px;
     font-size: 12px;
     padding: 2px 10px;
@@ -52,7 +52,7 @@ input::-webkit-inner-spin-button  {
 
 .discount--oldnewprice {
     display: flex;
-    gap: 12%;
+    gap: 10%;
 }
 
 .discount--applybutton {

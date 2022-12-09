@@ -19,7 +19,6 @@ async function retrieveCourse(id, traineeUsername){
     })
 }
 
-
 function CourseDetailsPage() {
     const navigate = useNavigate();
 
@@ -145,7 +144,8 @@ function CourseDetailsPage() {
         });
         toggleRateModal();
     }
-    // config the modal to update a course Rating.
+
+    // Config the modal to update a course Rating.
     function updateRateModalConfig(){
         setModalConfig({
             showRateModal: rateModal,
@@ -163,7 +163,7 @@ function CourseDetailsPage() {
 
     }
 
-    // config the modal to rate an instructor.
+    // Config the modal to rate an instructor.
     function rateInstructorModalConfig(){
         setModalConfig({
             showRateModal: rateModal,
@@ -180,7 +180,7 @@ function CourseDetailsPage() {
         toggleRateModal();
     }
 
-    // config the modal to update the instructor rating.
+    // Config the modal to update the instructor rating.
     function updateinstructorModalConfig(){
         setModalConfig({
             showRateModal: rateModal,
@@ -255,11 +255,11 @@ function CourseDetailsPage() {
             />
         )
         })
-  }
+    }
 
-  function scrollTo(id){
-    document.getElementById(id).scrollIntoView( { behavior: 'smooth', block: 'start' } );
-  }
+    function scrollTo(id){
+        document.getElementById(id).scrollIntoView( { behavior: 'smooth', block: 'start' } );
+    }
 
     let hourSpan = course.TotalHours>1? "Hours" : "Hour"
     return (
@@ -305,7 +305,7 @@ function CourseDetailsPage() {
                             <div className='coursedetails--courseimagepriceenroll'>
                                 <img className="coursedetails--image" src={course.ImgURL} alt='Course' />
                                 {
-                                  ((userType === 'individualTrainee' || userType === 'corporateTrainee') && traineeInfo.isTraineeEnrolled)?
+                                  ((userType === 'individualTrainee' || userType === 'corporateTrainee') && traineeInfo.isTraineeEnrolled) ?
                                   (
                                     <div className="coursedetails--enrolledoptions">
                                         <h3 className="youareenrolled">You are enrolled in this course.</h3>
@@ -334,7 +334,8 @@ function CourseDetailsPage() {
                                             {course.PriceInUSD !== 0 && course.Discount===0 && <span className='coursedetails--price'><i class="fa-solid fa-tag"></i>&nbsp;{course.PriceInUSD} {currencyCode}</span>}
                                             {userType !== "instructor" && course.Discount>0 && <p className="coursedetails--discount">Don't miss out on the {course.Discount}% discount!</p>}
                                         </div>
-                                        {userType !== "instructor" && <button className='button--enroll'>Enroll now</button>}
+                                        {userType !== "instructor" && <button className='button--enroll'>Enroll Now</button>}
+                                        {userType === "instructor" && instructorLoggedInCourse && course.Discount === 0 && <button className='button--enroll' onClick={() => navigate(`/definediscount/${course._id}`)}>Define a Discount</button>}
                                     </div>
                                   )
                                 }
