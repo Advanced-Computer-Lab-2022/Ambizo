@@ -143,13 +143,32 @@
 
 .background-masker {
     background-color: #fff;
-  }
+}
   
-  @keyframes placeHolderShimmer {
-    0% {
-      background-position: -800px 0
-    }
-    100% {
-      background-position: 800px 0
-    }
-  }
+@keyframes placeHolderShimmer {
+0% {
+    background-position: -800px 0
+}
+100% {
+    background-position: 800px 0
+}
+}
+
+.courseinfo {
+    display: flex;
+    align-items: center;
+}
+
+.courseinfo--left {
+    margin-right: auto;
+}
+
+.yourcourse {
+    font-weight: 500;
+    border: solid;
+    border-width: 0px;
+    border-radius: 1px;
+    padding: 10px 20px;
+    color: white;
+    background-color: #a30506;
+}
