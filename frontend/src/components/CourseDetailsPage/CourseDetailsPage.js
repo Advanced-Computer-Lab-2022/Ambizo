@@ -335,7 +335,7 @@ function CourseDetailsPage() {
                                             {userType !== "instructor" && course.Discount>0 && <p className="coursedetails--discount">Don't miss out on the {course.Discount}% discount!</p>}
                                         </div>
                                         {userType !== "instructor" && <button className='button--enroll'>Enroll Now</button>}
-                                        {userType === "instructor" && instructorLoggedInCourse && course.Discount === 0 && <button className='button--enroll' onClick={() => navigate(`/definediscount/${course._id}`)}>Define a Discount</button>}
+                                        {userType === "instructor" && instructorLoggedInCourse && course.PriceInUSD !== 0 && course.Discount === 0 && <button className='button--enroll' onClick={() => navigate(`/definediscount/${course._id}`)}>Define a Discount</button>}
                                     </div>
                                   )
                                 }

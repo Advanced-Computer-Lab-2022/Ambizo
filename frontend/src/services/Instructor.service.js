@@ -14,11 +14,11 @@ class InstructorService {
     getInstructorInfo(instructorUsername) {
         return http.get("/instructor/getInstructorInfo/?instrusername=" + instructorUsername);
     }
-    updateEmail(instructorUsername, updatedEmail) {
-        return httpPost.put("/instructor/updateEmail/?instrusername=" + instructorUsername + "&updatedEmail=" + updatedEmail)
+    updateEmail(updatedEmail) {
+        return httpPost.put("/instructor/updateEmail/?updatedEmail=" + updatedEmail)
     }
-    updateBio(instructorUsername, enteredBio) {
-        return httpPost.put("/instructor/updateBio/?instrusername=" + instructorUsername + "&enteredBio=" + enteredBio)
+    updateBio(enteredBio) {
+        return httpPost.put("/instructor/updateBio/?enteredBio=" + enteredBio)
     }
     checkIfInstructor(username) {
         return http.get("/instructor/checkIfInstructor/?username=" + username)
@@ -48,6 +48,10 @@ class InstructorService {
     }
     acceptContract(){
         return httpPost.put("/instructor/acceptContract");
+    }
+    getCourseDetails(courseId){
+        let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
+        return http.get("/instructor/getCourseDetails/?courseId=" + courseId + "&currencyCode=" + currencyCode);
     }
 }
 

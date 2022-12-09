@@ -160,7 +160,7 @@ function UserProfile() {
   async function handleUpdateEmail(event) {
     event.preventDefault();
     if(updatedEmail !== "") {
-      return InstructorService.updateEmail(usernameSession, updatedEmail)
+      return InstructorService.updateEmail(updatedEmail)
       .then(result => {
         modifyUserProfileEmail(updatedEmail);
         toggleEmailInputField();
@@ -195,7 +195,7 @@ function UserProfile() {
 
   async function handleAddBio(event) {
     event.preventDefault();
-      return InstructorService.updateBio(usernameSession, enteredBio)
+      return InstructorService.updateBio(enteredBio)
       .then(result => {
         modifyUserProfileBio(enteredBio);
         toggleAddBioInputField();

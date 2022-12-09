@@ -28,7 +28,7 @@
 
 .discount--calendar {
     display: flex;
-    gap: 110px;
+    gap: 111px;
 }
 
 .definediscount--page .react-calendar {
@@ -36,8 +36,9 @@
 }
 
 input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button  {
+input::-webkit-inner-spin-button {
     -webkit-appearance: none;
+    -moz-appearance: none;
     margin: 0;
 }
 

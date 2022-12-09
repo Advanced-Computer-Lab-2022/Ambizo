@@ -193,15 +193,15 @@ router.post("/createCourse", verifyJWT, async (req, res) => {
 
 router.put("/addSubtitleDetails", verifyJWT, async (req, res) => {
     try {
-        if(req.User.Type !== "instructor") {
-            return handleError(res, "Invalid Access")
+        let courseId = req.query.courseId;
+        let oldCourse = await course.findById(courseId)
+
+        if(req.User.Username !== oldCourse.InstructorUsername) {
+            return handleError(res, "You can only add Subtitle Details to your Courses")
         }
 
-        let courseId = req.query.courseId;
         let subtitleIndex = req.query.index;
         const updatedSubtitle = req.body;
-
-        let oldCourse = await course.findById(courseId)
 
         let newSubtitles = oldCourse.Subtitles;
         newSubtitles[subtitleIndex] = updatedSubtitle;
@@ -210,7 +210,7 @@ router.put("/addSubtitleDetails", verifyJWT, async (req, res) => {
             Subtitles: newSubtitles
         })
 
-        res.status(200).send("Video added successfully");
+        res.status(200).send("Video and Description added successfully");
     } catch (err) {
         handleError(res, err);
     }
@@ -218,11 +218,13 @@ router.put("/addSubtitleDetails", verifyJWT, async (req, res) => {
 
 router.put("/addCoursePreview", verifyJWT, async (req, res) => {
     try {
-        if(req.User.Type !== "instructor") {
-            return handleError(res, "Invalid Access")
-        }
-
         let courseId = req.query.courseId;
+        let oldCourse = await course.findById(courseId)
+
+        if(req.User.Username !== oldCourse.InstructorUsername) {
+            return handleError(res, "You can only add Preview to your Courses")
+        }
+        
         await course.findByIdAndUpdate(courseId, {
             CoursePreviewLink: req.body.previewLink
         })
@@ -239,10 +241,9 @@ router.put("/updateEmail", verifyJWT, async (req, res) => {
             return handleError(res, "Invalid Access")
         }
 
-        let instructorUsername = req.query.instrusername;
         let updatedEmail = req.query.updatedEmail;
 
-        await instructor.findOneAndUpdate({Username: instructorUsername}, {
+        await instructor.findOneAndUpdate({Username: req.User.Username}, {
             Email: updatedEmail
         })
 
@@ -258,10 +259,9 @@ router.put("/updateBio", verifyJWT, async (req, res) => {
             return handleError(res, "Invalid Access")
         }
 
-        let instructorUsername = req.query.instrusername;
         let enteredBio = req.query.enteredBio;
 
-        await instructor.findOneAndUpdate({Username: instructorUsername}, {
+        await instructor.findOneAndUpdate({Username: req.User.Username}, {
             Bio: enteredBio
         })
 
@@ -271,7 +271,7 @@ router.put("/updateBio", verifyJWT, async (req, res) => {
     }
 });
 
-router.get("/checkIfInstructor" , async (req, res) => {
+router.get("/checkIfInstructor", async (req, res) => {
     try{
         let usernameReceived = req.query.username;
 
@@ -347,6 +347,30 @@ router.get("/isContractAccepted", verifyJWT, async (req, res) => {
         handleError(res, err);
     }
 });
+
+router.get("/getCourseDetails", verifyJWT, async (req,res) => {
+    try {
+        const courseDetails = await course.findOne({_id: req.query.courseId})
+
+        if(req.User.Username !== courseDetails.InstructorUsername) {
+            return handleError(res, "Invalid Acess")
+        }
+
+        const exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
+
+        const price = (courseDetails.PriceInUSD * exchangeRateToCountry).toFixed(2)
+
+        res.json({
+            Title: courseDetails.Title,
+            Price: price,
+            Discount: courseDetails.Discount,
+            DiscountExpiryDate: courseDetails.DiscountExpiryDate
+        })
+    }
+    catch(err) {
+        handleError(res, err.message);
+    }
+})
 
 function handleError(res, err) {
     return res.status(400).send(err);
