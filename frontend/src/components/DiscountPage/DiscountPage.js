@@ -8,7 +8,6 @@ import InstructorService from "../../services/Instructor.service";
 async function retrieveCourseDetails(id){
     return InstructorService.getCourseDetails(id)
     .then((result) => {
-        console.log(result)
         return result;
     })
 }
@@ -31,7 +30,7 @@ function DiscountPage() {
         .catch(error => {
             navigate("/404")
         })
-    }, [params.courseId]);
+    }, [params.courseId, navigate]);
 
     let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
 
