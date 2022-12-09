@@ -218,6 +218,7 @@ router.post('/resetPassword', resetPasswordVerifyJWT , async (req, res) => {
             break;
         case "individualTrainee":
             updateResult = await individualTrainee.updateOne({Username: Username}, {Password: hashedPassword});
+            break;
         default:
             return res.status(400).json({message: 'Invalid user type.'});
     }

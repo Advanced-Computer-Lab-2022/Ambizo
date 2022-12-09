@@ -82,6 +82,7 @@ function LoginPage() {
                     }
                     else{
                         navigate("/");
+                        navigate(0);
                     }
                     
                 })

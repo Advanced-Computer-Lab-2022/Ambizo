@@ -92,8 +92,8 @@
     background-color: transparent;
     box-shadow: 5px 5px 20px 7px rgba(0,0,0,1);
     height: fit-content;
-    padding-top: 13px;
-    padding-bottom: 30px;
+    padding-top: 15px;
+    padding-bottom: 5px;
 }
 
 .coursedetails--image {
@@ -105,15 +105,17 @@
 
 .coursedetails--priceenroll {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
     height: fit-content;
-    margin-top: 30px;
     color: white;
+    gap: 20px;
+    width: 100%;
+    margin: 20px auto;
 }
 
-.coursedetails--priceicondiscounted {
+/* .coursedetails--priceicondiscounted {
     width: 8%;
     height: fit-content;
     margin: -90px 5px 0px 30px;
@@ -129,18 +131,18 @@
     width: 8%;
     height: fit-content;
     margin: 0px 15px 0px 0px;
-}
+} */
 
 .coursedetials--pricediscount {
     display: flex;
     flex-direction: column;
-    max-width: 40%;
+    max-width: 42%;
 }
 
 .coursedetails--price {
-    font-size: 35px;
+    font-size: 30px;
     font-weight: 700;
-    margin-top: 5px;
+    margin: 0px;
 }
 
 .coursedetails--oldprice {
@@ -149,10 +151,10 @@
 }
 
 .coursedetails--discount {
-    margin-top: 0px;
+    margin: 0px;
 }
 
-.button--enrolldiscounted {
+/* .button--enrolldiscounted {
     margin: 0px 40px 0px auto;
     border-color: #bd0312;
     background-color: #a30506;
@@ -162,10 +164,9 @@
     height: auto;
     padding-top: 20px;
     padding-bottom: 40px;
-}
+} */
 
 .button--enroll {
-    margin: 0px 40px 0px auto;
     border-color: #bd0312;
     background-color: #a30506;
     border-style: solid;
@@ -195,6 +196,12 @@
 
 .coursedetails--enrolledoptions{
     text-align: center;
+    margin: 20px 0px;
+}
+
+.youareenrolled {
+    margin: 0px;
+    margin-bottom: 15px;
 }
 
 .button--rate {

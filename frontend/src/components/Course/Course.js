@@ -3,11 +3,11 @@ import Rating from '@mui/material/Rating';
 import countryToCurrency  from 'country-to-currency';
 import HourIcon from '../../images/HourIcon.png'
 import PriceIcon from '../../images/PriceIcon.png'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 function Course(props) {
-
     const navigate = useNavigate()
+
     function viewCourseDetails() {
         setTimeout(() => {
             navigate(`/coursedetails/${props._id}`)
