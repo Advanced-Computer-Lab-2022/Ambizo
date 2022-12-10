@@ -165,10 +165,11 @@
 
 .yourcourse {
     font-weight: 500;
+    font-size: 12px;
     border: solid;
     border-width: 0px;
     border-radius: 1px;
     padding: 10px 20px;
     color: white;
-    background-color: #a30506;
+    background-color: #a30506
 }

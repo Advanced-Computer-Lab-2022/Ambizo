@@ -53,6 +53,9 @@ class InstructorService {
         let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
         return http.get("/instructor/getCourseDetails/?courseId=" + courseId + "&currencyCode=" + currencyCode);
     }
+    applyDiscount(courseId, discountPercentage, expiryDate) {
+        return httpPost.put("/instructor/applyDiscount/?courseId=" + courseId + "&discount=" + discountPercentage + "&expiryDate=" + expiryDate)
+    }
 }
 
 export default new InstructorService();

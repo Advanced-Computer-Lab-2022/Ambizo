@@ -63,6 +63,27 @@ router.get("/getCourses", async (req,res) => {
             exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
         }
 
+        const currentDate = new Date();
+        const currentDay = currentDate.getDate();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+
+        courses.forEach(course => {
+            if(currentYear > course.DiscountExpiryDate.getFullYear()) {
+                course.Discount = 0;
+            }
+            else if(currentYear == course.DiscountExpiryDate.getFullYear()) {
+                if(currentMonth > course.DiscountExpiryDate.getMonth()) {
+                    course.Discount = 0;
+                }
+                else if(currentMonth == course.DiscountExpiryDate.getMonth()) {
+                    if(currentDay > course.DiscountExpiryDate.getDate()) {
+                        course.Discount = 0;
+                    }
+                }
+            }
+        })
+
         courses.forEach(course => {
             course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
         })
@@ -76,18 +97,40 @@ router.get("/getCourses", async (req,res) => {
 router.get("/searchCourses/:searchTerm", async (req, res) => {
     try {
         const [courses, exchangeRateToCountry] = await Promise.all(
-            [
-                course.find({
-                    $or: [
-                        {Title: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i'}},
-                        {Subject: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i'}},
-                        {InstructorName: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i'}}
-                    ]
-                 })
-                , 
-                currencyConverter.from("USD").to(req.query.currencyCode).convert()
-            ]
-            );
+        [
+            course.find({
+                $or: [
+                    {Title: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i'}},
+                    {Subject: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i'}},
+                    {InstructorName: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i'}}
+                ]
+                })
+            , 
+            currencyConverter.from("USD").to(req.query.currencyCode).convert()
+        ]
+        );
+
+        
+        const currentDate = new Date();
+        const currentDay = currentDate.getDate();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+
+        courses.forEach(course => {
+            if(currentYear > course.DiscountExpiryDate.getFullYear()) {
+                course.Discount = 0;
+            }
+            else if(currentYear == course.DiscountExpiryDate.getFullYear()) {
+                if(currentMonth > course.DiscountExpiryDate.getMonth()) {
+                    course.Discount = 0;
+                }
+                else if(currentMonth == course.DiscountExpiryDate.getMonth()) {
+                    if(currentDay > course.DiscountExpiryDate.getDate()) {
+                        course.Discount = 0;
+                    }
+                }
+            }
+        })
 
         courses.forEach(course => {
             course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
@@ -109,6 +152,25 @@ router.post("/getCourse/:courseId", async (req,res) => {
                 currencyConverter.from("USD").to(req.query.currencyCode).convert()
             ]
             );
+
+        const currentDate = new Date();
+        const currentDay = currentDate.getDate();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+
+        if(currentYear > Course.DiscountExpiryDate.getFullYear()) {
+            Course.Discount = 0;
+        }
+        else if(currentYear == Course.DiscountExpiryDate.getFullYear()) {
+            if(currentMonth > Course.DiscountExpiryDate.getMonth()) {
+                Course.Discount = 0;
+            }
+            else if(currentMonth == Course.DiscountExpiryDate.getMonth()) {
+                if(currentDay > Course.DiscountExpiryDate.getDate()) {
+                    Course.Discount = 0;
+                }
+            }
+        }
 
         Course.PriceInUSD = (Course.PriceInUSD * exchangeRateToCountry).toFixed(2);
         

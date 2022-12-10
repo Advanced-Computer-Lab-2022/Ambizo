@@ -343,6 +343,7 @@ function UserProfile() {
                         <h3 className="userprofile--ratingssheader" id="instructorRatings">Ratings</h3>
                         <div className="userprofile--allcourses">
                             {ratingDataElements}
+                            {ratingDataElements.length === 0 && <i><p className = "courseDetails--noratings">No ratings yet.</p></i>}
                         </div>
                     </div>
                   </>

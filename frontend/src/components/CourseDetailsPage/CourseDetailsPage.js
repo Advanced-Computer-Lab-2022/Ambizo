@@ -328,14 +328,14 @@ function CourseDetailsPage() {
                                         {/* {userType !== "instructor" && <img src={PriceIcon} alt='Price Icon' className={course.Discount === 0 ? 'coursedetails--priceicon' : 'coursedetails--priceicondiscounted'} />}
                                         {userType === "instructor" && <img src={PriceIcon} alt='Price Icon' className='coursedetails--priceiconinstr' />} */}
                                         <div className="coursedetials--pricediscount">
-                                            {course.PriceInUSD === 0 && <span className='coursedetails--price'><i class="fa-solid fa-tag"></i>&nbsp;FREE</span>}
+                                            {course.PriceInUSD === 0 && <span className='coursedetails--price'><i className="fa-solid fa-tag"></i>&nbsp;FREE</span>}
                                             {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--price'><i class="fa-solid fa-tag"></i>&nbsp;{(course.PriceInUSD*((100-course.Discount)/100)).toFixed(2)} {currencyCode}&nbsp;</span>}
                                             {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--oldprice'>{course.PriceInUSD} {currencyCode}</span>}
                                             {course.PriceInUSD !== 0 && course.Discount===0 && <span className='coursedetails--price'><i class="fa-solid fa-tag"></i>&nbsp;{course.PriceInUSD} {currencyCode}</span>}
                                             {userType !== "instructor" && course.Discount>0 && <p className="coursedetails--discount">Don't miss out on the {course.Discount}% discount!</p>}
                                         </div>
                                         {userType !== "instructor" && <button className='button--enroll'>Enroll Now</button>}
-                                        {userType === "instructor" && instructorLoggedInCourse && course.PriceInUSD !== 0 && course.Discount === 0 && <button className='button--enroll' onClick={() => navigate(`/definediscount/${course._id}`)}>Define a Discount</button>}
+                                        {userType === "instructor" && instructorLoggedInCourse && course.PriceInUSD !== 0 && course.Discount === 0 && <button className='button--enroll' onClick={() => navigate(`/definediscount/${course._id}`)}>Make a Discount</button>}
                                     </div>
                                   )
                                 }
@@ -350,10 +350,9 @@ function CourseDetailsPage() {
                         instructorLoggedInCourse={instructorLoggedInCourse} />
                         <h2 className="coursedetails--subtitlesheader">Subtitles</h2>
                         {courseSubtitles}
-                        <h2 className="coursedetails--subtitlesheader"  id = "allRatings">Reviews</h2>
+                        <h2 className="coursedetails--subtitlesheader"  id = "allRatings">Ratings</h2>
                         <div className="coursedetails--ratings">
-                            {course.Ratings?.length>0 ? ratingDataElements: <p className = "courseDetails--noratings">No Reviews</p>}
-                            
+                            {course.Ratings?.length>0 ? ratingDataElements : <i><p className = "courseDetails--noratings">No ratings yet.</p></i>}
                         </div>
                     </div>
 

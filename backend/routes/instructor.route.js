@@ -64,12 +64,33 @@ router.get("/getCourses", verifyJWT, async (req,res) => {
                    currencyConverter.from("USD").to(req.query.currencyCode).convert()
                ]
                );
-       }
-       else{
-           courses = await course.find(filter);
-           exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
-       }
-        
+        }
+        else{
+            courses = await course.find(filter);
+            exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
+        }
+
+        const currentDate = new Date();
+        const currentDay = currentDate.getDate();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+
+        courses.forEach(course => {
+            if(currentYear > course.DiscountExpiryDate.getFullYear()) {
+                course.Discount = 0;
+            }
+            else if(currentYear == course.DiscountExpiryDate.getFullYear()) {
+                if(currentMonth > course.DiscountExpiryDate.getMonth()) {
+                    course.Discount = 0;
+                }
+                else if(currentMonth == course.DiscountExpiryDate.getMonth()) {
+                    if(currentDay > course.DiscountExpiryDate.getDate()) {
+                        course.Discount = 0;
+                    }
+                }
+            }
+        })
+
         courses.forEach(course => {
             course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
         })
@@ -108,6 +129,27 @@ router.get("/getInstructorCourses", async (req,res) => {
             courses = await course.find(filter);
             exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
         }
+
+        const currentDate = new Date();
+        const currentDay = currentDate.getDate();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+
+        courses.forEach(course => {
+            if(currentYear > course.DiscountExpiryDate.getFullYear()) {
+                course.Discount = 0;
+            }
+            else if(currentYear == course.DiscountExpiryDate.getFullYear()) {
+                if(currentMonth > course.DiscountExpiryDate.getMonth()) {
+                    course.Discount = 0;
+                }
+                else if(currentMonth == course.DiscountExpiryDate.getMonth()) {
+                    if(currentDay > course.DiscountExpiryDate.getDate()) {
+                        course.Discount = 0;
+                    }
+                }
+            }
+        })
         
         courses.forEach(course => {
             course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
@@ -159,6 +201,27 @@ router.get("/searchCourses/:searchTerm", verifyJWT, async (req, res) => {
                 currencyConverter.from("USD").to(req.query.currencyCode).convert()
             ]
             );
+        
+        const currentDate = new Date();
+        const currentDay = currentDate.getDate();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+
+        courses.forEach(course => {
+            if(currentYear > course.DiscountExpiryDate.getFullYear()) {
+                course.Discount = 0;
+            }
+            else if(currentYear == course.DiscountExpiryDate.getFullYear()) {
+                if(currentMonth > course.DiscountExpiryDate.getMonth()) {
+                    course.Discount = 0;
+                }
+                else if(currentMonth == course.DiscountExpiryDate.getMonth()) {
+                    if(currentDay > course.DiscountExpiryDate.getDate()) {
+                        course.Discount = 0;
+                    }
+                }
+            }
+        })
 
         courses.forEach(course => {
             course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
@@ -266,6 +329,31 @@ router.put("/updateBio", verifyJWT, async (req, res) => {
         })
 
         res.status(200).send("Bio added/updated successfully");
+    } catch (err) {
+        handleError(res, err);
+    }
+});
+
+router.put("/applyDiscount", verifyJWT, async (req, res) => {
+    try {
+        let courseId = req.query.courseId;
+        let oldCourse = await course.findById(courseId)
+
+        if(req.User.Username !== oldCourse.InstructorUsername) {
+            return handleError(res, "You can only apply Discount to your Courses")
+        }
+
+        let discountPercentage = req.query.discount;
+        let expiryDate = req.query.expiryDate;
+
+        const date = new Date(expiryDate);
+
+        await course.findByIdAndUpdate(courseId, {
+            Discount: discountPercentage,
+            DiscountExpiryDate: date
+        })
+
+        res.status(200).send("Discount added/updated successfully");
     } catch (err) {
         handleError(res, err);
     }

@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Calendar from "react-calendar";
 import countryToCurrency  from 'country-to-currency';
 import InstructorService from "../../services/Instructor.service";
+import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 
 async function retrieveCourseDetails(id){
     return InstructorService.getCourseDetails(id)
@@ -49,6 +50,45 @@ function DiscountPage() {
     };
 
     const coursePrice = parseFloat(course.Price);
+
+    const [message, setMessage] = React.useState(
+        { text: "", type: ""}
+    )
+
+    const [confirmDiscountModal, setConfirmDiscountModal] = React.useState(false);
+
+    const toggleConfirmationModal = () => {
+        if (checkSubmit()) {
+            setConfirmDiscountModal(prevModal => !prevModal);
+        }
+    };
+
+    function checkSubmit() {
+        if(!discountPercentage) {
+            setMessage({ text: "Discount Percentage Field is Required", type: "form--errormessage" })
+            return false;
+        }
+        else {
+            if(discountPercentage < 1 || discountPercentage > 100) {
+                setMessage({ text: "Discount Percentage Must Be Between 1 and 100", type: "form--errormessage" })
+                return false;
+            }
+        }
+        return true;
+    }
+
+    async function handleApplyDiscount(event) {
+        event.preventDefault();
+        return InstructorService.applyDiscount(params.courseId, discountPercentage, date)
+            .then((result) => {
+                navigate(`/coursedetails/${params.courseId}`)
+            })
+            .catch((error) => {
+                setMessage({ text: error.response.data, type: "form--errormessage" })
+                console.log(error)
+            })
+
+    }
 
     return (
         <>
@@ -98,7 +138,12 @@ function DiscountPage() {
                             <h3>{discountPercentage ? discountPercentage >= 1 && discountPercentage <= 100 ? (coursePrice*((100-discountPercentage)/100)).toFixed(2) : coursePrice.toFixed(2) : coursePrice.toFixed(2)} {currencyCode}</h3>
                         </div>
                     </div>
-                    <button className='discount--applybutton'>Apply</button>
+                    <button className='discount--applybutton' onClick={toggleConfirmationModal}>Apply</button>
+                    <p className={message.type}>{message.text}</p>
+                    <ConfirmationModal confirmModal={confirmDiscountModal} toggleConfirmationModal={toggleConfirmationModal} 
+                        confirmationMessage="Are you sure you want apply this discount?" actionCannotBeUndone={false} 
+                        discountDetails = {`Price After Discount: ${discountPercentage ? discountPercentage >= 1 && discountPercentage <= 100 ? (coursePrice*((100-discountPercentage)/100)).toFixed(2) : coursePrice.toFixed(2) : coursePrice.toFixed(2)} ${currencyCode}, Expiry Date: ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`}
+                        handleConfirm={handleApplyDiscount}/>
                 </div>
             </>
         )
