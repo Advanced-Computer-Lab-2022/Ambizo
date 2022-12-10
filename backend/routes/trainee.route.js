@@ -156,8 +156,10 @@ router.post("/submitExercise", verifyJWT, async (req, res) => {
 
         Trainee.EnrolledCourses.forEach(course => {
             if(course.courseId === req.query.courseId){
-                course.exercises[Number.parseInt(req.query.exerciseNum)].choices = req.body.traineeChoices;
-                course.exercises[Number.parseInt(req.query.exerciseNum)].grade = grade;
+                course.exercises[Number.parseInt(req.query.exerciseNum)] = {
+                    grade: grade,
+                    choices: req.body.traineeChoices
+                }
             }
         })
         

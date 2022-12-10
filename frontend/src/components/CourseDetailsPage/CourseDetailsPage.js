@@ -214,6 +214,9 @@ function CourseDetailsPage() {
 
     if (course.Subtitles && course.Exercises) {
         courseExercises = course.Exercises.map((exercise, index) => {
+            if(!exercise){
+                return null;
+            }
             return (
                 <Exercise 
                     key={index}
@@ -329,9 +332,9 @@ function CourseDetailsPage() {
                                         {userType === "instructor" && <img src={PriceIcon} alt='Price Icon' className='coursedetails--priceiconinstr' />} */}
                                         <div className="coursedetials--pricediscount">
                                             {course.PriceInUSD === 0 && <span className='coursedetails--price'><i className="fa-solid fa-tag"></i>&nbsp;FREE</span>}
-                                            {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--price'><i class="fa-solid fa-tag"></i>&nbsp;{(course.PriceInUSD*((100-course.Discount)/100)).toFixed(2)} {currencyCode}&nbsp;</span>}
+                                            {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--price'><i className="fa-solid fa-tag"></i>&nbsp;{(course.PriceInUSD*((100-course.Discount)/100)).toFixed(2)} {currencyCode}&nbsp;</span>}
                                             {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--oldprice'>{course.PriceInUSD} {currencyCode}</span>}
-                                            {course.PriceInUSD !== 0 && course.Discount===0 && <span className='coursedetails--price'><i class="fa-solid fa-tag"></i>&nbsp;{course.PriceInUSD} {currencyCode}</span>}
+                                            {course.PriceInUSD !== 0 && course.Discount===0 && <span className='coursedetails--price'><i className="fa-solid fa-tag"></i>&nbsp;{course.PriceInUSD} {currencyCode}</span>}
                                             {userType !== "instructor" && course.Discount>0 && <p className="coursedetails--discount">Don't miss out on the {course.Discount}% discount!</p>}
                                         </div>
                                         {userType !== "instructor" && <button className='button--enroll'>Enroll Now</button>}
