@@ -361,7 +361,7 @@ function CourseDetailsPage() {
                                         </div>
                                         {userType !== "instructor" && <button className='button--enroll'>Enroll Now</button>}
                                         {userType === "instructor" && instructorLoggedInCourse && course.PriceInUSD !== 0 && course.Discount === 0 && <button className='button--enroll' onClick={() => navigate(`/definediscount/${course._id}`)}>Make a Discount</button>}
-                                        {userType === "instructor" && instructorLoggedInCourse && course.PriceInUSD !== 0 && course.Discount !== 0 && <button className='button--enroll' onClick={toggleRemoveDiscountModal}>Remove Discount</button>}
+                                        {userType === "instructor" && instructorLoggedInCourse && course.PriceInUSD !== 0 && course.Discount !== 0 && <button className='button--enroll' onClick={toggleRemoveDiscountModal}><i className="fa-solid fa-trash"></i>&nbsp;&nbsp;Remove Discount</button>}
                                         <ConfirmationModal confirmModal={removeDiscountModal} toggleConfirmationModal={toggleRemoveDiscountModal} 
                                             confirmationMessage="Are you sure you want to remove the discount?" actionCannotBeUndone={false} 
                                             discountDetails = {`Price after removing discount: ${course.PriceInUSD} ${currencyCode}`} handleConfirm={handleRemoveDiscount} />
