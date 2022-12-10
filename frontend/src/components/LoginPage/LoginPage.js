@@ -82,6 +82,7 @@ function LoginPage() {
                     }
                     else{
                         navigate("/");
+                        navigate(0);
                     }
                     
                 })
@@ -128,7 +129,7 @@ function LoginPage() {
                         />
                         <label htmlFor="showpassword">Show Password</label>
                     </div>
-                    <p>Forgotten password? <span><a href="/requestPasswordReset" className="reset-password">Reset password</a></span>.</p>
+                    <p>Forgotten password? <span><a onClick={() => navigate("/requestPasswordReset")} className="reset-password">Reset password</a></span>.</p>
                     <button className="form--button">Login</button>
                     <p className={message.type}>{message.text}</p>
                 </ form>

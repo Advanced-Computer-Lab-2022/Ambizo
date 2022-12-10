@@ -19,7 +19,6 @@ async function retrieveCourse(id, traineeUsername){
     })
 }
 
-
 function CourseDetailsPage() {
     const navigate = useNavigate();
 
@@ -145,7 +144,8 @@ function CourseDetailsPage() {
         });
         toggleRateModal();
     }
-    // config the modal to update a course Rating.
+
+    // Config the modal to update a course Rating.
     function updateRateModalConfig(){
         setModalConfig({
             showRateModal: rateModal,
@@ -163,7 +163,7 @@ function CourseDetailsPage() {
 
     }
 
-    // config the modal to rate an instructor.
+    // Config the modal to rate an instructor.
     function rateInstructorModalConfig(){
         setModalConfig({
             showRateModal: rateModal,
@@ -180,7 +180,7 @@ function CourseDetailsPage() {
         toggleRateModal();
     }
 
-    // config the modal to update the instructor rating.
+    // Config the modal to update the instructor rating.
     function updateinstructorModalConfig(){
         setModalConfig({
             showRateModal: rateModal,
@@ -214,6 +214,9 @@ function CourseDetailsPage() {
 
     if (course.Subtitles && course.Exercises) {
         courseExercises = course.Exercises.map((exercise, index) => {
+            if(!exercise){
+                return null;
+            }
             return (
                 <Exercise 
                     key={index}
@@ -255,11 +258,11 @@ function CourseDetailsPage() {
             />
         )
         })
-  }
+    }
 
-  function scrollTo(id){
-    document.getElementById(id).scrollIntoView( { behavior: 'smooth', block: 'start' } );
-  }
+    function scrollTo(id){
+        document.getElementById(id).scrollIntoView( { behavior: 'smooth', block: 'start' } );
+    }
 
     let hourSpan = course.TotalHours>1? "Hours" : "Hour"
     return (
@@ -305,7 +308,7 @@ function CourseDetailsPage() {
                             <div className='coursedetails--courseimagepriceenroll'>
                                 <img className="coursedetails--image" src={course.ImgURL} alt='Course' />
                                 {
-                                  ((userType === 'individualTrainee' || userType === 'corporateTrainee') && traineeInfo.isTraineeEnrolled)?
+                                  ((userType === 'individualTrainee' || userType === 'corporateTrainee') && traineeInfo.isTraineeEnrolled) ?
                                   (
                                     <div className="coursedetails--enrolledoptions">
                                         <h3 className="youareenrolled">You are enrolled in this course.</h3>
@@ -328,13 +331,14 @@ function CourseDetailsPage() {
                                         {/* {userType !== "instructor" && <img src={PriceIcon} alt='Price Icon' className={course.Discount === 0 ? 'coursedetails--priceicon' : 'coursedetails--priceicondiscounted'} />}
                                         {userType === "instructor" && <img src={PriceIcon} alt='Price Icon' className='coursedetails--priceiconinstr' />} */}
                                         <div className="coursedetials--pricediscount">
-                                            {course.PriceInUSD === 0 && <span className='coursedetails--price'><i class="fa-solid fa-tag"></i>&nbsp;FREE</span>}
-                                            {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--price'><i class="fa-solid fa-tag"></i>&nbsp;{(course.PriceInUSD*((100-course.Discount)/100)).toFixed(2)} {currencyCode}&nbsp;</span>}
+                                            {course.PriceInUSD === 0 && <span className='coursedetails--price'><i className="fa-solid fa-tag"></i>&nbsp;FREE</span>}
+                                            {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--price'><i className="fa-solid fa-tag"></i>&nbsp;{(course.PriceInUSD*((100-course.Discount)/100)).toFixed(2)} {currencyCode}&nbsp;</span>}
                                             {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--oldprice'>{course.PriceInUSD} {currencyCode}</span>}
-                                            {course.PriceInUSD !== 0 && course.Discount===0 && <span className='coursedetails--price'><i class="fa-solid fa-tag"></i>&nbsp;{course.PriceInUSD} {currencyCode}</span>}
+                                            {course.PriceInUSD !== 0 && course.Discount===0 && <span className='coursedetails--price'><i className="fa-solid fa-tag"></i>&nbsp;{course.PriceInUSD} {currencyCode}</span>}
                                             {userType !== "instructor" && course.Discount>0 && <p className="coursedetails--discount">Don't miss out on the {course.Discount}% discount!</p>}
                                         </div>
-                                        {userType !== "instructor" && <button className='button--enroll'>Enroll now</button>}
+                                        {userType !== "instructor" && <button className='button--enroll'>Enroll Now</button>}
+                                        {userType === "instructor" && instructorLoggedInCourse && course.PriceInUSD !== 0 && course.Discount === 0 && <button className='button--enroll' onClick={() => navigate(`/definediscount/${course._id}`)}>Make a Discount</button>}
                                     </div>
                                   )
                                 }
@@ -349,10 +353,9 @@ function CourseDetailsPage() {
                         instructorLoggedInCourse={instructorLoggedInCourse} />
                         <h2 className="coursedetails--subtitlesheader">Subtitles</h2>
                         {courseSubtitles}
-                        <h2 className="coursedetails--subtitlesheader"  id = "allRatings">Reviews</h2>
+                        <h2 className="coursedetails--subtitlesheader"  id = "allRatings">Ratings</h2>
                         <div className="coursedetails--ratings">
-                            {course.Ratings?.length>0 ? ratingDataElements: <p className = "courseDetails--noratings">No Reviews</p>}
-                            
+                            {course.Ratings?.length>0 ? ratingDataElements : <i><p className = "courseDetails--noratings">No ratings yet.</p></i>}
                         </div>
                     </div>
 

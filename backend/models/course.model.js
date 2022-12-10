@@ -59,6 +59,10 @@ const courseSchema = new Schema({
     type: Number,
     default: 0
   },
+  DiscountExpiryDate: {
+    type: Date,
+    default: new Date()
+  },
   ImgURL: {
     type: String,
     default: ""
