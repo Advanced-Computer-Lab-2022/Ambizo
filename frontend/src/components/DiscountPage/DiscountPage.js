@@ -140,8 +140,8 @@ function DiscountPage() {
                     <button className='discount--applybutton' onClick={toggleConfirmationModal}>Apply</button>
                     <p className={message.type}>{message.text}</p>
                     <ConfirmationModal confirmModal={confirmDiscountModal} toggleConfirmationModal={toggleConfirmationModal} 
-                        confirmationMessage="Are you sure you want apply this discount?" actionCannotBeUndone={false} 
-                        discountDetails = {`Price After Discount: ${discountPercentage ? discountPercentage >= 1 && discountPercentage <= 100 ? (coursePrice*((100-discountPercentage)/100)).toFixed(2) : coursePrice.toFixed(2) : coursePrice.toFixed(2)} ${currencyCode}, Expiry Date: ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`}
+                        confirmationMessage="Are you sure you want to apply this discount?" actionCannotBeUndone={false} 
+                        discountDetails = {`Price after discount: ${discountPercentage ? discountPercentage >= 1 && discountPercentage <= 100 ? (coursePrice*((100-discountPercentage)/100)).toFixed(2) : coursePrice.toFixed(2) : coursePrice.toFixed(2)} ${currencyCode}, Expiry Date: ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`}
                         handleConfirm={handleApplyDiscount}/>
                 </div>
             </>

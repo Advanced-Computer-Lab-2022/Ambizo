@@ -11,6 +11,8 @@ import countryToCurrency  from 'country-to-currency';
 import CoursePreview from "../CoursePreview/CoursePreview"
 import RateModal from "../RatingModal/RatingModal";
 import UserRating from "../UserRating/UserRating";
+import InstructorService from "../../services/Instructor.service";
+import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 
 async function retrieveCourse(id, traineeUsername){
     return CourseService.getCourse(id, traineeUsername)
@@ -264,6 +266,25 @@ function CourseDetailsPage() {
         document.getElementById(id).scrollIntoView( { behavior: 'smooth', block: 'start' } );
     }
 
+    const [removeDiscountModal, setRemoveDiscountModal] = React.useState(false);
+
+    const toggleRemoveDiscountModal = () => {
+        setRemoveDiscountModal(prev => !prev)
+    };
+
+    async function handleRemoveDiscount(event) {
+        event.preventDefault();
+        return InstructorService.applyDiscount(params.courseId, 0, new Date())
+            .then((result) => {
+                course.Discount = 0
+                setRemoveDiscountModal(prev => !prev)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+
+    }
+
     let hourSpan = course.TotalHours>1? "Hours" : "Hour"
     return (
         <>
@@ -336,9 +357,14 @@ function CourseDetailsPage() {
                                             {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--oldprice'>{course.PriceInUSD} {currencyCode}</span>}
                                             {course.PriceInUSD !== 0 && course.Discount===0 && <span className='coursedetails--price'><i className="fa-solid fa-tag"></i>&nbsp;{course.PriceInUSD} {currencyCode}</span>}
                                             {userType !== "instructor" && course.Discount>0 && <p className="coursedetails--discount">Don't miss out on the {course.Discount}% discount!</p>}
+                                            {userType !== "instructor" && course.Discount>0 && <p className="coursedetails--discount">Expires on: {new Date(course.DiscountExpiryDate).getDate()}/{new Date(course.DiscountExpiryDate).getMonth()}/{new Date(course.DiscountExpiryDate).getFullYear()}</p>}
                                         </div>
                                         {userType !== "instructor" && <button className='button--enroll'>Enroll Now</button>}
                                         {userType === "instructor" && instructorLoggedInCourse && course.PriceInUSD !== 0 && course.Discount === 0 && <button className='button--enroll' onClick={() => navigate(`/definediscount/${course._id}`)}>Make a Discount</button>}
+                                        {userType === "instructor" && instructorLoggedInCourse && course.PriceInUSD !== 0 && course.Discount !== 0 && <button className='button--enroll' onClick={toggleRemoveDiscountModal}>Remove Discount</button>}
+                                        <ConfirmationModal confirmModal={removeDiscountModal} toggleConfirmationModal={toggleRemoveDiscountModal} 
+                                            confirmationMessage="Are you sure you want to remove the discount?" actionCannotBeUndone={false} 
+                                            discountDetails = {`Price after removing discount: ${course.PriceInUSD} ${currencyCode}`} handleConfirm={handleRemoveDiscount} />
                                     </div>
                                   )
                                 }
@@ -355,7 +381,7 @@ function CourseDetailsPage() {
                         {courseSubtitles}
                         <h2 className="coursedetails--subtitlesheader"  id = "allRatings">Ratings</h2>
                         <div className="coursedetails--ratings">
-                            {course.Ratings?.length>0 ? ratingDataElements : <i><p className = "courseDetails--noratings">No ratings yet.</p></i>}
+                            {course.Ratings?.length > 0 ? ratingDataElements : <i><p className = "courseDetails--noratings">No ratings yet.</p></i>}
                         </div>
                     </div>
 

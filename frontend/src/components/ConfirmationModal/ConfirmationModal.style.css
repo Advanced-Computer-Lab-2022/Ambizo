@@ -49,6 +49,7 @@
 
 .action--cannotbeundone {
     font-size: 15px;
+    color: black;
 }
 
 .confirmation--buttons {
