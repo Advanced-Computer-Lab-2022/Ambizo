@@ -5,6 +5,7 @@ import instructor from "../models/instructor.model.js";
 import corporateTrainee from "../models/corporateTrainee.model.js";
 import individualTrainee from "../models/individualTrainee.model.js";
 import currencyConverter from "../middleware/currencyConverter.js";
+import bcrypt from "bcrypt";
 
 const router = express.Router();
 
@@ -193,7 +194,7 @@ router.post("/getCourse/:courseId", async (req,res) => {
             }
             return res.status(200).json(result);
         }
-    
+
          
     }
     catch(err) {
@@ -215,5 +216,38 @@ router.get("/getSubtitleName", async (req, res) => {
 function handleError(res, err) {
     return res.status(400).send(err);
 }
+
+router.post("/addIndividualTrainee", async (req, res) => {
+    try{
+        
+        let checkDuplicate = await user.findOne({Username: req.body.userName});
+        if (checkDuplicate) {
+            return handleError(res, "Username already exists!");
+        } 
+        else {
+            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+            const newIndividualTrainee = new individualTrainee({
+                Username: req.body.userName,
+                Password: hashedPassword,
+                Name: req.body.firstName + " " + req.body.lastName,
+                Email: req.body.email,
+                Gender: req.body.gender
+            });
+
+            const newUser = new user({
+                Username: req.body.userName,
+                Type: "individualTrainee"
+            });
+
+            await newIndividualTrainee.save();
+            await newUser.save();
+            res.json(newIndividualTrainee);
+        }
+    }
+    catch(err){
+        handleError(res, err.message);
+    }
+})
 
 export default router;

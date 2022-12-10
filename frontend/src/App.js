@@ -19,6 +19,7 @@ import UserProfile from './components/UserProfile/UserProfile';
 import ScrollToTopButton from './components/ScrollToTopButton/ScrollToTopButton';
 import SettingsPage from './components/SettingsPage/SettingsPage';
 import DiscountPage from './components/DiscountPage/DiscountPage';
+import SignUpPage from './components/SignUpPage/SignUpPage';
 
 function App() {
     return (
@@ -29,6 +30,7 @@ function App() {
                     <Route path='/404' element={<NotFound />} />
                     <Route path="/" element={<CoursesPage />} />
                     <Route path='/login' element={<LoginPage />} />
+                    <Route path='/signUp' element={<SignUpPage />} />
                     <Route path='/requestPasswordReset' element={<RequestPasswordResetPage />} />
                     <Route path='/resetPassword/:resetToken' element={<PasswordResetPage />} />
                     <Route path='/coursedetails/:courseId' element={<CourseDetailsPage />} />

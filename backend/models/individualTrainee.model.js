@@ -19,6 +19,10 @@ const individualTraineeSchema = new Schema({
     type: String,
     required: true
   },
+  Gender: {
+    type: String,         /////////////////
+    required: false
+  },
   EnrolledCourses: {
     type: Array,
     default: []
