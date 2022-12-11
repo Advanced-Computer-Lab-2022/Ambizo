@@ -5,13 +5,29 @@ import AttendOnlineCourses from '../../images/AttendOnlineCourses.jpg'
 import AssessYourLevel from '../../images/AssessYourLevel.jpg'
 import GetYourCertification from '../../images/GetYourCertification.jpg'
 import CoursesPage from '../CoursesPage/CoursesPage';
+import { useNavigate } from "react-router-dom"
 
 function Homepage() {
+    const navigate = useNavigate();
+
+    const toggleSignUp = () => {
+        navigate("/signUp");
+    }
+
     return (
         <>
             <Header />
             <div className='homepage--topcontainer'>
-                <h1 className='homepage--header'>No Limitation To Your Education.</h1>
+                <div className='homepage--headerbutton'>
+                    <h1 className='homepage--header'>No Limitation To Your Education.</h1>
+                    <button 
+                        id='delete-product-button'
+                        className='homepagebutton--signup'
+                        // disabled={}
+                        onClick={toggleSignUp}
+                    >Sign up
+                    </button>
+                </div>
                 <img className="homepage--image" src={HomepageImage} alt='Homepage' />
             </div>
             <div className='homepage--middlecontainer'>

@@ -9,10 +9,28 @@
     gap: 20px;
 }
 
-.homepage--header {
-    font-size: 75px;
+.homepage--headerbutton {
     width: 21%;
     margin-left: 60px;
+}
+
+.homepage--header {
+    font-size: 75px;
+    margin-bottom: 30px;
+}
+
+.homepagebutton--signup {
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 35px;
+}
+
+.homepagebutton--signup:hover {
+    opacity: 0.8;
 }
 
 .homepage--image {
