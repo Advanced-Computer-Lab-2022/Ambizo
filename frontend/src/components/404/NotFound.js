@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import Header from "../Header/Header";
 import errorImage from "../../images/404.svg"
+import Error404Image from "../../images/Error404Image.jpg"
 
 function NotFound() {
 
@@ -29,9 +30,9 @@ function NotFound() {
                 <>
                     <Header />
                     <div>
-                        <img src={errorImage} alt="404 - Not Found" className='error404Image' />
+                        <img src={Error404Image} alt="404 - Not Found" className='error404Image' />
                         <h1 className='error404Text'>The Page You Are Looking For Doesn't Exist.</h1>
-                        <h3 className='error404Text'>Or you may not have access, if you have any questions, please contact us at: <a href = "mailto: support@ambizo.com">support@ambizo.com</a></h3>
+                        <h3 className='error404Text'>Or you may not have access, if you have any questions, please contact us at: <a className="support--email" href = "mailto: support@ambizo.com">support@ambizo.com</a></h3>
                     </div>
                 </>
             )

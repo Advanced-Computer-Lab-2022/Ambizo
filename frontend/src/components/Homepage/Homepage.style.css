@@ -6,16 +6,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 25px;
 }
 
 .homepage--headerbutton {
     width: 21%;
-    margin-left: 60px;
+    margin-left: 45px;
+    padding-bottom: 20px;
 }
 
 .homepage--header {
     font-size: 75px;
+    margin-top: 0px;
     margin-bottom: 30px;
 }
 
@@ -34,8 +36,9 @@
 }
 
 .homepage--image {
-    height: 620px;
+    height: 600px;
     width: fit-content;
+    margin-top: -20px;
 }
 
 .homepage--middlecontainer {
