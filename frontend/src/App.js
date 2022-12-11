@@ -20,6 +20,7 @@ import ScrollToTopButton from './components/ScrollToTopButton/ScrollToTopButton'
 import SettingsPage from './components/SettingsPage/SettingsPage';
 import DiscountPage from './components/DiscountPage/DiscountPage';
 import SignUpPage from './components/SignUpPage/SignUpPage';
+import AdminHomepage from './components/AdminHomepage/AdminHomepage';
 
 function App() {
     return (
@@ -46,6 +47,7 @@ function App() {
                     <Route path='/user/:username' element={<UserProfile />} />
                     <Route path='/settings' element={sessionStorage.getItem("Type") === "instructor" || sessionStorage.getItem("Type") === "individualTrainee" || sessionStorage.getItem("Type") === "corporateTrainee" ? <SettingsPage /> : <Navigate to="/404" />} />
                     <Route path='/definediscount/:courseId' element={<DiscountPage />} />
+                    <Route path='/admin' element={<AdminHomepage />} />
                 </Routes>
                 <Footer />
                 <ScrollToTopButton />

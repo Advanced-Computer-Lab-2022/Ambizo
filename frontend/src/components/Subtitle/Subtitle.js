@@ -29,7 +29,7 @@ function Subtitle(props) {
                 console.log(error);
             })
         }
-    }, [props.exercise, props.courseId, props.index]);
+    }, [props.exercise, props.courseId, props.index, props.isTraineeEnrolled]);
 
     async function handleConfirm(event) {
         event.preventDefault();

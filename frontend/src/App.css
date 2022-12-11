@@ -30,6 +30,7 @@
 @import "./components/SettingsPage/SettingsPage.style.css";
 @import "./components/DiscountPage/DiscountPage.style.css";
 @import 'react-calendar/dist/Calendar.css';
+@import './components/AdminHomepage/AdminHomepage.style.css';
 
 * {
   box-sizing: border-box;

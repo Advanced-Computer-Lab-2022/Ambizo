@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../Header/Header";
 import { Rating } from "@mui/material";
-import PriceIcon from '../../images/PriceIcon.png'
+// import PriceIcon from '../../images/PriceIcon.png'
 import Subtitle from "../Subtitle/Subtitle";
 import Exercise from "../Exercise/Exercise";
 import { useParams, useNavigate } from "react-router-dom";
@@ -92,7 +92,7 @@ function CourseDetailsPage() {
         .catch(error => {
             console.log(error);  
         })
-    }, [params.courseId, modalConfig.Rating, modalConfig.Review]);
+    }, [params.courseId, modalConfig.Rating, modalConfig.Review, userType]);
 
     function modifyModalConfigFromModal(key , value){
         setModalConfig(prevValue => (
@@ -309,11 +309,11 @@ function CourseDetailsPage() {
                             <div className="course--path">
                                 {!instructorLoggedInCourse && 
                                 <>
-                                    <a className="all--hyperlink" onClick={() => navigate("/")}>All Courses</a>
+                                    <a className="all--hyperlink" href="/" >All Courses</a>
                                     <span>{" > "}</span>
-                                    <a className="subject--hyperlink" onClick={() => navigate("/search/" + course.Subject)}>{course.Subject}</a>
+                                    <a className="subject--hyperlink" href={`/search/${course.Subject}`}>{course.Subject}</a>
                                 </>}
-                                {instructorLoggedInCourse && <a className="all--hyperlink" onClick={() => navigate("/mycourses")}>My Courses</a> }
+                                {instructorLoggedInCourse && <a className="all--hyperlink" href="/mycourses">My Courses</a> }
                                 
                             </div>
                             <h1 className="coursedetails--fulltitle">{course.Title}</h1>
@@ -323,7 +323,7 @@ function CourseDetailsPage() {
                                 <span className='coursedetails--numberratings' onClick = {() => scrollTo("allRatings")}>(<span className = "coursedetails--ratingsUnderline">{course.NumberOfReviews} {course.NumberOfReviews === 1 ? "rating" : "ratings"}</span>)</span>
                                 <span className='coursedetails--hourscount'><i className="fa-solid fa-clock"></i> &nbsp;{course.TotalHours} {hourSpan}</span>
                             </div>
-                            {!instructorLoggedInCourse && <p className="coursedetails--instructor">Created by:{<a className="instructor--hyperlink" onClick={() => navigate("/user/"+course.InstructorUsername)}>{course.InstructorName}</a>}</p> }
+                            {!instructorLoggedInCourse && <p className="coursedetails--instructor">Created by:{<a className="instructor--hyperlink" href={`/user/${course.InstructorUsername}`} >{course.InstructorName}</a>}</p> }
                         </div>
                         <div className="container--right">
                             <div className='coursedetails--courseimagepriceenroll'>
