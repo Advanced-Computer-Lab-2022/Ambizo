@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../Header/Header';
 import CoursesPage from '../CoursesPage/CoursesPage';
-import AdminImage from '../../images/AdminImage.jpg'
+import AdminImage from '../../images/AdminImage.png'
 
 function AdminHomepage() {
     return (
@@ -21,8 +21,8 @@ function AdminHomepage() {
                         <button className='adminhp--setpromobutton'><i className="fa-solid fa-plus"></i>&nbsp;&nbsp;Add Corporate Trainee</button>
                     </div>
                     <div className='adminhp--addusers'>
-                        <button className='adminhp--setpromobutton'><i class="fa-solid fa-eye"></i>&nbsp;&nbsp;View Corporate Requests</button>
-                        <button className='adminhp--setpromobutton'><i class="fa-solid fa-check"></i>&nbsp;&nbsp;Grant Corporate Access</button>
+                        <button className='adminhp--setpromobutton'><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Reported Problems</button>
+                        <button className='adminhp--setpromobutton'><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Corporate Requests</button>
                     </div>
                 </div>
                 <div className='adminhp--rightcontainer'>
