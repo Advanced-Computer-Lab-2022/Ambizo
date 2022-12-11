@@ -4,6 +4,7 @@ import Header from "../Header/Header.js"
 import LoginService from "../../services/Login.service";
 import InstructorService from "../../services/Instructor.service";
 import InstructorContractModal from "../InstructorContractModal/InstructorContractModal.js";
+import LoginImage from '../../images/LoginImage2.jpg'
 
 function LoginPage() {
 
@@ -102,37 +103,45 @@ function LoginPage() {
             <InstructorContractModal toggleContractModal = {toggleContractModal} contractModal = {contractModal} handleAcceptContract = {handleAcceptContract}/>
             
             <Header />
-            <div className="form--div">
-                <h1>Login</h1>
-                <form className="form" onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        placeholder="Enter User Name"
-                        onChange={handleChange}
-                        name="username"
-                        value={userData.username}
-                    />
-                    <input
-                        type={userData.showpassword ? "text" : "password"}
-                        placeholder="Enter Password"
-                        onChange={handleChange}
-                        name="password"
-                        value={userData.password}
-                    />
-                    <div className="show-password-div">
+            <div className="login--container">
+                <div className="login--leftcontainer">
+                    <h1 className="login--header">Log in to your account</h1>
+                    <form className="login--form" onSubmit={handleSubmit}>
                         <input
-                            type="checkbox"
-                            id="showpassword"
-                            checked={userData.showpassword}
+                            type="text"
+                            placeholder="Enter Username"
                             onChange={handleChange}
-                            name="showpassword"
+                            name="username"
+                            value={userData.username}
+                            className="login--inputfield"
                         />
-                        <label htmlFor="showpassword">Show Password</label>
-                    </div>
-                    <p>Forgotten password? <span><a onClick={() => navigate("/requestPasswordReset")} className="reset-password">Reset password</a></span>.</p>
-                    <button className="form--button">Login</button>
-                    <p className={message.type}>{message.text}</p>
-                </ form>
+                        <input
+                            type={userData.showpassword ? "text" : "password"}
+                            placeholder="Enter Password"
+                            onChange={handleChange}
+                            name="password"
+                            value={userData.password}
+                            className="login--inputfield"
+                        />
+                        <button className="loginform--button">Log in</button>
+                        <div className="show-password-div">
+                            <input
+                                type="checkbox"
+                                id="showpassword"
+                                checked={userData.showpassword}
+                                onChange={handleChange}
+                                name="showpassword"
+                            />
+                            <label htmlFor="showpassword">Show Password</label>
+                        </div>
+                        <p>Forgotten password? <span><a onClick={() => navigate("/requestPasswordReset")} className="reset-password">Reset password</a></span>.</p>
+                        
+                        <p className={message.type}>{message.text}</p>
+                    </ form>
+                </div>
+                <div className='login--rightcontainer'>
+                    <img className="login--loginimage" src={LoginImage} alt='Login' />
+                </div>
             </div>
         </>
     )
