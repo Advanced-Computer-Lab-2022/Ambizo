@@ -315,7 +315,7 @@ function UserProfile() {
                 {/* else mafesh bio */}
                 {(!myProfileInstr && !myProfileTrainee) &&
                   <>
-                    <hr className="user--line"/>
+                    <hr className="userprofile--line"/>
                     <div className="userprofile--courses">
                       <h3 className="userprofile--coursesheader" id="instructorCourses">Courses</h3>
                       <div className="userprofile--allcourses">
@@ -326,7 +326,7 @@ function UserProfile() {
                 }
                 {myProfileTrainee &&
                   <>
-                    <hr className="user--line"/>
+                    <hr className="userprofile--line"/>
                     <div className="userprofile--courses">
                       <h3 className="userprofile--coursesheader" id="instructorCourses">Enrolled In</h3>
                       <div className="userprofile--allcourses">
@@ -338,7 +338,7 @@ function UserProfile() {
                 {/* msh htl3 el courses lw da logged in instructor 3shan kda kda yro7 yshofhom fe My Courses */}
                 {(profileInstr || myProfileInstr)  &&
                   <>
-                    <hr className="user--line"/>
+                    <hr className="userprofile--line"/>
                     <div className="userprofile--ratings">
                         <h3 className="userprofile--ratingssheader" id="instructorRatings">Ratings</h3>
                         <div className="userprofile--allcourses">

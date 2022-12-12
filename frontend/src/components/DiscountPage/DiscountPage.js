@@ -5,6 +5,7 @@ import Calendar from "react-calendar";
 import countryToCurrency  from 'country-to-currency';
 import InstructorService from "../../services/Instructor.service";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
+import DiscountImage from '../../images/DiscountImage.png'
 
 async function retrieveCourseDetails(id){
     return InstructorService.getCourseDetails(id)
@@ -105,44 +106,50 @@ function DiscountPage() {
             <>
                 <Header />
                 <div className="definediscount--page">
-                    <p className="discount--goback" onClick={() => navigate(`/coursedetails/${params.courseId}`)}>{"<"} Back to Course details</p>
-                    <h1 className="discountpage--header"><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;Define a Promotion</h1>
-                    <p className="discount--titles">Course title:</p>
-                    <h3>{course.Title}</h3>
-                    <div className="discount--input">
-                        <p className="discount--titles">Discount percentage:</p>
-                        <input 
-                            id='discount' 
-                            className="discount--percentageinput" 
-                            type='number' 
-                            placeholder='Enter percentage (1-100) %' 
-                            name='discount'
-                            min="1" 
-                            max="100"
-                            onChange={handleDiscountPercentageChange}
-                            value={discountPercentage}
-                        />
-                    </div>
-                    <div className="discount--calendar">
-                        <p className="discount--titles">Expiry date:</p>
-                        <Calendar minDate={new Date()} onChange={onChange} value={date} />
-                    </div>
-                    <div className="discount--oldnewprice">
-                        <div>
-                            <p className="discount--titles">Current Price:</p>
-                            <h3>{coursePrice.toFixed(2)} {currencyCode}</h3>
+                    <div className="definediscount--page--left">
+                        <p className="discount--goback" onClick={() => navigate(`/coursedetails/${params.courseId}`)}>{"<"} Back to Course details</p>
+                        <h1 className="discountpage--header"><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;Define a Promotion</h1>
+                        <p className="discount--titles">Course title:</p>
+                        <h3>{course.Title}</h3>
+                        <div className="discount--input">
+                            <p className="discount--titles">Discount percentage:</p>
+                            <input 
+                                id='discount' 
+                                className="discount--percentageinput" 
+                                type='number' 
+                                placeholder='Enter percentage (1-100) %' 
+                                name='discount'
+                                min="1" 
+                                max="100"
+                                onChange={handleDiscountPercentageChange}
+                                value={discountPercentage}
+                            />
                         </div>
-                        <div>
-                            <p className="discount--titles">New Price:</p>
-                            <h3>{discountPercentage ? discountPercentage >= 1 && discountPercentage <= 100 ? (coursePrice*((100-discountPercentage)/100)).toFixed(2) : coursePrice.toFixed(2) : coursePrice.toFixed(2)} {currencyCode}</h3>
+                        <div className="discount--calendar">
+                            <p className="discount--titles">Expiry date:</p>
+                            <Calendar minDate={new Date()} onChange={onChange} value={date} />
                         </div>
+                        <div className="discount--oldnewprice">
+                            <div>
+                                <p className="discount--titles">Current Price:</p>
+                                <h3>{coursePrice.toFixed(2)} {currencyCode}</h3>
+                            </div>
+                            <div>
+                                <p className="discount--titles">New Price:</p>
+                                <h3>{discountPercentage ? discountPercentage >= 1 && discountPercentage <= 100 ? (coursePrice*((100-discountPercentage)/100)).toFixed(2) : coursePrice.toFixed(2) : coursePrice.toFixed(2)} {currencyCode}</h3>
+                            </div>
+                        </div>
+                        <button className='discount--applybutton' onClick={toggleConfirmationModal}>Apply</button>
+                        <p className={message.type}>{message.text}</p>
+                        <ConfirmationModal confirmModal={confirmDiscountModal} toggleConfirmationModal={toggleConfirmationModal} 
+                            confirmationMessage="Are you sure you want to apply this discount?" actionCannotBeUndone={false} 
+                            discountDetails = {`Price after discount: ${discountPercentage ? discountPercentage >= 1 && discountPercentage <= 100 ? (coursePrice*((100-discountPercentage)/100)).toFixed(2) : coursePrice.toFixed(2) : coursePrice.toFixed(2)} ${currencyCode}, Expiry Date: ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`}
+                            handleConfirm={handleApplyDiscount}/>
                     </div>
-                    <button className='discount--applybutton' onClick={toggleConfirmationModal}>Apply</button>
-                    <p className={message.type}>{message.text}</p>
-                    <ConfirmationModal confirmModal={confirmDiscountModal} toggleConfirmationModal={toggleConfirmationModal} 
-                        confirmationMessage="Are you sure you want to apply this discount?" actionCannotBeUndone={false} 
-                        discountDetails = {`Price after discount: ${discountPercentage ? discountPercentage >= 1 && discountPercentage <= 100 ? (coursePrice*((100-discountPercentage)/100)).toFixed(2) : coursePrice.toFixed(2) : coursePrice.toFixed(2)} ${currencyCode}, Expiry Date: ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`}
-                        handleConfirm={handleApplyDiscount}/>
+                    <div className='definediscount--rightcontainer'>
+                        <img className="definediscount--discountimage" src={DiscountImage} alt='Attract Trainees' />
+                        <h2 className="discount--statement">Applying discounts help you attract more trainees to your course!</h2>
+                    </div>
                 </div>
             </>
         )

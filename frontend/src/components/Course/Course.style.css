@@ -6,9 +6,9 @@
     overflow-y: scroll;
     transition-duration: 0.15s;
     cursor: pointer;
-    border: 3px solid rgba(0, 0, 0, 0.3);
+    border: 3px solid rgba(0, 0, 0, 0.75);
     border-radius: 15px;
-    box-shadow: 0 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px rgba(0, 0, 0, 0.75);
   }
   
     .course::-webkit-scrollbar { 
