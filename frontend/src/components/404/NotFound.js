@@ -1,6 +1,5 @@
 import React, {useEffect} from "react";
 import Header from "../Header/Header";
-import errorImage from "../../images/404.svg"
 import Error404Image from "../../images/Error404Image.jpg"
 
 function NotFound() {
