@@ -1,9 +1,10 @@
 .adminhp--options {
-    min-height: 800px;
+    min-height: 750px;
     height: fit-content;
     display: flex;
     align-items: center;
     padding: 0px 10%;
+    background-color: #f7f7f7;
 }
 
 .adminhp--leftcontainer {

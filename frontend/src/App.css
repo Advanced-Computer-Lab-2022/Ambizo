@@ -30,6 +30,7 @@
 @import "./components/SettingsPage/SettingsPage.style.css";
 @import "./components/DiscountPage/DiscountPage.style.css";
 @import 'react-calendar/dist/Calendar.css';
+@import './components/Homepage/Homepage.style.css';
 @import './components/AdminHomepage/AdminHomepage.style.css';
 @import './components/RequestRefundModal/RequestRefundModal.style.css';
 

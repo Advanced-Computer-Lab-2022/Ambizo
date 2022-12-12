@@ -1,0 +1,81 @@
+.homepage--topcontainer {
+    min-height: 750px;
+    height: fit-content;
+    padding: 0px 0px;
+    background-color: #f7f7f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+}
+
+.homepage--headerbutton {
+    width: 21%;
+    margin-left: 45px;
+    padding-bottom: 20px;
+}
+
+.homepage--header {
+    font-size: 75px;
+    margin-top: 0px;
+    margin-bottom: 30px;
+}
+
+.homepagebutton--signup {
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 35px;
+}
+
+.homepagebutton--signup:hover {
+    opacity: 0.8;
+}
+
+.homepage--image {
+    height: 600px;
+    width: fit-content;
+    margin-top: -20px;
+}
+
+.homepage--middlecontainer {
+    display: flex;
+    justify-content: center;
+}
+
+.homepage--attendcourses {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.homepage--attendimage {
+    width: 500px;
+    height: fit-content;
+}
+
+.homepage--line {
+    width: 100%;
+    border: 1px solid #a30506;
+    margin-bottom: 30px;
+    margin-left: 0px;
+}
+
+.homepage--assessyourlevel {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.homepage--assessimage {
+    width: 350px;
+    height: fit-content;
+}
+
+.homepage--getimage {
+    width: 460px;
+    height: fit-content;
+}
