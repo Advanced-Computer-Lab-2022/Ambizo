@@ -46,7 +46,7 @@ function ExercisePage() {
         else{
             retrieveAnswers(params.courseId, params.exerciseNum)
             .then(answers => {
-                if (answers.data.grade > -1) {
+                if (answers.data?.grade > -1) {
                     setTraineeChoices(answers.data.choices);
                     setGrade(answers.data.grade);
                 }
