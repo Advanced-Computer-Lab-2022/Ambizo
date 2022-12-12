@@ -32,6 +32,7 @@
 @import 'react-calendar/dist/Calendar.css';
 @import './components/Homepage/Homepage.style.css';
 @import './components/AdminHomepage/AdminHomepage.style.css';
+@import './components/RequestRefundModal/RequestRefundModal.style.css';
 
 * {
   box-sizing: border-box;
@@ -173,6 +174,7 @@ button {
 .reset-password:hover {
   text-decoration: underline;
   opacity: 0.8;
+  cursor: pointer;
 }
 
 .reset-password:active{

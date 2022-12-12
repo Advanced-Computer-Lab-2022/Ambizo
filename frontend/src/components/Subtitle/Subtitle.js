@@ -21,7 +21,7 @@ function Subtitle(props) {
         if(props.exercise && props.isTraineeEnrolled){
             TraineeService.getAnswers(props.courseId, props.index)
             .then(answers => {
-                if (answers.data.grade > -1) {
+                if (answers.data?.grade > -1) {
                     setGrade(answers.data.grade);
                 }
             })
@@ -138,12 +138,13 @@ function Subtitle(props) {
         },
     }
 
+    let subtitleProgress = (props.progress*100).toFixed(0);
     return (
         <>
-            <div className="subtitle" onClick={displaySubtitlesDetails} >
+            <div className="subtitle" onClick={displaySubtitlesDetails} style={{"--progress": subtitleProgress+"%"}}>
                 {!showSubtitleDetails && <img src={ArrowDownIcon} alt='Arrow Down Icon' className='subtitle--arrow' />}
                 {showSubtitleDetails && <img src={ArrowUpIcon} alt='Arrow Up Icon' className='subtitle--arrow' />}
-                <p className="subtitle--name">{props.subtitle}</p>
+                <p className="subtitle--name">{props.subtitle} {props.isTraineeEnrolled && <span className="subtitle--progress">{subtitleProgress}%</span>}</p>
                 {hours && <span className="subtitle--duration">{hours}hr {minutes}min</span>}
                 {!hours && <span className="subtitle--duration">{props.duration}min</span>}
             </div>
@@ -173,7 +174,7 @@ function Subtitle(props) {
                     <p className={message.type}>{message.text}</p>
                 </form>
             }
-            {props.youtubeLink && showSubtitleDetails && (props.instructorLoggedInCourse || props.isTraineeEnrolled) &&
+            {props.youtubeLink && showSubtitleDetails && (props.instructorLoggedInCourse || (props.isTraineeEnrolled && props.refundStatus === "None")) &&
                 <div className="subtitle--detailsfilled">
                     <h4>Video:</h4>
                     <YouTube className="subtitle--video" videoId={validateYouTubeUrl(props.youtubeLink)} opts={opts} />

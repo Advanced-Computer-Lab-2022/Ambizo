@@ -39,7 +39,7 @@ function UserRating(props) {
             <div className="rating--review">
                 <p className="rating--reviewtext">{props.Review.length >= 230 ? props.Review.substring(0, 230) + "..." : props.Review}</p>
                 {props.Review.length >= 230 && 
-                    <a className="fullrating--hyperlink" href="">Show more</a>
+                    <span className="fullrating--hyperlink">Show more</span>
                 }
             </div>
         </div>

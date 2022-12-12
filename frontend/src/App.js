@@ -30,7 +30,7 @@ function App() {
                 <Routes>
                     <Route path='*' element={<Navigate to="/404" />} />
                     <Route path='/404' element={<NotFound />} />
-                    <Route path="/" element={<Homepage />} />
+                    <Route path="/" element={sessionStorage.getItem("Type") === "admin" ? <AdminHomepage /> : <Homepage />} />
                     <Route path='/login' element={<LoginPage />} />
                     <Route path='/signUp' element={<SignUpPage />} />
                     <Route path='/requestPasswordReset' element={<RequestPasswordResetPage />} />
@@ -49,7 +49,6 @@ function App() {
                     <Route path='/settings' element={sessionStorage.getItem("Type") === "instructor" || sessionStorage.getItem("Type") === "individualTrainee" || sessionStorage.getItem("Type") === "corporateTrainee" ? <SettingsPage /> : <Navigate to="/404" />} />
                     <Route path='/definediscount/:courseId' element={<DiscountPage />} />
                     <Route path='/allcourses' element={<CoursesPage />} />
-                    <Route path='/admin' element={<AdminHomepage />} />
                 </Routes>
                 <Footer />
                 <ScrollToTopButton />

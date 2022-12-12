@@ -1,7 +1,7 @@
 
 .subtitle {
     display: flex;
-    width: 50%;
+    width: 100%;
     height: 80px;
     border-width: 2px;
     border-color: hsla(210,18%,87%,1);
@@ -14,6 +14,17 @@
     -moz-user-select: none; 
     -ms-user-select: none; 
     user-select: none;
+    position: relative;
+}
+
+.subtitle:after{
+    content: '\A';
+    background: rgba(152, 251, 152, 0.2);
+    position:absolute;
+    top: 0; 
+    bottom: 0;
+    left: 0; 
+    width: var(--progress);
 }
 
 .subtitle:hover{
@@ -37,7 +48,7 @@
 }
 
 .subtitle--details {
-    width: 50%;
+    width: 100%;
     height: fit-content;
     border-width: 2px;
     border-color: hsla(210,18%,87%,1);
@@ -90,7 +101,7 @@
 }
 
 .subtitle--detailsfilled {
-    width: 50%;
+    width: 100%;
     height: fit-content;
     border-width: 2px;
     border-color: hsla(210,18%,87%,1);
@@ -149,7 +160,11 @@
     margin: auto 10% 1.33rem auto;
 }
 
-  
 .subtitle--createexercise:hover {
     opacity: 0.8;
+}
+
+.subtitle--progress{
+    opacity: 0.6;
+    font-size: 12pt;
 }

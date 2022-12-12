@@ -10,6 +10,7 @@ import TraineeService from "../../services/Trainee.service";
 import countryToCurrency  from 'country-to-currency';
 import CoursePreview from "../CoursePreview/CoursePreview"
 import RateModal from "../RatingModal/RatingModal";
+import RequestRefundModal from "../RequestRefundModal/RequestRefundModal";
 import UserRating from "../UserRating/UserRating";
 import InstructorService from "../../services/Instructor.service";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
@@ -28,6 +29,12 @@ function CourseDetailsPage() {
 
     const toggleRateModal = () => {
         setRateModal(prevModal => !prevModal);
+    };
+
+    const [refundModal, setRefundModal] = React.useState(false);
+
+    const toggleRefundModal = () => {
+        setRefundModal(prevModal => !prevModal);
     };
 
     function modifyCourseDetailsPageSubtitle(newSubtitle, index) {
@@ -66,8 +73,12 @@ function CourseDetailsPage() {
     const [traineeInfo, setTraineeInfo] = React.useState({
         isTraineeEnrolled: false,
         traineeCourseRate: null,
-        traineeInstructorRate: null
+        traineeInstructorRate: null,
+        subtitlesProgress: [],
+        overallProgress: 0
     });
+
+    const [refundStatus, setRefundStatus] = React.useState("None");
 
 
 
@@ -83,10 +94,18 @@ function CourseDetailsPage() {
             setTraineeInfo({
                 isTraineeEnrolled: course.data.traineeEnrolled,
                 traineeCourseRate: course.data.traineeCourseRate,
-                traineeInstructorRate: course.data.traineeInstructorRate
+                traineeInstructorRate: course.data.traineeInstructorRate,
+                subtitlesProgress: course.data.subtitlesProgress? course.data.subtitlesProgress: [],
+                overallProgress: course.data.overallProgress? course.data.overallProgress : 0
             });
 
+            if(course.data.traineeEnrolled && userType === "individualTrainee"){
+                TraineeService.getRefundStatus(params.courseId)
+                .then(status => setRefundStatus(status.data))
+                .catch(error => console.log(error))
+            }
 
+            
             setIsLoading(false);
         })
         .catch(error => {
@@ -243,6 +262,8 @@ function CourseDetailsPage() {
                     modifyCourseDetailsPageSubtitle={(newSubtitle, index) => modifyCourseDetailsPageSubtitle(newSubtitle, index)}
                     exercise={courseExercises[subtitleIndex]? courseExercises[subtitleIndex] : null}
                     isTraineeEnrolled={traineeInfo.isTraineeEnrolled}
+                    progress={traineeInfo.subtitlesProgress[subtitleIndex]? traineeInfo.subtitlesProgress[subtitleIndex] : 0}
+                    refundStatus={refundStatus}
                     {...subtitle}
                 />
             )
@@ -286,6 +307,7 @@ function CourseDetailsPage() {
     }
 
     let hourSpan = course.TotalHours>1? "Hours" : "Hour"
+    let courseProgress = (traineeInfo.overallProgress*100).toFixed(0);
     return (
         <>
             <div className={"loader-container" + (!isLoading? " hidden" : "")}>
@@ -309,11 +331,11 @@ function CourseDetailsPage() {
                             <div className="course--path">
                                 {!instructorLoggedInCourse && 
                                 <>
-                                    <a className="all--hyperlink" href="/" >All Courses</a>
+                                    <span className="all--hyperlink" onClick={() => navigate("/")} >All Courses</span>
                                     <span>{" > "}</span>
-                                    <a className="subject--hyperlink" href={`/search/${course.Subject}`}>{course.Subject}</a>
+                                    <span className="subject--hyperlink" onClick={() => navigate(`/search/${course.Subject}`)}>{course.Subject}</span>
                                 </>}
-                                {instructorLoggedInCourse && <a className="all--hyperlink" href="/mycourses">My Courses</a> }
+                                {instructorLoggedInCourse && <span className="all--hyperlink" onClick={() => navigate("/mycourses")}>My Courses</span> }
                                 
                             </div>
                             <h1 className="coursedetails--fulltitle">{course.Title}</h1>
@@ -323,7 +345,7 @@ function CourseDetailsPage() {
                                 <span className='coursedetails--numberratings' onClick = {() => scrollTo("allRatings")}>(<span className = "coursedetails--ratingsUnderline">{course.NumberOfReviews} {course.NumberOfReviews === 1 ? "rating" : "ratings"}</span>)</span>
                                 <span className='coursedetails--hourscount'><i className="fa-solid fa-clock"></i> &nbsp;{course.TotalHours} {hourSpan}</span>
                             </div>
-                            {!instructorLoggedInCourse && <p className="coursedetails--instructor">Created by:{<a className="instructor--hyperlink" href={`/user/${course.InstructorUsername}`} >{course.InstructorName}</a>}</p> }
+                            {!instructorLoggedInCourse && <p className="coursedetails--instructor">Created by:{<span className="instructor--hyperlink" onClick={() => navigate(`/user/${course.InstructorUsername}`)}>{course.InstructorName}</span>}</p> }
                         </div>
                         <div className="container--right">
                             <div className='coursedetails--courseimagepriceenroll'>
@@ -378,7 +400,31 @@ function CourseDetailsPage() {
                         modifyCourseDetailsPagePreview={(newPreviewLink) => modifyCourseDetailsPagePreview(newPreviewLink)}
                         instructorLoggedInCourse={instructorLoggedInCourse} />
                         <h2 className="coursedetails--subtitlesheader">Subtitles</h2>
-                        {courseSubtitles}
+                        <div className="subtitles--progress--div">
+                            <div style={{"width": "50%"}}>
+                                {courseSubtitles}
+                            </div>
+                            {traineeInfo.isTraineeEnrolled && traineeInfo.overallProgress < 1 &&
+                                <div className="progress--div">
+                                    <p className="progress--div--header">Your Progress</p>
+                                    <div className="progress--bar" style={{"--progress": courseProgress+"%"}}></div>
+                                    <p className="progress--percentage">You are <b>{courseProgress}%</b> on your way</p>
+                                    {userType === "individualTrainee" && traineeInfo.overallProgress < 0.5 && refundStatus ==="None" &&
+                                       <p className="progress--percentage refund">Don't like the course? Request a refund from <span className="reset-password" onClick={toggleRefundModal}>here</span></p>
+                                    }
+                                    {userType === "individualTrainee" && refundStatus === "Processing" &&
+                                       <p className="progress--percentage refund">Your refund request is currently processing </p>
+                                    }
+                                </div>
+                            }
+                            {traineeInfo.isTraineeEnrolled && traineeInfo.overallProgress === 1 &&
+                                <div className="progress--div">
+                                    <p className="progress--div--header">Well Done, Course Completed!</p>
+                                    <p className="progress--percentage certificate">You can download your certificate from <span className="reset-password" onClick={null}>here</span></p>
+                                </div>
+                            }
+                        </div>
+                        
                         <h2 className="coursedetails--subtitlesheader"  id = "allRatings">Ratings</h2>
                         <div className="coursedetails--ratings">
                             {course.Ratings?.length > 0 ? ratingDataElements : <i><p className = "courseDetails--noratings">No ratings yet.</p></i>}
@@ -396,6 +442,13 @@ function CourseDetailsPage() {
                         updateRateModal = {modalConfig.updateRateModal}
                         updateTraineeInfo= {modalConfig.updateTraineeInfo}
                     />
+
+                    <RequestRefundModal
+                        showRefundModal={refundModal}
+                        toggleRefundModal={toggleRefundModal}
+                        courseId={course._id}
+                    />
+
 
                 </>
             )
