@@ -40,6 +40,14 @@ class TraineeService{
     getTraineeName(TraineeUsername) {
         return http.get("/trainee/getTraineeName/?traineeUsername=" + TraineeUsername);
     }
+
+    requestRefund(courseId, reason, description) {
+        return httpPost.post("/individualTrainee/requestRefund/?courseId=" + courseId, {reason:reason, description: description});
+    }
+
+    getRefundStatus(courseId) {
+        return http.get("/individualTrainee/getRefundStatus/?courseId=" + courseId);
+    }
 }
 
 export default new TraineeService();

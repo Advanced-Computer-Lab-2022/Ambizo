@@ -265,11 +265,11 @@ function UserProfile() {
                               <button type="button" onClick={() => scrollTo("instructorRatings")}>Ratings</button>
                             </div>
                           }
-                          {myProfileInstr && <a className="userprofile--settingshyperlink" onClick={() => navigate("/settings")}><i className="fa-solid fa-gear"></i>&nbsp;&nbsp;Settings & Privacy</a>}
+                          {myProfileInstr && <span className="userprofile--settingshyperlink" onClick={() => navigate("/settings")}><i className="fa-solid fa-gear"></i>&nbsp;&nbsp;Settings & Privacy</span>}
                         </>
                         }
                         {!(myProfileInstr || profileInstr) &&<h4 className="usertype--user">{traineeInfo.Type === 'individualTrainee'? 'INDIVIDUAL TRAINEE' :'CORPORATE TRAINEE'}</h4>}
-                        {myProfileTrainee && <a className="userprofile--settingshyperlink" onClick={() => navigate("/settings")}><i className="fa-solid fa-gear"></i>&nbsp;&nbsp;Settings & Privacy</a>}
+                        {myProfileTrainee && <span className="userprofile--settingshyperlink" onClick={() => navigate("/settings")}><i className="fa-solid fa-gear"></i>&nbsp;&nbsp;Settings & Privacy</span>}
                     </div>
                     {(profileInstr || myProfileInstr) && instructorInfo?.ProfileImage &&
                       <div className="user--rightcontainer">
