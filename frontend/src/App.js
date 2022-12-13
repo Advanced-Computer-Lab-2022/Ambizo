@@ -31,8 +31,8 @@ function App() {
                     <Route path='*' element={<Navigate to="/404" />} />
                     <Route path='/404' element={<NotFound />} />
                     <Route path="/" element={sessionStorage.getItem("Type") === "admin" ? <AdminHomepage /> : <Homepage />} />
-                    <Route path='/login' element={<LoginPage />} />
-                    <Route path='/signUp' element={<SignUpPage />} />
+                    <Route path='/login' element={sessionStorage.getItem("Type")? <Navigate to="/" /> : <LoginPage />} />
+                    <Route path='/signUp' element={sessionStorage.getItem("Type")? <Navigate to="/" /> : <SignUpPage />} />
                     <Route path='/requestPasswordReset' element={<RequestPasswordResetPage />} />
                     <Route path='/resetPassword/:resetToken' element={<PasswordResetPage />} />
                     <Route path='/coursedetails/:courseId' element={<CourseDetailsPage />} />
