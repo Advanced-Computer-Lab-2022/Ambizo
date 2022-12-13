@@ -35,6 +35,7 @@ function Header() {
         setIsLoggedIn(false);
         setUserMenu(false)
         navigate("/");
+        navigate(0);
     }
 
     const toggleUserMenu = () => {
