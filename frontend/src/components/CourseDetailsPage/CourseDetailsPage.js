@@ -295,7 +295,7 @@ function CourseDetailsPage() {
 
     async function handleRemoveDiscount(event) {
         event.preventDefault();
-        return InstructorService.applyDiscount(params.courseId, 0, new Date())
+        return InstructorService.applyDiscount(params.courseId, 0, new Date("2000-01-01"))
             .then((result) => {
                 course.Discount = 0
                 setRemoveDiscountModal(prev => !prev)

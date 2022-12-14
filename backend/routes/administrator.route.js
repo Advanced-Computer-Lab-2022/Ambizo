@@ -5,6 +5,8 @@ import administrator from "../models/administrator.model.js";
 import corporateTrainee from "../models/corporateTrainee.model.js";
 import instructor from "../models/instructor.model.js";
 import user from "../models/user.model.js";
+import course from "../models/course.model.js";
+import currencyConverter from "../middleware/currencyConverter.js";
 
 const router = express.Router();
 
@@ -111,6 +113,90 @@ router.post("/addCorporateTrainee", verifyJWT, async (req, res) => {
             await newUser.save();
             res.json(newCorporateTrainee);
         }
+    }
+    catch(err){
+        handleError(res, err.message);
+    }
+})
+
+router.get("/getNotDiscountedCourses", async (req, res) => {
+    try{
+        // if(req.User.Type !== "admin"){
+        //     return handleError(res, "Invalid Access")
+        // }
+
+        let courses = await course.find();
+        const exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
+
+        courses.forEach(course => {
+            course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
+        })
+
+        var notDiscountedCourses = [];
+
+        const currentDate = new Date();
+        const currentDay = currentDate.getDate();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+
+        courses.forEach(course => {
+            if(currentYear > course.DiscountExpiryDate.getFullYear() && course.PriceInUSD !== 0) {
+                notDiscountedCourses.push(course)
+            }
+            else if(currentYear == course.DiscountExpiryDate.getFullYear()) {
+                if(currentMonth > course.DiscountExpiryDate.getMonth() && course.PriceInUSD !== 0) {
+                    notDiscountedCourses.push(course)
+                }
+                else if(currentMonth == course.DiscountExpiryDate.getMonth()) {
+                    if(currentDay > course.DiscountExpiryDate.getDate() && course.PriceInUSD !== 0) {
+                        notDiscountedCourses.push(course)
+                    }
+                }
+            }
+        })
+        res.json(notDiscountedCourses)
+    }
+    catch(err){
+        handleError(res, err.message);
+    }
+})
+
+router.get("/getDiscountedCourses", async (req, res) => {
+    try{
+        // if(req.User.Type !== "admin"){
+        //     return handleError(res, "Invalid Access")
+        // }
+
+        let courses = await course.find();
+        const exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
+
+        courses.forEach(course => {
+            course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
+        })
+
+        var discountedCourses = [];
+
+        const currentDate = new Date();
+        const currentDay = currentDate.getDate();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+
+        courses.forEach(course => {
+            if(currentYear < course.DiscountExpiryDate.getFullYear() && course.Discount !==0 && course.PriceInUSD !== 0) {
+                discountedCourses.push(course)
+            }
+            else if(currentYear == course.DiscountExpiryDate.getFullYear()) {
+                if(currentMonth < course.DiscountExpiryDate.getMonth() && course.Discount !==0 && course.PriceInUSD !== 0) {
+                    discountedCourses.push(course)
+                }
+                else if(currentMonth == course.DiscountExpiryDate.getMonth()) {
+                    if(currentDay <= course.DiscountExpiryDate.getDate() && course.Discount !==0 && course.PriceInUSD !== 0) {
+                        discountedCourses.push(course)
+                    }
+                }
+            }
+        })
+        res.json(discountedCourses)
     }
     catch(err){
         handleError(res, err.message);

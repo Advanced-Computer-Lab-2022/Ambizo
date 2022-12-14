@@ -22,6 +22,7 @@ import DiscountPage from './components/DiscountPage/DiscountPage';
 import SignUpPage from './components/SignUpPage/SignUpPage';
 import Homepage from './components/Homepage/Homepage.js'
 import AdminHomepage from './components/AdminHomepage/AdminHomepage';
+import AdminSetPromotion from './components/AdminSetPromotion/AdminSetPromotion';
 
 function App() {
     return (
@@ -49,6 +50,7 @@ function App() {
                     <Route path='/settings' element={sessionStorage.getItem("Type") === "instructor" || sessionStorage.getItem("Type") === "individualTrainee" || sessionStorage.getItem("Type") === "corporateTrainee" ? <SettingsPage /> : <Navigate to="/404" />} />
                     <Route path='/definediscount/:courseId' element={<DiscountPage />} />
                     <Route path='/allcourses' element={<CoursesPage />} />
+                    <Route path='/pricesanddiscounts' element={<AdminSetPromotion />} />
                 </Routes>
                 <Footer />
                 <ScrollToTopButton />

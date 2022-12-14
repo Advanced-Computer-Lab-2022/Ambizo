@@ -14,6 +14,10 @@ function Course(props) {
         }, 150);
     }
 
+    function selectCourse() {
+        
+    }
+
     let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
     let hourSpan = props.TotalHours>1? "Hours" : "Hour"
 
@@ -40,8 +44,10 @@ function Course(props) {
             :
             (
                 <>
-                    <div className='course' onClick={viewCourseDetails}>
-                        <img src={props.ImgURL} alt='Course' className='course--image'/>
+                    <div className='course' onClick={!props.adminSetPromo ? viewCourseDetails : selectCourse}>
+                        <div>
+                            <img src={props.ImgURL} alt='Course' className='course--image'/>
+                        </div>
                         <h3 className='course--title'>{props.Title.length > 60 ? props.Title.substring(0, 57) + "..." : props.Title}</h3>
                         <div className='courseinfo'>
                             <div className='courseinfo--left'>

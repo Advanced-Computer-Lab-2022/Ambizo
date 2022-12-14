@@ -1,0 +1,45 @@
+.adminpromo--headerdiv {
+    width: 100%;
+    display: flex;
+    padding: 50px 0px;
+    height: fit-content;
+    background-color: #f7f7f7;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.adminpromotions--pricesimage {
+    width: 400px;
+    height: fit-content;
+}
+
+.adminpromotions--discount {
+    display: flex;
+    height: fit-content;
+    padding: 2% 0;
+    background-color: #f7f7f7;
+    justify-content: center;
+}
+
+.adminpromotionsdiscount--calendar {
+    display: flex;
+    gap: 111px;
+    margin-bottom: 50px;
+}
+
+.adminpromotionsdiscount--applybutton {
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 35%;
+    height: 40px;
+    border-width: 1px;
+    font-size: 12px;
+    margin-bottom: 25px;
+}
+
+.adminpromotionsdiscount--applybutton:hover {
+    opacity: 0.8;
+}

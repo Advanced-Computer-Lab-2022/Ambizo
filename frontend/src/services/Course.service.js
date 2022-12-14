@@ -14,6 +14,16 @@ class CourseService {
         return http.get("guest/getCourses/" + filterURL + "&currencyCode=" + currencyCode);
     }
 
+    getNotDiscountedCourses(){
+        let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
+        return http.get("/admin/getNotDiscountedCourses/?currencyCode=" + currencyCode);
+    }
+
+    getDiscountedCourses(){
+        let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
+        return http.get("/admin/getDiscountedCourses/?currencyCode=" + currencyCode);
+    }
+
     getCourse(courseId, traineeUsername) {
         let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
         return httpPost.post("/guest/getCourse/" + courseId + "?currencyCode=" + currencyCode, {TraineeUsername: traineeUsername});

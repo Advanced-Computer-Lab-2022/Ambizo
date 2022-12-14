@@ -61,7 +61,7 @@ const courseSchema = new Schema({
   },
   DiscountExpiryDate: {
     type: Date,
-    default: new Date()
+    default: new Date("2000-01-01")
   },
   ImgURL: {
     type: String,

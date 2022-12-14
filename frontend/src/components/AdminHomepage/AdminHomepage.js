@@ -13,7 +13,7 @@ function AdminHomepage() {
                     <hr className="adminhp--line"/>    
                     
                     <div className='adminhp--discounts'>       
-                        <button className='adminhp--setpromobutton'><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;Set Promotion</button>
+                        <button className='adminhp--setpromobutton'><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;Prices & Discounts</button>
                     </div>
                     <div className='adminhp--addusers'>
                         <button className='adminhp--setpromobutton'><i className="fa-solid fa-plus"></i>&nbsp;&nbsp;Add Another Admin</button>

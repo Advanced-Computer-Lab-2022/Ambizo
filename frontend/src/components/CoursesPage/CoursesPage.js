@@ -18,9 +18,35 @@ async function retrieveAllCourses(setIsLoading){
     })
 }
 
-async function retrieveFilteredCourses(setIsLoading ,filterURL){
+async function retrieveFilteredCourses(setIsLoading, filterURL){
     setIsLoading(true);
     return CourseService.getFilteredCourses(filterURL)
+    .then((result) => {
+        setIsLoading(false);
+        return result;
+    })
+    .catch((error) => {
+        setIsLoading(false);
+        return null;
+    })
+}
+
+async function retrieveNotDiscountedCourses(setIsLoading) {
+    setIsLoading(true);
+    return CourseService.getNotDiscountedCourses()
+    .then((result) => {
+        setIsLoading(false);
+        return result;
+    })
+    .catch((error) => {
+        setIsLoading(false);
+        return null;
+    })
+}
+
+async function retrieveDiscountedCourses(setIsLoading) {
+    setIsLoading(true);
+    return CourseService.getDiscountedCourses()
     .then((result) => {
         setIsLoading(false);
         return result;
@@ -46,17 +72,34 @@ function CoursesPage(props) {
 
     React.useEffect(() => {
         document.title = "All Courses";
-        retrieveAllCourses(setIsLoading)
-        .then(coursesList => setCoursesData(coursesList.data))
-        .catch(error => {
-            console.log(error);
-        })
+        if(props.adminNotDiscountedCourses) {
+            retrieveNotDiscountedCourses(setIsLoading)
+            .then(coursesList => setCoursesData(coursesList.data))
+            .catch(error => {
+                console.log(error);
+            })
+        }
+        else if(props.adminDiscountedCourses) {
+            retrieveDiscountedCourses(setIsLoading)
+            .then(coursesList => setCoursesData(coursesList.data))
+            .catch(error => {
+                console.log(error);
+            })
+        }
+        else {
+            retrieveAllCourses(setIsLoading)
+            .then(coursesList => setCoursesData(coursesList.data))
+            .catch(error => {
+                console.log(error);
+            })
+        }
     }, []);
 
     const coursesDataElements = coursesData.map(course => {
         return (
             <Course
                 key={course._id}
+                adminSetPromo ={props.setPromoTitle}
                 {...course}
             />
         )
@@ -163,7 +206,8 @@ function CoursesPage(props) {
             <>
                 <div className='coursesTitleFilter'>
                     <div className='coursesTitleFilter--header'>
-                        <p>All Courses</p>
+                        {!props.setPromoTitle && <p>All Courses</p>}
+                        {props.setPromoTitle && <p>{props.setPromoTitle}</p>}
                     </div>
                     <img src={FilterIcon} alt='Filter Icon' className='filter--icon'/>
                     <button className="filter--button" onClick={toggleFilterModal}/>
@@ -202,6 +246,7 @@ function CoursesPage(props) {
                 <>
                     {!props.sectionNotPage && <Header />}
                     {renderCourseHeader(toggleFilterModal)}
+                    {props.setPromoTitle && <button className='button--selectall' ><i className="fa-solid fa-square-check"></i>&nbsp;&nbsp;Select All</button>}
                     <section className="courses-list">
                         {coursesDataElements}
                         {coursesDataElements.length === 0 && <p className="no--courses">0 Courses found.</p>}

@@ -51,3 +51,18 @@
 .no--courses {
   font-size: 30px;
 }
+
+.button--selectall {
+  border-color: #bd0312;
+  background-color: #a30506;
+  border-style: solid;
+  color: white;
+  width: 120px;
+  padding: 10px 0;
+  margin-left: auto;
+  margin-right: 13%;
+}
+
+.button--selectall:hover {
+  opacity: 0.8;
+}
