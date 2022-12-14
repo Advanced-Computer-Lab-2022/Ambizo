@@ -89,7 +89,7 @@ function CourseDetailsPage() {
         let traineeUsername = (userType === 'individualTrainee' || userType === 'corporateTrainee')?
         (JSON.parse(sessionStorage.getItem('User')).Username):
         null;        
-        retrieveCourse(params.courseId, traineeUsername ,setIsLoading)
+        retrieveCourse(params.courseId, traineeUsername)
         .then(course => {
             setCourse(course.data.courseData)
             setTraineeInfo({
