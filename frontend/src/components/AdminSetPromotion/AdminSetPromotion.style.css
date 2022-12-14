@@ -22,10 +22,16 @@
     justify-content: center;
 }
 
+.adminpromotions--discountheader {
+    margin-top: 0px;
+    font-size: 25px;
+    font-weight: 500;
+}
+
 .adminpromotionsdiscount--calendar {
     display: flex;
     gap: 111px;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 .adminpromotionsdiscount--applybutton {
@@ -33,8 +39,8 @@
     background-color: #a30506;
     border-style: solid;
     color: white;
-    width: 35%;
-    height: 40px;
+    width: 40%;
+    height: 30px;
     border-width: 1px;
     font-size: 12px;
     margin-bottom: 25px;

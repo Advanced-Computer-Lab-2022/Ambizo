@@ -21,7 +21,7 @@ function AdminSetPromotion() {
             <CoursesPage sectionNotPage={true} setPromoTitle="Select course(s) and set a discount" adminNotDiscountedCourses={true} />
             <div className="adminpromotions--discount">
                 <div className="adminpromotions-discountdetails">
-                <h1 className="discount--header"><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;Define a Discount for Selected Courses</h1>
+                <p className="adminpromotions--discountheader"><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;Define a Discount for Selected Courses</p>
                 <div className="discount--input">
                     <p className="discount--titles">Discount percentage:</p>
                     <input 
