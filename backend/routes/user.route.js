@@ -69,8 +69,11 @@ router.post("/login", async (req, res) => {
 
 router.get("/getLoggedInUserData", verifyJWT, async (req,res) => {
     try{
-        let User = await user.findOne({Username: req.User.Username});
-        res.json(User);
+        res.json({
+            Name: req.User.Name,
+            Username: req.User.Username,
+            Type: req.User.Type
+        });
     }
     catch(err){
         handleError(res, err.message);

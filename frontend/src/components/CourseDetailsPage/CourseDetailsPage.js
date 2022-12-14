@@ -1,7 +1,6 @@
 import React from "react";
 import Header from "../Header/Header";
 import { Rating } from "@mui/material";
-// import PriceIcon from '../../images/PriceIcon.png'
 import Subtitle from "../Subtitle/Subtitle";
 import Exercise from "../Exercise/Exercise";
 import { useParams, useNavigate } from "react-router-dom";
@@ -14,6 +13,8 @@ import RequestRefundModal from "../RequestRefundModal/RequestRefundModal";
 import UserRating from "../UserRating/UserRating";
 import InstructorService from "../../services/Instructor.service";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
+import Certificate from "../Certificate/Certificate";
+import { PDFDownloadLink } from '@react-pdf/renderer';
 
 async function retrieveCourse(id, traineeUsername){
     return CourseService.getCourse(id, traineeUsername)
@@ -88,7 +89,7 @@ function CourseDetailsPage() {
         let traineeUsername = (userType === 'individualTrainee' || userType === 'corporateTrainee')?
         (JSON.parse(sessionStorage.getItem('User')).Username):
         null;        
-        retrieveCourse(params.courseId, traineeUsername ,setIsLoading)
+        retrieveCourse(params.courseId, traineeUsername)
         .then(course => {
             setCourse(course.data.courseData)
             setTraineeInfo({
@@ -303,11 +304,19 @@ function CourseDetailsPage() {
             .catch((error) => {
                 console.log(error)
             })
-
     }
 
     let hourSpan = course.TotalHours>1? "Hours" : "Hour"
     let courseProgress = (traineeInfo.overallProgress*100).toFixed(0);
+    let loggedInName = JSON.parse(sessionStorage.getItem("User"))?.Name;
+    let certificateFileName = "";
+    if(loggedInName?.charAt(loggedInName.length - 1) === 's'){
+        certificateFileName =  + loggedInName + "' Certificate.pdf"
+    }
+    else{
+        certificateFileName = loggedInName + "'s Certificate.pdf"
+    }
+
     return (
         <>
             <div className={"loader-container" + (!isLoading? " hidden" : "")}>
@@ -420,7 +429,16 @@ function CourseDetailsPage() {
                             {traineeInfo.isTraineeEnrolled && traineeInfo.overallProgress === 1 &&
                                 <div className="progress--div">
                                     <p className="progress--div--header">Well Done, Course Completed!</p>
-                                    <p className="progress--percentage certificate">You can download your certificate from <span className="reset-password" onClick={null}>here</span></p>
+                                    <p className="progress--percentage certificate">You can download your certificate from 
+                                        <span>
+                                            <PDFDownloadLink className="reset-password" document={<Certificate Name={loggedInName} Course={course.Title} />} fileName={certificateFileName}>
+                                                {({ blob, url, loading, error }) => {
+                                                    return ' here'
+                                                }
+                                                }
+                                            </PDFDownloadLink>
+                                        </span>
+                                    </p>
                                 </div>
                             }
                         </div>
@@ -447,6 +465,7 @@ function CourseDetailsPage() {
                         showRefundModal={refundModal}
                         toggleRefundModal={toggleRefundModal}
                         courseId={course._id}
+                        setRefundStatus = {setRefundStatus}
                     />
 
 

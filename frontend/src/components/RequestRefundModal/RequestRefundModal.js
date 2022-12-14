@@ -74,6 +74,7 @@ function RequestRefundModal(props){
             TraineeService.requestRefund(props.courseId, reason.value, description).then(() => {
                 setLoading(false);
                 props.toggleRefundModal();
+                props.setRefundStatus("Processing");
             })
             .catch(error => {
                 console.log(error);
