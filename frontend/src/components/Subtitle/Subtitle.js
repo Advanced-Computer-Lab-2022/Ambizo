@@ -139,16 +139,19 @@ function Subtitle(props) {
     }
 
     let subtitleProgress = (props.progress*100).toFixed(0);
+    let isSubtitleClickable =  (props.instructorLoggedInCourse || (props.isTraineeEnrolled && props.refundStatus === "None"));
+    let isSubtitleClickableInstructor = props.userType === "instructor" && props.instructorLoggedInCourse;
+    let blockSubtitles = (!isSubtitleClickable && (props.userType === "individualTrainee" || props.userType === "corporateTrainee")) || !sessionStorage.getItem("User") || (props.userType === "instructor" && !props.instructorLoggedInCourse);
     return (
         <>
             <div className="subtitle" onClick={displaySubtitlesDetails} style={{"--progress": subtitleProgress+"%"}}>
-                {!showSubtitleDetails && <img src={ArrowDownIcon} alt='Arrow Down Icon' className='subtitle--arrow' />}
-                {showSubtitleDetails && <img src={ArrowUpIcon} alt='Arrow Up Icon' className='subtitle--arrow' />}
+                {!showSubtitleDetails && !blockSubtitles && <img src={ArrowDownIcon} alt='Arrow Down Icon' className='subtitle--arrow' />}
+                {showSubtitleDetails && !blockSubtitles && <img src={ArrowUpIcon} alt='Arrow Up Icon' className='subtitle--arrow' />}
                 <p className="subtitle--name">{props.subtitle} {props.isTraineeEnrolled && <span className="subtitle--progress">{subtitleProgress}%</span>}</p>
                 {hours && <span className="subtitle--duration">{hours}hr {minutes}min</span>}
                 {!hours && <span className="subtitle--duration">{props.duration}min</span>}
             </div>
-            {props.userType === "instructor" && props.instructorLoggedInCourse && !props.youtubeLink && showSubtitleDetails && 
+            { isSubtitleClickableInstructor && showSubtitleDetails && !props.youtubeLink &&
                 <form className="subtitle--details" onSubmit={handleSubmit}>
                     <input
                         id="youtubeLink"
@@ -174,7 +177,7 @@ function Subtitle(props) {
                     <p className={message.type}>{message.text}</p>
                 </form>
             }
-            {props.youtubeLink && showSubtitleDetails && (props.instructorLoggedInCourse || (props.isTraineeEnrolled && props.refundStatus === "None")) &&
+            { isSubtitleClickable && showSubtitleDetails && props.youtubeLink &&
                 <div className="subtitle--detailsfilled">
                     <h4>Video:</h4>
                     <YouTube className="subtitle--video" videoId={validateYouTubeUrl(props.youtubeLink)} opts={opts} />
