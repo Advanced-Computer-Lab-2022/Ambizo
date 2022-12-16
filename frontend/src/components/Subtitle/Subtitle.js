@@ -180,7 +180,7 @@ function Subtitle(props) {
             { isSubtitleClickable && showSubtitleDetails && props.youtubeLink &&
                 <div className="subtitle--detailsfilled">
                     <h4>Video:</h4>
-                    <YouTube className="subtitle--video" videoId={validateYouTubeUrl(props.youtubeLink)} opts={opts} />
+                    <YouTube className="subtitle--video" videoId={validateYouTubeUrl(props.youtubeLink)} opts={opts} onPlay={props.updateSubtitleProgress} />
                     <h4>Video Short Description:</h4>
                     <p className="subtitle--description">{props.description}</p>
                     {props.instructorLoggedInCourse &&

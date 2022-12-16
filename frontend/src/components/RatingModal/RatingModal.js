@@ -71,6 +71,7 @@ function RatingModal(props){
                     }: null;
                     props.updateTraineeInfo(props.ratingSubject, newRating, ratingsStats);
                     setLoading(false);
+                    props.setIsSubmitted(prevIsSubmitted => prevIsSubmitted+1)
                     props.toggleRateModal();
                 }
             ).catch(error => {
@@ -104,6 +105,7 @@ function RatingModal(props){
 
                 props.updateTraineeInfo(props.ratingSubject, null, ratingsStats);
                 setLoading(false);
+                props.setIsSubmitted(prevIsSubmitted => prevIsSubmitted+1)
                 props.toggleRateModal();
             }
         ).catch(error => {

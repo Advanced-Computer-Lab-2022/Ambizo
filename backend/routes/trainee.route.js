@@ -55,52 +55,6 @@ router.get('/getTraineeInfo/:username', async (req, res) => {
 
 });
 
-
-router.get("/getExercise", verifyJWT, async (req, res) => {
-    try{
-        if(req.User.Type !== "corporateTrainee" && req.User.Type !== "individualTrainee" && req.User.Type !== "instructor"){
-            return handleError(res, "Invalid Access")
-        }
-        
-        const Course = await course.findById(req.query.courseId);
-        if(req.User.Type === "instructor"){
-            if(Course.InstructorUsername === req.User.Username){
-                const Exercise = Course.Exercises[req.query.exerciseNum];
-                return res.json(Exercise);
-            }
-            else{
-                return handleError(res, "You can only view exercises of your courses");
-            }       
-        }
-        else{
-            let Trainee = null;
-            if(req.User.Type === "individualTrainee"){
-                Trainee = await individualTrainee.findOne({Username: req.User.Username});
-            }
-            else{
-                Trainee = await corporateTrainee.findOne({Username: req.User.Username});
-            }
-        
-            let isEnrolled = false;
-            Trainee.EnrolledCourses.forEach(course => {
-                if(course.courseId === req.query.courseId){
-                    isEnrolled = true;
-                }
-            })
-        
-            if(!isEnrolled){
-                return handleError(res, "You are not Enrolled in this course");
-            }
-        
-            const Exercise = Course.Exercises[req.query.exerciseNum];
-            res.json(Exercise);
-        }
-    }
-    catch(error){
-        handleError(res,error);
-    }
-});
-
 router.get("/getAnswers", verifyJWT, async (req, res) => {
     try {
         if (req.User.Type !== "corporateTrainee" && req.User.Type !== "individualTrainee") {
@@ -634,6 +588,31 @@ router.get("/getTraineeName/", async (req, res) => {
             Name: trainee.Name,
         })
     } catch (err) {
+        handleError(res, err);
+    }
+})
+
+router.put("/updateSubtitleProgress", verifyJWT, async (req, res) => {
+    try{
+        if (req.User.Type !== 'corporateTrainee' && req.User.Type !== 'individualTrainee'){
+            return handleError(res, "Invalid Access")
+        }
+
+        let updateStatement = {
+            "$set": {}
+        }
+        updateStatement["$set"]["EnrolledCourses.$.progress."+req.query.subtitleNum] = req.body.newProgress
+
+        if(req.User.Type === 'corporateTrainee'){
+            await corporateTrainee.findOneAndUpdate({Username: req.User.Username, "EnrolledCourses.courseId": req.query.courseId}, updateStatement)
+        }
+        else{
+            await individualTrainee.findOneAndUpdate({Username: req.User.Username, "EnrolledCourses.courseId": req.query.courseId}, updateStatement)
+        }
+
+        res.send("Progress Updated Successfully");
+    }
+    catch(err){
         handleError(res, err);
     }
 })

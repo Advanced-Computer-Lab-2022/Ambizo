@@ -55,6 +55,7 @@ function CourseDetailsPage() {
     const params = useParams();
     const [course, setCourse] = React.useState({});    
     const [isLoading, setIsLoading] = React.useState(true);
+    const [isSubmitted, setIsSubmitted] = React.useState(0);
 
     // This is the state object that controls the rating modal and behavior. 
     const [modalConfig, setModalConfig] = React.useState({
@@ -81,23 +82,66 @@ function CourseDetailsPage() {
 
     const [refundStatus, setRefundStatus] = React.useState("None");
 
+    function calculateOverallProgress(isTraineeEnrolled, subtitles, subtitlesProgress){
+        if(isTraineeEnrolled){
+            let overallProgress = 0;
+            let totalDuration = 0;
+            let progress = subtitlesProgress
+            if(progress.length > 0){
+                for(let i =0; i<subtitles.length;i++){
+                    if(progress[i]){
+                        overallProgress += (progress[i]*subtitles[i].duration);
+                    }
+                    totalDuration += subtitles[i].duration;
+                }
+                if(totalDuration > 0){
+                    overallProgress /= totalDuration;  
+                    return overallProgress;
+                }
+            }
+        }
+        return 0;
+    }
+
+    async function updateSubtitleProgress(subtitleNum){
+        console.log(subtitleNum)
+        let newSubtitlesProgress = [...traineeInfo.subtitlesProgress]
+        if(!newSubtitlesProgress[subtitleNum]){
+            newSubtitlesProgress[subtitleNum] = 0;
+        }
+        if(newSubtitlesProgress[subtitleNum] === 0.2 || newSubtitlesProgress[subtitleNum] === 0){
+            newSubtitlesProgress[subtitleNum] += 0.8;
+            TraineeService.updateSubtitleProgress(params.courseId, subtitleNum, newSubtitlesProgress[subtitleNum])
+            .then(() => {
+                let newOverallProgress = calculateOverallProgress(traineeInfo.isTraineeEnrolled, course.Subtitles, newSubtitlesProgress)
+                setTraineeInfo(prevTraineeInfo => ({
+                    ...prevTraineeInfo,
+                    subtitlesProgress: newSubtitlesProgress,
+                    overallProgress: newOverallProgress
+                }))
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        }
+    }
 
 
     React.useEffect(() => {
         document.title = "Course Details";
 
         let traineeUsername = (userType === 'individualTrainee' || userType === 'corporateTrainee')?
-        (JSON.parse(sessionStorage.getItem('User')).Username):
-        null;        
+        (JSON.parse(sessionStorage.getItem('User')).Username): null;        
         retrieveCourse(params.courseId, traineeUsername)
         .then(course => {
             setCourse(course.data.courseData)
+            const calculatedOverallProgress = calculateOverallProgress(course.data.traineeEnrolled, course.data.courseData.Subtitles,course.data.subtitlesProgress);
             setTraineeInfo({
                 isTraineeEnrolled: course.data.traineeEnrolled,
                 traineeCourseRate: course.data.traineeCourseRate,
                 traineeInstructorRate: course.data.traineeInstructorRate,
                 subtitlesProgress: course.data.subtitlesProgress? course.data.subtitlesProgress: [],
-                overallProgress: course.data.overallProgress? course.data.overallProgress : 0
+                overallProgress: calculatedOverallProgress
             });
 
             if(course.data.traineeEnrolled && userType === "individualTrainee"){
@@ -112,7 +156,7 @@ function CourseDetailsPage() {
         .catch(error => {
             console.log(error);  
         })
-    }, [params.courseId, modalConfig.Rating, modalConfig.Review, userType]);
+    }, [params.courseId, modalConfig.Rating, modalConfig.Review, userType, isSubmitted]);
 
     function modifyModalConfigFromModal(key , value){
         setModalConfig(prevValue => (
@@ -138,7 +182,6 @@ function CourseDetailsPage() {
                     NumberOfReviews: ratingStats.newNumberOfRatings
                 })
             });
-            navigate(0); //to update ratings section at the bottom of the page
         }else{
             setTraineeInfo(prevTraineeInfo => (
                 {
@@ -250,9 +293,7 @@ function CourseDetailsPage() {
             )
         })
 
-        let subtitleIndex = -1;
-        courseSubtitles = course.Subtitles.map(subtitle => {
-            subtitleIndex++;
+        courseSubtitles = course.Subtitles.map((subtitle, subtitleIndex) => {
             return (
                 <Subtitle
                     key={subtitleIndex}
@@ -265,6 +306,7 @@ function CourseDetailsPage() {
                     isTraineeEnrolled={traineeInfo.isTraineeEnrolled}
                     progress={traineeInfo.subtitlesProgress[subtitleIndex]? traineeInfo.subtitlesProgress[subtitleIndex] : 0}
                     refundStatus={refundStatus}
+                    updateSubtitleProgress={() => updateSubtitleProgress(subtitleIndex)}
                     {...subtitle}
                 />
             )
@@ -459,6 +501,7 @@ function CourseDetailsPage() {
                         Review = {modalConfig.Review}
                         updateRateModal = {modalConfig.updateRateModal}
                         updateTraineeInfo= {modalConfig.updateTraineeInfo}
+                        setIsSubmitted={setIsSubmitted}
                     />
 
                     <RequestRefundModal

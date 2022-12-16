@@ -251,28 +251,12 @@ router.post("/getCourse/:courseId", async (req,res) => {
                 }
             }
 
-            let overallProgress = 0;
-            let totalDuration = 0;
-            if(progress.length > 0){
-                for(let i =0; i<Course.Subtitles.length;i++){
-                    if(progress[i]){
-                        overallProgress += (progress[i]*Course.Subtitles[i].duration);
-                    }
-                    totalDuration += Course.Subtitles[i].duration;
-                }
-                if(totalDuration > 0){
-                    overallProgress /= totalDuration;
-                }
-            }  
-            
-
             let result = {
                 traineeEnrolled: true,
                 traineeCourseRate: courseRating,
                 traineeInstructorRate: instructorRating,
                 courseData: Course,
-                subtitlesProgress: progress,
-                overallProgress: overallProgress
+                subtitlesProgress: progress
             }
             return res.status(200).json(result);
         }
