@@ -28,6 +28,10 @@ function Course(props) {
         }
     }
 
+    function handleAdminSelectionChange(event) {
+        props.handleAdminSelectionChange(event);
+    }
+    
     return (
         <>
             { props.isLoading ?
@@ -44,7 +48,17 @@ function Course(props) {
             :
             (
                 <>
-                    <div className='course' onClick={!props.adminSetPromo ? viewCourseDetails : selectCourse}>
+                    <div className={props.adminSetPromo && !props.isChecked ? 'course--tobeselected' : props.adminSetPromo && props.isChecked ? 'course--selected' : 'course'} onClick={!props.adminSetPromo ? viewCourseDetails : selectCourse}>
+                        {props.adminSetPromo &&
+                        <input 
+                            type='checkbox' 
+                            className='admin--selectcourses' 
+                            name={props._id}
+                            id={props.Title}
+                            onChange={handleAdminSelectionChange} 
+                            checked={props.isChecked} 
+                        />
+                        }
                         <div>
                             <img src={props.ImgURL} alt='Course' className='course--image'/>
                         </div>
