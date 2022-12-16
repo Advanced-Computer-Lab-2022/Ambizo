@@ -288,7 +288,7 @@ function CoursesPage(props) {
                 })
             }
             else {
-                retrieveNotDiscountedFilteredCourses(setIsLoading, filterURL)
+                retrieveFilteredCourses(setIsLoading, filterURL)
                 .then((coursesList) => {
                     setCourseData(coursesList.data)
                     setCoursesDataElements(
