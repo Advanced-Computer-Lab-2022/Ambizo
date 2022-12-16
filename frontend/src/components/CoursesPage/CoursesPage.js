@@ -44,9 +44,35 @@ async function retrieveNotDiscountedCourses(setIsLoading) {
     })
 }
 
+async function retrieveNotDiscountedFilteredCourses(setIsLoading, filterURL){
+    setIsLoading(true);
+    return CourseService.getNotDiscountedFilteredCourses(filterURL)
+    .then((result) => {
+        setIsLoading(false);
+        return result;
+    })
+    .catch((error) => {
+        setIsLoading(false);
+        return null;
+    })
+}
+
 async function retrieveDiscountedCourses(setIsLoading) {
     setIsLoading(true);
     return CourseService.getDiscountedCourses()
+    .then((result) => {
+        setIsLoading(false);
+        return result;
+    })
+    .catch((error) => {
+        setIsLoading(false);
+        return null;
+    })
+}
+
+async function retrieveDiscountedFilteredCourses(setIsLoading, filterURL){
+    setIsLoading(true);
+    return CourseService.getDiscountedFilteredCourses(filterURL)
     .then((result) => {
         setIsLoading(false);
         return result;
@@ -140,7 +166,7 @@ function CoursesPage(props) {
                 console.log(error);
             })
         }
-    }, [props.adminDiscountedCourses, props.adminNotDiscountedCourses, props.setPromoTitle]);
+    }, []);
 
     const [subjectFilterData, setSubjectFilterData] = React.useState([])
 
@@ -217,23 +243,72 @@ function CoursesPage(props) {
                 filterURL +=  0 + "," + -1
             }
 
-            retrieveFilteredCourses(setIsLoading, filterURL)
-            .then((coursesList) => {
-                setCoursesDataElements(
-                    coursesList.data.map(course => {
-                        return (
-                            <Course
-                                key={course._id}
-                                adminSetPromo ={props.setPromoTitle}
-                                isChecked={false}
-                                {...course}
-                            />
-                        )
-                }))
-            })
-            .catch(error => {
-                console.log(error);
-            })
+            if(props.adminNotDiscountedCourses) {
+                retrieveNotDiscountedFilteredCourses(setIsLoading, filterURL)
+                .then((coursesList) => {
+                    setCourseData(coursesList.data)
+                    setCoursesDataElements(
+                        coursesList.data.map((course,index) => {
+                            checkboxesValues[index] = false
+                            return (
+                                <Course
+                                    key={course._id}
+                                    adminSetPromo ={props.setPromoTitle}
+                                    isChecked={false}
+                                    handleAdminSelectionChange={handleAdminSelectionChange}
+                                    {...course}
+                                />
+                            )
+                    }))
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+            }
+            else if(props.adminDiscountedCourses) {
+                retrieveDiscountedFilteredCourses(setIsLoading, filterURL)
+                .then((coursesList) => {
+                    setCourseData(coursesList.data)
+                    setCoursesDataElements(
+                        coursesList.data.map((course,index) => {
+                            checkboxesValues[index] = false
+                            return (
+                                <Course
+                                    key={course._id}
+                                    adminSetPromo ={props.setPromoTitle}
+                                    isChecked={false}
+                                    handleAdminSelectionChange={handleAdminSelectionChange}
+                                    {...course}
+                                />
+                            )
+                    }))
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+            }
+            else {
+                retrieveNotDiscountedFilteredCourses(setIsLoading, filterURL)
+                .then((coursesList) => {
+                    setCourseData(coursesList.data)
+                    setCoursesDataElements(
+                        coursesList.data.map((course,index) => {
+                            checkboxesValues[index] = false
+                            return (
+                                <Course
+                                    key={course._id}
+                                    adminSetPromo ={props.setPromoTitle}
+                                    isChecked={false}
+                                    handleAdminSelectionChange={handleAdminSelectionChange}
+                                    {...course}
+                                />
+                            )
+                    }))
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+            }
             toggleFilterModal(); 
             setFreeCoursesOnly(false);
         }

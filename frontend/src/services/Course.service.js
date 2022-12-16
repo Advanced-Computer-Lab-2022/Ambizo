@@ -9,11 +9,6 @@ class CourseService {
         return http.get("/guest/getCourses/?currencyCode=" + currencyCode);
     }
 
-    getFilteredCourses(filterURL) {
-        let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
-        return http.get("guest/getCourses/" + filterURL + "&currencyCode=" + currencyCode);
-    }
-
     getNotDiscountedCourses(){
         let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
         return http.get("/admin/getNotDiscountedCourses/?currencyCode=" + currencyCode);
@@ -22,6 +17,21 @@ class CourseService {
     getDiscountedCourses(){
         let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
         return http.get("/admin/getDiscountedCourses/?currencyCode=" + currencyCode);
+    }
+
+    getFilteredCourses(filterURL) {
+        let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
+        return http.get("guest/getCourses/" + filterURL + "&currencyCode=" + currencyCode);
+    }
+
+    getNotDiscountedFilteredCourses(filterURL) {
+        let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
+        return http.get("/admin/getNotDiscountedCourses/" + filterURL + "&currencyCode=" + currencyCode);
+    }
+
+    getDiscountedFilteredCourses(filterURL) {
+        let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
+        return http.get("/admin/getDiscountedCourses/" + filterURL + "&currencyCode=" + currencyCode);
     }
 
     getCourse(courseId, traineeUsername) {
