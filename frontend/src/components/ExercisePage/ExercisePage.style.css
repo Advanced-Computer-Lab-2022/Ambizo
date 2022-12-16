@@ -1,6 +1,15 @@
+.exercise--goback {
+    font-size: 15px;
+    margin-left: 60px;
+    margin-top: 30px;
+    font-weight: 400;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .exercisePage--title{
     font-size:35px;
-    margin-top: 30px;
+    margin-top: 10px;
     margin-bottom: 40px;
     margin-left: 60px;
 }

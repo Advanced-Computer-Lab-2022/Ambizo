@@ -35,7 +35,7 @@ class CourseService {
     }
 
     getExercise(courseId, exerciseNum){
-        return http.get("/trainee/getExercise?courseId=" + courseId +"&exerciseNum=" + exerciseNum);
+        return http.get("/user/getExercise?courseId=" + courseId +"&exerciseNum=" + exerciseNum);
     }
 
     getSubtitleName(courseId, subtitleNum){

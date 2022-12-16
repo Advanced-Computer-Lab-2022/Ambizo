@@ -48,6 +48,10 @@ class TraineeService{
     getRefundStatus(courseId) {
         return http.get("/individualTrainee/getRefundStatus/?courseId=" + courseId);
     }
+
+    updateSubtitleProgress(courseId, subtitleNum, newProgress) {
+        return httpPost.put("/trainee/updateSubtitleProgress/?courseId=" + courseId + "&subtitleNum=" + subtitleNum, {newProgress: newProgress});
+    }
 }
 
 export default new TraineeService();
