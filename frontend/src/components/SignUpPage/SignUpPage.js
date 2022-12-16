@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import Header from "../Header/Header.js"
+import {useNavigate } from "react-router-dom"
+import SignUpSuccessfulPopup from "../SignUpSuccessfulPopUp/SignUpSuccessfulPopUp.js"
 import SignUpService from "../../services/SignUp.service.js";
 
 
 function SignUpPage(){
+
+    const[userName, setUserName] = useState("error")
 
     const[userData, setUserData] = useState({
         email: "",
@@ -24,8 +28,22 @@ const [message, setMessage] = useState(
 
 const [conditional, setConditional] = useState(false)
 
+const [PopUp, setPopUp] = useState(false)
+
+console.log(PopUp)
+
+const navigate = useNavigate();
+
 function toggleConditional(){
     setConditional((prevCondition) => !prevCondition)
+}
+
+function togglePopUp(){
+    setPopUp((popUp) => !popUp)
+}
+
+const NavigateToLogin = () => {
+    navigate("/login");
 }
 
 function handleChange(event) {
@@ -106,6 +124,8 @@ async function handleSubmit(event) {
         return SignUpService.addIndividualTrainee(userData)
             .then((result) => {
                 setMessage({ text: `A new Trainee with Username "${result.data.Username}" successfully added`, type: "form--successmessage" })
+                togglePopUp()
+                setUserName(result.data.Username)
                 setUserData({ firstName: "", lastName: "", userName: "", password: "", confirmPassword: "", email: "", gender: "", showPassword:false })
             })
             .catch((error) => {
@@ -120,6 +140,9 @@ async function handleSubmit(event) {
 
     return(
         <>
+
+            <SignUpSuccessfulPopup handleNavigateLogin={NavigateToLogin} popUp={PopUp} togglePopUp={togglePopUp} userName={userName} message={message}/>
+
             <Header />
             {!conditional &&
             <div className="signUpForm--div">

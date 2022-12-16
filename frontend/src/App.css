@@ -13,6 +13,7 @@
 @import "./components/InstructorCoursesPage/InstructorCoursesPage.style.css";
 @import "./components/SearchBar/SearchBar.style.css";
 @import "./components/SignUpPage/SignUpPage.style.css";
+@import "./components/SignUpSuccessfulPopUp/SignUpSuccessfulPopUp.style.css";
 @import "./components/AddAdministrator/AddAdministrator.style.css";
 @import "./components/AddCorporateTrainee/AddCorporateTrainee.style.css";
 @import "./components/AddInstructor/AddInstructor.style.css";
