@@ -5,6 +5,7 @@
     font-weight: 400;
     text-decoration: underline;
     cursor: pointer;
+    width: fit-content;
 }
 
 .exercisePage--title{
