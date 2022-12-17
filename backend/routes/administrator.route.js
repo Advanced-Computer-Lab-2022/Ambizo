@@ -119,8 +119,12 @@ router.post("/addCorporateTrainee", verifyJWT, async (req, res) => {
     }
 })
 
-router.get("/getNotDiscountedCourses", async (req, res) => {
+router.get("/getNotDiscountedCourses", verifyJWT, async (req, res) => {
     try{
+        if(req.User.Type !== "admin"){
+            return handleError(res, "Invalid Access")
+        }
+        
         let filter = {}
         let courses = null;
         let exchangeRateToUSD = null;
@@ -210,11 +214,11 @@ router.get("/getNotDiscountedCourses", async (req, res) => {
     }
 })
 
-router.get("/getDiscountedCourses", async (req, res) => {
+router.get("/getDiscountedCourses", verifyJWT, async (req, res) => {
     try{
-        // if(req.User.Type !== "admin"){
-        //     return handleError(res, "Invalid Access")
-        // }
+        if(req.User.Type !== "admin"){
+            return handleError(res, "Invalid Access")
+        }
 
         let courses = await course.find();
         const exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
@@ -252,11 +256,11 @@ router.get("/getDiscountedCourses", async (req, res) => {
     }
 })
 
-router.put("/applyDiscount", async (req, res) => {
+router.put("/applyDiscount", verifyJWT, async (req, res) => {
     try {
-        // if(req.User.Type !== "admin"){
-        //     return handleError(res, "Invalid Access")
-        // }
+        if(req.User.Type !== "admin"){
+            return handleError(res, "Invalid Access")
+        }
 
         let courses = req.query.courses;
         const coursesToBeDiscounteIds = courses.split(",");
