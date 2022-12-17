@@ -34,7 +34,7 @@
     margin-bottom: 30px;
 }
 
-.adminpromotionsdiscount--applybutton {
+.adminpromotionsdiscount--applybutton, .adminpromotionsdiscount--removebutton {
     border-color: #bd0312;
     background-color: #a30506;
     border-style: solid;
@@ -46,6 +46,27 @@
     margin-bottom: 5px;
 }
 
-.adminpromotionsdiscount--applybutton:hover {
+.adminpromotionsdiscount--applybutton:hover, .adminpromotionsdiscount--removebutton:hover {
     opacity: 0.8;
+}
+
+.adminpromotions--removediscount {
+    width: 100%;
+    display: flex;
+    padding: 50px 0px;
+    height: fit-content;
+    background-color: #f7f7f7;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.adminpromotions--removediscountheader {
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.adminpromotionsdiscount--removebutton {
+    width: 225px;
+    margin-bottom: 0px;
 }

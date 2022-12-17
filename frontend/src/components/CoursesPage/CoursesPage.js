@@ -255,28 +255,44 @@ function CoursesPage(props) {
             }
         )
     }
-    
-   function handleAdminSelectionChange(event) {
+
+    function handleAdminSelectionChange(event) {
         const { name, checked } = event.target
         if (name === "adminselectallcourses") {
             let tempCourses = courseData.map((course) => {
                 return {...course, isChecked: checked}
             })
             setCourseData(tempCourses)
-            courseData.forEach((course) => {
-                props.handleCoursesToBeDiscountedSelected(checked, course._id)
-            });
+            if(props.adminNotDiscountedCourses) {
+                courseData.forEach((course) => {
+                    props.handleCoursesToBeDiscountedSelected(checked, course._id)
+                });
+            }
+            if(props.adminDiscountedCourses) {
+                courseData.forEach((course) => {
+                    props.handleCoursesToRemoveDiscountSelected(checked, course._id)
+                });
+            }
           } 
           else 
           {
             let tempCourses = courseData.map((course) => 
             course._id === name ? {...course, isChecked: checked} : course)
             setCourseData(tempCourses)
-            courseData.forEach((course) => {
-                if (course._id === name) {
-                    props.handleCoursesToBeDiscountedSelected(checked, course._id)
-                }
-            });
+            if(props.adminNotDiscountedCourses) {
+                courseData.forEach((course) => {
+                    if (course._id === name) {
+                        props.handleCoursesToBeDiscountedSelected(checked, course._id)
+                    }
+                });
+            }
+            if(props.adminDiscountedCourses) {
+                courseData.forEach((course) => {
+                    if (course._id === name) {
+                        props.handleCoursesToRemoveDiscountSelected(checked, course._id)
+                    }
+                });
+            }
           }   
     }
 

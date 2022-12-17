@@ -187,14 +187,17 @@ router.get("/getNotDiscountedCourses", async (req, res) => {
 
         courses.forEach(course => {
             if(currentYear > course.DiscountExpiryDate.getFullYear() && course.PriceInUSD !== 0) {
+                course.Discount = 0;
                 notDiscountedCourses.push(course)
             }
             else if(currentYear == course.DiscountExpiryDate.getFullYear()) {
                 if(currentMonth > course.DiscountExpiryDate.getMonth() && course.PriceInUSD !== 0) {
+                    course.Discount = 0;
                     notDiscountedCourses.push(course)
                 }
                 else if(currentMonth == course.DiscountExpiryDate.getMonth()) {
                     if(currentDay > course.DiscountExpiryDate.getDate() && course.PriceInUSD !== 0) {
+                        course.Discount = 0;
                         notDiscountedCourses.push(course)
                     }
                 }
@@ -248,5 +251,32 @@ router.get("/getDiscountedCourses", async (req, res) => {
         handleError(res, err.message);
     }
 })
+
+router.put("/applyDiscount", async (req, res) => {
+    try {
+        // if(req.User.Type !== "admin"){
+        //     return handleError(res, "Invalid Access")
+        // }
+
+        let courses = req.query.courses;
+        const coursesToBeDiscounteIds = courses.split(",");
+
+        let discountPercentage = req.query.discount;
+        let expiryDate = req.query.expiryDate;
+
+        const date = new Date(expiryDate);
+
+        await coursesToBeDiscounteIds.forEach(async (courseId) => {
+            await course.findByIdAndUpdate(courseId, {
+                Discount: discountPercentage,
+                DiscountExpiryDate: date
+            })
+        });
+
+        res.status(200).send("Discount added/updated successfully");
+    } catch (err) {
+        handleError(res, err);
+    }
+});
 
 export default router;
