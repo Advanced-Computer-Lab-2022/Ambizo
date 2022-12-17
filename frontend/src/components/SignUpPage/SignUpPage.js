@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Header from "../Header/Header.js"
 import {useNavigate } from "react-router-dom"
-import SignUpSuccessfulPopup from "../SignUpSuccessfulPopUp/SignUpSuccessfulPopUp.js"
+import SignUpSuccessfulModal from "../SignUpSuccessfulModal/SignUpSuccessfulModal.js"
 import SignUpService from "../../services/SignUp.service.js";
 
 
@@ -141,7 +141,7 @@ async function handleSubmit(event) {
     return(
         <>
 
-            <SignUpSuccessfulPopup handleNavigateLogin={NavigateToLogin} popUp={PopUp} togglePopUp={togglePopUp} userName={userName} message={message}/>
+            <SignUpSuccessfulModal handleNavigateLogin={NavigateToLogin} popUp={PopUp} togglePopUp={togglePopUp} userName={userName} message={message}/>
 
             <Header />
             {!conditional &&
