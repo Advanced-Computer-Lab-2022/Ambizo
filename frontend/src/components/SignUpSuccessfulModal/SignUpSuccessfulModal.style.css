@@ -5,6 +5,10 @@
     color: green;
 }
 
+.checkIcon{
+    color: green;
+}
+
 .signUpPopUp--buttons {
     display: flex;
     gap: 150px;
