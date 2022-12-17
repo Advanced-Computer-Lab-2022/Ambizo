@@ -300,3 +300,11 @@
 .progress--percentage.certificate{
     color:black
 }
+
+.spinner.certificate{
+    width: 44px;
+    height: 44px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 10px;
+}

@@ -1,20 +1,20 @@
 import React from "react";
-import Header from "../Header/Header";
 import { Rating } from "@mui/material";
-import Subtitle from "../Subtitle/Subtitle";
-import Exercise from "../Exercise/Exercise";
 import { useParams, useNavigate } from "react-router-dom";
+import { jsPDF } from "jspdf";
+import countryToCurrency  from 'country-to-currency';
 import CourseService from "../../services/Course.service";
 import TraineeService from "../../services/Trainee.service";
-import countryToCurrency  from 'country-to-currency';
+import InstructorService from "../../services/Instructor.service";
+import Header from "../Header/Header";
 import CoursePreview from "../CoursePreview/CoursePreview"
 import RateModal from "../RatingModal/RatingModal";
 import RequestRefundModal from "../RequestRefundModal/RequestRefundModal";
 import UserRating from "../UserRating/UserRating";
-import InstructorService from "../../services/Instructor.service";
+import Subtitle from "../Subtitle/Subtitle";
+import Exercise from "../Exercise/Exercise";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
-import Certificate from "../Certificate/Certificate";
-import { PDFDownloadLink } from '@react-pdf/renderer';
+import CertificateImage from  "../../images/Certificate.png" 
 
 async function retrieveCourse(id, traineeUsername){
     return CourseService.getCourse(id, traineeUsername)
@@ -55,6 +55,7 @@ function CourseDetailsPage() {
     const params = useParams();
     const [course, setCourse] = React.useState({});    
     const [isLoading, setIsLoading] = React.useState(true);
+    const [isCertificateLoading, setIsCertificateLoading] = React.useState(false);
     const [isSubmitted, setIsSubmitted] = React.useState(0);
 
     // This is the state object that controls the rating modal and behavior. 
@@ -104,7 +105,6 @@ function CourseDetailsPage() {
     }
 
     async function updateSubtitleProgress(subtitleNum){
-        console.log(subtitleNum)
         let newSubtitlesProgress = [...traineeInfo.subtitlesProgress]
         if(!newSubtitlesProgress[subtitleNum]){
             newSubtitlesProgress[subtitleNum] = 0;
@@ -359,6 +359,37 @@ function CourseDetailsPage() {
         certificateFileName = loggedInName + "'s Certificate.pdf"
     }
 
+    function downloadCertificate(filename, achieverName, courseTitle){
+        let pdf = new jsPDF({
+            orientation: 'landscape',
+            unit: 'pt',
+            format: 'letter',
+            putOnlyUsedFonts:true,
+            compress: true
+        });
+        let width = pdf.internal.pageSize.getWidth();
+        let height = pdf.internal.pageSize.getHeight();
+        pdf.addImage(CertificateImage, "png", 0, 0, width, height);
+        pdf.setFont(undefined, "bold");
+        pdf.setFontSize(30);
+    
+        pdf.text(achieverName, width/2, 310, {maxWidth: width - 15, align: "center"});
+    
+        pdf.text(courseTitle, width/2, 400, {maxWidth: width - 15, align: "center"});
+      
+        pdf.save(filename, {returnPromise: true})
+        .then(() => {
+            setIsCertificateLoading(false)
+        })
+    }
+
+    function saveCertificate(filename, achieverName, courseTitle){
+        setIsCertificateLoading(true)
+        setTimeout(() => {
+            downloadCertificate(filename, achieverName, courseTitle)
+        }, 10);
+    }
+
     return (
         <>
             <div className={"loader-container" + (!isLoading? " hidden" : "")}>
@@ -471,16 +502,8 @@ function CourseDetailsPage() {
                             {traineeInfo.isTraineeEnrolled && traineeInfo.overallProgress === 1 &&
                                 <div className="progress--div">
                                     <p className="progress--div--header">Well Done, Course Completed!</p>
-                                    <p className="progress--percentage certificate">You can download your certificate from 
-                                        <span>
-                                            <PDFDownloadLink className="reset-password" document={<Certificate Name={loggedInName} Course={course.Title} />} fileName={certificateFileName}>
-                                                {({ blob, url, loading, error }) => {
-                                                    return ' here'
-                                                }
-                                                }
-                                            </PDFDownloadLink>
-                                        </span>
-                                    </p>
+                                    {!isCertificateLoading && <p className="progress--percentage certificate">You can download your certificate from <span onClick={() => saveCertificate(certificateFileName, loggedInName, course.Title)} className="reset-password">here</span></p>}
+                                    {isCertificateLoading && <div className="spinner certificate"> </div>}
                                 </div>
                             }
                         </div>
