@@ -87,7 +87,6 @@ function DiscountPage() {
                 setMessage({ text: error.response.data, type: "form--errormessage" })
                 console.log(error)
             })
-
     }
 
     return (

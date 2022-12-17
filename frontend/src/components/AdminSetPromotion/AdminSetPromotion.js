@@ -128,7 +128,7 @@ function AdminSetPromotion() {
                 <h1 className="adminpromotions--header">Courses' Prices and Discounts</h1>
                 <img className="adminpromotions--pricesimage" src={SetPromotionImage} alt='Prices' />
             </div>
-            <CoursesPage sectionNotPage={true} setPromoTitle="Select course(s) and set a discount" adminNotDiscountedCourses={true} handleCoursesToBeDiscountedSelected={handleCoursesToBeDiscountedSelected} />
+            <CoursesPage sectionNotPage={true} setPromoTitle="Select course(s) and set a discount" adminNotDiscountedCourses={true} coursesToBeDiscounted={coursesToBeDiscounted} handleCoursesToBeDiscountedSelected={handleCoursesToBeDiscountedSelected} />
             <div className="adminpromotions--discount">
                 <div className="adminpromotions-discountdetails">
                 <p className="adminpromotions--discountheader"><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;Define a Discount for Selected Courses</p>
@@ -158,7 +158,7 @@ function AdminSetPromotion() {
                         handleConfirm={handleApplyDiscount}/>
                 </div>
             </div>
-            <CoursesPage sectionNotPage={true} setPromoTitle="Select course(s) and remove discount" adminDiscountedCourses={true} handleCoursesToRemoveDiscountSelected={handleCoursesToRemoveDiscountSelected} />
+            <CoursesPage sectionNotPage={true} setPromoTitle="Select course(s) and remove discount" adminDiscountedCourses={true} coursesToRemoveDiscount={coursesToRemoveDiscount} handleCoursesToRemoveDiscountSelected={handleCoursesToRemoveDiscountSelected} />
             <div className="adminpromotions--removediscount">
                 <p className="adminpromotions--removediscountheader"><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;Remove Discount for Selected Courses</p>
                 <button className='adminpromotionsdiscount--removebutton' onClick={toggleRemoveDiscountModal}><i className="fa-solid fa-trash"></i>&nbsp;&nbsp;&nbsp;Remove</button>

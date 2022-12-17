@@ -94,14 +94,14 @@ function CoursesPage(props) {
         resetFilters();
     };
 
-    const [courseData, setCourseData] = React.useState([]);
+    const [coursesData, setCoursesData] = React.useState([]);
 
     React.useEffect(() => {
         document.title = "All Courses";
         if(props.adminNotDiscountedCourses) {
             retrieveNotDiscountedCourses(setIsLoading)
             .then((coursesList) => {
-                setCourseData(coursesList.data)
+                setCoursesData(coursesList.data)
             })
             .catch(error => {
                 console.log(error);
@@ -110,7 +110,7 @@ function CoursesPage(props) {
         else if(props.adminDiscountedCourses) {
             retrieveDiscountedCourses(setIsLoading)
             .then((coursesList) => {
-                setCourseData(coursesList.data)
+                setCoursesData(coursesList.data)
             })
             .catch(error => {
                 console.log(error);
@@ -119,7 +119,7 @@ function CoursesPage(props) {
         else {
             retrieveAllCourses(setIsLoading)
             .then((coursesList) => {
-                setCourseData(coursesList.data)
+                setCoursesData(coursesList.data)
             })
             .catch(error => {
                 console.log(error);
@@ -127,7 +127,13 @@ function CoursesPage(props) {
         }
     }, []);
 
-    const coursesDataElements = courseData.map((course,index) => {
+    const coursesDataElements = coursesData.map((course) => {
+        if(props.coursesToBeDiscounted?.includes(course._id)) {
+            course = {...course, isChecked: true}
+        }
+        if(props.coursesToRemoveDiscount?.includes(course._id)) {
+            course = {...course, isChecked: true}
+        }
         return (
             <Course
                 key={course._id}
@@ -216,7 +222,7 @@ function CoursesPage(props) {
             if(props.adminNotDiscountedCourses) {
                 retrieveNotDiscountedFilteredCourses(setIsLoading, filterURL)
                 .then((coursesList) => {
-                    setCourseData(coursesList.data)
+                    setCoursesData(coursesList.data)
                 })
                 .catch(error => {
                     console.log(error);
@@ -225,7 +231,7 @@ function CoursesPage(props) {
             else if(props.adminDiscountedCourses) {
                 retrieveDiscountedFilteredCourses(setIsLoading, filterURL)
                 .then((coursesList) => {
-                    setCourseData(coursesList.data)
+                    setCoursesData(coursesList.data)
                 })
                 .catch(error => {
                     console.log(error);
@@ -234,7 +240,7 @@ function CoursesPage(props) {
             else {
                 retrieveFilteredCourses(setIsLoading, filterURL)
                 .then((coursesList) => {
-                    setCourseData(coursesList.data)
+                    setCoursesData(coursesList.data)
                 })
                 .catch(error => {
                     console.log(error);
@@ -259,35 +265,35 @@ function CoursesPage(props) {
     function handleAdminSelectionChange(event) {
         const { name, checked } = event.target
         if (name === "adminselectallcourses") {
-            let tempCourses = courseData.map((course) => {
+            let tempCourses = coursesData.map((course) => {
                 return {...course, isChecked: checked}
             })
-            setCourseData(tempCourses)
+            setCoursesData(tempCourses)
             if(props.adminNotDiscountedCourses) {
-                courseData.forEach((course) => {
+                coursesData.forEach((course) => {
                     props.handleCoursesToBeDiscountedSelected(checked, course._id)
                 });
             }
             if(props.adminDiscountedCourses) {
-                courseData.forEach((course) => {
+                coursesData.forEach((course) => {
                     props.handleCoursesToRemoveDiscountSelected(checked, course._id)
                 });
             }
           } 
           else 
           {
-            let tempCourses = courseData.map((course) => 
+            let tempCourses = coursesData.map((course) => 
             course._id === name ? {...course, isChecked: checked} : course)
-            setCourseData(tempCourses)
+            setCoursesData(tempCourses)
             if(props.adminNotDiscountedCourses) {
-                courseData.forEach((course) => {
+                coursesData.forEach((course) => {
                     if (course._id === name) {
                         props.handleCoursesToBeDiscountedSelected(checked, course._id)
                     }
                 });
             }
             if(props.adminDiscountedCourses) {
-                courseData.forEach((course) => {
+                coursesData.forEach((course) => {
                     if (course._id === name) {
                         props.handleCoursesToRemoveDiscountSelected(checked, course._id)
                     }
