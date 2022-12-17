@@ -9,21 +9,45 @@
     border: 3px solid rgba(0, 0, 0, 0.75);
     border-radius: 15px;
     box-shadow: 0 4px rgba(0, 0, 0, 0.75);
-  }
-  
-    .course::-webkit-scrollbar { 
-        display: none;
-    }
+}
 
-    .course:hover{
-        box-shadow: 0 7px #a30506;
-        border-color: #a30506;
-    }
-    .course:hover:active {
-        box-shadow: 0 3px #a30506;
-        transform: translateY(5px);
-    }
-  
+.course::-webkit-scrollbar { 
+    display: none;
+}
+
+.course:hover{
+    box-shadow: 0 7px #a30506;
+    border-color: #a30506;
+}
+.course:hover:active {
+    box-shadow: 0 3px #a30506;
+    transform: translateY(5px);
+}
+
+.course--tobeselected {
+    width: 360px;
+    min-width: 240px;
+    height: fit-content;
+    max-width: 360px;
+    transition-duration: 0.15s;
+    border: 3px solid rgba(0, 0, 0, 0.75);
+    border-radius: 15px;
+    box-shadow: 0 4px rgba(0, 0, 0, 0.75);
+}
+
+.course--selected {
+    width: 360px;
+    min-width: 240px;
+    height: fit-content;
+    max-width: 360px;
+    transition-duration: 0.15s;
+    border: 3px solid rgba(0, 0, 0, 0.75);
+    border-radius: 15px;
+    box-shadow: 0 4px rgba(0, 0, 0, 0.75);
+    box-shadow: 0 7px #a30506;
+    border-color: #a30506;
+}
+
 .course--image {
     width: 95%;
     margin: 15px 2% 0px 2.4%;
@@ -174,7 +198,11 @@
     background-color: #a30506
 }
 
-.setpromotion--checkbox {
-    display: inline-block;
-    
+.admin--selectcourses {
+    display: flex;
+    cursor: pointer;
+    margin: 10px auto -5px 10px;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
 }
