@@ -5,6 +5,8 @@ import instructor from "../models/instructor.model.js";
 import corporateTrainee from "../models/corporateTrainee.model.js";
 import individualTrainee from "../models/individualTrainee.model.js";
 import user from "../models/user.model.js";
+import nodemailer from "nodemailer";
+import generateCertificate from "../middleware/certificateGenerator.js";
 
 const router = express.Router();
 
@@ -601,21 +603,107 @@ router.put("/updateSubtitleProgress", verifyJWT, async (req, res) => {
         let updateStatement = {
             "$set": {}
         }
-        updateStatement["$set"]["EnrolledCourses.$.progress."+req.query.subtitleNum] = req.body.newProgress
-
+        updateStatement["$set"]["EnrolledCourses.$.progress."+req.query.subtitleNum] = req.body.newProgress;
+        
+        let trainee = null;
         if(req.User.Type === 'corporateTrainee'){
-            await corporateTrainee.findOneAndUpdate({Username: req.User.Username, "EnrolledCourses.courseId": req.query.courseId}, updateStatement)
+           trainee = await corporateTrainee.findOneAndUpdate({Username: req.User.Username, "EnrolledCourses.courseId": req.query.courseId}, updateStatement, {new: true})
         }
         else{
-            await individualTrainee.findOneAndUpdate({Username: req.User.Username, "EnrolledCourses.courseId": req.query.courseId}, updateStatement)
+            trainee = await individualTrainee.findOneAndUpdate({Username: req.User.Username, "EnrolledCourses.courseId": req.query.courseId}, updateStatement, {new: true})
         }
 
-        res.send("Progress Updated Successfully");
+
+        let completedCourse = trainee.EnrolledCourses.filter(enrolledCourse => enrolledCourse.courseId === req.query.courseId);
+        if(!completedCourse){
+            return handleError(res, "Not Enrolled in course")
+        }
+        completedCourse = completedCourse[0];
+
+        if(completedCourse.certificateSent){
+            return res.send("Progress Updated Successfully");
+        }
+
+        let Course = await course.findById(req.query.courseId);
+
+        let courseCompleted = true;
+        for(let i =0; i<Course.Subtitles.length; i++){
+            if(!completedCourse.progress[i] || completedCourse.progress[i]!== 1){
+                courseCompleted = false
+            }
+        }
+
+        if(!courseCompleted){
+            return res.send("Progress Updated Successfully");
+        }
+
+        await mailCertificate(trainee, Course.Title, req.User.Type, req.query.courseId);
+
+        res.send("Progress Updated and Email Sent Successfully");
     }
     catch(err){
         handleError(res, err);
     }
 })
+
+async function mailCertificate(trainee, courseName, type, courseId) {
+    let certificateFileName = "";
+    if(trainee.Name.charAt(trainee.Name.length - 1) === 's'){
+        certificateFileName =  + trainee.Name + "' Certificate.pdf"
+    }
+    else{
+        certificateFileName = trainee.Name + "'s Certificate.pdf"
+    }
+
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.BUSINESS_EMAIL,
+          pass: process.env.BUSINESS_EMAIL_PASSWORD
+        }
+    });
+
+    var mailOptions = {
+        from: process.env.BUSINESS_EMAIL.toString(),
+        to: trainee.Email,
+        subject: 'Course Certificate',
+        html: 
+        `<h1>Hi ${trainee.Name},
+        </h1><p>Congratulations on completing ${courseName}!</p>
+        <p>Kindly find the certificate attached below</p>
+        <p>You can now also download the certificate from the website</p>`,
+        attachments: [{
+            filename: `${certificateFileName}.pdf`,
+            content: generateCertificate(trainee.Name, courseName)
+        }]
+    }
+
+    transporter.sendMail(mailOptions)
+    .then(async () => {
+        if(type === 'corporateTrainee'){
+            await corporateTrainee.findOneAndUpdate(
+                {Username: trainee.Username, "EnrolledCourses.courseId": courseId}, 
+            {
+                $set: {
+                    'EnrolledCourses.$.certificateSent': true
+                }
+            })
+        }
+        else{
+            await individualTrainee.findOneAndUpdate(
+                {Username: trainee.Username, "EnrolledCourses.courseId": courseId}, 
+                {
+                    $set: {
+                        'EnrolledCourses.$.certificateSent': true
+                    }
+                })
+        }
+    })
+    .catch(err =>{
+        console.log(err);
+    })
+   
+}
 
 function handleError(res, err) {
     return res.status(400).send(err);

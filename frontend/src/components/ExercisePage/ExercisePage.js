@@ -89,6 +89,7 @@ function ExercisePage() {
 
     function handleSubmit(event) {
         event.preventDefault();
+        setIsLoading(true);
         let NewTraineeChoices = [];
         for (let i = 0; i < exercise.questions.length; i++) {
             NewTraineeChoices.push(traineeChoices[i]?traineeChoices[i]:null);
@@ -100,10 +101,11 @@ function ExercisePage() {
                 updateSubtitleProgress(params.courseId, params.exerciseNum, exercise.subtitleProgress)
                 .then(() => {
                     setIsSubmitted(true);
+                    setIsLoading(false);
                 })
                 .catch((error) => {
                     console.log(error);
-                })
+                }) 
             })
             .catch((error) => {
                 console.log(error);
