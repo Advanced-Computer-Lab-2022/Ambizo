@@ -11,6 +11,25 @@ function AdminSetPromotion() {
         setDate(date);
     };
 
+    const [coursesToBeDiscounted, setCoursesToBeDiscounted] = React.useState([])
+    
+    function handleCoursesToBeDiscountedSelected(checkboxVal, courseId) {
+        if(checkboxVal) {
+            if(!coursesToBeDiscounted.includes(courseId)) {
+                setCoursesToBeDiscounted(current => [...current, courseId])
+            }
+        }
+        else {
+          if(coursesToBeDiscounted.includes(courseId)) {
+            setCoursesToBeDiscounted(current => current.filter(arrayCourseId => arrayCourseId !== courseId))
+          }
+        }
+    }
+
+    function applyDiscount() {
+        console.log(coursesToBeDiscounted)
+    }
+
     return (
         <>
             <Header />
@@ -18,7 +37,7 @@ function AdminSetPromotion() {
                 <h1 className="adminpromotions--header">Courses' Prices and Discounts</h1>
                 <img className="adminpromotions--pricesimage" src={SetPromotionImage} alt='Prices' />
             </div>
-            <CoursesPage sectionNotPage={true} setPromoTitle="Select course(s) and set a discount" adminNotDiscountedCourses={true} />
+            <CoursesPage sectionNotPage={true} setPromoTitle="Select course(s) and set a discount" adminNotDiscountedCourses={true} handleCoursesToBeDiscountedSelected={handleCoursesToBeDiscountedSelected} />
             <div className="adminpromotions--discount">
                 <div className="adminpromotions-discountdetails">
                 <p className="adminpromotions--discountheader"><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;Define a Discount for Selected Courses</p>
@@ -40,7 +59,7 @@ function AdminSetPromotion() {
                     <p className="discount--titles">Expiry date:</p>
                     <Calendar minDate={new Date()} onChange={onChange} value={date} />
                 </div>
-                <button className='adminpromotionsdiscount--applybutton' >Apply</button>
+                <button className='adminpromotionsdiscount--applybutton' onClick={applyDiscount}>Apply</button>
                 </div>
             </div>
             <CoursesPage sectionNotPage={true} setPromoTitle="Select course(s) and remove discount" adminDiscountedCourses={true} />

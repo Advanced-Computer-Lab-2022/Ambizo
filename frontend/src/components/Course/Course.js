@@ -31,7 +31,7 @@ function Course(props) {
     function handleAdminSelectionChange(event) {
         props.handleAdminSelectionChange(event);
     }
-    
+
     return (
         <>
             { props.isLoading ?
@@ -54,7 +54,7 @@ function Course(props) {
                             type='checkbox' 
                             className='admin--selectcourses' 
                             name={props._id}
-                            id={props.Title}
+                            id={props.id}
                             onChange={handleAdminSelectionChange} 
                             checked={props.isChecked} 
                         />

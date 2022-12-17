@@ -95,8 +95,6 @@ function CoursesPage(props) {
     };
 
     const [courseData, setCourseData] = React.useState([]);
-    const [coursesDataElements, setCoursesDataElements] = React.useState([]);
-    let checkboxesValues = [];
 
     React.useEffect(() => {
         document.title = "All Courses";
@@ -104,19 +102,6 @@ function CoursesPage(props) {
             retrieveNotDiscountedCourses(setIsLoading)
             .then((coursesList) => {
                 setCourseData(coursesList.data)
-                setCoursesDataElements(
-                    coursesList.data.map((course,index) => {
-                        checkboxesValues[index] = false
-                        return (
-                            <Course
-                                key={course._id}
-                                adminSetPromo ={props.setPromoTitle}
-                                isChecked={false}
-                                handleAdminSelectionChange={handleAdminSelectionChange}
-                                {...course}
-                            />
-                        )
-                }))
             })
             .catch(error => {
                 console.log(error);
@@ -126,19 +111,6 @@ function CoursesPage(props) {
             retrieveDiscountedCourses(setIsLoading)
             .then((coursesList) => {
                 setCourseData(coursesList.data)
-                setCoursesDataElements(
-                    coursesList.data.map((course,index) => {
-                        checkboxesValues[index] = false
-                        return (
-                            <Course
-                                key={course._id}
-                                adminSetPromo ={props.setPromoTitle}
-                                isChecked={false}
-                                handleAdminSelectionChange={handleAdminSelectionChange}
-                                {...course}
-                            />
-                        )
-                }))
             })
             .catch(error => {
                 console.log(error);
@@ -148,25 +120,23 @@ function CoursesPage(props) {
             retrieveAllCourses(setIsLoading)
             .then((coursesList) => {
                 setCourseData(coursesList.data)
-                setCoursesDataElements(
-                    coursesList.data.map((course,index) => {
-                        checkboxesValues[index] = false
-                        return (
-                            <Course
-                                key={course._id}
-                                adminSetPromo ={props.setPromoTitle}
-                                isChecked={false}
-                                handleAdminSelectionChange={handleAdminSelectionChange}
-                                {...course}
-                            />
-                        )
-                }))
             })
             .catch(error => {
                 console.log(error);
             })
         }
     }, []);
+
+    const coursesDataElements = courseData.map((course,index) => {
+        return (
+            <Course
+                key={course._id}
+                adminSetPromo ={props.setPromoTitle}
+                handleAdminSelectionChange={handleAdminSelectionChange}
+                {...course}
+            />
+        )
+    })
 
     const [subjectFilterData, setSubjectFilterData] = React.useState([])
 
@@ -247,19 +217,6 @@ function CoursesPage(props) {
                 retrieveNotDiscountedFilteredCourses(setIsLoading, filterURL)
                 .then((coursesList) => {
                     setCourseData(coursesList.data)
-                    setCoursesDataElements(
-                        coursesList.data.map((course,index) => {
-                            checkboxesValues[index] = false
-                            return (
-                                <Course
-                                    key={course._id}
-                                    adminSetPromo ={props.setPromoTitle}
-                                    isChecked={false}
-                                    handleAdminSelectionChange={handleAdminSelectionChange}
-                                    {...course}
-                                />
-                            )
-                    }))
                 })
                 .catch(error => {
                     console.log(error);
@@ -269,19 +226,6 @@ function CoursesPage(props) {
                 retrieveDiscountedFilteredCourses(setIsLoading, filterURL)
                 .then((coursesList) => {
                     setCourseData(coursesList.data)
-                    setCoursesDataElements(
-                        coursesList.data.map((course,index) => {
-                            checkboxesValues[index] = false
-                            return (
-                                <Course
-                                    key={course._id}
-                                    adminSetPromo ={props.setPromoTitle}
-                                    isChecked={false}
-                                    handleAdminSelectionChange={handleAdminSelectionChange}
-                                    {...course}
-                                />
-                            )
-                    }))
                 })
                 .catch(error => {
                     console.log(error);
@@ -291,19 +235,6 @@ function CoursesPage(props) {
                 retrieveFilteredCourses(setIsLoading, filterURL)
                 .then((coursesList) => {
                     setCourseData(coursesList.data)
-                    setCoursesDataElements(
-                        coursesList.data.map((course,index) => {
-                            checkboxesValues[index] = false
-                            return (
-                                <Course
-                                    key={course._id}
-                                    adminSetPromo ={props.setPromoTitle}
-                                    isChecked={false}
-                                    handleAdminSelectionChange={handleAdminSelectionChange}
-                                    {...course}
-                                />
-                            )
-                    }))
                 })
                 .catch(error => {
                     console.log(error);
@@ -324,37 +255,28 @@ function CoursesPage(props) {
             }
         )
     }
-
-    function handleAdminSelectionChange(event) {
-        const { name, checked } = event.target;
+    
+   function handleAdminSelectionChange(event) {
+        const { name, checked } = event.target
         if (name === "adminselectallcourses") {
-            setCoursesDataElements(
-                courseData.map((course,index) => {
-                    checkboxesValues[index] = checked
-                    return (
-                        <Course
-                            key={course._id}
-                            adminSetPromo ={props.setPromoTitle}
-                            isChecked={checked}
-                            handleAdminSelectionChange={handleAdminSelectionChange}
-                            {...course}
-                        />
-                    )
-            }))
-          } else {
-            setCoursesDataElements(
-                courseData.map((course,index) => {
-                    checkboxesValues[index] = course._id === name ? checked : checkboxesValues[index]
-                    return (
-                        <Course
-                            key={course._id}
-                            adminSetPromo ={props.setPromoTitle}
-                            isChecked={checkboxesValues[index]}
-                            handleAdminSelectionChange={handleAdminSelectionChange}
-                            {...course}
-                        />
-                    )
-            }))
+            let tempCourses = courseData.map((course) => {
+                return {...course, isChecked: checked}
+            })
+            setCourseData(tempCourses)
+            courseData.forEach((course) => {
+                props.handleCoursesToBeDiscountedSelected(checked, course._id)
+            });
+          } 
+          else 
+          {
+            let tempCourses = courseData.map((course) => 
+            course._id === name ? {...course, isChecked: checked} : course)
+            setCourseData(tempCourses)
+            courseData.forEach((course) => {
+                if (course._id === name) {
+                    props.handleCoursesToBeDiscountedSelected(checked, course._id)
+                }
+            });
           }   
     }
 
