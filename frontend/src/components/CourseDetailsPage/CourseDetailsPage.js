@@ -23,6 +23,13 @@ async function retrieveCourse(id, traineeUsername){
     })
 }
 
+async function checkIfAlreadyRequestedCourse(courseId) {
+    return TraineeService.checkIfAlreadyRequestedCourse(courseId)
+    .then((result) => {
+        return result.data;
+    })
+}
+
 function CourseDetailsPage() {
     const navigate = useNavigate();
 
@@ -150,18 +157,23 @@ function CourseDetailsPage() {
                 .then(status => setRefundStatus(status.data))
                 .catch(error => console.log(error))
             }
-            if(sessionStorage) {
-                course.data.courseData.CorporateRequests.forEach(corporateUsername => {
-                    if(corporateUsername === JSON.parse(sessionStorage.getItem("User")).Username){
-                        setAlreadyRequestedAccess(true)
-                    }
-                });
-            }
             setIsLoading(false);
         })
         .catch(error => {
             console.log(error);  
         })
+
+        checkIfAlreadyRequestedCourse(params.courseId)
+        .then(result => {
+            if(result.isRequested) {
+                    setAlreadyRequestedAccess(true)
+                }
+            }
+        )
+        .catch(error => {
+            console.log(error);  
+        })
+
     }, [params.courseId, modalConfig.Rating, modalConfig.Review, userType, isSubmitted]);
 
     function modifyModalConfigFromModal(key , value){

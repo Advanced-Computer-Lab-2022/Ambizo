@@ -53,8 +53,12 @@ class TraineeService{
         return httpPost.put("/trainee/updateSubtitleProgress/?courseId=" + courseId + "&subtitleNum=" + subtitleNum, {newProgress: newProgress});
     }
 
+    checkIfAlreadyRequestedCourse(courseId) {
+        return http.get("/corporateTrainee/checkIfAlreadyRequestedCourse/?courseId=" + courseId);
+    }
+
     requestCourse(courseId) {
-        return httpPost.put("/corporateTrainee/requestCourse/?courseId=" + courseId);
+        return httpPost.post("/corporateTrainee/requestCourse/?courseId=" + courseId);
     }
 
     cancelRequest(courseId) {
