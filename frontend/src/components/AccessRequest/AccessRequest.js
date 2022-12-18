@@ -1,8 +1,11 @@
 import React from "react"
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import AdministratorService from "../../services/Administrator.service";
+import { useNavigate } from 'react-router-dom'
 
 function AccessRequest(props) {
+
+    const navigate = useNavigate()
 
     const [acceptRequestModal, setAcceptRequestModal] = React.useState(false);
 
@@ -52,7 +55,7 @@ function AccessRequest(props) {
                     </div>
                     <div className="accessrequest--course">
                         <p className="accesscourse--info">Course title:</p>
-                        <h3 className="accesscourse--title">{props.CourseTitle}</h3>
+                        <h3 className="accesscourse--title" onClick={() => navigate(`/coursedetails/${props.CourseId}`)}>{props.CourseTitle}</h3>
                     </div>
                 </div>
                 <div className="accessrequest--buttons">
