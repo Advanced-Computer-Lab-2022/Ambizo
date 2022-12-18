@@ -27,6 +27,8 @@
 .accesscourse--info {
     font-size: 18px;
     font-weight: 500;
+    width: 200px;
+    min-width: 200px;
 }
 
 .accesscourse--buttons {

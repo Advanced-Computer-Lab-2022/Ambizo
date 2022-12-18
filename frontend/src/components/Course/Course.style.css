@@ -28,11 +28,11 @@
     display: none;
 }
 
-.course:hover{
+.course:hover, .course--noprice:hover{
     box-shadow: 0 7px #a30506;
     border-color: #a30506;
 }
-.course:hover:active {
+.course:hover:active, .course--noprice:active {
     box-shadow: 0 3px #a30506;
     transform: translateY(5px);
 }
