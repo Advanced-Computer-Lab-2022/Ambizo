@@ -7,6 +7,7 @@ import instructor from "../models/instructor.model.js";
 import user from "../models/user.model.js";
 import course from "../models/course.model.js";
 import currencyConverter from "../middleware/currencyConverter.js";
+import courseRequest from "../models/courseRequest.model.js";
 
 const router = express.Router();
 
@@ -326,5 +327,64 @@ router.put("/applyDiscount", verifyJWT, async (req, res) => {
         handleError(res, err);
     }
 });
+
+router.get("/getAllAccessRequests", verifyJWT, async (req, res) => {
+    try{
+        if(req.User.Type !== "admin"){
+            return handleError(res, "Invalid Access")
+        }
+        
+        const courseRequests = await courseRequest.find({Status: "Processing"});
+
+        res.json(courseRequests);
+    }
+    catch(err){
+        handleError(res, err.message);
+    }
+})
+
+router.post("/grantAccess", verifyJWT, async (req, res) => {
+    try{
+        if(req.User.Type !== "admin"){
+            return handleError(res, "Invalid Access")
+        }
+
+        const corporateUsername = req.query.corporateUsername;
+        const courseId = req.query.courseId;
+
+        const newCourseToBeEnrolledIn = {courseId: courseId}
+
+        await corporateTrainee.findOneAndUpdate({Username: corporateUsername},{
+            $push: {EnrolledCourses: newCourseToBeEnrolledIn}
+        })
+
+        await courseRequest.findOneAndUpdate({CorporateTraineeUsername: corporateUsername, CourseId: courseId},
+            {Status: "Accepted"})
+
+        res.json("Access Granted Successfully")
+    }
+    catch(err){
+        handleError(res, err.message);
+    }
+})
+
+router.post("/declineAccess/", verifyJWT, async (req, res) => {
+    try{
+        if(req.User.Type !== "admin"){
+            return handleError(res, "Invalid Access")
+        }
+
+        const corporateUsername = req.query.corporateUsername;
+        const courseId = req.query.courseId;
+
+        await courseRequest.findOneAndUpdate({CorporateTraineeUsername: corporateUsername, CourseId: courseId},
+            {Status: "Declined"})
+
+        res.json("Access Declined Successfully")
+    }
+    catch(err){
+        handleError(res, err.message);
+    }
+})
 
 export default router;

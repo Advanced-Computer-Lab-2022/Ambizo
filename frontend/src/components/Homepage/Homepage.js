@@ -41,7 +41,6 @@ function Homepage() {
                             <button 
                                 id='delete-product-button'
                                 className='homepagebutton--signup'
-                                // disabled={}
                                 onClick={toggleSignUp}
                             >Sign up
                             </button>

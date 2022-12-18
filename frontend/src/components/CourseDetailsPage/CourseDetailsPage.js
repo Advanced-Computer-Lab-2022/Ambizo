@@ -133,7 +133,9 @@ function CourseDetailsPage() {
         }
     }
 
-    const [alreadyRequestedAccess, setAlreadyRequestedAccess] = React.useState(false);
+    const [accessRequestProcessing, setAccessRequestProcessing] = React.useState(false);
+    const [accessRequestDeclined, setAccessRequestDeclined] = React.useState(false);
+    const [accessNotRequestedYet, setAccessNotRequestedYet] = React.useState(false);
 
     React.useEffect(() => {
         document.title = "Course Details";
@@ -165,11 +167,16 @@ function CourseDetailsPage() {
 
         checkIfAlreadyRequestedCourse(params.courseId)
         .then(result => {
-            if(result.isRequested) {
-                    setAlreadyRequestedAccess(true)
-                }
+            if(result.status === "Processing") {
+                setAccessRequestProcessing(true)
             }
-        )
+            else if (result.status === "Declined") {
+                setAccessRequestDeclined(true)
+            }
+            else {
+                setAccessNotRequestedYet(true)
+            }
+        })
         .catch(error => {
             console.log(error);  
         })
@@ -410,9 +417,12 @@ function CourseDetailsPage() {
 
     async function handleCorporateRequestAccess(event) {
         event.preventDefault();
-        return TraineeService.requestCourse(params.courseId)
+        return TraineeService.requestCourse(params.courseId, course.Title)
             .then((result) => {
-                setAlreadyRequestedAccess(true)
+                setAccessRequestProcessing(true);
+                setAccessRequestDeclined(false);
+                setAccessNotRequestedYet(false);
+                setCancelRequestModal(false)
             })
             .catch((error) => {
                 console.log(error)
@@ -429,7 +439,9 @@ function CourseDetailsPage() {
         event.preventDefault();
         return TraineeService.cancelRequest(params.courseId)
             .then((result) => {
-                setAlreadyRequestedAccess(false)
+                setAccessRequestProcessing(false);
+                setAccessRequestDeclined(false);
+                setAccessNotRequestedYet(true);
             })
             .catch((error) => {
                 console.log(error)
@@ -507,18 +519,19 @@ function CourseDetailsPage() {
                                             {userType !== "corporateTrainee" && course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--oldprice'>{course.PriceInUSD} {currencyCode}</span>}
                                             {userType !== "corporateTrainee" && course.PriceInUSD !== 0 && course.Discount===0 && <span className='coursedetails--price'><i className="fa-solid fa-tag"></i>&nbsp;{course.PriceInUSD} {currencyCode}</span>}
                                             {userType !== "instructor" && userType !== "corporateTrainee" && course.Discount>0 && <p className="coursedetails--discount">Don't miss out on the {course.Discount}% discount!</p>}
-                                            {userType === "corporateTrainee" && alreadyRequestedAccess && <p className="coursedetails--discount">You requested access to this course.</p>}
+                                            {userType === "corporateTrainee" && accessRequestProcessing && <p className="coursedetails--discount">You requested access to this course.</p>}
+                                            {userType === "corporateTrainee" && accessRequestDeclined && <div className="coursedetails--accessrequestdeclined"><p>Your access request to this course was declined.</p></div>}
                                             {course.Discount>0 && userType !== "corporateTrainee" && <p className="coursedetails--discount">Expires on: {new Date(course.DiscountExpiryDate).getDate()}/{new Date(course.DiscountExpiryDate).getMonth() + 1}/{new Date(course.DiscountExpiryDate).getFullYear()}</p>}
                                         </div>
                                         {userType !== "instructor" && userType !== "corporateTrainee"  && <button className='button--enroll'>Enroll Now</button>}
-                                        {userType === "corporateTrainee" && !alreadyRequestedAccess && <button className='button--enroll' onClick={handleCorporateRequestAccess}>Request Access</button>}
-                                        {userType === "corporateTrainee" && alreadyRequestedAccess && 
+                                        {userType === "corporateTrainee" && accessNotRequestedYet && <button className='button--enroll' onClick={handleCorporateRequestAccess}>Request Access</button>}
+                                        {userType === "corporateTrainee" && accessRequestProcessing && 
                                         <>
                                             <button className='button--enroll' onClick={toggleCancelRequestModal}><i className="fa-solid fa-xmark"></i>&nbsp;&nbsp;Cancel Request</button>
                                             <ConfirmationModal confirmModal={cancelRequestModal} toggleConfirmationModal={toggleCancelRequestModal} 
                                                 confirmationMessage="Are you sure you want to cancel this course access request?" actionCannotBeUndone={false} 
                                                 discountDetails = {"You can request access again later"} handleConfirm={handleCorporateCancelRequestAccess} />
-                                            </>
+                                        </>
                                         }
                                         
                                         {userType === "instructor" && instructorLoggedInCourse && course.PriceInUSD !== 0 && course.Discount === 0 && <button className='button--enroll' onClick={() => navigate(`/definediscount/${course._id}`)}>Make a Discount</button>}

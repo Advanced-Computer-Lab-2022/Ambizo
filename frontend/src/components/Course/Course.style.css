@@ -11,6 +11,19 @@
     box-shadow: 0 4px rgba(0, 0, 0, 0.75);
 }
 
+.course--noprice {
+    width: 360px;
+    min-width: 240px;
+    height: fit-content;
+    max-width: 360px;
+    transition-duration: 0.15s;
+    cursor: pointer;
+    border: 3px solid rgba(0, 0, 0, 0.75);
+    border-radius: 15px;
+    box-shadow: 0 4px rgba(0, 0, 0, 0.75);
+    padding-bottom: 10px;
+}
+
 .course::-webkit-scrollbar { 
     display: none;
 }

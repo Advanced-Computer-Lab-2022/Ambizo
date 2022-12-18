@@ -48,7 +48,7 @@ function Course(props) {
             :
             (
                 <>
-                    <div className={props.adminSetPromo && !props.isChecked ? 'course--tobeselected' : props.adminSetPromo && props.isChecked ? 'course--selected' : 'course'} onClick={!props.adminSetPromo ? viewCourseDetails : selectCourse}>
+                    <div className={sessionStorage.getItem("Type") === "corporateTrainee" ? 'course--noprice' : props.adminSetPromo && !props.isChecked ? 'course--tobeselected' : props.adminSetPromo && props.isChecked ? 'course--selected' : 'course'} onClick={!props.adminSetPromo ? viewCourseDetails : selectCourse}>
                         {props.adminSetPromo &&
                         <input 
                             type='checkbox' 
@@ -74,13 +74,15 @@ function Course(props) {
                                     <Rating className='course--rating' name="half-rating-read" defaultValue={props.Rating} precision={0.1} readOnly />
                                     <span className='number--reviews'>({props.NumberOfReviews})</span>
                                 </div>
-                                <div className='course--price'>
-                                    <img src={PriceIcon} alt='Price Icon' className='price--icon'/>
-                                    {props.PriceInUSD === 0 && <span className='price'>FREE</span>}
-                                    {props.PriceInUSD !== 0 && props.Discount>0 && <span className='price'>{(props.PriceInUSD*((100-props.Discount)/100)).toFixed(2)} {currencyCode}</span>}
-                                    {props.PriceInUSD !== 0 && props.Discount>0 && <span className='old--price'>{props.PriceInUSD} {currencyCode}</span>}
-                                    {props.PriceInUSD !== 0 && props.Discount===0 && <span className='price'>{props.PriceInUSD} {currencyCode}</span>}
-                                </div>
+                                {sessionStorage.getItem("Type") !== "corporateTrainee" &&
+                                    <div className='course--price'>
+                                        <img src={PriceIcon} alt='Price Icon' className='price--icon'/>
+                                        {props.PriceInUSD === 0 && <span className='price'>FREE</span>}
+                                        {props.PriceInUSD !== 0 && props.Discount>0 && <span className='price'>{(props.PriceInUSD*((100-props.Discount)/100)).toFixed(2)} {currencyCode}</span>}
+                                        {props.PriceInUSD !== 0 && props.Discount>0 && <span className='old--price'>{props.PriceInUSD} {currencyCode}</span>}
+                                        {props.PriceInUSD !== 0 && props.Discount===0 && <span className='price'>{props.PriceInUSD} {currencyCode}</span>}
+                                    </div>
+                                }
                             </div>
                             <div>
                                 {yourCourse && <p className='yourcourse'>Your Course</p>}

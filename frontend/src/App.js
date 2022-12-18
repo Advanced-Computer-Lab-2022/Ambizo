@@ -25,6 +25,7 @@ import AdminRoutes from "./protectedRoutes/AdminRoutes";
 import HomepageRoutes from "./protectedRoutes/HomepageRoutes";
 import InstructorRoutes from "./protectedRoutes/InstructorRoutes";
 import UserRoutes from "./protectedRoutes/UserRoutes";
+import CoursesAccessRequests from './components/CoursesAccessRequests/CoursesAccessRequests';
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
                     <Route path='/user/:username' element={<UserProfile />} />
                     <Route path='/login' element={<LoginPage />} />
                     <Route path='/signUp' element={<SignUpPage />} />
+                    <Route path='/courseaccessrequests' element={<CoursesAccessRequests />} />
 
                     <Route path="/" element={<HomepageRoutes />} />
 

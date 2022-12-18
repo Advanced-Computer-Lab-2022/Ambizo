@@ -12,6 +12,10 @@ const courseRequestSchema = new Schema({
         type: String,
         required: true
     },
+    CourseTitle: {
+        type: String,
+        required: true
+    },
     Status: {
         type: String,
         default: "Processing"
