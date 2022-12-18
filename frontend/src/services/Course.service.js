@@ -9,6 +9,11 @@ class CourseService {
         return http.get("/guest/getCourses/?currencyCode=" + currencyCode);
     }
 
+    getPopularCourses(){
+        let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
+        return http.get("/guest/getPopularCourses/?currencyCode=" + currencyCode);
+    }
+
     getNotDiscountedCourses(){
         let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
         return http.get("/admin/getNotDiscountedCourses/?currencyCode=" + currencyCode);

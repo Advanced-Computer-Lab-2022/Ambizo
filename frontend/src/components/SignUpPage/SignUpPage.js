@@ -126,7 +126,7 @@ async function handleSubmit(event) {
                 setMessage({ text: `A new Trainee with Username "${result.data.Username}" successfully added`, type: "form--successmessage" })
                 togglePopUp()
                 setUserName(result.data.Username)
-                setUserData({ firstName: "", lastName: "", userName: "", password: "", confirmPassword: "", email: "", gender: "", showPassword:false })
+                setUserData({ firstName: "", lastName: "", userName: "", password: "", confirmPassword: "", email: "", gender: "", showPassword:false, acceptedPolicies: false })
             })
             .catch((error) => {
                 setMessage({ text: error.response.data, type: "form--errormessage" })
@@ -136,6 +136,9 @@ async function handleSubmit(event) {
         console.log(err)
     }
 }
+    else{
+        setConditional(false)
+    }
 }
 
     return(

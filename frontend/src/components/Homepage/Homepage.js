@@ -76,7 +76,7 @@ function Homepage() {
                             </div>
                         </div>
                     </div>
-                    <CoursesPage sectionNotPage={true}/>
+                    <CoursesPage mostPopular={true} sectionNotPage={true}/>
                 </>
             )
             }
