@@ -136,13 +136,15 @@ function CoursesPage(props) {
                     setCoursesData(coursesList.data)
                 })
             }
-            else{retrieveAllCourses(setIsLoading)
-            .then((coursesList) => {
-                setCoursesData(coursesList.data)
-            })
-            .catch(error => {
-                console.log(error);
-            })
+            else{
+                retrieveAllCourses(setIsLoading)
+                .then((coursesList) => {
+                    setCoursesData(coursesList.data)
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+            }
         }
     }, [props.isSubmitted]);
 
