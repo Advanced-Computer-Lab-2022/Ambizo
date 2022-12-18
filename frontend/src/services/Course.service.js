@@ -14,6 +14,11 @@ class CourseService {
         return http.get("/guest/getPopularCourses/?currencyCode=" + currencyCode);
     }
 
+    getFilteredPopularCourses(filterURL){
+        let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
+        return http.get("/guest/getPopularCourses/" + filterURL + "&currencyCode=" + currencyCode);
+    }
+
     getNotDiscountedCourses(){
         let currencyCode = countryToCurrency[ localStorage.getItem("countryCode") ] || "USD";
         return http.get("/admin/getNotDiscountedCourses/?currencyCode=" + currencyCode);

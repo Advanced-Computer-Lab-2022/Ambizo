@@ -92,10 +92,6 @@ router.get("/getCourses", async (req,res) => {
     }
 })
 
-// db.collection_name.find().limit(number).sort({field_1:1})
-// db.courses.find().limit(20).sort({"NumberOfEnrolledStudents": -1})
-// courses = await db.courses.find(filter).limit(20).sort({"NumberOfEnrolledStudents": -1})
-// course.find(filter);
 
 router.get("/getPopularCourses", async (req,res) => {
     try{
@@ -139,7 +135,7 @@ router.get("/getPopularCourses", async (req,res) => {
         if(!req.query.price){
              [courses, exchangeRateToUSD, exchangeRateToCountry] = await Promise.all(
                 [
-                    courses = course.find(filter).limit(20).sort({"NumberOfEnrolledStudents": -1})
+                    courses = course.find(filter).limit(3).sort({"NumberOfEnrolledStudents": -1})
                     , 
                     currencyConverter.from(req.query.currencyCode).to("USD").convert()
                     ,
@@ -148,7 +144,7 @@ router.get("/getPopularCourses", async (req,res) => {
                 );
         }
         else{
-            courses = await course.find(filter).limit(20).sort({"NumberOfEnrolledStudents": -1})
+            courses = await course.find(filter).limit(3).sort({"NumberOfEnrolledStudents": -1})
             exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
         }
 

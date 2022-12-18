@@ -4,6 +4,7 @@ import FilterModal from "../FilterModal/FilterModal";
 import Course from "../Course/Course";
 import CourseService from "../../services/Course.service";
 import FilterIcon from "../../images/FilterIcon.png";
+import { useNavigate } from "react-router-dom";
 
 
 async function retrieveAllCourses(setIsLoading){
@@ -97,6 +98,19 @@ async function retrievePopularCourses(setIsLoading){
     })
 }
 
+async function retrieveFilteredPopularCourses(setIsLoading, filterURL){
+    setIsLoading(true);
+    return CourseService.getFilteredPopularCourses(filterURL)
+    .then((result) => {
+        setIsLoading(false);
+        return result;
+    })
+    .catch((error) => {
+        setIsLoading(false);
+        return null;
+    })
+}
+
 function CoursesPage(props) {
 
     const [filterModal, setFilterModal] = React.useState(false);
@@ -109,6 +123,7 @@ function CoursesPage(props) {
     };
 
     const [coursesData, setCoursesData] = React.useState([]);
+    const navigate = useNavigate();
 
     React.useEffect(() => {
         if(props.adminNotDiscountedCourses) {
@@ -260,13 +275,21 @@ function CoursesPage(props) {
                 })
             }
             else {
-                retrieveFilteredCourses(setIsLoading, filterURL)
-                .then((coursesList) => {
-                    setCoursesData(coursesList.data)
-                })
-                .catch(error => {
-                    console.log(error);
-                })
+                if(props.mostPopular){
+                    retrieveFilteredPopularCourses(setIsLoading, filterURL)
+                    .then((coursesList) => {
+                        setCoursesData(coursesList.data)
+                    })
+                }
+                else{
+                    retrieveFilteredCourses(setIsLoading, filterURL)
+                    .then((coursesList) => {
+                        setCoursesData(coursesList.data)
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+                }
             }
             toggleFilterModal(); 
             setFreeCoursesOnly(false);
@@ -390,6 +413,7 @@ function CoursesPage(props) {
                         {coursesDataElements}
                         {coursesDataElements.length === 0 && <p className="no--courses">0 Courses found.</p>}
                     </section>
+                    {props.mostPopular && <button type="button" className="view--allcourses" onClick={() => navigate("/allcourses")}>View all courses</button>}
                 </>
             )
             }

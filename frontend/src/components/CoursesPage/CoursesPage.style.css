@@ -99,3 +99,19 @@
   font-weight: 400;
   font-size: 18px;
 }
+
+.view--allcourses {
+  border-color: #bd0312;
+  background-color: #a30506;
+  border-style: solid;
+  color: white;
+  width: 20%;
+  height: 40px;
+  margin-bottom: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.view--allcourses:hover {
+  opacity: 0.8;
+}
