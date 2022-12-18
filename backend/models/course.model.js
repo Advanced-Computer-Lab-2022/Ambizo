@@ -39,6 +39,10 @@ const courseSchema = new Schema({
     type: Number,
     default: 0
   },
+  NumberOfEnrolledStudents: {
+    type: Number,
+    default: 0
+  },
   PriceInUSD: {
     type: Number,
     required: true

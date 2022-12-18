@@ -178,10 +178,6 @@ router.get("/getNotDiscountedCourses", verifyJWT, async (req, res) => {
             exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
         }
 
-        courses.forEach(course => {
-            course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
-        })
-
         var notDiscountedCourses = [];
 
         const currentDate = new Date();
@@ -190,6 +186,7 @@ router.get("/getNotDiscountedCourses", verifyJWT, async (req, res) => {
         const currentYear = currentDate.getFullYear();
 
         courses.forEach(course => {
+            course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
             if(currentYear > course.DiscountExpiryDate.getFullYear() && course.PriceInUSD !== 0) {
                 course.Discount = 0;
                 notDiscountedCourses.push(course)
@@ -273,10 +270,6 @@ router.get("/getDiscountedCourses", verifyJWT, async (req, res) => {
             exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
         }
 
-        courses.forEach(course => {
-            course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
-        })
-
         var discountedCourses = [];
 
         const currentDate = new Date();
@@ -285,6 +278,7 @@ router.get("/getDiscountedCourses", verifyJWT, async (req, res) => {
         const currentYear = currentDate.getFullYear();
 
         courses.forEach(course => {
+            course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
             if(currentYear < course.DiscountExpiryDate.getFullYear() && course.Discount !==0 && course.PriceInUSD !== 0) {
                 discountedCourses.push(course)
             }
