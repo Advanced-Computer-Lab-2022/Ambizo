@@ -5,6 +5,7 @@ import Course from "../Course/Course";
 import CourseService from "../../services/Course.service";
 import FilterIcon from "../../images/FilterIcon.png";
 
+
 async function retrieveAllCourses(setIsLoading){
     setIsLoading(true);
     return CourseService.getAllCourses()
@@ -83,6 +84,19 @@ async function retrieveDiscountedFilteredCourses(setIsLoading, filterURL){
     })
 }
 
+async function retrievePopularCourses(setIsLoading){
+    setIsLoading(true);
+    return CourseService.getPopularCourses()
+    .then((result) => {
+        setIsLoading(false);
+        return result;
+    })
+    .catch((error) => {
+        setIsLoading(false);
+        return null;
+    })
+}
+
 function CoursesPage(props) {
 
     const [filterModal, setFilterModal] = React.useState(false);
@@ -116,7 +130,13 @@ function CoursesPage(props) {
             })
         }
         else {
-            retrieveAllCourses(setIsLoading)
+            if(props.mostPopular){
+                retrievePopularCourses(setIsLoading)
+                .then((coursesList) => {
+                    setCoursesData(coursesList.data)
+                })
+            }
+            else{retrieveAllCourses(setIsLoading)
             .then((coursesList) => {
                 setCoursesData(coursesList.data)
             })
@@ -303,11 +323,15 @@ function CoursesPage(props) {
     }
 
     function renderCourseHeader(toggleFilterModal) {
+        let coursesTitle = "All Courses"
+        if(props.mostPopular){
+            coursesTitle = "Popular Courses"
+        }
         return (
             <>
                 <div className='coursesTitleFilter'>
                     <div className='coursesTitleFilter--header'>
-                        {!props.setPromoTitle && <p>All Courses</p>}
+                        {!props.setPromoTitle && <p>{coursesTitle}</p>}
                         {props.setPromoTitle && <p>{props.setPromoTitle}</p>}
                     </div>
                     <img src={FilterIcon} alt='Filter Icon' className='filter--icon'/>

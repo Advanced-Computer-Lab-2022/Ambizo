@@ -20,7 +20,7 @@ const individualTraineeSchema = new Schema({
     required: true
   },
   Gender: {
-    type: String,         /////////////////
+    type: String,
     required: false
   },
   EnrolledCourses: {
