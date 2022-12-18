@@ -25,7 +25,7 @@ function AdminHomepage() {
                     </div>
                     <div className='adminhp--addusers'>
                         <button className='adminhp--setpromobutton'><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Reported Problems</button>
-                        <button className='adminhp--setpromobutton'><i className="fa-solid fa-eye" onClick={() => navigate("/courseaccessrequests")}></i>&nbsp;&nbsp;View Corporate Requests</button>
+                        <button className='adminhp--setpromobutton' onClick={() => navigate("/courseaccessrequests")}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Corporate Requests</button>
                     </div>
                 </div>
                 <div className='adminhp--rightcontainer'>
