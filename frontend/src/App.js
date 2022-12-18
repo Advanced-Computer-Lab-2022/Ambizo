@@ -43,7 +43,6 @@ function App() {
                     <Route path='/user/:username' element={<UserProfile />} />
                     <Route path='/login' element={<LoginPage />} />
                     <Route path='/signUp' element={<SignUpPage />} />
-                    <Route path='/courseaccessrequests' element={<CoursesAccessRequests />} />
 
                     <Route path="/" element={<HomepageRoutes />} />
 
@@ -52,6 +51,7 @@ function App() {
                         <Route path="/addtrainee" element={ <AddCorporateTrainee /> } />
                         <Route path="/addinstructor" element={ <AddInstructor /> } />
                         <Route path='/pricesanddiscounts' element={<AdminSetPromotion />} />
+                        <Route path='/courseaccessrequests' element={<CoursesAccessRequests />} />
                     </Route>
 
                     <Route path="/" element={<InstructorRoutes />}>
