@@ -87,7 +87,6 @@ function DiscountPage() {
                 setMessage({ text: error.response.data, type: "form--errormessage" })
                 console.log(error)
             })
-
     }
 
     return (
@@ -143,7 +142,7 @@ function DiscountPage() {
                         <p className={message.type}>{message.text}</p>
                         <ConfirmationModal confirmModal={confirmDiscountModal} toggleConfirmationModal={toggleConfirmationModal} 
                             confirmationMessage="Are you sure you want to apply this discount?" actionCannotBeUndone={false} 
-                            discountDetails = {`Price after discount: ${discountPercentage ? discountPercentage >= 1 && discountPercentage <= 100 ? (coursePrice*((100-discountPercentage)/100)).toFixed(2) : coursePrice.toFixed(2) : coursePrice.toFixed(2)} ${currencyCode}, Expiry Date: ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`}
+                            discountDetails = {`Price after discount: ${discountPercentage ? discountPercentage >= 1 && discountPercentage <= 100 ? (coursePrice*((100-discountPercentage)/100)).toFixed(2) : coursePrice.toFixed(2) : coursePrice.toFixed(2)} ${currencyCode}, Expiry Date: ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`}
                             handleConfirm={handleApplyDiscount}/>
                     </div>
                     <div className='definediscount--rightcontainer'>

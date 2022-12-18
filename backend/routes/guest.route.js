@@ -70,6 +70,7 @@ router.get("/getCourses", async (req,res) => {
         const currentYear = currentDate.getFullYear();
 
         courses.forEach(course => {
+            course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
             if(currentYear > course.DiscountExpiryDate.getFullYear()) {
                 course.Discount = 0;
             }
@@ -83,10 +84,6 @@ router.get("/getCourses", async (req,res) => {
                     }
                 }
             }
-        })
-
-        courses.forEach(course => {
-            course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
         })
         res.json(courses);
     }
@@ -209,6 +206,7 @@ router.get("/searchCourses/:searchTerm", async (req, res) => {
         const currentYear = currentDate.getFullYear();
 
         courses.forEach(course => {
+            course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
             if(currentYear > course.DiscountExpiryDate.getFullYear()) {
                 course.Discount = 0;
             }
@@ -223,10 +221,7 @@ router.get("/searchCourses/:searchTerm", async (req, res) => {
                 }
             }
         })
-
-        courses.forEach(course => {
-            course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
-        })
+        
         res.status(200).json(courses)
     } catch (err) {
         handleError(res, err);

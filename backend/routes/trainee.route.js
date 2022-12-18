@@ -630,6 +630,7 @@ router.put("/updateSubtitleProgress", verifyJWT, async (req, res) => {
         for(let i =0; i<Course.Subtitles.length; i++){
             if(!completedCourse.progress[i] || completedCourse.progress[i]!== 1){
                 courseCompleted = false
+                break;
             }
         }
 
@@ -637,49 +638,48 @@ router.put("/updateSubtitleProgress", verifyJWT, async (req, res) => {
             return res.send("Progress Updated Successfully");
         }
 
-        await mailCertificate(trainee, Course.Title, req.User.Type, req.query.courseId);
-
-        res.send("Progress Updated and Email Sent Successfully");
+        await mailCertificate(trainee, Course.Title, req.User.Type, req.query.courseId, res);
     }
     catch(err){
         handleError(res, err);
     }
 })
 
-async function mailCertificate(trainee, courseName, type, courseId) {
-    let certificateFileName = "";
-    if(trainee.Name.charAt(trainee.Name.length - 1) === 's'){
-        certificateFileName =  + trainee.Name + "' Certificate.pdf"
-    }
-    else{
-        certificateFileName = trainee.Name + "'s Certificate.pdf"
-    }
-
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: process.env.BUSINESS_EMAIL,
-          pass: process.env.BUSINESS_EMAIL_PASSWORD
+async function mailCertificate(trainee, courseName, type, courseId, res) {
+    try{
+        let certificateFileName = "";
+        if(trainee.Name.charAt(trainee.Name.length - 1) === 's'){
+            certificateFileName =  + trainee.Name + "' Certificate.pdf"
         }
-    });
+        else{
+            certificateFileName = trainee.Name + "'s Certificate.pdf"
+        }
+    
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: process.env.BUSINESS_EMAIL,
+              pass: process.env.BUSINESS_EMAIL_PASSWORD
+            }
+        });
+    
+        var mailOptions = {
+            from: process.env.BUSINESS_EMAIL.toString(),
+            to: trainee.Email,
+            subject: 'Course Certificate',
+            html: 
+            `<h1>Hi ${trainee.Name},
+            </h1><p>Congratulations on completing ${courseName}!</p>
+            <p>Kindly find the certificate attached below</p>
+            <p>You can now also download the certificate from the website</p>`,
+            attachments: [{
+                filename: `${certificateFileName}.pdf`,
+                content: generateCertificate(trainee.Name, courseName)
+            }]
+        }
 
-    var mailOptions = {
-        from: process.env.BUSINESS_EMAIL.toString(),
-        to: trainee.Email,
-        subject: 'Course Certificate',
-        html: 
-        `<h1>Hi ${trainee.Name},
-        </h1><p>Congratulations on completing ${courseName}!</p>
-        <p>Kindly find the certificate attached below</p>
-        <p>You can now also download the certificate from the website</p>`,
-        attachments: [{
-            filename: `${certificateFileName}.pdf`,
-            content: generateCertificate(trainee.Name, courseName)
-        }]
-    }
-
-    transporter.sendMail(mailOptions)
-    .then(async () => {
+        await transporter.sendMail(mailOptions)
+    
         if(type === 'corporateTrainee'){
             await corporateTrainee.findOneAndUpdate(
                 {Username: trainee.Username, "EnrolledCourses.courseId": courseId}, 
@@ -698,11 +698,12 @@ async function mailCertificate(trainee, courseName, type, courseId) {
                     }
                 })
         }
-    })
-    .catch(err =>{
-        console.log(err);
-    })
-   
+        return res.send("Progress Updated and Email Sent Successfully");
+    }
+    catch(err){
+        console.log(err)
+        return res.send("Error occured in emailing the certificate");
+    }
 }
 
 function handleError(res, err) {
