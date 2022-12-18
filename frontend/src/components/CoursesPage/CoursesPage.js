@@ -97,7 +97,6 @@ function CoursesPage(props) {
     const [coursesData, setCoursesData] = React.useState([]);
 
     React.useEffect(() => {
-        document.title = "All Courses";
         if(props.adminNotDiscountedCourses) {
             retrieveNotDiscountedCourses(setIsLoading)
             .then((coursesList) => {
@@ -125,7 +124,7 @@ function CoursesPage(props) {
                 console.log(error);
             })
         }
-    }, []);
+    }, [props.isSubmitted]);
 
     const coursesDataElements = coursesData.map((course) => {
         if(props.coursesToBeDiscounted?.includes(course._id)) {
@@ -139,6 +138,7 @@ function CoursesPage(props) {
                 key={course._id}
                 adminSetPromo ={props.setPromoTitle}
                 handleAdminSelectionChange={handleAdminSelectionChange}
+                isChecked={false}
                 {...course}
             />
         )

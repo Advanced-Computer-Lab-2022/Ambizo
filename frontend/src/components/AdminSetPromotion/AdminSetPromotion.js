@@ -27,7 +27,7 @@ function AdminSetPromotion() {
         setMessage({ text: "", type: "" })
     }
 
-    const [discountPercentage, setDiscountPercentage] = React.useState();
+    const [discountPercentage, setDiscountPercentage] = React.useState("");
 
     function handleDiscountPercentageChange(event) {
         const{ value } = event.target
@@ -69,12 +69,17 @@ function AdminSetPromotion() {
         return true;
     }
 
+    const [isSubmitted, setIsSubmitted] = React.useState(0);
 
     async function handleApplyDiscount(event) {
         event.preventDefault();
         return AdministratorService.applyDiscount(coursesToBeDiscounted, discountPercentage, date)
             .then((result) => {
-                navigate(0)
+                setConfirmDiscountModal(prev => !prev)
+                setIsSubmitted(prevIsSubmitted => prevIsSubmitted+1)
+                setCoursesToBeDiscounted([])
+                setDiscountPercentage("")
+                setDate(new Date())
             })
             .catch((error) => {
                 setMessage({ text: error.response.data, type: "form--errormessage" })
@@ -114,7 +119,8 @@ function AdminSetPromotion() {
         return AdministratorService.applyDiscount(coursesToRemoveDiscount, 0, new Date("2000-01-01"))
             .then((result) => {
                 setRemoveDiscountModal(prev => !prev)
-                navigate(0)
+                setIsSubmitted(prevIsSubmitted => prevIsSubmitted+1)
+                setCoursesToRemoveDiscount([])
             })
             .catch((error) => {
                 console.log(error)
@@ -128,7 +134,7 @@ function AdminSetPromotion() {
                 <h1 className="adminpromotions--header">Courses' Prices and Discounts</h1>
                 <img className="adminpromotions--pricesimage" src={SetPromotionImage} alt='Prices' />
             </div>
-            <CoursesPage sectionNotPage={true} setPromoTitle="Select course(s) and set a discount" adminNotDiscountedCourses={true} coursesToBeDiscounted={coursesToBeDiscounted} handleCoursesToBeDiscountedSelected={handleCoursesToBeDiscountedSelected} />
+            <CoursesPage sectionNotPage={true} setPromoTitle="Select course(s) and set a discount" adminNotDiscountedCourses={true} coursesToBeDiscounted={coursesToBeDiscounted} handleCoursesToBeDiscountedSelected={handleCoursesToBeDiscountedSelected} isSubmitted={isSubmitted} />
             <div className="adminpromotions--discount">
                 <div className="adminpromotions-discountdetails">
                 <p className="adminpromotions--discountheader"><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;Define a Discount for Selected Courses</p>
@@ -158,7 +164,7 @@ function AdminSetPromotion() {
                         handleConfirm={handleApplyDiscount}/>
                 </div>
             </div>
-            <CoursesPage sectionNotPage={true} setPromoTitle="Select course(s) and remove discount" adminDiscountedCourses={true} coursesToRemoveDiscount={coursesToRemoveDiscount} handleCoursesToRemoveDiscountSelected={handleCoursesToRemoveDiscountSelected} />
+            <CoursesPage sectionNotPage={true} setPromoTitle="Select course(s) and remove discount" adminDiscountedCourses={true} coursesToRemoveDiscount={coursesToRemoveDiscount} handleCoursesToRemoveDiscountSelected={handleCoursesToRemoveDiscountSelected} isSubmitted={isSubmitted} />
             <div className="adminpromotions--removediscount">
                 <p className="adminpromotions--removediscountheader"><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;Remove Discount for Selected Courses</p>
                 <button className='adminpromotionsdiscount--removebutton' onClick={toggleRemoveDiscountModal}><i className="fa-solid fa-trash"></i>&nbsp;&nbsp;&nbsp;Remove</button>

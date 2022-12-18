@@ -10,13 +10,10 @@ import { useNavigate } from "react-router-dom"
 function Homepage() {
     const navigate = useNavigate();
 
-    const [isLoading, setIsLoading] = React.useState(true);
+    const [isLoading, setIsLoading] = React.useState(false);
 
     React.useEffect(() => {
         document.title = "Homepage";
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 300);
     }, []);
 
     const toggleSignUp = () => {

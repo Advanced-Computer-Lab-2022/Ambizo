@@ -30,9 +30,14 @@ const [conditional, setConditional] = useState(false)
 
 const [PopUp, setPopUp] = useState(false)
 
-console.log(PopUp)
-
 const navigate = useNavigate();
+
+React.useEffect(() => {
+    document.title = "Sign up";
+    if(sessionStorage.getItem("Token")){
+        navigate("/")
+    }
+}, []);
 
 function toggleConditional(){
     setConditional((prevCondition) => !prevCondition)

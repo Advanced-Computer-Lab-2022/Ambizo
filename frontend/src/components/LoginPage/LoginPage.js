@@ -21,12 +21,18 @@ function LoginPage() {
 
     const navigate = useNavigate();
     
+    React.useEffect(() => {
+        document.title = "Login";
+        if(sessionStorage.getItem("Token")){
+            navigate("/")
+        }
+    }, []);
+    
     function handleAcceptContract(){
         
         InstructorService.acceptContract()
         .then(() => {
             navigate("/mycourses");
-            navigate(0);
         })
     }
 
@@ -73,7 +79,6 @@ function LoginPage() {
                             isContractAccepted = contractRes.data.isAccepted
                         if(isContractAccepted){
                             navigate("/mycourses");
-                            navigate(0);
                         }
                         else{
                             toggleContractModal()
@@ -83,7 +88,6 @@ function LoginPage() {
                     }
                     else{
                         navigate("/");
-                        navigate(0);
                     }
                     
                 })

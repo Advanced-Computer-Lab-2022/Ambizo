@@ -45,8 +45,8 @@ function ExercisePage() {
         .then(exercise => {
             setExercise(exercise.data)
         })
-        .catch((error) => {
-            console.log(error);
+        .catch(() => {
+            navigate("/404");
         })
 
         if(sessionStorage.getItem("Type") === "instructor"){
