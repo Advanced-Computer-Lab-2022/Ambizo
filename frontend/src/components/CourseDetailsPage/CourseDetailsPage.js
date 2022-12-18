@@ -126,6 +126,7 @@ function CourseDetailsPage() {
         }
     }
 
+    const [alreadyRequestedAccess, setAlreadyRequestedAccess] = React.useState(false);
 
     React.useEffect(() => {
         document.title = "Course Details";
@@ -149,8 +150,13 @@ function CourseDetailsPage() {
                 .then(status => setRefundStatus(status.data))
                 .catch(error => console.log(error))
             }
-
-            
+            if(sessionStorage) {
+                course.data.courseData.CorporateRequests.forEach(corporateUsername => {
+                    if(corporateUsername === JSON.parse(sessionStorage.getItem("User")).Username){
+                        setAlreadyRequestedAccess(true)
+                    }
+                });
+            }
             setIsLoading(false);
         })
         .catch(error => {
@@ -390,6 +396,34 @@ function CourseDetailsPage() {
         }, 10);
     }
 
+    async function handleCorporateRequestAccess(event) {
+        event.preventDefault();
+        return TraineeService.requestCourse(params.courseId)
+            .then((result) => {
+                setAlreadyRequestedAccess(true)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const [cancelRequestModal, setCancelRequestModal] = React.useState(false);
+
+    const toggleCancelRequestModal = () => {
+        setCancelRequestModal(prev => !prev)
+    };
+
+    async function handleCorporateCancelRequestAccess(event) {
+        event.preventDefault();
+        return TraineeService.cancelRequest(params.courseId)
+            .then((result) => {
+                setAlreadyRequestedAccess(false)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
     return (
         <>
             <div className={"loader-container" + (!isLoading? " hidden" : "")}>
@@ -456,14 +490,25 @@ function CourseDetailsPage() {
                                         {/* {userType !== "instructor" && <img src={PriceIcon} alt='Price Icon' className={course.Discount === 0 ? 'coursedetails--priceicon' : 'coursedetails--priceicondiscounted'} />}
                                         {userType === "instructor" && <img src={PriceIcon} alt='Price Icon' className='coursedetails--priceiconinstr' />} */}
                                         <div className="coursedetials--pricediscount">
-                                            {course.PriceInUSD === 0 && <span className='coursedetails--price'><i className="fa-solid fa-tag"></i>&nbsp;FREE</span>}
-                                            {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--price'><i className="fa-solid fa-tag"></i>&nbsp;{(course.PriceInUSD*((100-course.Discount)/100)).toFixed(2)} {currencyCode}&nbsp;</span>}
-                                            {course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--oldprice'>{course.PriceInUSD} {currencyCode}</span>}
-                                            {course.PriceInUSD !== 0 && course.Discount===0 && <span className='coursedetails--price'><i className="fa-solid fa-tag"></i>&nbsp;{course.PriceInUSD} {currencyCode}</span>}
-                                            {userType !== "instructor" && course.Discount>0 && <p className="coursedetails--discount">Don't miss out on the {course.Discount}% discount!</p>}
-                                            {course.Discount>0 && <p className="coursedetails--discount">Expires on: {new Date(course.DiscountExpiryDate).getDate()}/{new Date(course.DiscountExpiryDate).getMonth() + 1}/{new Date(course.DiscountExpiryDate).getFullYear()}</p>}
+                                            {userType !== "corporateTrainee" && course.PriceInUSD === 0 && <span className='coursedetails--price'><i className="fa-solid fa-tag"></i>&nbsp;FREE</span>}
+                                            {userType !== "corporateTrainee" && course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--price'><i className="fa-solid fa-tag"></i>&nbsp;{(course.PriceInUSD*((100-course.Discount)/100)).toFixed(2)} {currencyCode}&nbsp;</span>}
+                                            {userType !== "corporateTrainee" && course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--oldprice'>{course.PriceInUSD} {currencyCode}</span>}
+                                            {userType !== "corporateTrainee" && course.PriceInUSD !== 0 && course.Discount===0 && <span className='coursedetails--price'><i className="fa-solid fa-tag"></i>&nbsp;{course.PriceInUSD} {currencyCode}</span>}
+                                            {userType !== "instructor" && userType !== "corporateTrainee" && course.Discount>0 && <p className="coursedetails--discount">Don't miss out on the {course.Discount}% discount!</p>}
+                                            {userType === "corporateTrainee" && alreadyRequestedAccess && <p className="coursedetails--discount">You requested access to this course.</p>}
+                                            {course.Discount>0 && userType !== "corporateTrainee" && <p className="coursedetails--discount">Expires on: {new Date(course.DiscountExpiryDate).getDate()}/{new Date(course.DiscountExpiryDate).getMonth() + 1}/{new Date(course.DiscountExpiryDate).getFullYear()}</p>}
                                         </div>
-                                        {userType !== "instructor" && <button className='button--enroll'>Enroll Now</button>}
+                                        {userType !== "instructor" && userType !== "corporateTrainee"  && <button className='button--enroll'>Enroll Now</button>}
+                                        {userType === "corporateTrainee" && !alreadyRequestedAccess && <button className='button--enroll' onClick={handleCorporateRequestAccess}>Request Access</button>}
+                                        {userType === "corporateTrainee" && alreadyRequestedAccess && 
+                                        <>
+                                            <button className='button--enroll' onClick={toggleCancelRequestModal}><i className="fa-solid fa-xmark"></i>&nbsp;&nbsp;Cancel Request</button>
+                                            <ConfirmationModal confirmModal={cancelRequestModal} toggleConfirmationModal={toggleCancelRequestModal} 
+                                                confirmationMessage="Are you sure you want to cancel this course access request?" actionCannotBeUndone={false} 
+                                                discountDetails = {"You can request access again later"} handleConfirm={handleCorporateCancelRequestAccess} />
+                                            </>
+                                        }
+                                        
                                         {userType === "instructor" && instructorLoggedInCourse && course.PriceInUSD !== 0 && course.Discount === 0 && <button className='button--enroll' onClick={() => navigate(`/definediscount/${course._id}`)}>Make a Discount</button>}
                                         {userType === "instructor" && instructorLoggedInCourse && course.PriceInUSD !== 0 && course.Discount !== 0 && <button className='button--enroll' onClick={toggleRemoveDiscountModal}><i className="fa-solid fa-trash"></i>&nbsp;&nbsp;Remove Discount</button>}
                                         <ConfirmationModal confirmModal={removeDiscountModal} toggleConfirmationModal={toggleRemoveDiscountModal} 

@@ -66,6 +66,10 @@ const courseSchema = new Schema({
   ImgURL: {
     type: String,
     default: ""
+  },
+  CorporateRequests: {
+    type: Array,
+    default: []
   }
 }, {
    timestamps: true,

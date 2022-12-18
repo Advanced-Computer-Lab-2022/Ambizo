@@ -52,6 +52,14 @@ class TraineeService{
     updateSubtitleProgress(courseId, subtitleNum, newProgress) {
         return httpPost.put("/trainee/updateSubtitleProgress/?courseId=" + courseId + "&subtitleNum=" + subtitleNum, {newProgress: newProgress});
     }
+
+    requestCourse(courseId) {
+        return httpPost.put("/corporateTrainee/requestCourse/?courseId=" + courseId);
+    }
+
+    cancelRequest(courseId) {
+        return httpPost.put("/corporateTrainee/cancelRequest/?courseId=" + courseId);
+    }
 }
 
 export default new TraineeService();
