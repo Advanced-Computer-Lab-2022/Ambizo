@@ -134,7 +134,7 @@ function CoursesPage(props) {
             if(props.mostPopular){
                 retrievePopularCourses(setIsLoading)
                 .then((coursesList) => {
-                    setCourseData(coursesList.data)
+                    setCoursesData(coursesList.data)
                 })
             }
             else{retrieveAllCourses(setIsLoading)
