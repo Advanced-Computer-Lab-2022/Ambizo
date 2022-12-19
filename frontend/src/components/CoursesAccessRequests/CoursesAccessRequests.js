@@ -1,6 +1,6 @@
 import React from "react"
 import Header from "../Header/Header"
-import AccessRequestsImage from "../../images/AccessRequestsImage.png"
+import AccessRequestsImage from "../../images/AccessRequestImage.svg"
 import AccessRequest from "../AccessRequest/AccessRequest"
 import AdministratorService from "../../services/Administrator.service";
 

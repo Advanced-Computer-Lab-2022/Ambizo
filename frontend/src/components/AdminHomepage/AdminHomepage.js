@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../Header/Header';
 import CoursesPage from '../CoursesPage/CoursesPage';
-import AdminImage from '../../images/AdminImage2.png'
+import AdminImage from '../../images/AdminImage.svg'
 import { useNavigate } from "react-router-dom"
 
 function AdminHomepage() {

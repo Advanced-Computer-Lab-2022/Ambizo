@@ -4,7 +4,7 @@ import Header from "../Header/Header.js"
 import LoginService from "../../services/Login.service";
 import InstructorService from "../../services/Instructor.service";
 import InstructorContractModal from "../InstructorContractModal/InstructorContractModal.js";
-import LoginImage from '../../images/LoginImage2.jpg'
+import LoginImage from '../../images/LoginImage.svg'
 
 function LoginPage() {
 
