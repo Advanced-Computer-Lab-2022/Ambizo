@@ -196,7 +196,7 @@ function AddExercise() {
                                     <div key={(index+1)*-1} className="dynamic-form--div">
                                         <input
                                             type="text"
-                                            placeholder={"Enter Question " + (index+1)}
+                                            placeholder={"Enter Question " + (index+1) + " Title"}
                                             onChange={event => handleQuestionsChange(index, event)}
                                             name="question"
                                             className="addCourse--inputfield questionTitle"
