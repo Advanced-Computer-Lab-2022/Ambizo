@@ -95,6 +95,11 @@
     margin-left: 20px;
 }
 
+.coursedetails--image.previewDetails {
+    width: 256px;
+    height: 144px;
+}
+
 .coursedetails--price.previewDetails {
     font-size: 20px;
     font-weight: 700;

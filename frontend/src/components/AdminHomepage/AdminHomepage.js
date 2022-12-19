@@ -32,7 +32,7 @@ function AdminHomepage() {
                     <img className="adminhp--adminimage" src={AdminImage} alt='Admin' />
                 </div>
             </div>
-            <CoursesPage sectionNotPage={true}/>
+            <CoursesPage mostPopular={true} sectionNotPage={true}/>
         </>
     )
 }

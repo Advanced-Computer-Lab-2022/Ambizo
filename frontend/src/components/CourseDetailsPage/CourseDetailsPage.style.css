@@ -97,7 +97,9 @@
 }
 
 .coursedetails--image {
-    width: 95%;
+    width: 465px;
+    height: 261px;
+    object-fit: cover;
     margin: 0px auto 10px auto;
     display: block;
     border-radius: 1px;
