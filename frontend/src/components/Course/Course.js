@@ -53,7 +53,11 @@ function Course(props) {
             :
             (
                 <>
+<<<<<<< HEAD
                     <div id="course" className={props.adminSetPromo && !props.isChecked ? 'course--tobeselected' : props.adminSetPromo && props.isChecked ? 'course--selected' : props.Preview? 'course previewDetails' : 'course'} onClick={props.adminSetPromo ?  selectCourse : (props.Preview? props.ToggleCourseDetailsPreview : viewCourseDetails)}>
+=======
+                    <div className={sessionStorage.getItem("Type") === "corporateTrainee" ? 'course--noprice' : props.adminSetPromo && !props.isChecked ? 'course--tobeselected' : props.adminSetPromo && props.isChecked ? 'course--selected' : 'course'} onClick={!props.adminSetPromo ? viewCourseDetails : selectCourse}>
+>>>>>>> bc2be05cd328d69407e273cc6fe9f5fc7780f609
                         {props.adminSetPromo &&
                         <input 
                             type='checkbox' 
@@ -83,6 +87,7 @@ function Course(props) {
                                     <Rating className='course--rating' name="half-rating-read" defaultValue={props.Rating} precision={0.1} readOnly />
                                     <span className='number--reviews'>({props.Preview? 0 : props.NumberOfReviews})</span>
                                 </div>
+<<<<<<< HEAD
                                 <div className='course--price'>
                                     <img src={PriceIcon} alt='Price Icon' className='price--icon'/>
                                     {props.PriceInUSD === 0 && <span className='price'>FREE</span>}
@@ -93,6 +98,17 @@ function Course(props) {
                                     {props.PriceInUSD !== "0" && props.Preview && <span className='price'>{props.PriceInUSD} USD</span>}
 
                                 </div>
+=======
+                                {sessionStorage.getItem("Type") !== "corporateTrainee" &&
+                                    <div className='course--price'>
+                                        <img src={PriceIcon} alt='Price Icon' className='price--icon'/>
+                                        {props.PriceInUSD === 0 && <span className='price'>FREE</span>}
+                                        {props.PriceInUSD !== 0 && props.Discount>0 && <span className='price'>{(props.PriceInUSD*((100-props.Discount)/100)).toFixed(2)} {currencyCode}</span>}
+                                        {props.PriceInUSD !== 0 && props.Discount>0 && <span className='old--price'>{props.PriceInUSD} {currencyCode}</span>}
+                                        {props.PriceInUSD !== 0 && props.Discount===0 && <span className='price'>{props.PriceInUSD} {currencyCode}</span>}
+                                    </div>
+                                }
+>>>>>>> bc2be05cd328d69407e273cc6fe9f5fc7780f609
                             </div>
                             <div>
                                 {yourCourse && <p className='yourcourse'>Your Course</p>}

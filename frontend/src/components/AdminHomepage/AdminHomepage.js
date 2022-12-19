@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../Header/Header';
 import CoursesPage from '../CoursesPage/CoursesPage';
-import AdminImage from '../../images/AdminImage2.png'
+import AdminImage from '../../images/AdminImage.svg'
 import { useNavigate } from "react-router-dom"
 
 function AdminHomepage() {
@@ -25,7 +25,7 @@ function AdminHomepage() {
                     </div>
                     <div className='adminhp--addusers'>
                         <button className='adminhp--setpromobutton'><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Reported Problems</button>
-                        <button className='adminhp--setpromobutton'><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Corporate Requests</button>
+                        <button className='adminhp--setpromobutton' onClick={() => navigate("/courseaccessrequests")}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Corporate Requests</button>
                     </div>
                 </div>
                 <div className='adminhp--rightcontainer'>

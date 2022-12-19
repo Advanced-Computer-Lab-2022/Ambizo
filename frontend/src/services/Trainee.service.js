@@ -57,8 +57,8 @@ class TraineeService{
         return http.get("/corporateTrainee/checkIfAlreadyRequestedCourse/?courseId=" + courseId);
     }
 
-    requestCourse(courseId) {
-        return httpPost.post("/corporateTrainee/requestCourse/?courseId=" + courseId);
+    requestCourse(courseId, courseTitle) {
+        return httpPost.post("/corporateTrainee/requestCourse/?courseId=" + courseId + "&courseTitle=" + courseTitle);
     }
 
     cancelRequest(courseId) {

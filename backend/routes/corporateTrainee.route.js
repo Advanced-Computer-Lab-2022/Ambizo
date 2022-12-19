@@ -1,6 +1,5 @@
 import express from "express";
 import verifyJWT from "../middleware/verifyJWT.js";
-import course from "../models/course.model.js";
 import courseRequest from "../models/courseRequest.model.js";
 
 const router = express.Router();
@@ -16,9 +15,16 @@ router.get("/checkIfAlreadyRequestedCourse", verifyJWT, async (req, res) => {
 
         const alreadyRequested = await courseRequest.findOne({CorporateTraineeUsername: corporateTraineeUsername, CourseId: courseId})
 
-        res.json({
-            isRequested: alreadyRequested
-        })
+        if(alreadyRequested) {
+            res.json({
+                status: alreadyRequested.Status
+            })
+        }
+        else {
+            res.json({
+                status: "notRequestedYet"
+            })
+        }
     }
     catch(error){
         handleError(res,error);
@@ -33,10 +39,12 @@ router.post("/requestCourse", verifyJWT, async (req, res) => {
 
         const corporateTraineeUsername = req.User.Username;
         const courseId = req.query.courseId;
+        const courseTitle = req.query.courseTitle;
         
         const newCourseRequest = new courseRequest({
             CorporateTraineeUsername: corporateTraineeUsername,
-            CourseId: courseId
+            CourseId: courseId,
+            CourseTitle: courseTitle
         });
 
         await newCourseRequest.save();

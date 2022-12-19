@@ -154,6 +154,10 @@
     margin: 0px;
 }
 
+.coursedetails--accessrequestdeclined {
+    text-align: center;
+}
+
 /* .button--enrolldiscounted {
     margin: 0px 40px 0px auto;
     border-color: #bd0312;

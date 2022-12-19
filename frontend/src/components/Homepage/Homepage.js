@@ -1,9 +1,9 @@
 import React from 'react';
 import Header from '../Header/Header';
-import HomepageImage from '../../images/HomepageImage.png'
-import AttendOnlineCourses from '../../images/AttendOnlineCourses.jpg'
-import AssessYourLevel from '../../images/AssessYourLevel.jpg'
-import GetYourCertification from '../../images/GetYourCertification.jpg'
+import HomepageImage from '../../images/HomepageImage.svg'
+import AttendOnlineCourses from '../../images/AttendOnlineCourses.svg'
+import AssessYourLevel from '../../images/AssessYourLevel.svg'
+import GetYourCertification from '../../images/GetYourCertification.svg'
 import CoursesPage from '../CoursesPage/CoursesPage';
 import { useNavigate } from "react-router-dom"
 
@@ -41,7 +41,6 @@ function Homepage() {
                             <button 
                                 id='delete-product-button'
                                 className='homepagebutton--signup'
-                                // disabled={}
                                 onClick={toggleSignUp}
                             >Sign up
                             </button>
