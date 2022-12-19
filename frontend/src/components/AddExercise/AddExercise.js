@@ -4,6 +4,7 @@ import Header from "../Header/Header";
 import Question from "../Question/Question";
 import InstructorService from "../../services/Instructor.service";
 import CourseService from "../../services/Course.service";
+import AddExerciseImage from '../../images/AddExercise.svg'
 
 function AddExercise() {
     const params = useParams();
@@ -17,12 +18,15 @@ function AddExercise() {
     )
     const [currentQuestion, setCurrentQuestion] = React.useState(0);
     const [subtitleName, setSubtitleName] = React.useState("");
+    const [courseName, setCourseName] = React.useState("");
 
     React.useEffect(() => {
         document.title = "Add Exercise";
-        window.scrollTo(0,0);
         CourseService.getSubtitleName(params.courseId, params.exerciseNum)
-        .then(subtitleName => setSubtitleName(subtitleName.data))
+        .then(res => {
+            setSubtitleName(res.data.subtitleName)
+            setCourseName(res.data.courseName)
+            })
         .catch(() => {
             navigate("/404")
         })
@@ -160,129 +164,139 @@ function AddExercise() {
         }
     }
 
-    function scrollTo(id){
-        if(id === "addExerciseForm"){
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        else{
-            document.getElementById(id).scrollIntoView( { behavior: 'smooth', block: 'start' } );
-        }
-    }
-
     return (
         <>
             <Header />
-
-            <div className="form--div exerciseform">
-                    <h1>Add Exercise </h1>
-                    <h3>{"For subtitle: "+ subtitleName }</h3>
-                <form className="form" onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        placeholder="Enter Exercise Title"
-                        onChange={handleChange}
-                        name="exerciseName"
-                        className="addExercise--title"
-                        value={exerciseName}
-                    />
-                    {questions.map((input, index) => {
-                        return(
-                            <>
-                                <div key={(index+1)*-1} className="dynamic-form--div exerciseForm">
-                                    <input
-                                        type="text"
-                                        placeholder={"Enter Question " + (index+1)}
-                                        onChange={event => handleQuestionsChange(index, event)}
-                                        name="question"
-                                        value={input.question}
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="Enter Correct Answer (A-D)"
-                                        onChange={event => handleQuestionsChange(index, event)}
-                                        name="answer"
-                                        className="addExercise--answer"
-                                        value={input.answer}
-                                    /> 
-                                    {questions.length>1 && <button type="button" className="dynamic-form--removebtn" onClick={() => removeQuestion(index)}>Remove</button>}
-
-                                </div>
-                                <div key={index} className="dynamic-form--div choices">
-                                    <input
-                                        type="text"
-                                        placeholder="Enter Choice A"
-                                        onChange={event => handleQuestionsChange(index, event)}
-                                        name="firstChoice"
-                                        value={input.firstChoice}
-                                    />      
-                                    <input
-                                        type="text"
-                                        placeholder="Enter Choice B"
-                                        onChange={event => handleQuestionsChange(index, event)}
-                                        name="secondChoice"
-                                        value={input.secondChoice}
-                                    />      
-                                    <input
-                                        type="text"
-                                        placeholder="Enter Choice C"
-                                        onChange={event => handleQuestionsChange(index, event)}
-                                        name="thirdChoice"
-                                        value={input.thirdChoice}
-                                    />      
-                                    <input
-                                        type="text"
-                                        placeholder="Enter Choice D"
-                                        onChange={event => handleQuestionsChange(index, event)}
-                                        name="fourthChoice"
-                                        value={input.fourthChoice}
-                                    />           
-                                </div>
-                            </>
-                        )
-                    })}
-                    <button type="button" className="form--button" onClick={addQuestion}>+ Add Question</button>
-                    <div className="form--buttons--div exerciseForm">
-                        <button type="button" className="form--button" onClick={() => scrollTo("livePreview")}>&#8681; Live Preview</button>
-                        <button type="submit" className="form--button">Submit</button>
-                    </div>
-                    <p className={message.type}>{message.text}</p>
-                </form>
+            <div className="adminpromo--headerdiv">
+                <div>
+                    <h1 className="adminpromotions--header">Create New Exercise</h1>
+                    <h2 className="addExercise--subheader">For course: <span className="addExercise--subheader--subtitle">{courseName}</span></h2>
+                    <h2 className="addExercise--subheader">For subtitle: <span className="addExercise--subheader--subtitle">{subtitleName}</span></h2>
+                </div>
+                <img className="addExercise--image" src={AddExerciseImage} alt='Prices' />
             </div>
+            <p className="addExercise--goback" onClick={() => navigate(`/coursedetails/${params.courseId}`)}>{"<"} Back to Course details</p>
+            <div className="addExercise--container">
+                <div className="addExercise--leftcontainer">
+                    <h1 className="addCourse--header">Add Exercise</h1>
+                    <form className="addCourse--form" onSubmit={handleSubmit}>
+                        <input
+                            type="text"
+                            placeholder="Enter Exercise Title"
+                            onChange={handleChange}
+                            name="exerciseName"
+                            className="addCourse--inputfield  title"
+                            value={exerciseName}
+                        />
+                        {questions.map((input, index) => {
+                            return(
+                                <>
+                                    {index !==0 && <hr className="question--line"/>}
+                                    <h2 className="addExercise--questionHeader">{"Question " + (index+1)}</h2>
+                                    <div key={(index+1)*-1} className="dynamic-form--div">
+                                        <input
+                                            type="text"
+                                            placeholder={"Enter Question " + (index+1)}
+                                            onChange={event => handleQuestionsChange(index, event)}
+                                            name="question"
+                                            className="addCourse--inputfield questionTitle"
+                                            value={input.question}
+                                        />
+                                        <input
+                                            type="text"
+                                            placeholder="Enter Correct Answer (A-D)"
+                                            onChange={event => handleQuestionsChange(index, event)}
+                                            name="answer"
+                                            maxLength={1}
+                                            className={"addCourse--inputfield correctAnswer" + (input.answer !== ""? " filled" : "")}
+                                            value={input.answer}
+                                        /> 
+                                        {questions.length>1 && <i className="fa-solid fa-square-xmark removeSubtitle" onClick={() => removeQuestion(index)}></i>}
 
-            <button type="button" className="form--button" onClick={() => scrollTo("addExerciseForm")}>&#8679; Back to form</button>
-            <p className="exercisePage--title" id="livePreview">{exerciseName}</p>
-                    <div className="exercise--div">
-                        {exerciseQuestions}
-                        <div className="examNav--div">
-                            <div className="examNav--title--div">
-                                <p className="examNav--title">Quiz Navigation</p>
-                            </div>
-                            <div className="examNav--boxes">
-                                {navigationBoxes}
+                                    </div>
+                                    <div key={index} className="dynamic-form--div choices">
+                                        <input
+                                            type="text"
+                                            placeholder="Enter Choice A"
+                                            onChange={event => handleQuestionsChange(index, event)}
+                                            name="firstChoice"
+                                            className="addCourse--inputfield"
+                                            value={input.firstChoice}
+                                        />     
+                                        <input
+                                            type="text"
+                                            placeholder="Enter Choice B"
+                                            onChange={event => handleQuestionsChange(index, event)}
+                                            name="secondChoice"
+                                            className="addCourse--inputfield"
+                                            value={input.secondChoice}
+                                        />      
+                                        <input
+                                            type="text"
+                                            placeholder="Enter Choice C"
+                                            onChange={event => handleQuestionsChange(index, event)}
+                                            name="thirdChoice"
+                                            className="addCourse--inputfield"
+                                            value={input.thirdChoice}
+                                        />      
+                                        <input
+                                            type="text"
+                                            placeholder="Enter Choice D"
+                                            onChange={event => handleQuestionsChange(index, event)}
+                                            name="fourthChoice"
+                                            className="addCourse--inputfield"
+                                            value={input.fourthChoice}
+                                        />           
+                                    </div>
+                                </>
+                            )
+                        })}
+                        <button type="button" className="form--button" onClick={addQuestion}>+ Add Question</button>
+                        <div className="form--buttons--div exerciseForm">
+                            <button type="submit" className="addCourse--button">Submit</button>
+                        </div>
+                        <p className={message.type}>{message.text}</p>
+                    </form>
+                </div>
+                <div className='addExercise--rightcontainer'>
+                    <h1 className="addCourse--header preview">Exercise Preview</h1>
+                    <div className="exercise--preview--div">
+                        <p className="exercisePage--title preview">{exerciseName}</p>
+                        <div className="exercise--div">
+                            {exerciseQuestions}
+                            <div className="examNav--div preview">
+                                <div className="examNav--title--div">
+                                    <p className="examNav--title">Quiz Navigation</p>
+                                </div>
+                                <div className="examNav--boxes">
+                                    {navigationBoxes}
+                                </div>
                             </div>
                         </div>
+                        <p className="question--number--tag">{"Question " + (currentQuestion+1) +" Of " + questions.length }</p>
+                        <div className="form--buttons--div">
+                            <button 
+                                type="button" 
+                                name="previous" 
+                                className="form--button previous" 
+                                disabled={currentQuestion === 0} 
+                                onClick={handleButtonClick} 
+                            >
+                                &lt; Previous
+                            </button>
+                            <button 
+                                type="button" 
+                                name="next"
+                                disabled={currentQuestion === questions.length-1}  
+                                className={"form--button next"} 
+                                onClick={handleButtonClick}
+                            >
+                                Next &gt;
+                            </button>
+                        </div>
                     </div>
-                    <p className="question--number--tag">{"Question " + (currentQuestion+1) +" Of " + questions.length }</p>
-                    <div className="form--buttons--div">
-                        <button 
-                            type="button" 
-                            name="previous" 
-                            className="form--button previous" 
-                            disabled={currentQuestion === 0} 
-                            onClick={handleButtonClick} 
-                        >
-                            &lt; Previous
-                        </button>
-                        <button 
-                            type="button" 
-                            name="next"
-                            disabled={currentQuestion === questions.length-1}  
-                            className={"form--button next"} 
-                            onClick={handleButtonClick}
-                        >
-                            Next &gt;
-                        </button>
-                    </div>
+                </div>
+            </div>
         </>
     )
 }

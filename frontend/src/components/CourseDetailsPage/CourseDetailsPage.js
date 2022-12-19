@@ -525,8 +525,6 @@ function CourseDetailsPage() {
                                   ) :
                                   (
                                     <div className="coursedetails--priceenroll">
-                                        {/* {userType !== "instructor" && <img src={PriceIcon} alt='Price Icon' className={course.Discount === 0 ? 'coursedetails--priceicon' : 'coursedetails--priceicondiscounted'} />}
-                                        {userType === "instructor" && <img src={PriceIcon} alt='Price Icon' className='coursedetails--priceiconinstr' />} */}
                                         <div className="coursedetials--pricediscount">
                                             {userType !== "corporateTrainee" && course.PriceInUSD === 0 && <span className='coursedetails--price'><i className="fa-solid fa-tag"></i>&nbsp;FREE</span>}
                                             {userType !== "corporateTrainee" && course.PriceInUSD !== 0 && course.Discount>0 && <span className='coursedetails--price'><i className="fa-solid fa-tag"></i>&nbsp;{(course.PriceInUSD*((100-course.Discount)/100)).toFixed(2)} {currencyCode}&nbsp;</span>}
@@ -562,24 +560,20 @@ function CourseDetailsPage() {
                     </div>
                     <div className="coursedetails--subtitles">
                         <h2 className="coursedetails--previewheader">Course Preview</h2>
-                        <CoursePreview userType={userType} courseId={params.courseId} CoursePreviewLink={course.CoursePreviewLink} 
-                        modifyCourseDetailsPagePreview={(newPreviewLink) => modifyCourseDetailsPagePreview(newPreviewLink)}
-                        instructorLoggedInCourse={instructorLoggedInCourse} />
-                        <h2 className="coursedetails--subtitlesheader">Subtitles</h2>
                         <div className="subtitles--progress--div">
-                            <div style={{"width": "50%"}}>
-                                {courseSubtitles}
-                            </div>
+                            <CoursePreview userType={userType} courseId={params.courseId} CoursePreviewLink={course.CoursePreviewLink} 
+                            modifyCourseDetailsPagePreview={(newPreviewLink) => modifyCourseDetailsPagePreview(newPreviewLink)}
+                            instructorLoggedInCourse={instructorLoggedInCourse} />
                             {traineeInfo.isTraineeEnrolled && traineeInfo.overallProgress < 1 &&
                                 <div className="progress--div">
                                     <p className="progress--div--header">Your Progress</p>
                                     <div className="progress--bar" style={{"--progress": courseProgress+"%"}}></div>
                                     <p className="progress--percentage">You are <b>{courseProgress}%</b> on your way</p>
                                     {userType === "individualTrainee" && traineeInfo.overallProgress < 0.5 && refundStatus ==="None" &&
-                                       <p className="progress--percentage refund">Don't like the course? Request a refund from <span className="reset-password" onClick={toggleRefundModal}>here</span></p>
+                                        <p className="progress--percentage refund">Don't like the course? Request a refund from <span className="reset-password" onClick={toggleRefundModal}>here</span></p>
                                     }
                                     {userType === "individualTrainee" && refundStatus === "Processing" &&
-                                       <p className="progress--percentage refund">Your refund request is currently processing </p>
+                                        <p className="progress--percentage refund">Your refund request is currently processing </p>
                                     }
                                 </div>
                             }
@@ -590,8 +584,11 @@ function CourseDetailsPage() {
                                     {isCertificateLoading && <div className="spinner certificate"> </div>}
                                 </div>
                             }
+                            <div className="coursedetails--subtitles--flexDiv">
+                                <h2 className="coursedetails--subtitlesheader">Subtitles</h2>
+                                {courseSubtitles}
+                            </div>
                         </div>
-                        
                         <h2 className="coursedetails--subtitlesheader"  id = "allRatings">Ratings</h2>
                         <div className="coursedetails--ratings">
                             {course.Ratings?.length > 0 ? ratingDataElements : <i><p className = "courseDetails--noratings">No ratings yet.</p></i>}

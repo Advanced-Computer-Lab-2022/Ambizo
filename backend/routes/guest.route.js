@@ -354,7 +354,10 @@ router.get("/getSubtitleName", async (req, res) => {
     try{
         
         const Course = await course.findById(req.query.courseId);
-        res.send(Course.Subtitles[Number.parseInt(req.query.subtitleNum)].subtitle);
+        res.json({
+            subtitleName: Course.Subtitles[Number.parseInt(req.query.subtitleNum)].subtitle,
+            courseName: Course.Title
+            })
     }
     catch(error){
         handleError(res,error);

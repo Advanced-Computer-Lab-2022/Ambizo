@@ -1,7 +1,7 @@
 
 .subtitle {
     display: flex;
-    width: 100%;
+    width: 50%;
     height: 80px;
     border-width: 2px;
     border-color: hsla(210,18%,87%,1);
@@ -48,7 +48,7 @@
 }
 
 .subtitle--details {
-    width: 100%;
+    width: 50%;
     height: fit-content;
     border-width: 2px;
     border-color: hsla(210,18%,87%,1);
@@ -101,7 +101,7 @@
 }
 
 .subtitle--detailsfilled {
-    width: 100%;
+    width: 50%;
     height: fit-content;
     border-width: 2px;
     border-color: hsla(210,18%,87%,1);
