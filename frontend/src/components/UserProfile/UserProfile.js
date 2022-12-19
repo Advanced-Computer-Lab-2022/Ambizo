@@ -160,7 +160,7 @@ function UserProfile() {
   async function handleUpdateEmail(event) {
     event.preventDefault();
     if(updatedEmail !== "") {
-      return InstructorService.updateEmail(usernameSession, updatedEmail)
+      return InstructorService.updateEmail(updatedEmail)
       .then(result => {
         modifyUserProfileEmail(updatedEmail);
         toggleEmailInputField();
@@ -195,7 +195,7 @@ function UserProfile() {
 
   async function handleAddBio(event) {
     event.preventDefault();
-      return InstructorService.updateBio(usernameSession, enteredBio)
+      return InstructorService.updateBio(enteredBio)
       .then(result => {
         modifyUserProfileBio(enteredBio);
         toggleAddBioInputField();
@@ -265,11 +265,11 @@ function UserProfile() {
                               <button type="button" onClick={() => scrollTo("instructorRatings")}>Ratings</button>
                             </div>
                           }
-                          {myProfileInstr && <a className="userprofile--settingshyperlink" href="/settings"><i className="fa-solid fa-gear"></i>&nbsp;&nbsp;Settings & Privacy</a>}
+                          {myProfileInstr && <span className="userprofile--settingshyperlink" onClick={() => navigate("/settings")}><i className="fa-solid fa-gear"></i>&nbsp;&nbsp;Settings & Privacy</span>}
                         </>
                         }
                         {!(myProfileInstr || profileInstr) &&<h4 className="usertype--user">{traineeInfo.Type === 'individualTrainee'? 'INDIVIDUAL TRAINEE' :'CORPORATE TRAINEE'}</h4>}
-                        {myProfileTrainee && <a className="userprofile--settingshyperlink" href="/settings"><i className="fa-solid fa-gear"></i>&nbsp;&nbsp;Settings & Privacy</a>}
+                        {myProfileTrainee && <span className="userprofile--settingshyperlink" onClick={() => navigate("/settings")}><i className="fa-solid fa-gear"></i>&nbsp;&nbsp;Settings & Privacy</span>}
                     </div>
                     {(profileInstr || myProfileInstr) && instructorInfo?.ProfileImage &&
                       <div className="user--rightcontainer">
@@ -315,7 +315,7 @@ function UserProfile() {
                 {/* else mafesh bio */}
                 {(!myProfileInstr && !myProfileTrainee) &&
                   <>
-                    <hr className="user--line"/>
+                    <hr className="userprofile--line"/>
                     <div className="userprofile--courses">
                       <h3 className="userprofile--coursesheader" id="instructorCourses">Courses</h3>
                       <div className="userprofile--allcourses">
@@ -326,7 +326,7 @@ function UserProfile() {
                 }
                 {myProfileTrainee &&
                   <>
-                    <hr className="user--line"/>
+                    <hr className="userprofile--line"/>
                     <div className="userprofile--courses">
                       <h3 className="userprofile--coursesheader" id="instructorCourses">Enrolled In</h3>
                       <div className="userprofile--allcourses">
@@ -338,11 +338,12 @@ function UserProfile() {
                 {/* msh htl3 el courses lw da logged in instructor 3shan kda kda yro7 yshofhom fe My Courses */}
                 {(profileInstr || myProfileInstr)  &&
                   <>
-                    <hr className="user--line"/>
+                    <hr className="userprofile--line"/>
                     <div className="userprofile--ratings">
                         <h3 className="userprofile--ratingssheader" id="instructorRatings">Ratings</h3>
                         <div className="userprofile--allcourses">
                             {ratingDataElements}
+                            {ratingDataElements.length === 0 && <i><p className = "courseDetails--noratings">No ratings yet.</p></i>}
                         </div>
                     </div>
                   </>

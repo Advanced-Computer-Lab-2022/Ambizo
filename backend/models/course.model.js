@@ -23,9 +23,9 @@ const courseSchema = new Schema({
     type: String,
     required: true,
   },
-  TotalHours: {
+  TotalMinutes: {
     type: Number,
-    required: true
+    default: 0
   },
   Rating: {
     type: Number,
@@ -36,6 +36,10 @@ const courseSchema = new Schema({
     default: []
   },
   NumberOfReviews: {
+    type: Number,
+    default: 0
+  },
+  NumberOfEnrolledStudents: {
     type: Number,
     default: 0
   },
@@ -58,6 +62,10 @@ const courseSchema = new Schema({
   Discount: {
     type: Number,
     default: 0
+  },
+  DiscountExpiryDate: {
+    type: Date,
+    default: new Date("2000-01-01")
   },
   ImgURL: {
     type: String,

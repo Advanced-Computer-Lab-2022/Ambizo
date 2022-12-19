@@ -154,6 +154,10 @@
     margin: 0px;
 }
 
+.coursedetails--accessrequestdeclined {
+    text-align: center;
+}
+
 /* .button--enrolldiscounted {
     margin: 0px 40px 0px auto;
     border-color: #bd0312;
@@ -235,9 +239,76 @@
 
 .courseDetails--noratings{
     margin-left: 30px;
+    margin-top: 0px;
     font-size: 20px;
     font-weight: 20px;
 }
 
+.subtitles--progress--div{
+    display: flex;
+}
 
+.progress--div{
+    box-shadow: 3px 5px 10px 0 rgba(0,0,0,.3);
+    border: 1px solid rgb(74, 222, 128, 0.7);
+    border-radius: 10px;
+    height: fit-content;
+    width: 450px;
+    min-height: 140px;
+    margin-left: 201px;
+    margin-right: 50px;
+}
 
+.progress--div--header{
+    text-align: center;
+    font-size: 20pt;
+    font-weight: 600;
+    color: #15803d;
+    margin-bottom: 15px;
+}
+
+.progress--bar{
+    width: 80%;
+    height: 20px;
+    border: 1px solid rgb(74, 222, 128);
+    border-radius: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 10px;
+    position: relative;
+    background-color: rgb(226, 232, 240);
+}
+
+.progress--bar::after{
+    content: '\A';
+    background: rgb(74, 222, 128);
+    border-radius: 15px;
+    position:absolute;
+    top: 0; 
+    bottom: 0;
+    left: 0; 
+    width: var(--progress);
+}
+
+.progress--percentage{
+    text-align: center;
+    font-size: 12pt;
+    color: #14532d;
+}
+
+.progress--percentage.refund{
+    font-size: 11pt;
+    color:black
+}
+
+.progress--percentage.certificate{
+    color:black
+}
+
+.spinner.certificate{
+    width: 44px;
+    height: 44px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 10px;
+}

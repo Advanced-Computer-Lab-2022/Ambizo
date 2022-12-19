@@ -1,0 +1,72 @@
+.adminpromo--headerdiv {
+    width: 100%;
+    display: flex;
+    padding: 50px 0px;
+    height: fit-content;
+    background-color: #f7f7f7;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.adminpromotions--pricesimage {
+    width: 620px;
+    height: fit-content;
+}
+
+.adminpromotions--discount {
+    display: flex;
+    height: fit-content;
+    padding: 2% 0;
+    background-color: #f7f7f7;
+    justify-content: center;
+}
+
+.adminpromotions--discountheader {
+    margin-top: 0px;
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.adminpromotionsdiscount--calendar {
+    display: flex;
+    gap: 111px;
+    margin-bottom: 30px;
+}
+
+.adminpromotionsdiscount--applybutton, .adminpromotionsdiscount--removebutton {
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 40%;
+    height: 30px;
+    border-width: 1px;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.adminpromotionsdiscount--applybutton:hover, .adminpromotionsdiscount--removebutton:hover {
+    opacity: 0.8;
+}
+
+.adminpromotions--removediscount {
+    width: 100%;
+    display: flex;
+    padding: 50px 0px;
+    height: fit-content;
+    background-color: #f7f7f7;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.adminpromotions--removediscountheader {
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.adminpromotionsdiscount--removebutton {
+    width: 225px;
+    margin-bottom: 0px;
+}

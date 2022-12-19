@@ -21,7 +21,7 @@ function Subtitle(props) {
         if(props.exercise && props.isTraineeEnrolled){
             TraineeService.getAnswers(props.courseId, props.index)
             .then(answers => {
-                if (answers.data.grade > -1) {
+                if (answers.data?.grade > -1) {
                     setGrade(answers.data.grade);
                 }
             })
@@ -29,7 +29,27 @@ function Subtitle(props) {
                 console.log(error);
             })
         }
-    }, [props.exercise, props.courseId, props.index]);
+    }, [props.exercise, props.courseId, props.index, props.isTraineeEnrolled]);
+
+    function updateDuration(event){
+        if(!props.duration && props.instructorLoggedInCourse){
+            const seconds = event.target.getDuration()
+            const minutes = Math.floor(seconds / 60)
+            let newSubtitle = {
+                subtitle: props.subtitle,
+                duration: minutes,
+                youtubeLink: subtitleDetails.youtubeLink,
+                description: subtitleDetails.description
+            }
+            InstructorService.addSubtitleDetails(props.index , newSubtitle, props.courseId)
+                .then((res) => {
+                    props.modifyCourseDetailsPageSubtitle(newSubtitle, props.index, res.data.newTotalMinutes);
+                })
+                .catch((error) => {
+                    setMessage({ text: error.response.data, type: "form--errormessage" })
+                })
+        }
+    }
 
     async function handleConfirm(event) {
         event.preventDefault();
@@ -40,9 +60,10 @@ function Subtitle(props) {
             youtubeLink: "",
             description: ""
         }
-        return InstructorService.addSubtitleDetails(props.index, newSubtitle, props.courseId)
-            .then((result) => {
-                props.modifyCourseDetailsPageSubtitle(newSubtitle, props.index)
+        InstructorService.addSubtitleDetails(props.index, newSubtitle, props.courseId)
+            .then((res) => {
+                newSubtitle.duration = null;
+                props.modifyCourseDetailsPageSubtitle(newSubtitle, props.index, res.data.newTotalMinutes);
                 toggleConfirmationModal();
                 setSubtitleDetails({
                     youtubeLink: "",
@@ -56,8 +77,8 @@ function Subtitle(props) {
 
     let hours;
     let minutes
-    if(props.duration > 60) {
-        hours = (props.duration / 60).toFixed(0);
+    if(props.duration >= 60) {
+        hours = Math.floor((props.duration / 60));
         minutes = props.duration % 60;
     }
 
@@ -93,7 +114,6 @@ function Subtitle(props) {
         if (checkSubmit()) {
             let newSubtitle = {
                 subtitle: props.subtitle,
-                duration: props.duration,
                 youtubeLink: subtitleDetails.youtubeLink,
                 description: subtitleDetails.description
             }
@@ -138,16 +158,20 @@ function Subtitle(props) {
         },
     }
 
+    let subtitleProgress = (props.progress*100).toFixed(0);
+    let isSubtitleClickable =  (props.instructorLoggedInCourse || (props.isTraineeEnrolled && props.refundStatus === "None"));
+    let isSubtitleClickableInstructor = props.userType === "instructor" && props.instructorLoggedInCourse;
+    let blockSubtitles = (!isSubtitleClickable && (props.userType === "individualTrainee" || props.userType === "corporateTrainee")) || !sessionStorage.getItem("User") || (props.userType === "instructor" && !props.instructorLoggedInCourse);
     return (
         <>
-            <div className="subtitle" onClick={displaySubtitlesDetails} >
-                {!showSubtitleDetails && <img src={ArrowDownIcon} alt='Arrow Down Icon' className='subtitle--arrow' />}
-                {showSubtitleDetails && <img src={ArrowUpIcon} alt='Arrow Up Icon' className='subtitle--arrow' />}
-                <p className="subtitle--name">{props.subtitle}</p>
+            <div className="subtitle" onClick={displaySubtitlesDetails} style={{"--progress": subtitleProgress+"%"}}>
+                {!showSubtitleDetails && !blockSubtitles && <img src={ArrowDownIcon} alt='Arrow Down Icon' className='subtitle--arrow' />}
+                {showSubtitleDetails && !blockSubtitles && <img src={ArrowUpIcon} alt='Arrow Up Icon' className='subtitle--arrow' />}
+                <p className="subtitle--name">{props.subtitle} {props.isTraineeEnrolled && <span className="subtitle--progress">{subtitleProgress}%</span>}</p>
                 {hours && <span className="subtitle--duration">{hours}hr {minutes}min</span>}
                 {!hours && <span className="subtitle--duration">{props.duration}min</span>}
             </div>
-            {props.userType === "instructor" && props.instructorLoggedInCourse && !props.youtubeLink && showSubtitleDetails && 
+            { isSubtitleClickableInstructor && showSubtitleDetails && !props.youtubeLink &&
                 <form className="subtitle--details" onSubmit={handleSubmit}>
                     <input
                         id="youtubeLink"
@@ -173,10 +197,10 @@ function Subtitle(props) {
                     <p className={message.type}>{message.text}</p>
                 </form>
             }
-            {props.youtubeLink && showSubtitleDetails && (props.instructorLoggedInCourse || props.isTraineeEnrolled) &&
+            { isSubtitleClickable && showSubtitleDetails && props.youtubeLink &&
                 <div className="subtitle--detailsfilled">
                     <h4>Video:</h4>
-                    <YouTube className="subtitle--video" videoId={validateYouTubeUrl(props.youtubeLink)} opts={opts} />
+                    <YouTube className="subtitle--video" videoId={validateYouTubeUrl(props.youtubeLink)} opts={opts} onPlay={props.updateSubtitleProgress} onReady={updateDuration}/>
                     <h4>Video Short Description:</h4>
                     <p className="subtitle--description">{props.description}</p>
                     {props.instructorLoggedInCourse &&

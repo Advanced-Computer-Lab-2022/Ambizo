@@ -49,6 +49,7 @@
 
 .action--cannotbeundone {
     font-size: 15px;
+    color: black;
 }
 
 .confirmation--buttons {
@@ -81,5 +82,9 @@
   
 .button--cancel:hover {
     opacity: 0.8;
+}
+
+.fa-circle-exclamation:before, .fa-exclamation-circle:before {
+    color: black;
 }
   

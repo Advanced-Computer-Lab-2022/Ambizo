@@ -64,15 +64,34 @@ router.get("/getCourses", verifyJWT, async (req,res) => {
                    currencyConverter.from("USD").to(req.query.currencyCode).convert()
                ]
                );
-       }
-       else{
-           courses = await course.find(filter);
-           exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
-       }
-        
+        }
+        else{
+            courses = await course.find(filter);
+            exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
+        }
+
+        const currentDate = new Date();
+        const currentDay = currentDate.getDate();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+
         courses.forEach(course => {
             course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
+            if(currentYear > course.DiscountExpiryDate.getFullYear()) {
+                course.Discount = 0;
+            }
+            else if(currentYear == course.DiscountExpiryDate.getFullYear()) {
+                if(currentMonth > course.DiscountExpiryDate.getMonth()) {
+                    course.Discount = 0;
+                }
+                else if(currentMonth == course.DiscountExpiryDate.getMonth()) {
+                    if(currentDay > course.DiscountExpiryDate.getDate()) {
+                        course.Discount = 0;
+                    }
+                }
+            }
         })
+
         res.json(courses);
     }
     catch(err){
@@ -108,10 +127,29 @@ router.get("/getInstructorCourses", async (req,res) => {
             courses = await course.find(filter);
             exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
         }
-        
+
+        const currentDate = new Date();
+        const currentDay = currentDate.getDate();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+
         courses.forEach(course => {
             course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
+            if(currentYear > course.DiscountExpiryDate.getFullYear()) {
+                course.Discount = 0;
+            }
+            else if(currentYear == course.DiscountExpiryDate.getFullYear()) {
+                if(currentMonth > course.DiscountExpiryDate.getMonth()) {
+                    course.Discount = 0;
+                }
+                else if(currentMonth == course.DiscountExpiryDate.getMonth()) {
+                    if(currentDay > course.DiscountExpiryDate.getDate()) {
+                        course.Discount = 0;
+                    }
+                }
+            }
         })
+
         res.json(courses);
     }
     catch(err){
@@ -159,10 +197,29 @@ router.get("/searchCourses/:searchTerm", verifyJWT, async (req, res) => {
                 currencyConverter.from("USD").to(req.query.currencyCode).convert()
             ]
             );
+        
+        const currentDate = new Date();
+        const currentDay = currentDate.getDate();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
 
         courses.forEach(course => {
             course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
+            if(currentYear > course.DiscountExpiryDate.getFullYear()) {
+                course.Discount = 0;
+            }
+            else if(currentYear == course.DiscountExpiryDate.getFullYear()) {
+                if(currentMonth > course.DiscountExpiryDate.getMonth()) {
+                    course.Discount = 0;
+                }
+                else if(currentMonth == course.DiscountExpiryDate.getMonth()) {
+                    if(currentDay > course.DiscountExpiryDate.getDate()) {
+                        course.Discount = 0;
+                    }
+                }
+            }
         })
+
         res.status(200).json(courses)
     } catch (err) {
         handleError(res, err);
@@ -193,24 +250,37 @@ router.post("/createCourse", verifyJWT, async (req, res) => {
 
 router.put("/addSubtitleDetails", verifyJWT, async (req, res) => {
     try {
-        if(req.User.Type !== "instructor") {
-            return handleError(res, "Invalid Access")
+        let courseId = req.query.courseId;
+        let oldCourse = await course.findById(courseId)
+
+        if(req.User.Username !== oldCourse.InstructorUsername) {
+            return handleError(res, "You can only add Subtitle Details to your Courses")
         }
 
-        let courseId = req.query.courseId;
         let subtitleIndex = req.query.index;
         const updatedSubtitle = req.body;
+        let newMinutes = 0;
+        let newTotalMinutes = oldCourse.TotalMinutes;
 
-        let oldCourse = await course.findById(courseId)
+        if(updatedSubtitle.duration && updatedSubtitle.youtubeLink !== ""){
+            newMinutes =  updatedSubtitle.duration
+            newTotalMinutes += newMinutes
+        }
+        else if(updatedSubtitle.duration){
+            newMinutes =  updatedSubtitle.duration
+            newTotalMinutes -= newMinutes
+            updatedSubtitle.duration = null;
+        }
 
         let newSubtitles = oldCourse.Subtitles;
         newSubtitles[subtitleIndex] = updatedSubtitle;
 
         await course.findByIdAndUpdate(courseId, {
-            Subtitles: newSubtitles
+            Subtitles: newSubtitles,
+            TotalMinutes: newTotalMinutes
         })
 
-        res.status(200).send("Video added successfully");
+        res.status(200).json({newTotalMinutes: newTotalMinutes});
     } catch (err) {
         handleError(res, err);
     }
@@ -218,11 +288,13 @@ router.put("/addSubtitleDetails", verifyJWT, async (req, res) => {
 
 router.put("/addCoursePreview", verifyJWT, async (req, res) => {
     try {
-        if(req.User.Type !== "instructor") {
-            return handleError(res, "Invalid Access")
-        }
-
         let courseId = req.query.courseId;
+        let oldCourse = await course.findById(courseId)
+
+        if(req.User.Username !== oldCourse.InstructorUsername) {
+            return handleError(res, "You can only add Preview to your Courses")
+        }
+        
         await course.findByIdAndUpdate(courseId, {
             CoursePreviewLink: req.body.previewLink
         })
@@ -239,10 +311,9 @@ router.put("/updateEmail", verifyJWT, async (req, res) => {
             return handleError(res, "Invalid Access")
         }
 
-        let instructorUsername = req.query.instrusername;
         let updatedEmail = req.query.updatedEmail;
 
-        await instructor.findOneAndUpdate({Username: instructorUsername}, {
+        await instructor.findOneAndUpdate({Username: req.User.Username}, {
             Email: updatedEmail
         })
 
@@ -258,10 +329,9 @@ router.put("/updateBio", verifyJWT, async (req, res) => {
             return handleError(res, "Invalid Access")
         }
 
-        let instructorUsername = req.query.instrusername;
         let enteredBio = req.query.enteredBio;
 
-        await instructor.findOneAndUpdate({Username: instructorUsername}, {
+        await instructor.findOneAndUpdate({Username: req.User.Username}, {
             Bio: enteredBio
         })
 
@@ -271,7 +341,32 @@ router.put("/updateBio", verifyJWT, async (req, res) => {
     }
 });
 
-router.get("/checkIfInstructor" , async (req, res) => {
+router.put("/applyDiscount", verifyJWT, async (req, res) => {
+    try {
+        let courseId = req.query.courseId;
+        let oldCourse = await course.findById(courseId)
+
+        if(req.User.Username !== oldCourse.InstructorUsername) {
+            return handleError(res, "You can only apply Discount to your Courses")
+        }
+
+        let discountPercentage = req.query.discount;
+        let expiryDate = req.query.expiryDate;
+
+        const date = new Date(expiryDate);
+
+        await course.findByIdAndUpdate(courseId, {
+            Discount: discountPercentage,
+            DiscountExpiryDate: date
+        })
+
+        res.status(200).send("Discount added/updated successfully");
+    } catch (err) {
+        handleError(res, err);
+    }
+});
+
+router.get("/checkIfInstructor", async (req, res) => {
     try{
         let usernameReceived = req.query.username;
 
@@ -347,6 +442,30 @@ router.get("/isContractAccepted", verifyJWT, async (req, res) => {
         handleError(res, err);
     }
 });
+
+router.get("/getCourseDetails", verifyJWT, async (req,res) => {
+    try {
+        const courseDetails = await course.findOne({_id: req.query.courseId})
+
+        if(req.User.Username !== courseDetails.InstructorUsername) {
+            return handleError(res, "Invalid Acess")
+        }
+
+        const exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
+
+        const price = (courseDetails.PriceInUSD * exchangeRateToCountry).toFixed(2)
+
+        res.json({
+            Title: courseDetails.Title,
+            Price: price,
+            Discount: courseDetails.Discount,
+            DiscountExpiryDate: courseDetails.DiscountExpiryDate
+        })
+    }
+    catch(err) {
+        handleError(res, err.message);
+    }
+})
 
 function handleError(res, err) {
     return res.status(400).send(err);

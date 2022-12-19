@@ -1,0 +1,61 @@
+.adminhp--options {
+    min-height: 750px;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    padding: 0px 10%;
+    background-color: #f7f7f7;
+}
+
+.adminhp--leftcontainer {
+    width: 50%;
+    margin-right: auto;
+}
+
+.adminhp--rightcontainer {
+    width: 50%;
+    margin-left: auto;
+}
+
+.adminhp--adminimage {
+    width: 100%;
+    height: fit-content;
+}
+
+.adminhp-header {
+    margin: 0px;
+}
+
+.adminhp--line {
+    width: 250px;
+    border: 1px solid #a30506;
+    margin-bottom: 30px;
+    margin-left: 0px;
+}
+
+.adminhp--discounts {
+    display: flex;
+    gap: 20px;
+}
+
+.adminhp--setpromobutton {
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 25%;
+    height: 40px;
+    border-width: 1px;
+    font-size: 12px;
+    margin-bottom: 10px;
+    margin-right: 0px;
+}
+
+.adminhp--setpromobutton:hover {
+    opacity: 0.8;
+}
+
+.adminhp--addusers {
+    display: flex;
+    gap: 10px;
+}

@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import CourseService from "../../services/Course.service";
 import Header from "../Header/Header";
 import Question from "../Question/Question";
@@ -19,8 +19,18 @@ async function retrieveAnswers(courseId, exerciseNum) {
         })
 }
 
+async function updateSubtitleProgress(courseId, exerciseNum, subtitleProgress){
+    let subtitleNum = exerciseNum
+    let newSubtitlesProgress = subtitleProgress
+    if(newSubtitlesProgress === 0.8 || newSubtitlesProgress === 0){
+        newSubtitlesProgress += 0.2;
+        return TraineeService.updateSubtitleProgress(courseId, subtitleNum, newSubtitlesProgress)
+    }
+}
+
 function ExercisePage() {
     const params = useParams();
+    const navigate = useNavigate();
     const [exercise, setExercise] = React.useState(null);
     const [traineeChoices, setTraineeChoices] = React.useState([]);
     const [currentQuestion, setCurrentQuestion] = React.useState(0);
@@ -35,8 +45,8 @@ function ExercisePage() {
         .then(exercise => {
             setExercise(exercise.data)
         })
-        .catch((error) => {
-            console.log(error);
+        .catch(() => {
+            navigate("/404");
         })
 
         if(sessionStorage.getItem("Type") === "instructor"){
@@ -46,7 +56,7 @@ function ExercisePage() {
         else{
             retrieveAnswers(params.courseId, params.exerciseNum)
             .then(answers => {
-                if (answers.data.grade > -1) {
+                if (answers.data?.grade > -1) {
                     setTraineeChoices(answers.data.choices);
                     setGrade(answers.data.grade);
                 }
@@ -57,8 +67,6 @@ function ExercisePage() {
             })
         }
     }, [params.courseId, params.exerciseNum, isSubmitted]);
-
-
 
     function handleChoiceClick(event, index) {
         if (!(grade > -1)) {
@@ -81,6 +89,7 @@ function ExercisePage() {
 
     function handleSubmit(event) {
         event.preventDefault();
+        setIsLoading(true);
         let NewTraineeChoices = [];
         for (let i = 0; i < exercise.questions.length; i++) {
             NewTraineeChoices.push(traineeChoices[i]?traineeChoices[i]:null);
@@ -89,7 +98,14 @@ function ExercisePage() {
 
         TraineeService.submitExercise(params.courseId, params.exerciseNum, NewTraineeChoices)
             .then(() => {
-                setIsSubmitted(true);
+                updateSubtitleProgress(params.courseId, params.exerciseNum, exercise.subtitleProgress)
+                .then(() => {
+                    setIsSubmitted(true);
+                    setIsLoading(false);
+                })
+                .catch((error) => {
+                    console.log(error);
+                }) 
             })
             .catch((error) => {
                 console.log(error);
@@ -144,6 +160,7 @@ function ExercisePage() {
             (
                 <>
                     <Header />
+                    {(sessionStorage.getItem("Type") === "instructor" || (grade > -1)) && <p className="exercise--goback" onClick={() => navigate(`/coursedetails/${params.courseId}`)}>{"<"} Back to Course details</p>}
                     <p className="exercisePage--title">{exercise?.exerciseName}</p>
                     <div className="exercise--div">
                         {exerciseQuestions}

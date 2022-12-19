@@ -40,6 +40,30 @@ class TraineeService{
     getTraineeName(TraineeUsername) {
         return http.get("/trainee/getTraineeName/?traineeUsername=" + TraineeUsername);
     }
+
+    requestRefund(courseId, reason, description) {
+        return httpPost.post("/individualTrainee/requestRefund/?courseId=" + courseId, {reason:reason, description: description});
+    }
+
+    getRefundStatus(courseId) {
+        return http.get("/individualTrainee/getRefundStatus/?courseId=" + courseId);
+    }
+
+    updateSubtitleProgress(courseId, subtitleNum, newProgress) {
+        return httpPost.put("/trainee/updateSubtitleProgress/?courseId=" + courseId + "&subtitleNum=" + subtitleNum, {newProgress: newProgress});
+    }
+
+    checkIfAlreadyRequestedCourse(courseId) {
+        return http.get("/corporateTrainee/checkIfAlreadyRequestedCourse/?courseId=" + courseId);
+    }
+
+    requestCourse(courseId, courseTitle) {
+        return httpPost.post("/corporateTrainee/requestCourse/?courseId=" + courseId + "&courseTitle=" + courseTitle);
+    }
+
+    cancelRequest(courseId) {
+        return httpPost.put("/corporateTrainee/cancelRequest/?courseId=" + courseId);
+    }
 }
 
 export default new TraineeService();

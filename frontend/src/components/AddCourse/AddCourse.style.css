@@ -1,31 +1,114 @@
+.addCourse--container {
+    min-height: 900px;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 22%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.addCourse--leftcontainer {
+    border: solid;
+    background-color: white;
+    border-radius: 30px;
+    border-width: 0px;
+    padding: 10px 40px;
+    margin-right: 0px;
+    box-shadow: 0 0 3px rgb(0 0 0 / 16%);
+}
+
+.addCourse--rightcontainer {
+    width: 50%;
+    margin-left: 200px;
+    margin-right: 10px;
+}
+
+.addCourse--header {
+    margin: 0px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.addCourse--inputfield {
+    display: block;
+    font-family: Poppins;
+    border: solid;
+    border-width: 1px;
+    border-radius: 1px;
+    width: 400px;
+    padding: 20px 15px;
+    margin-bottom: 10px;
+}
+
+.addCourse--button {
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 300px;
+    padding-top: 20px;
+    padding-bottom: 35px;
+    margin: 0px auto;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.addCourse--image{
+    width: 700px;
+    height: fit-content;
+}
+
+.addCourse--button:hover {
+    opacity: 0.8;
+}
+
+.addCourse--loginimage {
+    width: 800px;
+    height: fit-content;
+}
+
+.removeSubtitle{
+    color: #bd0312;
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+.removeSubtitle:hover{
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.form--button.addSubtitle{
+    margin-top: 0px;
+    margin-bottom: 30px;
+}
+
+.form--button.addCourse{
+    border-color: #bd0312;
+    background-color: #a30506;
+    color: white;
+}
+
+.form--button.addCourse:hover{
+    opacity: 0.8;
+    background-color: #a30506;
+}
+
 .dynamic-form--div{
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
 }
 
 .dynamic-form--div > input{
-    height: 30px;
-    text-indent: 10px;
-    border: 1px solid #444;
-    border-radius: 5px;
-    margin-right: 10px;
-    margin-left: auto;
+    padding: 20px 15px;
 }
 
 .dynamic-form--Exercisediv{
     display: flex;
     align-items: center;
     margin-bottom: 15px;
-}
-
-.dynamic-form--Exercisediv > input{
-    height: 30px;
-    text-indent: 10px;
-    border: 1px solid #444;
-    border-radius: 5px;
-    margin-right: 10px;
-    margin-left: 26.5%;
 }
 
 .dynamic-form--removebtn{
@@ -49,7 +132,8 @@
 
 .react-select__control{
     min-height: 30px !important;
-    height: 33px;
     border-color: black !important;
-    padding: 1px 0px !important
+    width: 400px !important;
+    padding: 14px 5px !important;
+    border-radius: 1px !important
 }

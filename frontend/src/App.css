@@ -12,6 +12,8 @@
 @import "./components/Header/Header.style.css";
 @import "./components/InstructorCoursesPage/InstructorCoursesPage.style.css";
 @import "./components/SearchBar/SearchBar.style.css";
+@import "./components/SignUpPage/SignUpPage.style.css";
+@import "./components/SignUpSuccessfulModal/SignUpSuccessfulModal.style.css";
 @import "./components/AddAdministrator/AddAdministrator.style.css";
 @import "./components/AddCorporateTrainee/AddCorporateTrainee.style.css";
 @import "./components/AddInstructor/AddInstructor.style.css";
@@ -29,6 +31,13 @@
 @import "./components/SettingsPage/SettingsPage.style.css";
 @import "./components/DiscountPage/DiscountPage.style.css";
 @import 'react-calendar/dist/Calendar.css';
+@import './components/Homepage/Homepage.style.css';
+@import './components/AdminHomepage/AdminHomepage.style.css';
+@import './components/RequestRefundModal/RequestRefundModal.style.css';
+@import './components/AdminSetPromotion/AdminSetPromotion.style.css';
+@import './components/CourseDetailsPreview/CourseDetailsPreview.style.css';
+@import './components/CoursesAccessRequests/CoursesAccessRequests.style.css';
+@import './components/AccessRequest/AccessRequest.style.css';
 
 * {
   box-sizing: border-box;
@@ -170,6 +179,7 @@ button {
 .reset-password:hover {
   text-decoration: underline;
   opacity: 0.8;
+  cursor: pointer;
 }
 
 .reset-password:active{
@@ -177,3 +187,6 @@ button {
   opacity: 0.6;
 }
 
+textarea {
+  background-color: white;
+}

@@ -22,6 +22,7 @@ function ConfirmationModal(props) {
                     <div className="modal-content-confirmation">
                         <i className="fa-solid fa-circle-exclamation"></i>
                         <p className="confirmation--message">{props.confirmationMessage}</p>
+                        {props.discountDetails && <p className="action--cannotbeundone">{props.discountDetails}</p>}
                         {props.actionCannotBeUndone && <p className="action--cannotbeundone">This action cannot be undone.</p>}
                         <div className="confirmation--buttons">
                             <button className='button--yessure' onClick={props.handleConfirm} >Yes, I'm sure</button>

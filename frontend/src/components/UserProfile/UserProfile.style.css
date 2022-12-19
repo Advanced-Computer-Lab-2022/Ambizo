@@ -69,8 +69,8 @@
 
 .userprofile--line {
     width: 100%;
-    margin: auto;
-    line-height: 10px;
+    border: 1px solid #a30506;
+    margin: 0px auto;
 }
 
 .userprofile--bioheader {

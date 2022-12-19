@@ -24,13 +24,22 @@ function Header() {
         navigate("/login");
     }
 
+    const toggleSignUp = () => {
+        navigate("/signUp");
+    }
+
     const toggleLogOut = () => {
         sessionStorage.removeItem('Type');
         sessionStorage.removeItem('User');
         sessionStorage.removeItem('Token');
         setIsLoggedIn(false);
         setUserMenu(false)
-        navigate("/");
+        if(window.location.pathname === "/"){
+            navigate(0)
+        }
+        else{
+            navigate("/");
+        }
     }
 
     const toggleUserMenu = () => {
@@ -79,7 +88,7 @@ function Header() {
                             id='delete-product-button'
                             className='button--signup'
                             // disabled={}
-                            // onClick={}
+                            onClick={toggleSignUp}
                         >Sign up
                         </button>
                     </>

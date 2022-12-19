@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../Header/Header.js"
 import LoginService from "../../services/Login.service";
 
@@ -33,7 +34,8 @@ function RequestPasswordResetPage(){
     const [errorMessage, setErrorMessage] = useState("");
     const [userEmail, setUserEmail] = useState("");
     const [componentState, setComponentState] = useState(windowState.REQUESTING_RESET)
-
+    const navigate = useNavigate();
+    
     useEffect(() => {
         document.title = 'Reset Password';
     }, []);
@@ -123,7 +125,7 @@ function RequestPasswordResetPage(){
                         <h3>Wrong Username</h3>
                         <p>
                             The username provided is invalid. Make sure you have provided your correct username.
-                            <span><a className="reset-password" href="/requestPasswordReset">Try Again</a></span>.
+                            <span className="reset-password" onClick={() => navigate("/requestPasswordReset")}>Try Again</span>.
                         </p>
                     </div>
                 </>
@@ -136,7 +138,7 @@ function RequestPasswordResetPage(){
                         <h3>Internal Error</h3>
                         <p>
                             An error has occured while processing your password reset request.
-                             Please try again later. <span><a className="reset-password" href="/requestPasswordReset">Try Again</a></span>.
+                             Please try again later. <span className="reset-password" onClick={() => navigate("/requestPasswordReset")}>Try Again</span>.
                         </p>
                     </div>
                 </>

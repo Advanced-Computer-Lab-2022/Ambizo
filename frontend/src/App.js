@@ -19,31 +19,54 @@ import UserProfile from './components/UserProfile/UserProfile';
 import ScrollToTopButton from './components/ScrollToTopButton/ScrollToTopButton';
 import SettingsPage from './components/SettingsPage/SettingsPage';
 import DiscountPage from './components/DiscountPage/DiscountPage';
+import SignUpPage from './components/SignUpPage/SignUpPage';
+import AdminSetPromotion from './components/AdminSetPromotion/AdminSetPromotion';
+import AdminRoutes from "./protectedRoutes/AdminRoutes";
+import HomepageRoutes from "./protectedRoutes/HomepageRoutes";
+import InstructorRoutes from "./protectedRoutes/InstructorRoutes";
+import UserRoutes from "./protectedRoutes/UserRoutes";
+import CoursesAccessRequests from './components/CoursesAccessRequests/CoursesAccessRequests';
 
 function App() {
+
     return (
         <Router>
             <>
                 <Routes>
                     <Route path='*' element={<Navigate to="/404" />} />
                     <Route path='/404' element={<NotFound />} />
-                    <Route path="/" element={<CoursesPage />} />
-                    <Route path='/login' element={<LoginPage />} />
-                    <Route path='/requestPasswordReset' element={<RequestPasswordResetPage />} />
-                    <Route path='/resetPassword/:resetToken' element={<PasswordResetPage />} />
+                    <Route path='/allcourses' element={<CoursesPage />} />
                     <Route path='/coursedetails/:courseId' element={<CourseDetailsPage />} />
                     <Route path='/search/:searchTerm' element={<SearchPage />} />
-                    <Route path='/:mycourses/search/:searchTerm' element={sessionStorage.getItem("Type") === "instructor" ? <SearchPage /> : <Navigate to="/404" />} />
-                    <Route path="/mycourses" element={sessionStorage.getItem("Type") === "instructor" ? <InstructorCoursesPage /> : <Navigate to="/404" />} />
-                    <Route path="/addcourse" element={sessionStorage.getItem("Type") === "instructor" ? <AddCourse /> : <Navigate to="/404" />} />
-                    <Route path="/addadmin" element={sessionStorage.getItem("Type") === "admin" ? <AddAdministrator /> : <Navigate to="/404" />} />
-                    <Route path="/addtrainee" element={sessionStorage.getItem("Type") === "admin" ? <AddCorporateTrainee /> : <Navigate to="/404" />} />
-                    <Route path="/addinstructor" element={sessionStorage.getItem("Type") === "admin" ? <AddInstructor />  : <Navigate to="/404" />} />
-                    <Route path='/exercise/:courseId/:exerciseNum' element={<ExercisePage />} />
-                    <Route path='/addExercise/:courseId/:exerciseNum' element={sessionStorage.getItem("Type") === "instructor" ? <AddExercise /> : <Navigate to="/404" />}  />
+                    <Route path='/requestPasswordReset' element={<RequestPasswordResetPage />} />
+                    <Route path='/resetPassword/:resetToken' element={<PasswordResetPage />} />
                     <Route path='/user/:username' element={<UserProfile />} />
-                    <Route path='/settings' element={sessionStorage.getItem("Type") === "instructor" || sessionStorage.getItem("Type") === "individualTrainee" || sessionStorage.getItem("Type") === "corporateTrainee" ? <SettingsPage /> : <Navigate to="/404" />} />
-                    <Route path='/definediscount/:courseId' element={<DiscountPage />} />
+                    <Route path='/login' element={<LoginPage />} />
+                    <Route path='/signUp' element={<SignUpPage />} />
+
+                    <Route path="/" element={<HomepageRoutes />} />
+
+                    <Route path="/" element={<AdminRoutes />}>
+                        <Route path="/addadmin" element={ <AddAdministrator /> } />
+                        <Route path="/addtrainee" element={ <AddCorporateTrainee /> } />
+                        <Route path="/addinstructor" element={ <AddInstructor /> } />
+                        <Route path='/pricesanddiscounts' element={<AdminSetPromotion />} />
+                        <Route path='/courseaccessrequests' element={<CoursesAccessRequests />} />
+                    </Route>
+
+                    <Route path="/" element={<InstructorRoutes />}>
+                        <Route path="/mycourses" element={<InstructorCoursesPage />} />
+                        <Route path="/addcourse" element={<AddCourse />} />
+                        <Route path='/addExercise/:courseId/:exerciseNum' element={<AddExercise /> } />
+                        <Route path='/:mycourses/search/:searchTerm' element={<SearchPage />} />
+                        <Route path='/definediscount/:courseId' element={<DiscountPage />} />
+                    </Route>
+
+                    <Route path="/" element={<UserRoutes />}>
+                        <Route path='/exercise/:courseId/:exerciseNum' element={<ExercisePage />} />
+                        <Route path='/settings' element={ <SettingsPage /> } />
+                    </Route>
+                    
                 </Routes>
                 <Footer />
                 <ScrollToTopButton />
