@@ -5,7 +5,7 @@ import Calendar from "react-calendar";
 import countryToCurrency  from 'country-to-currency';
 import InstructorService from "../../services/Instructor.service";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
-import DiscountImage from '../../images/DiscountImage.png'
+import DiscountImage from '../../images/DiscountImage.svg'
 
 async function retrieveCourseDetails(id){
     return InstructorService.getCourseDetails(id)
