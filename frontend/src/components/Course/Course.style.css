@@ -11,13 +11,13 @@
     box-shadow: 0 4px rgba(0, 0, 0, 0.75);
 }
 
-<<<<<<< HEAD
 .course.previewDetails{
     -webkit-animation: fadein 0.25s; 
     -moz-animation: fadein 0.25s; 
     -o-animation: fadein 0.25s; 
     animation: fadein 0.25s;
-=======
+}
+
 .course--noprice {
     width: 360px;
     min-width: 240px;
@@ -29,7 +29,6 @@
     border-radius: 15px;
     box-shadow: 0 4px rgba(0, 0, 0, 0.75);
     padding-bottom: 10px;
->>>>>>> bc2be05cd328d69407e273cc6fe9f5fc7780f609
 }
 
 .course::-webkit-scrollbar { 

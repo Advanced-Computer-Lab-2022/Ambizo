@@ -169,38 +169,23 @@ function CourseDetailsPage() {
         .catch(error => {
             console.log(error);  
         })
-<<<<<<< HEAD
-        
         if(sessionStorage.getItem("Type") === "corporateTrainee"){
             checkIfAlreadyRequestedCourse(params.courseId)
             .then(result => {
-                if(result.isRequested) {
-                        setAlreadyRequestedAccess(true)
-                    }
+                if(result.status === "Processing") {
+                    setAccessRequestProcessing(true)
                 }
-            )
+                else if (result.status === "Declined") {
+                    setAccessRequestDeclined(true)
+                }
+                else {
+                    setAccessNotRequestedYet(true)
+                }
+            })
             .catch(error => {
                 console.log(error);  
             })
         }
-=======
-
-        checkIfAlreadyRequestedCourse(params.courseId)
-        .then(result => {
-            if(result.status === "Processing") {
-                setAccessRequestProcessing(true)
-            }
-            else if (result.status === "Declined") {
-                setAccessRequestDeclined(true)
-            }
-            else {
-                setAccessNotRequestedYet(true)
-            }
-        })
-        .catch(error => {
-            console.log(error);  
-        })
->>>>>>> bc2be05cd328d69407e273cc6fe9f5fc7780f609
 
     }, [params.courseId, modalConfig.Rating, modalConfig.Review, userType, isSubmitted]);
 
