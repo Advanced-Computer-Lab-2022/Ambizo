@@ -11,6 +11,13 @@
     box-shadow: 0 4px rgba(0, 0, 0, 0.75);
 }
 
+.course.previewDetails{
+    -webkit-animation: fadein 0.25s; 
+    -moz-animation: fadein 0.25s; 
+    -o-animation: fadein 0.25s; 
+    animation: fadein 0.25s;
+}
+
 .course::-webkit-scrollbar { 
     display: none;
 }
@@ -110,6 +117,18 @@
     margin-left: 10px;
     color: grey;
     text-decoration: line-through;
+}
+
+.product-preview{
+    background-color: #eeeeee;
+    background-size: 800px 104px;
+    height: 192px;
+}
+
+.product-preview-details{
+    background-color: #eeeeee;
+    background-size: 800px 104px;
+    height: 144px;
 }
   
 .product-loading-1 {

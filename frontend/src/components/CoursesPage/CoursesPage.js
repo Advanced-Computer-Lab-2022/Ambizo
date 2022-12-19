@@ -161,7 +161,8 @@ function CoursesPage(props) {
                 })
             }
         }
-    }, [props.isSubmitted]);
+
+    }, [props.isSubmitted, props.mostPopular, props.adminDiscountedCourses, props.adminNotDiscountedCourses]);
 
     const coursesDataElements = coursesData.map((course) => {
         if(props.coursesToBeDiscounted?.includes(course._id)) {

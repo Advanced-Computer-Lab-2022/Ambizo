@@ -259,15 +259,28 @@ router.put("/addSubtitleDetails", verifyJWT, async (req, res) => {
 
         let subtitleIndex = req.query.index;
         const updatedSubtitle = req.body;
+        let newMinutes = 0;
+        let newTotalMinutes = oldCourse.TotalMinutes;
+
+        if(updatedSubtitle.duration && updatedSubtitle.youtubeLink !== ""){
+            newMinutes =  updatedSubtitle.duration
+            newTotalMinutes += newMinutes
+        }
+        else if(updatedSubtitle.duration){
+            newMinutes =  updatedSubtitle.duration
+            newTotalMinutes -= newMinutes
+            updatedSubtitle.duration = null;
+        }
 
         let newSubtitles = oldCourse.Subtitles;
         newSubtitles[subtitleIndex] = updatedSubtitle;
 
         await course.findByIdAndUpdate(courseId, {
-            Subtitles: newSubtitles
+            Subtitles: newSubtitles,
+            TotalMinutes: newTotalMinutes
         })
 
-        res.status(200).send("Video and Description added successfully");
+        res.status(200).json({newTotalMinutes: newTotalMinutes});
     } catch (err) {
         handleError(res, err);
     }

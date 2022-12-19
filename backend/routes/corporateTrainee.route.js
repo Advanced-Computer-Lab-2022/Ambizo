@@ -61,7 +61,6 @@ router.put("/cancelRequest", verifyJWT, async (req, res) => {
         res.json({message: "Request Removed Successfully"});
     }
     catch(error){
-        console.log("hena")
         handleError(res,error);
     }
 });

@@ -106,8 +106,6 @@ function RequestRefundModal(props){
                                 <h3>Reason</h3>
                                 <Select 
                                     placeholder="Select Reason" 
-                                    classNamePrefix="react-select" 
-                                    className='react-select-container refund' 
                                     options={refundReasons} 
                                     value={reason} 
                                     onChange={changeReason} 

@@ -35,6 +35,7 @@
 @import './components/AdminHomepage/AdminHomepage.style.css';
 @import './components/RequestRefundModal/RequestRefundModal.style.css';
 @import './components/AdminSetPromotion/AdminSetPromotion.style.css';
+@import './components/CourseDetailsPreview/CourseDetailsPreview.style.css';
 
 * {
   box-sizing: border-box;

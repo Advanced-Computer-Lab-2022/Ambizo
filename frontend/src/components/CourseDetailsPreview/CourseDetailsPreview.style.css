@@ -1,0 +1,127 @@
+.details--preview--div{
+    border: solid;
+    background-color: white;
+    border-radius: 30px;
+    border-width: 0px;
+    margin-right: 0px;
+    box-shadow: 0 0 3px rgb(0 0 0 / 16%);
+    width: 150%;
+    transition-duration: 0.15s;
+    cursor: pointer;
+    border: 3px solid rgba(0, 0, 0, 0.75);
+    border-radius: 15px;
+    box-shadow: 0 4px rgba(0, 0, 0, 0.75);
+    -webkit-animation: fadein 0.25s; 
+    -moz-animation: fadein 0.25s; 
+    -o-animation: fadein 0.25s; 
+    animation: fadein 0.25s;
+}
+
+.details--preview--div:hover{
+    box-shadow: 0 7px #a30506;
+    border-color: #a30506;
+}
+.details--preview--div:active {
+    box-shadow: 0 3px #a30506;
+    transform: translateY(5px);
+}
+
+.coursedetails--instructor.previewDetails{
+    font-size: 14px;
+}
+
+.top--container.previewDetails{
+    width: 100%;
+    height: fit-content;
+    background-image: url("../../images/Banner.jpg");
+    background-repeat: round;
+    padding: 50px 10% 50px 10%;
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.all--hyperlink.previewDetails, .subject--hyperlink.previewDetails, .instructor--hyperlink.previewDetails {
+    color: white;
+    text-decoration: underline;
+    font-size: 10pt;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.instructor--hyperlink.previewDetails {
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.coursedetails--fulltitle.previewDetails {
+    margin-bottom: 0px;
+    font-size: 23px;
+    display: inline-block;
+    word-break: break-word;
+}
+
+.coursedetails--description.previewDetails {
+    width: 85%;
+    font-size: 13px;
+    font-weight: 500;
+    display: inline-block;
+    word-break: break-word;
+}
+
+.coursedetails--ratingsUnderline.previewDetails {
+    text-decoration: underline;
+    font-size: 15px;
+}
+
+.coursedetails--hourscount.previewDetails {
+    margin-left: 10px;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.container--right.previewDetails {
+    width: 30%;
+    min-width: 290px;
+}
+
+.coursedetails--courseimagepriceenroll.previewDetails {
+    border-radius: 15px;
+    background-color: transparent;
+    box-shadow: 5px 5px 20px 7px rgba(0,0,0,1);
+    height: fit-content;
+    padding-top: 15px;
+    padding-bottom: 5px;
+    margin-left: 20px;
+}
+
+.coursedetails--price.previewDetails {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0px;
+}
+
+.button--enroll.previewDetails {
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 70px;
+    font-size: 10px;
+    height: 50px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.button--enroll.previewDetails:hover, .button--enrolldiscounted.previewDetails:hover {
+    opacity: 0.8;
+}
+
+.coursedetails--subtitles.previewDetails {
+    padding-left: 10%;
+    width: 90%;
+    margin-bottom: 50px;
+    padding-bottom: 50px;
+    display: inline-block;
+    word-break: break-word;
+}

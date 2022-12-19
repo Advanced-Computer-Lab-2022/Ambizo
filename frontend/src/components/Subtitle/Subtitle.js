@@ -31,6 +31,26 @@ function Subtitle(props) {
         }
     }, [props.exercise, props.courseId, props.index, props.isTraineeEnrolled]);
 
+    function updateDuration(event){
+        if(!props.duration && props.instructorLoggedInCourse){
+            const seconds = event.target.getDuration()
+            const minutes = Math.floor(seconds / 60)
+            let newSubtitle = {
+                subtitle: props.subtitle,
+                duration: minutes,
+                youtubeLink: subtitleDetails.youtubeLink,
+                description: subtitleDetails.description
+            }
+            InstructorService.addSubtitleDetails(props.index , newSubtitle, props.courseId)
+                .then((res) => {
+                    props.modifyCourseDetailsPageSubtitle(newSubtitle, props.index, res.data.newTotalMinutes);
+                })
+                .catch((error) => {
+                    setMessage({ text: error.response.data, type: "form--errormessage" })
+                })
+        }
+    }
+
     async function handleConfirm(event) {
         event.preventDefault();
         let newSubtitle = 
@@ -40,9 +60,10 @@ function Subtitle(props) {
             youtubeLink: "",
             description: ""
         }
-        return InstructorService.addSubtitleDetails(props.index, newSubtitle, props.courseId)
-            .then((result) => {
-                props.modifyCourseDetailsPageSubtitle(newSubtitle, props.index)
+        InstructorService.addSubtitleDetails(props.index, newSubtitle, props.courseId)
+            .then((res) => {
+                newSubtitle.duration = null;
+                props.modifyCourseDetailsPageSubtitle(newSubtitle, props.index, res.data.newTotalMinutes);
                 toggleConfirmationModal();
                 setSubtitleDetails({
                     youtubeLink: "",
@@ -56,8 +77,8 @@ function Subtitle(props) {
 
     let hours;
     let minutes
-    if(props.duration > 60) {
-        hours = (props.duration / 60).toFixed(0);
+    if(props.duration >= 60) {
+        hours = Math.floor((props.duration / 60));
         minutes = props.duration % 60;
     }
 
@@ -93,7 +114,6 @@ function Subtitle(props) {
         if (checkSubmit()) {
             let newSubtitle = {
                 subtitle: props.subtitle,
-                duration: props.duration,
                 youtubeLink: subtitleDetails.youtubeLink,
                 description: subtitleDetails.description
             }
@@ -180,7 +200,7 @@ function Subtitle(props) {
             { isSubtitleClickable && showSubtitleDetails && props.youtubeLink &&
                 <div className="subtitle--detailsfilled">
                     <h4>Video:</h4>
-                    <YouTube className="subtitle--video" videoId={validateYouTubeUrl(props.youtubeLink)} opts={opts} onPlay={props.updateSubtitleProgress} />
+                    <YouTube className="subtitle--video" videoId={validateYouTubeUrl(props.youtubeLink)} opts={opts} onPlay={props.updateSubtitleProgress} onReady={updateDuration}/>
                     <h4>Video Short Description:</h4>
                     <p className="subtitle--description">{props.description}</p>
                     {props.instructorLoggedInCourse &&

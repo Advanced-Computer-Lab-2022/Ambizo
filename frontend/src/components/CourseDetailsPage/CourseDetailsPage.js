@@ -45,9 +45,12 @@ function CourseDetailsPage() {
         setRefundModal(prevModal => !prevModal);
     };
 
-    function modifyCourseDetailsPageSubtitle(newSubtitle, index) {
+    function modifyCourseDetailsPageSubtitle(newSubtitle, index, newTotalMinutes) {
         let modifiedCourse = {...course};
         modifiedCourse.Subtitles[index] = newSubtitle;
+        if(newTotalMinutes !== null){
+            modifiedCourse.TotalMinutes = newTotalMinutes
+        }
         setCourse(modifiedCourse);
     }
 
@@ -112,24 +115,26 @@ function CourseDetailsPage() {
     }
 
     async function updateSubtitleProgress(subtitleNum){
-        let newSubtitlesProgress = [...traineeInfo.subtitlesProgress]
-        if(!newSubtitlesProgress[subtitleNum]){
-            newSubtitlesProgress[subtitleNum] = 0;
-        }
-        if(newSubtitlesProgress[subtitleNum] === 0.2 || newSubtitlesProgress[subtitleNum] === 0){
-            newSubtitlesProgress[subtitleNum] += 0.8;
-            TraineeService.updateSubtitleProgress(params.courseId, subtitleNum, newSubtitlesProgress[subtitleNum])
-            .then(() => {
-                let newOverallProgress = calculateOverallProgress(traineeInfo.isTraineeEnrolled, course.Subtitles, newSubtitlesProgress)
-                setTraineeInfo(prevTraineeInfo => ({
-                    ...prevTraineeInfo,
-                    subtitlesProgress: newSubtitlesProgress,
-                    overallProgress: newOverallProgress
-                }))
-            })
-            .catch(err => {
-                console.log(err);
-            })
+        if(traineeInfo.isTraineeEnrolled){
+            let newSubtitlesProgress = [...traineeInfo.subtitlesProgress]
+            if(!newSubtitlesProgress[subtitleNum]){
+                newSubtitlesProgress[subtitleNum] = 0;
+            }
+            if(newSubtitlesProgress[subtitleNum] === 0.2 || newSubtitlesProgress[subtitleNum] === 0){
+                newSubtitlesProgress[subtitleNum] += 0.8;
+                TraineeService.updateSubtitleProgress(params.courseId, subtitleNum, newSubtitlesProgress[subtitleNum])
+                .then(() => {
+                    let newOverallProgress = calculateOverallProgress(traineeInfo.isTraineeEnrolled, course.Subtitles, newSubtitlesProgress)
+                    setTraineeInfo(prevTraineeInfo => ({
+                        ...prevTraineeInfo,
+                        subtitlesProgress: newSubtitlesProgress,
+                        overallProgress: newOverallProgress
+                    }))
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+            }
         }
     }
 
@@ -162,17 +167,19 @@ function CourseDetailsPage() {
         .catch(error => {
             console.log(error);  
         })
-
-        checkIfAlreadyRequestedCourse(params.courseId)
-        .then(result => {
-            if(result.isRequested) {
-                    setAlreadyRequestedAccess(true)
+        
+        if(sessionStorage.getItem("Type") === "corporateTrainee"){
+            checkIfAlreadyRequestedCourse(params.courseId)
+            .then(result => {
+                if(result.isRequested) {
+                        setAlreadyRequestedAccess(true)
+                    }
                 }
-            }
-        )
-        .catch(error => {
-            console.log(error);  
-        })
+            )
+            .catch(error => {
+                console.log(error);  
+            })
+        }
 
     }, [params.courseId, modalConfig.Rating, modalConfig.Review, userType, isSubmitted]);
 
@@ -319,7 +326,7 @@ function CourseDetailsPage() {
                     courseId={params.courseId}
                     userType={userType}
                     instructorLoggedInCourse={instructorLoggedInCourse}
-                    modifyCourseDetailsPageSubtitle={(newSubtitle, index) => modifyCourseDetailsPageSubtitle(newSubtitle, index)}
+                    modifyCourseDetailsPageSubtitle={(newSubtitle, index, newTotalMinutes) => modifyCourseDetailsPageSubtitle(newSubtitle, index, newTotalMinutes)}
                     exercise={courseExercises[subtitleIndex]? courseExercises[subtitleIndex] : null}
                     isTraineeEnrolled={traineeInfo.isTraineeEnrolled}
                     progress={traineeInfo.subtitlesProgress[subtitleIndex]? traineeInfo.subtitlesProgress[subtitleIndex] : 0}
@@ -366,7 +373,12 @@ function CourseDetailsPage() {
             })
     }
 
-    let hourSpan = course.TotalHours>1? "Hours" : "Hour"
+    let hours;
+    let minutes
+    if(course?.TotalMinutes >= 60) {
+        hours = Math.floor((course.TotalMinutes / 60));
+        minutes = course.TotalMinutes % 60;
+    }
     let courseProgress = (traineeInfo.overallProgress*100).toFixed(0);
     let loggedInName = JSON.parse(sessionStorage.getItem("User"))?.Name;
     let certificateFileName = "";
@@ -471,7 +483,10 @@ function CourseDetailsPage() {
                             <div className="coursedetails--ratecounthourcount">
                                 <Rating className='coursedetails--rating' name="read-only" value={course.Rating} precision={0.1} readOnly />
                                 <span className='coursedetails--numberratings' onClick = {() => scrollTo("allRatings")}>(<span className = "coursedetails--ratingsUnderline">{course.NumberOfReviews} {course.NumberOfReviews === 1 ? "rating" : "ratings"}</span>)</span>
-                                <span className='coursedetails--hourscount'><i className="fa-solid fa-clock"></i> &nbsp;{course.TotalHours} {hourSpan}</span>
+                                <span className='coursedetails--hourscount'><i className="fa-solid fa-clock"></i> &nbsp;
+                                    {hours && <span>{hours}hr {minutes}min</span>}
+                                    {!hours && <span>{course.TotalMinutes}min</span>}
+                                </span>
                             </div>
                             {!instructorLoggedInCourse && <p className="coursedetails--instructor">Created by:{<span className="instructor--hyperlink" onClick={() => navigate(`/user/${course.InstructorUsername}`)}>{course.InstructorName}</span>}</p> }
                         </div>
