@@ -414,7 +414,7 @@ function CoursesPage(props) {
                         {coursesDataElements}
                         {coursesDataElements.length === 0 && <p className="no--courses">0 Courses found.</p>}
                     </section>
-                    {props.mostPopular && <button type="button" className="view--allcourses" onClick={() => navigate("/allcourses")}>View all courses</button>}
+                    {props.mostPopular && <button type="button" className="view--allcourses" onClick={() => navigate("/allcourses")}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View all courses</button>}
                 </>
             )
             }

@@ -34,7 +34,7 @@ async function retrieveFilteredCourses(setIsLoading ,filterURL){
     })
 }
 
-function InstructorCoursesPage() {
+function InstructorCoursesPage(props) {
 
     const [filterModal, setFilterModal] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
@@ -197,7 +197,7 @@ function InstructorCoursesPage() {
             {isLoading ? 
             (
                 <>
-                    <Header />
+                    {!props.sectionNotPage && <Header />}
                     {renderCourseHeader(toggleFilterModal)}
                     <section className="courses-list">
                         <Course isLoading={true} />
@@ -214,7 +214,7 @@ function InstructorCoursesPage() {
             : 
             (   
                 <>
-                    <Header />
+                    {!props.sectionNotPage && <Header />}
                     {renderCourseHeader(toggleFilterModal)}
                     <section className="courses-list">
                         {coursesDataElements}

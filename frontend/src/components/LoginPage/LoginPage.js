@@ -29,10 +29,9 @@ function LoginPage() {
     }, []);
     
     function handleAcceptContract(){
-        
         InstructorService.acceptContract()
         .then(() => {
-            navigate("/mycourses");
+            navigate("/");
         })
     }
 
@@ -78,7 +77,7 @@ function LoginPage() {
                         .then((contractRes) => {
                             isContractAccepted = contractRes.data.isAccepted
                         if(isContractAccepted){
-                            navigate("/mycourses");
+                            navigate("/");
                         }
                         else{
                             toggleContractModal()

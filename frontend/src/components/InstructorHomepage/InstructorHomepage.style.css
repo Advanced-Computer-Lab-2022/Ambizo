@@ -1,44 +1,45 @@
-.adminhp--options {
+.instructor--options {
     min-height: 750px;
     height: fit-content;
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 0px 6% 0px 10%;
     background-color: #f7f7f7;
 }
 
-.adminhp--leftcontainer {
+.instructor--leftcontainer {
     width: 50%;
     margin-right: auto;
 }
 
-.adminhp--rightcontainer {
+.instructor--rightcontainer {
     width: 50%;
     margin-left: auto;
 }
 
-.adminhp--adminimage {
+.instructor--adminimage {
     width: 100%;
     height: fit-content;
 }
 
-.adminhp-header {
+.instructor-header {
     margin: 0px;
 }
 
-.adminhp--line {
-    width: 250px;
+.instructor--line {
+    width: 100px;
     border: 1px solid #a30506;
     margin-bottom: 30px;
     margin-left: 0px;
 }
 
-.adminhp--discounts {
+.instructor--discounts {
     display: flex;
     gap: 20px;
 }
 
-.adminhp--setpromobutton {
+.instructor--setpromobutton {
     border-color: #bd0312;
     background-color: #a30506;
     border-style: solid;
@@ -51,11 +52,11 @@
     margin-right: 0px;
 }
 
-.adminhp--setpromobutton:hover {
+.instructor--setpromobutton:hover {
     opacity: 0.8;
 }
 
-.adminhp--addusers {
+.instructor--addusers {
     display: flex;
     gap: 10px;
 }
