@@ -52,27 +52,28 @@ function Homepage() {
                             <div className='homepage--attendcourses'>
                                 <div>
                                     <h2>Attend online courses from the convenience of your home.</h2>
-                                    <hr className="homepage--line"/>
                                 </div>    
                                 <img className="homepage--attendimage" src={AttendOnlineCourses} alt='Attend Courses' />
                             </div>
+                            <hr className="homepage--line"/>
                             <div className='homepage--assessyourlevel'>
                                 <img className="homepage--assessimage" src={AssessYourLevel} alt='Assess Your Level' />
                                 <div>
                                     <h2>Assess your level by solving online exercises and exams.</h2>
-                                    <hr className="homepage--line"/>
                                 </div>
                             </div>
+                            <hr className="homepage--line"/>
                             <div className='homepage--attendcourses'>
                                 <div>
                                     <h2>Get a certification after completing the course successfully.</h2>
-                                    <hr className="homepage--line"/>
                                 </div>    
                                 <img className="homepage--getimage" src={GetYourCertification} alt='Get Certification' />
                             </div>
                         </div>
                     </div>
-                    <CoursesPage mostPopular={true} sectionNotPage={true}/>
+                    <div className='homepage--popularcourses'>
+                        <CoursesPage mostPopular={true} sectionNotPage={true}/>
+                    </div>
                 </>
             )
             }

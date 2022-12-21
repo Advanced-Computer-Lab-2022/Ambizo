@@ -79,3 +79,8 @@
     width: 460px;
     height: fit-content;
 }
+
+.homepage--popularcourses {
+    background-color: #f7f7f7;
+    padding-bottom: 50px;
+}
