@@ -85,3 +85,26 @@
     padding-top: 1px;
     padding-bottom: 70px;
 }
+
+.homepage--whyambizo {
+    display: flex;
+    justify-content: center;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    gap: 20px;
+    background-color: #eae2cf;
+}
+
+.whyambizo--header {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.homepage--whyreasons {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    width: 25%;
+    font-size: 25px;
+}

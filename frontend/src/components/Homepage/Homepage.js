@@ -74,6 +74,12 @@ function Homepage() {
                     <div className='homepage--popularcourses'>
                         <CoursesPage mostPopular={true} sectionNotPage={true}/>
                     </div>
+                    <div className='homepage--whyambizo'>
+                        <p className='whyambizo--header'>Why Ambizo?</p>
+                        <p className='homepage--whyreasons'>
+                        Our exclusive content is co-created and continually refined with industry leaders. Each Ambizo program is deeply focused—eliminating guesswork in selecting the right course. Projects go far beyond step-by-step guides, cultivating the critical thinking required for workplace relevance. Expert mentors unblock learning with personalized support, and verify complete mastery of competencies.
+                        </p>
+                    </div>
                 </>
             )
             }
