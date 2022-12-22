@@ -19,9 +19,9 @@ function InstructorHomepage() {
                     <h1 className='instructor-header'>Instructor</h1>
                     <hr className="instructor--line"/>    
                     
-                    <div className='instructor--discounts'>       
+                    {/* <div className='instructor--discounts'>       
                         <button className='instructor--setpromobutton' onClick={() => navigate(`/user/${JSON.parse(sessionStorage.getItem("User")).Username}`)}><i className="fa-solid fa-user"></i>&nbsp;&nbsp;My Profile</button>
-                    </div>
+                    </div> */}
                     <div className='instructor--addusers'>
                         <button className='instructor--setpromobutton' onClick={() => navigate("/addcourse")}><i className="fa-solid fa-plus"></i>&nbsp;&nbsp;Add a New Course</button>
                         <button className='instructor--setpromobutton' onClick={() => scrollTo("instructorCourses")}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View My Courses</button>
