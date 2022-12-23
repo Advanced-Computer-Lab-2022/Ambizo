@@ -248,7 +248,7 @@
     height: fit-content;
     width: 450px;
     min-height: 140px;
-    margin-left: 270px;
+    margin-left: 190px;
     margin-right: 100px;
     margin-bottom: 35px;
 }
@@ -323,11 +323,12 @@
     gap: 40px;
     max-width: 700px;
     margin-bottom: 100px;
-    margin-left: 100px;
+    margin-left: 20px;
 }
 
 .notes--title{
     font-size: 30px;
+    margin-top: 10px;
     margin-left: 18px;
 }
 
@@ -344,7 +345,8 @@
     color: white;
     width: 180px;
     height: 50px;
-    margin-top: 20px;
+    margin-top: 24px;
+    margin-bottom: 5px;
     margin-left: 20px;
 }
 
@@ -393,7 +395,7 @@
     padding-top: 15px;
     padding-bottom: 30px;
     margin-left: auto;
-    margin-right: 264px;
+    margin-right: 344px;
 }
 
 .button--report:hover {
