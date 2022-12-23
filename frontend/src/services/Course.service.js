@@ -41,6 +41,18 @@ class CourseService {
     getSubtitleName(courseId, subtitleNum){
         return http.get("/guest/getSubtitleName?courseId=" + courseId +"&subtitleNum=" + subtitleNum);
     }
+
+    reportProblem(courseId, description, reportType) {
+        return httpPost.post(`/user/reportProblem/${courseId}`, { Description: description, ReportType: reportType });
+    }
+
+    getReports() {
+        return http.get(`/user/getReports/`);
+    }
+
+    followUpReport(reportId, followUp) {
+        return httpPost.put(`/user/followupreport/${reportId}`, { FollowUp: followUp });
+    }
 }
 
 export default new CourseService();

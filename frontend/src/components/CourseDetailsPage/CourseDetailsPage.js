@@ -14,6 +14,7 @@ import UserRating from "../UserRating/UserRating";
 import InstructorService from "../../services/Instructor.service";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import Certificate from "../Certificate/Certificate";
+import ReportModal from "../ReportModal/ReportModal";
 import { PDFDownloadLink } from '@react-pdf/renderer';
 
 async function retrieveCourse(id, traineeUsername){
@@ -36,6 +37,12 @@ function CourseDetailsPage() {
 
     const toggleRefundModal = () => {
         setRefundModal(prevModal => !prevModal);
+    };
+
+    const [reportModal, setReportModal] = React.useState(false);
+
+    const toggleReportModal = () => {
+        setReportModal(prevModal => !prevModal);
     };
 
     function modifyCourseDetailsPageSubtitle(newSubtitle, index) {
@@ -447,6 +454,9 @@ function CourseDetailsPage() {
                         <div className="coursedetails--ratings">
                             {course.Ratings?.length > 0 ? ratingDataElements : <i><p className = "courseDetails--noratings">No ratings yet.</p></i>}
                         </div>
+                        
+                        <button className="button--report" onClick={toggleReportModal}>Report a problem</button>   
+                            
                     </div>
 
                     <RateModal showRateModal={rateModal} 
@@ -466,7 +476,15 @@ function CourseDetailsPage() {
                         toggleRefundModal={toggleRefundModal}
                         courseId={course._id}
                         setRefundStatus = {setRefundStatus}
-                    />
+                     />
+
+
+                    <ReportModal
+                        showReportModal={reportModal}
+                        toggleReportModal={toggleReportModal}
+                        courseId={course._id}
+                    />    
+
 
 
                 </>

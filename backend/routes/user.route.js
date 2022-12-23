@@ -5,6 +5,8 @@ import nodemailer from "nodemailer";
 import verifyJWT from "../middleware/verifyJWT.js";
 import resetPasswordVerifyJWT from "../middleware/resetPasswordVerifyJWT.js";
 import user from "../models/user.model.js";
+import course from "../models/course.model.js";
+import report from "../models/report.model.js";
 import instructor from "../models/instructor.model.js";
 import administrator from "../models/administrator.model.js";
 import corporateTrainee from "../models/corporateTrainee.model.js";
@@ -295,6 +297,91 @@ router.post('/changePassword', verifyJWT, async (req, res) => {
 
 });
 
+// Errors returned: 201, 400, 403, 404, 409, 500.
+router.post('/reportProblem/:courseId', verifyJWT, async (req, res) => {
+    const { Username, Type } = req.User;
+    const courseId = req.params.courseId;
+    const requestingUser = await user.findOne({ Username: Username });
+
+    //making sure the request come from valid user with valid type
+    if ((requestingUser.Type !== Type) || (Type !== 'corporateTrainee' && Type !== 'individualTrainee' && Type !== 'instructor')) {
+        return res.status(403).json({ message: 'You are not authorized to report a problem.' })
+    }
+
+    const courseToReport = await course.findById(courseId);
+
+    if (!courseToReport) {
+        return req.status(404).json({ message: 'No course found with this id.' });
+    }
+
+    //Checking that the needed data is in the request body.
+    const { Description, ReportType } = req.body;
+    if (!Description) {
+        return req.status(400).json({ message: 'The (Description) field must be provided in the body.' });
+    }
+    if (!ReportType) {
+        return req.status(400).json({ message: 'The (ReportType) field must be provided in the body.' });
+    }
+
+    const ReportEntry = new report({
+        Username: Username,
+        CourseId: courseId,
+        CourseTitle: courseToReport.Title,
+        Description: Description,
+        Type: ReportType,
+        Status: 'unseen',
+        FollowUp: null
+    });
+
+    ReportEntry.save().then(
+        _ => {
+            return res.status(201).json({ message: 'The report was added successfully.' })
+        }
+    ).catch(error => {
+        console.log(error);
+        return res.status(500).json({ message: 'An error has occurred while adding the report.' })
+    });
+});
+
+router.put('/followupreport/:reportId', verifyJWT, async (req, res) => {
+    const { Username, Type } = req.User;
+    const reportId = req.params.reportId;
+    const requestingUser = await user.findOne({ Username: Username });
+
+    //making sure the request come from valid user with valid type
+    if ((requestingUser.Type !== Type) || (Type !== 'corporateTrainee' && Type !== 'individualTrainee' && Type !== 'instructor')) {
+        return res.status(403).json({ message: 'You are not authorized to report a problem.' })
+    }
+
+    //Checking that the needed data is in the request body.
+    const { FollowUp } = req.body;
+    if (!FollowUp) {
+        return req.status(400).json({ message: 'The (FollowUp) field must be provided in the body.' });
+    }
+
+    report.findByIdAndUpdate( reportId, {FollowUp: FollowUp} ).then(
+        _ => {
+            return res.status(201).json({ message: 'The report was updated successfully.' })
+        }
+    ).catch(error => {
+        console.log(error);
+        return res.status(500).json({ message: 'An error has occurred while updating the report.' })
+    });
+});
+
+router.get("/getReports", verifyJWT, async (req, res) => {
+    try {
+        if (req.User.Type !== "corporateTrainee" && req.User.Type !== "individualTrainee" && req.User.Type !== "instructor") {
+            return handleError(res, "Invalid Access")
+        }
+
+        let Reports = await report.find({ Username: req.User.Username });
+        res.json(Reports);
+    }
+    catch (error) {
+        handleError(res, error);
+    }
+});
 
 function handleError(res, err) {
     return res.status(400).send(err);
