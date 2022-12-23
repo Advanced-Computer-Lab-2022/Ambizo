@@ -8,6 +8,7 @@ import user from "../models/user.model.js";
 import report from "../models/report.model.js";
 import course from "../models/course.model.js";
 import currencyConverter from "../middleware/currencyConverter.js";
+import courseRequest from "../models/courseRequest.model.js";
 
 const router = express.Router();
 
@@ -120,18 +121,64 @@ router.post("/addCorporateTrainee", verifyJWT, async (req, res) => {
     }
 })
 
-router.get("/getNotDiscountedCourses", async (req, res) => {
+router.get("/getNotDiscountedCourses", verifyJWT, async (req, res) => {
     try{
-        // if(req.User.Type !== "admin"){
-        //     return handleError(res, "Invalid Access")
-        // }
+        if(req.User.Type !== "admin"){
+            return handleError(res, "Invalid Access")
+        }
+        
+        let filter = {}
+        let courses = null;
+        let exchangeRateToUSD = null;
+        let exchangeRateToCountry = null;
 
-        let courses = await course.find();
-        const exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
+        if(req.query.subject){
+            filter = {...filter, Subject: req.query.subject.split(',')};
+        }
+        if(req.query.rating){
+            filter = {...filter, Rating: {$gte: req.query.rating}};
+        }
+        if(req.query.price){
+            exchangeRateToUSD = await currencyConverter.from(req.query.currencyCode).to("USD").convert()
+            const priceRange = req.query.price.split(',');
+            const minPrice = priceRange[0] * exchangeRateToUSD;
+            let maxPrice = priceRange[1] * exchangeRateToUSD;
+            if(maxPrice){
+                if(maxPrice < 0){
+                    maxPrice = 0;
+                }
+                filter = {...filter, PriceInUSD: {$lte: maxPrice, $gte: minPrice}};
+            }
+            else{
+                filter = {...filter, PriceInUSD: {$gte: minPrice}};
+            }
+        }
+        if(req.query.searchTerm){
+            filter ={
+                ...filter,
+                $or: [
+                    {Title: {$regex: '.*' + req.query.searchTerm + '.*', $options: 'i'}},
+                    {Subject: {$regex: '.*' + req.query.searchTerm + '.*', $options: 'i'}},
+                    {InstructorName: {$regex: '.*' + req.query.searchTerm + '.*', $options: 'i'}}
+                ]
+            }
+        }
 
-        courses.forEach(course => {
-            course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
-        })
+        if(!req.query.price){
+             [courses, exchangeRateToUSD, exchangeRateToCountry] = await Promise.all(
+                [
+                    course.find(filter)
+                    , 
+                    currencyConverter.from(req.query.currencyCode).to("USD").convert()
+                    ,
+                    currencyConverter.from("USD").to(req.query.currencyCode).convert()
+                ]
+                );
+        }
+        else{
+            courses = await course.find(filter);
+            exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
+        }
 
         var notDiscountedCourses = [];
 
@@ -141,15 +188,19 @@ router.get("/getNotDiscountedCourses", async (req, res) => {
         const currentYear = currentDate.getFullYear();
 
         courses.forEach(course => {
+            course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
             if(currentYear > course.DiscountExpiryDate.getFullYear() && course.PriceInUSD !== 0) {
+                course.Discount = 0;
                 notDiscountedCourses.push(course)
             }
             else if(currentYear == course.DiscountExpiryDate.getFullYear()) {
                 if(currentMonth > course.DiscountExpiryDate.getMonth() && course.PriceInUSD !== 0) {
+                    course.Discount = 0;
                     notDiscountedCourses.push(course)
                 }
                 else if(currentMonth == course.DiscountExpiryDate.getMonth()) {
                     if(currentDay > course.DiscountExpiryDate.getDate() && course.PriceInUSD !== 0) {
+                        course.Discount = 0;
                         notDiscountedCourses.push(course)
                     }
                 }
@@ -162,18 +213,64 @@ router.get("/getNotDiscountedCourses", async (req, res) => {
     }
 })
 
-router.get("/getDiscountedCourses", async (req, res) => {
+router.get("/getDiscountedCourses", verifyJWT, async (req, res) => {
     try{
-        // if(req.User.Type !== "admin"){
-        //     return handleError(res, "Invalid Access")
-        // }
+        if(req.User.Type !== "admin"){
+            return handleError(res, "Invalid Access")
+        }
+        
+        let filter = {}
+        let courses = null;
+        let exchangeRateToUSD = null;
+        let exchangeRateToCountry = null;
 
-        let courses = await course.find();
-        const exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
+        if(req.query.subject){
+            filter = {...filter, Subject: req.query.subject.split(',')};
+        }
+        if(req.query.rating){
+            filter = {...filter, Rating: {$gte: req.query.rating}};
+        }
+        if(req.query.price){
+            exchangeRateToUSD = await currencyConverter.from(req.query.currencyCode).to("USD").convert()
+            const priceRange = req.query.price.split(',');
+            const minPrice = priceRange[0] * exchangeRateToUSD;
+            let maxPrice = priceRange[1] * exchangeRateToUSD;
+            if(maxPrice){
+                if(maxPrice < 0){
+                    maxPrice = 0;
+                }
+                filter = {...filter, PriceInUSD: {$lte: maxPrice, $gte: minPrice}};
+            }
+            else{
+                filter = {...filter, PriceInUSD: {$gte: minPrice}};
+            }
+        }
+        if(req.query.searchTerm){
+            filter ={
+                ...filter,
+                $or: [
+                    {Title: {$regex: '.*' + req.query.searchTerm + '.*', $options: 'i'}},
+                    {Subject: {$regex: '.*' + req.query.searchTerm + '.*', $options: 'i'}},
+                    {InstructorName: {$regex: '.*' + req.query.searchTerm + '.*', $options: 'i'}}
+                ]
+            }
+        }
 
-        courses.forEach(course => {
-            course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
-        })
+        if(!req.query.price){
+             [courses, exchangeRateToUSD, exchangeRateToCountry] = await Promise.all(
+                [
+                    course.find(filter)
+                    , 
+                    currencyConverter.from(req.query.currencyCode).to("USD").convert()
+                    ,
+                    currencyConverter.from("USD").to(req.query.currencyCode).convert()
+                ]
+                );
+        }
+        else{
+            courses = await course.find(filter);
+            exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
+        }
 
         var discountedCourses = [];
 
@@ -183,6 +280,7 @@ router.get("/getDiscountedCourses", async (req, res) => {
         const currentYear = currentDate.getFullYear();
 
         courses.forEach(course => {
+            course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
             if(currentYear < course.DiscountExpiryDate.getFullYear() && course.Discount !==0 && course.PriceInUSD !== 0) {
                 discountedCourses.push(course)
             }
@@ -238,5 +336,90 @@ router.put('/updatereportstatus/', verifyJWT, async (req, res) => {
         handleError(res, error);
     }
 });
+router.put("/applyDiscount", verifyJWT, async (req, res) => {
+    try {
+        if(req.User.Type !== "admin"){
+            return handleError(res, "Invalid Access")
+        }
+
+        let courses = req.query.courses;
+        const coursesToBeDiscounteIds = courses.split(",");
+
+        let discountPercentage = req.query.discount;
+        let expiryDate = req.query.expiryDate;
+
+        const date = new Date(expiryDate);
+
+        await coursesToBeDiscounteIds.forEach(async (courseId) => {
+            await course.findByIdAndUpdate(courseId, {
+                Discount: discountPercentage,
+                DiscountExpiryDate: date
+            })
+        });
+
+        res.status(200).send("Discount added/updated successfully");
+    } catch (err) {
+        handleError(res, err);
+    }
+});
+
+router.get("/getAllAccessRequests", verifyJWT, async (req, res) => {
+    try{
+        if(req.User.Type !== "admin"){
+            return handleError(res, "Invalid Access")
+        }
+        
+        const courseRequests = await courseRequest.find({Status: "Processing"});
+
+        res.json(courseRequests);
+    }
+    catch(err){
+        handleError(res, err.message);
+    }
+})
+
+router.post("/grantAccess", verifyJWT, async (req, res) => {
+    try{
+        if(req.User.Type !== "admin"){
+            return handleError(res, "Invalid Access")
+        }
+
+        const corporateUsername = req.query.corporateUsername;
+        const courseId = req.query.courseId;
+
+        const newCourseToBeEnrolledIn = {courseId: courseId}
+
+        await corporateTrainee.findOneAndUpdate({Username: corporateUsername},{
+            $push: {EnrolledCourses: newCourseToBeEnrolledIn}
+        })
+
+        await courseRequest.findOneAndUpdate({CorporateTraineeUsername: corporateUsername, CourseId: courseId},
+            {Status: "Accepted"})
+
+        res.json("Access Granted Successfully")
+    }
+    catch(err){
+        handleError(res, err.message);
+    }
+})
+
+router.post("/declineAccess/", verifyJWT, async (req, res) => {
+    try{
+        if(req.User.Type !== "admin"){
+            return handleError(res, "Invalid Access")
+        }
+
+        const corporateUsername = req.query.corporateUsername;
+        const courseId = req.query.courseId;
+
+        await courseRequest.findOneAndUpdate({CorporateTraineeUsername: corporateUsername, CourseId: courseId},
+            {Status: "Declined"})
+
+        res.json("Access Declined Successfully")
+    }
+    catch(err){
+        handleError(res, err.message);
+    }
+})
 
 export default router;

@@ -34,7 +34,7 @@ async function retrieveFilteredCourses(setIsLoading ,filterURL){
     })
 }
 
-function InstructorCoursesPage() {
+function InstructorCoursesPage(props) {
 
     const [filterModal, setFilterModal] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
@@ -178,12 +178,10 @@ function InstructorCoursesPage() {
                     <div className="searchMyCourses">
                         <SearchBar placeholder={"Search my courses ..."} searchForCourses={searchForCourses}/>
                     </div>
-                    
                     <img src={FilterIcon} alt='Filter Icon' className='filter--icon'/>
                     <button className="filter--button" onClick={toggleFilterModal}/>
                 </div>
                 
-                <hr  className='header--line'/>
                 <FilterModal filterModal={filterModal} toggleFilterModal={toggleFilterModal} 
                 onSelectSubjects={onSelectSubjects} onSelectRating={onSelectRating} priceFilterData={priceFilterData} 
                 handlePriceFilterChange={handlePriceFilterChange} applyFilters={applyFilters} resetFilters={resetFilters} 
@@ -197,7 +195,7 @@ function InstructorCoursesPage() {
             {isLoading ? 
             (
                 <>
-                    <Header />
+                    {!props.sectionNotPage && <Header />}
                     {renderCourseHeader(toggleFilterModal)}
                     <section className="courses-list">
                         <Course isLoading={true} />
@@ -214,7 +212,7 @@ function InstructorCoursesPage() {
             : 
             (   
                 <>
-                    <Header />
+                    {!props.sectionNotPage && <Header />}
                     {renderCourseHeader(toggleFilterModal)}
                     <section className="courses-list">
                         {coursesDataElements}

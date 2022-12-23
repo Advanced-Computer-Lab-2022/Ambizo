@@ -3,7 +3,7 @@
     height: fit-content;
     display: flex;
     align-items: center;
-    padding: 0px 10%;
+    padding: 0px 6% 0px 10%;
     background-color: #f7f7f7;
 }
 
@@ -58,4 +58,9 @@
 .adminhp--addusers {
     display: flex;
     gap: 10px;
+}
+
+.adminhomepage--popularcourses {
+    padding-top: 1px;
+    padding-bottom: 70px;
 }

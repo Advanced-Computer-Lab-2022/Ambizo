@@ -5,6 +5,8 @@ import instructor from "../models/instructor.model.js";
 import corporateTrainee from "../models/corporateTrainee.model.js";
 import individualTrainee from "../models/individualTrainee.model.js";
 import user from "../models/user.model.js";
+import nodemailer from "nodemailer";
+import generateCertificate from "../middleware/certificateGenerator.js";
 
 const router = express.Router();
 
@@ -53,52 +55,6 @@ router.get('/getTraineeInfo/:username', async (req, res) => {
     
     return res.status(200).json(result);
 
-});
-
-
-router.get("/getExercise", verifyJWT, async (req, res) => {
-    try{
-        if(req.User.Type !== "corporateTrainee" && req.User.Type !== "individualTrainee" && req.User.Type !== "instructor"){
-            return handleError(res, "Invalid Access")
-        }
-        
-        const Course = await course.findById(req.query.courseId);
-        if(req.User.Type === "instructor"){
-            if(Course.InstructorUsername === req.User.Username){
-                const Exercise = Course.Exercises[req.query.exerciseNum];
-                return res.json(Exercise);
-            }
-            else{
-                return handleError(res, "You can only view exercises of your courses");
-            }       
-        }
-        else{
-            let Trainee = null;
-            if(req.User.Type === "individualTrainee"){
-                Trainee = await individualTrainee.findOne({Username: req.User.Username});
-            }
-            else{
-                Trainee = await corporateTrainee.findOne({Username: req.User.Username});
-            }
-        
-            let isEnrolled = false;
-            Trainee.EnrolledCourses.forEach(course => {
-                if(course.courseId === req.query.courseId){
-                    isEnrolled = true;
-                }
-            })
-        
-            if(!isEnrolled){
-                return handleError(res, "You are not Enrolled in this course");
-            }
-        
-            const Exercise = Course.Exercises[req.query.exerciseNum];
-            res.json(Exercise);
-        }
-    }
-    catch(error){
-        handleError(res,error);
-    }
 });
 
 router.get("/getAnswers", verifyJWT, async (req, res) => {
@@ -637,6 +593,118 @@ router.get("/getTraineeName/", async (req, res) => {
         handleError(res, err);
     }
 })
+
+router.put("/updateSubtitleProgress", verifyJWT, async (req, res) => {
+    try{
+        if (req.User.Type !== 'corporateTrainee' && req.User.Type !== 'individualTrainee'){
+            return handleError(res, "Invalid Access")
+        }
+
+        let updateStatement = {
+            "$set": {}
+        }
+        updateStatement["$set"]["EnrolledCourses.$.progress."+req.query.subtitleNum] = req.body.newProgress;
+        
+        let trainee = null;
+        if(req.User.Type === 'corporateTrainee'){
+           trainee = await corporateTrainee.findOneAndUpdate({Username: req.User.Username, "EnrolledCourses.courseId": req.query.courseId}, updateStatement, {new: true})
+        }
+        else{
+            trainee = await individualTrainee.findOneAndUpdate({Username: req.User.Username, "EnrolledCourses.courseId": req.query.courseId}, updateStatement, {new: true})
+        }
+
+
+        let completedCourse = trainee.EnrolledCourses.filter(enrolledCourse => enrolledCourse.courseId === req.query.courseId);
+        if(!completedCourse){
+            return handleError(res, "Not Enrolled in course")
+        }
+        completedCourse = completedCourse[0];
+
+        if(completedCourse.certificateSent){
+            return res.send("Progress Updated Successfully");
+        }
+
+        let Course = await course.findById(req.query.courseId);
+
+        let courseCompleted = true;
+        for(let i =0; i<Course.Subtitles.length; i++){
+            if(!completedCourse.progress[i] || completedCourse.progress[i]!== 1){
+                courseCompleted = false
+                break;
+            }
+        }
+
+        if(!courseCompleted){
+            return res.send("Progress Updated Successfully");
+        }
+
+        await mailCertificate(trainee, Course.Title, req.User.Type, req.query.courseId, res);
+    }
+    catch(err){
+        handleError(res, err);
+    }
+})
+
+async function mailCertificate(trainee, courseName, type, courseId, res) {
+    try{
+        let certificateFileName = "";
+        if(trainee.Name.charAt(trainee.Name.length - 1) === 's'){
+            certificateFileName =  + trainee.Name + "' Certificate.pdf"
+        }
+        else{
+            certificateFileName = trainee.Name + "'s Certificate.pdf"
+        }
+    
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: process.env.BUSINESS_EMAIL,
+              pass: process.env.BUSINESS_EMAIL_PASSWORD
+            }
+        });
+    
+        var mailOptions = {
+            from: process.env.BUSINESS_EMAIL.toString(),
+            to: trainee.Email,
+            subject: 'Course Certificate',
+            html: 
+            `<h1>Hi ${trainee.Name},
+            </h1><p>Congratulations on completing ${courseName}!</p>
+            <p>Kindly find the certificate attached below</p>
+            <p>You can now also download the certificate from the website</p>`,
+            attachments: [{
+                filename: `${certificateFileName}.pdf`,
+                content: generateCertificate(trainee.Name, courseName)
+            }]
+        }
+
+        await transporter.sendMail(mailOptions)
+    
+        if(type === 'corporateTrainee'){
+            await corporateTrainee.findOneAndUpdate(
+                {Username: trainee.Username, "EnrolledCourses.courseId": courseId}, 
+            {
+                $set: {
+                    'EnrolledCourses.$.certificateSent': true
+                }
+            })
+        }
+        else{
+            await individualTrainee.findOneAndUpdate(
+                {Username: trainee.Username, "EnrolledCourses.courseId": courseId}, 
+                {
+                    $set: {
+                        'EnrolledCourses.$.certificateSent': true
+                    }
+                })
+        }
+        return res.send("Progress Updated and Email Sent Successfully");
+    }
+    catch(err){
+        console.log(err)
+        return res.send("Error occured in emailing the certificate");
+    }
+}
 
 function handleError(res, err) {
     return res.status(400).send(err);

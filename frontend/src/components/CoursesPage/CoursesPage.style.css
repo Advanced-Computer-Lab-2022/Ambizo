@@ -66,3 +66,52 @@
 .button--selectall:hover {
   opacity: 0.8;
 }
+
+.adminselectall--checkbox {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  margin-right: 250px;
+  margin-left: auto;
+  border: black;
+  border: solid;
+  border-width: 1px;
+  width: 148px;
+  height: 50px;
+  background-color: #a30506;
+  color: white;
+  padding-right: 5px;
+  border-radius: 2px;
+}
+
+.admin--selectallcourses {
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+}
+
+.admin--selectallcourses:checked {
+  background-color: black;
+}
+
+.admin--selectalltext {
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.view--allcourses {
+  border-color: #bd0312;
+  background-color: #a30506;
+  border-style: solid;
+  color: white;
+  width: 15%;
+  height: 40px;
+  margin-top: -35px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.view--allcourses:hover {
+  opacity: 0.8;
+}

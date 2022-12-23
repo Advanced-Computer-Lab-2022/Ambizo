@@ -4,7 +4,7 @@ import Header from "../Header/Header.js"
 import LoginService from "../../services/Login.service";
 import InstructorService from "../../services/Instructor.service";
 import InstructorContractModal from "../InstructorContractModal/InstructorContractModal.js";
-import LoginImage from '../../images/LoginImage2.jpg'
+import LoginImage from '../../images/LoginImage.svg'
 
 function LoginPage() {
 
@@ -21,12 +21,17 @@ function LoginPage() {
 
     const navigate = useNavigate();
     
+    React.useEffect(() => {
+        document.title = "Login";
+        if(sessionStorage.getItem("Token")){
+            navigate("/")
+        }
+    }, []);
+    
     function handleAcceptContract(){
-        
         InstructorService.acceptContract()
         .then(() => {
-            navigate("/mycourses");
-            navigate(0);
+            navigate("/");
         })
     }
 
@@ -72,8 +77,7 @@ function LoginPage() {
                         .then((contractRes) => {
                             isContractAccepted = contractRes.data.isAccepted
                         if(isContractAccepted){
-                            navigate("/mycourses");
-                            navigate(0);
+                            navigate("/");
                         }
                         else{
                             toggleContractModal()
@@ -83,7 +87,6 @@ function LoginPage() {
                     }
                     else{
                         navigate("/");
-                        navigate(0);
                     }
                     
                 })
@@ -103,17 +106,17 @@ function LoginPage() {
             <InstructorContractModal toggleContractModal = {toggleContractModal} contractModal = {contractModal} handleAcceptContract = {handleAcceptContract}/>
             
             <Header />
-            <div className="login--container">
-                <div className="login--leftcontainer">
-                    <h1 className="login--header">Log in to your account</h1>
-                    <form className="login--form" onSubmit={handleSubmit}>
+            <div className="form--container">
+                <div className="form--leftcontainer">
+                    <h1 className="form--header">Log in to your account</h1>
+                    <form className="form--form" onSubmit={handleSubmit}>
                         <input
                             type="text"
                             placeholder="Enter Username"
                             onChange={handleChange}
                             name="username"
                             value={userData.username}
-                            className="login--inputfield"
+                            className="form--inputfield"
                         />
                         <input
                             type={userData.showpassword ? "text" : "password"}
@@ -121,9 +124,9 @@ function LoginPage() {
                             onChange={handleChange}
                             name="password"
                             value={userData.password}
-                            className="login--inputfield"
+                            className="form--inputfield"
                         />
-                        <button className="loginform--button">Log in</button>
+                        <button className="form--submitbutton">Log in</button>
                         <div className="show-password-div">
                             <input
                                 type="checkbox"
@@ -139,8 +142,8 @@ function LoginPage() {
                         <p className={message.type}>{message.text}</p>
                     </ form>
                 </div>
-                <div className='login--rightcontainer'>
-                    <img className="login--loginimage" src={LoginImage} alt='Login' />
+                <div className='form--rightcontainer'>
+                    <img className="form--loginimage" src={LoginImage} alt='Login' />
                 </div>
             </div>
         </>

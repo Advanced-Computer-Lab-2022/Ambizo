@@ -34,8 +34,12 @@ function Header() {
         sessionStorage.removeItem('Token');
         setIsLoggedIn(false);
         setUserMenu(false)
-        navigate("/");
-        navigate(0);
+        if(window.location.pathname === "/"){
+            navigate(0)
+        }
+        else{
+            navigate("/");
+        }
     }
 
     const toggleUserMenu = () => {

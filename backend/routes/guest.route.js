@@ -70,6 +70,90 @@ router.get("/getCourses", async (req,res) => {
         const currentYear = currentDate.getFullYear();
 
         courses.forEach(course => {
+            course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
+            if(currentYear > course.DiscountExpiryDate.getFullYear()) {
+                course.Discount = 0;
+            }
+            else if(currentYear == course.DiscountExpiryDate.getFullYear()) {
+                if(currentMonth > course.DiscountExpiryDate.getMonth()) {
+                    course.Discount = 0;
+                }
+                else if(currentMonth == course.DiscountExpiryDate.getMonth()) {
+                    if(currentDay > course.DiscountExpiryDate.getDate()) {
+                        course.Discount = 0;
+                    }
+                }
+            }
+        })
+        res.json(courses);
+    }
+    catch(err){
+        handleError(res, err.message);
+    }
+})
+
+
+router.get("/getPopularCourses", async (req,res) => {
+    try{
+        let filter = {}
+        let courses = null;
+        let exchangeRateToUSD = null;
+        let exchangeRateToCountry = null;
+
+        if(req.query.subject){
+            filter = {...filter, Subject: req.query.subject.split(',')};
+        }
+        if(req.query.rating){
+            filter = {...filter, Rating: {$gte: req.query.rating}};
+        }
+        if(req.query.price){
+            exchangeRateToUSD = await currencyConverter.from(req.query.currencyCode).to("USD").convert()
+            const priceRange = req.query.price.split(',');
+            const minPrice = priceRange[0] * exchangeRateToUSD;
+            let maxPrice = priceRange[1] * exchangeRateToUSD;
+            if(maxPrice){
+                if(maxPrice < 0){
+                    maxPrice = 0;
+                }
+                filter = {...filter, PriceInUSD: {$lte: maxPrice, $gte: minPrice}};
+            }
+            else{
+                filter = {...filter, PriceInUSD: {$gte: minPrice}};
+            }
+        }
+        if(req.query.searchTerm){
+            filter ={
+                ...filter,
+                $or: [
+                    {Title: {$regex: '.*' + req.query.searchTerm + '.*', $options: 'i'}},
+                    {Subject: {$regex: '.*' + req.query.searchTerm + '.*', $options: 'i'}},
+                    {InstructorName: {$regex: '.*' + req.query.searchTerm + '.*', $options: 'i'}}
+                ]
+            }
+        }
+
+        if(!req.query.price){
+             [courses, exchangeRateToUSD, exchangeRateToCountry] = await Promise.all(
+                [
+                    courses = course.find(filter).limit(4).sort({"NumberOfEnrolledStudents": -1})
+                    , 
+                    currencyConverter.from(req.query.currencyCode).to("USD").convert()
+                    ,
+                    currencyConverter.from("USD").to(req.query.currencyCode).convert()
+                ]
+                );
+        }
+        else{
+            courses = await course.find(filter).limit(4).sort({"NumberOfEnrolledStudents": -1})
+            exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
+        }
+
+        const currentDate = new Date();
+        const currentDay = currentDate.getDate();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+
+        courses.forEach(course => {
             if(currentYear > course.DiscountExpiryDate.getFullYear()) {
                 course.Discount = 0;
             }
@@ -118,6 +202,7 @@ router.get("/searchCourses/:searchTerm", async (req, res) => {
         const currentYear = currentDate.getFullYear();
 
         courses.forEach(course => {
+            course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
             if(currentYear > course.DiscountExpiryDate.getFullYear()) {
                 course.Discount = 0;
             }
@@ -132,10 +217,7 @@ router.get("/searchCourses/:searchTerm", async (req, res) => {
                 }
             }
         })
-
-        courses.forEach(course => {
-            course.PriceInUSD = (course.PriceInUSD * exchangeRateToCountry).toFixed(2)
-        })
+        
         res.status(200).json(courses)
     } catch (err) {
         handleError(res, err);
@@ -251,28 +333,12 @@ router.post("/getCourse/:courseId", async (req,res) => {
                 }
             }
 
-            let overallProgress = 0;
-            let totalDuration = 0;
-            if(progress.length > 0){
-                for(let i =0; i<Course.Subtitles.length;i++){
-                    if(progress[i]){
-                        overallProgress += (progress[i]*Course.Subtitles[i].duration);
-                    }
-                    totalDuration += Course.Subtitles[i].duration;
-                }
-                if(totalDuration > 0){
-                    overallProgress /= totalDuration;
-                }
-            }  
-            
-
             let result = {
                 traineeEnrolled: true,
                 traineeCourseRate: courseRating,
                 traineeInstructorRate: instructorRating,
                 courseData: Course,
-                subtitlesProgress: progress,
-                overallProgress: overallProgress
+                subtitlesProgress: progress
             }
             return res.status(200).json(result);
         }
@@ -288,7 +354,10 @@ router.get("/getSubtitleName", async (req, res) => {
     try{
         
         const Course = await course.findById(req.query.courseId);
-        res.send(Course.Subtitles[Number.parseInt(req.query.subtitleNum)].subtitle);
+        res.json({
+            subtitleName: Course.Subtitles[Number.parseInt(req.query.subtitleNum)].subtitle,
+            courseName: Course.Title
+            })
     }
     catch(error){
         handleError(res,error);

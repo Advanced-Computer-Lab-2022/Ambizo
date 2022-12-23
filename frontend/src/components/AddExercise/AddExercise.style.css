@@ -1,3 +1,19 @@
+.addExercise--image{
+    width: 470px;
+    height: fit-content;
+}
+
+.addExercise--subheader{
+    display: block;
+    word-break: break-word;
+    width: 600px;
+    margin-top: 0px;
+}
+
+.addExercise--subheader--subtitle{
+    font-weight: normal;
+}
+
 .question--choice.checked.preview{
     background-color: lightgreen;
 }
@@ -12,43 +28,122 @@
     cursor:default;
 }
 
-.form--div.exerciseform{
-    margin-bottom: 300px;
-    margin-top: 50px;
-}
-
-.form--buttons--div.exerciseForm{
-    margin-bottom: 20px;
-}
-
-.dynamic-form--div.exerciseForm{
+.addExercise--container {
+    min-height: 900px;
+    height: fit-content;
     display: flex;
-    width: 100%;
     justify-content: center;
-    
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
-.dynamic-form--div.exerciseForm > input{
-    display: flex;
-    margin-left: 0px;
-    height: 30px;
-    text-indent: 10px;
-    border: 1px solid #444;
-    border-radius: 5px;
-    width: 400px;
+.addExercise--leftcontainer {
+    border: solid;
+    background-color: white;
+    border-radius: 30px;
+    border-width: 0px;
+    padding: 10px 40px;
+    margin-right: 0px;
+    margin-left: 10%;
+    box-shadow: 0 0 3px rgb(0 0 0 / 16%);
+}
+
+.addExercise--rightcontainer {
+    width: 100%;
+    margin-left: 50px;
+    margin-right: 5%;
 }
 
 .dynamic-form--div.choices{
-    margin-bottom: 50px;
-    margin-left: 20px;
-    margin-right: 10px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
 }
 
-.addExercise--answer{
-    width: 190px !important;
+.dynamic-form--div.choices > input{
+    width: 810px;
 }
 
-.addExercise--title{
-    width: 350px;
-    margin-bottom: 25px !important;
+.question--line{
+    width: 100%;
+    border: 1px solid #a30506;
+    margin: 10px auto;
+}
+
+.addExercise--questionHeader{
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.addCourse--inputfield.title{
+    width: 810px
+}
+
+.exercise--preview--div{
+    border: solid;
+    background-color: white;
+    border-radius: 30px;
+    border-width: 0px;
+    margin-right: 0px;
+    box-shadow: 0 0 3px rgb(0 0 0 / 16%);
+    transition-duration: 0.15s;
+    border: 3px solid rgba(0, 0, 0, 0.75);
+    border-radius: 15px;
+    box-shadow: 0 4px rgba(0, 0, 0, 0.75);
+    position: sticky;
+    top: 230px;
+    -webkit-animation: fadein 0.25s; 
+    -moz-animation: fadein 0.25s; 
+    -o-animation: fadein 0.25s; 
+    animation: fadein 0.25s;
+}
+
+.addCourse--header.preview{
+    position: sticky;
+    top: 150px;
+}
+
+.examNav--div.preview{
+    box-shadow: 3px 5px 10px 0 rgba(0,0,0,.3);
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    height: fit-content;
+    width: 200px;
+    min-height: 140px;
+    margin-left: 0px;
+    margin-right: 50px;
+}
+
+.question--container.preview{
+    width: 65%;
+}
+
+.exercisePage--title.preview{
+    display: block;
+    word-break: break-word;
+    width: 90%;
+}
+
+.addCourse--inputfield.questionTitle{
+    width: 550px;
+    margin-right: 20px;
+}
+
+.addCourse--inputfield.correctAnswer{
+    width: 240px;
+    text-align: center;
+}
+
+.addCourse--inputfield.correctAnswer.filled{
+    text-transform: uppercase;
+}
+
+.addExercise--goback{
+    font-size: 17px;
+    margin-left: 250px;
+    margin-top: 30px;
+    font-weight: 400;
+    text-decoration: underline;
+    cursor: pointer;
+    width: fit-content;
 }

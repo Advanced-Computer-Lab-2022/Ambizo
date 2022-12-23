@@ -4,6 +4,8 @@ import FilterModal from "../FilterModal/FilterModal";
 import Course from "../Course/Course";
 import CourseService from "../../services/Course.service";
 import FilterIcon from "../../images/FilterIcon.png";
+import { useNavigate } from "react-router-dom";
+
 
 async function retrieveAllCourses(setIsLoading){
     setIsLoading(true);
@@ -44,9 +46,61 @@ async function retrieveNotDiscountedCourses(setIsLoading) {
     })
 }
 
+async function retrieveNotDiscountedFilteredCourses(setIsLoading, filterURL){
+    setIsLoading(true);
+    return CourseService.getNotDiscountedFilteredCourses(filterURL)
+    .then((result) => {
+        setIsLoading(false);
+        return result;
+    })
+    .catch((error) => {
+        setIsLoading(false);
+        return null;
+    })
+}
+
 async function retrieveDiscountedCourses(setIsLoading) {
     setIsLoading(true);
     return CourseService.getDiscountedCourses()
+    .then((result) => {
+        setIsLoading(false);
+        return result;
+    })
+    .catch((error) => {
+        setIsLoading(false);
+        return null;
+    })
+}
+
+async function retrieveDiscountedFilteredCourses(setIsLoading, filterURL){
+    setIsLoading(true);
+    return CourseService.getDiscountedFilteredCourses(filterURL)
+    .then((result) => {
+        setIsLoading(false);
+        return result;
+    })
+    .catch((error) => {
+        setIsLoading(false);
+        return null;
+    })
+}
+
+async function retrievePopularCourses(setIsLoading){
+    setIsLoading(true);
+    return CourseService.getPopularCourses()
+    .then((result) => {
+        setIsLoading(false);
+        return result;
+    })
+    .catch((error) => {
+        setIsLoading(false);
+        return null;
+    })
+}
+
+async function retrieveFilteredPopularCourses(setIsLoading, filterURL){
+    setIsLoading(true);
+    return CourseService.getFilteredPopularCourses(filterURL)
     .then((result) => {
         setIsLoading(false);
         return result;
@@ -69,37 +123,60 @@ function CoursesPage(props) {
     };
 
     const [coursesData, setCoursesData] = React.useState([]);
+    const navigate = useNavigate();
 
     React.useEffect(() => {
-        document.title = "All Courses";
         if(props.adminNotDiscountedCourses) {
             retrieveNotDiscountedCourses(setIsLoading)
-            .then(coursesList => setCoursesData(coursesList.data))
+            .then((coursesList) => {
+                setCoursesData(coursesList.data)
+            })
             .catch(error => {
                 console.log(error);
             })
         }
         else if(props.adminDiscountedCourses) {
             retrieveDiscountedCourses(setIsLoading)
-            .then(coursesList => setCoursesData(coursesList.data))
+            .then((coursesList) => {
+                setCoursesData(coursesList.data)
+            })
             .catch(error => {
                 console.log(error);
             })
         }
         else {
-            retrieveAllCourses(setIsLoading)
-            .then(coursesList => setCoursesData(coursesList.data))
-            .catch(error => {
-                console.log(error);
-            })
+            if(props.mostPopular){
+                retrievePopularCourses(setIsLoading)
+                .then((coursesList) => {
+                    setCoursesData(coursesList.data)
+                })
+            }
+            else{
+                retrieveAllCourses(setIsLoading)
+                .then((coursesList) => {
+                    setCoursesData(coursesList.data)
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+            }
         }
-    }, []);
 
-    const coursesDataElements = coursesData.map(course => {
+    }, [props.isSubmitted, props.mostPopular, props.adminDiscountedCourses, props.adminNotDiscountedCourses]);
+
+    const coursesDataElements = coursesData.map((course) => {
+        if(props.coursesToBeDiscounted?.includes(course._id)) {
+            course = {...course, isChecked: true}
+        }
+        if(props.coursesToRemoveDiscount?.includes(course._id)) {
+            course = {...course, isChecked: true}
+        }
         return (
             <Course
                 key={course._id}
                 adminSetPromo ={props.setPromoTitle}
+                handleAdminSelectionChange={handleAdminSelectionChange}
+                isChecked={false}
                 {...course}
             />
         )
@@ -180,11 +257,41 @@ function CoursesPage(props) {
                 filterURL +=  0 + "," + -1
             }
 
-            retrieveFilteredCourses(setIsLoading, filterURL)
-            .then(coursesList => setCoursesData(coursesList.data))
-            .catch(error => {
-                console.log(error);
-            })
+            if(props.adminNotDiscountedCourses) {
+                retrieveNotDiscountedFilteredCourses(setIsLoading, filterURL)
+                .then((coursesList) => {
+                    setCoursesData(coursesList.data)
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+            }
+            else if(props.adminDiscountedCourses) {
+                retrieveDiscountedFilteredCourses(setIsLoading, filterURL)
+                .then((coursesList) => {
+                    setCoursesData(coursesList.data)
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+            }
+            else {
+                if(props.mostPopular){
+                    retrieveFilteredPopularCourses(setIsLoading, filterURL)
+                    .then((coursesList) => {
+                        setCoursesData(coursesList.data)
+                    })
+                }
+                else{
+                    retrieveFilteredCourses(setIsLoading, filterURL)
+                    .then((coursesList) => {
+                        setCoursesData(coursesList.data)
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+                }
+            }
             toggleFilterModal(); 
             setFreeCoursesOnly(false);
         }
@@ -201,18 +308,62 @@ function CoursesPage(props) {
         )
     }
 
+    function handleAdminSelectionChange(event) {
+        const { name, checked } = event.target
+        if (name === "adminselectallcourses") {
+            let tempCourses = coursesData.map((course) => {
+                return {...course, isChecked: checked}
+            })
+            setCoursesData(tempCourses)
+            if(props.adminNotDiscountedCourses) {
+                coursesData.forEach((course) => {
+                    props.handleCoursesToBeDiscountedSelected(checked, course._id)
+                });
+            }
+            if(props.adminDiscountedCourses) {
+                coursesData.forEach((course) => {
+                    props.handleCoursesToRemoveDiscountSelected(checked, course._id)
+                });
+            }
+          } 
+          else 
+          {
+            let tempCourses = coursesData.map((course) => 
+            course._id === name ? {...course, isChecked: checked} : course)
+            setCoursesData(tempCourses)
+            if(props.adminNotDiscountedCourses) {
+                coursesData.forEach((course) => {
+                    if (course._id === name) {
+                        props.handleCoursesToBeDiscountedSelected(checked, course._id)
+                    }
+                });
+            }
+            if(props.adminDiscountedCourses) {
+                coursesData.forEach((course) => {
+                    if (course._id === name) {
+                        props.handleCoursesToRemoveDiscountSelected(checked, course._id)
+                    }
+                });
+            }
+          }   
+    }
+
     function renderCourseHeader(toggleFilterModal) {
+        let coursesTitle = "All Courses"
+        if(props.mostPopular){
+            coursesTitle = "Popular Courses"
+        }
         return (
             <>
                 <div className='coursesTitleFilter'>
                     <div className='coursesTitleFilter--header'>
-                        {!props.setPromoTitle && <p>All Courses</p>}
+                        {!props.setPromoTitle && <p>{coursesTitle}</p>}
                         {props.setPromoTitle && <p>{props.setPromoTitle}</p>}
                     </div>
                     <img src={FilterIcon} alt='Filter Icon' className='filter--icon'/>
                     <button className="filter--button" onClick={toggleFilterModal}/>
                 </div>
-                <hr  className='header--line'/>
+                {!props.mostPopular && <hr className='header--line'/>}
                 <FilterModal filterModal={filterModal} toggleFilterModal={toggleFilterModal} 
                 onSelectSubjects={onSelectSubjects} onSelectRating={onSelectRating} priceFilterData={priceFilterData} 
                 handlePriceFilterChange={handlePriceFilterChange} applyFilters={applyFilters} resetFilters={resetFilters} 
@@ -246,11 +397,24 @@ function CoursesPage(props) {
                 <>
                     {!props.sectionNotPage && <Header />}
                     {renderCourseHeader(toggleFilterModal)}
-                    {props.setPromoTitle && <button className='button--selectall' ><i className="fa-solid fa-square-check"></i>&nbsp;&nbsp;Select All</button>}
+                    {props.setPromoTitle && 
+                    <div className="adminselectall--checkbox">
+                        <input 
+                            type='checkbox' 
+                            className='admin--selectallcourses' 
+                            name='adminselectallcourses' 
+                            id='adminselectallcourses' 
+                            onChange={handleAdminSelectionChange} 
+                            checked={!coursesDataElements.some((course) => course.props.isChecked !== true)} 
+                        />
+                        <p className="admin--selectalltext">Select All</p>
+                    </div>
+                    }
                     <section className="courses-list">
                         {coursesDataElements}
                         {coursesDataElements.length === 0 && <p className="no--courses">0 Courses found.</p>}
                     </section>
+                    {props.mostPopular && <button type="button" className="view--allcourses" onClick={() => navigate("/allcourses")}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View all courses</button>}
                 </>
             )
             }

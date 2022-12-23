@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import Header from "../Header/Header.js"
+import {useNavigate } from "react-router-dom"
+import SignUpSuccessfulModal from "../SignUpSuccessfulModal/SignUpSuccessfulModal.js"
 import SignUpService from "../../services/SignUp.service.js";
 
 
 function SignUpPage(){
+
+    const[userName, setUserName] = useState("error")
 
     const[userData, setUserData] = useState({
         email: "",
@@ -24,8 +28,27 @@ const [message, setMessage] = useState(
 
 const [conditional, setConditional] = useState(false)
 
+const [PopUp, setPopUp] = useState(false)
+
+const navigate = useNavigate();
+
+React.useEffect(() => {
+    document.title = "Sign up";
+    if(sessionStorage.getItem("Token")){
+        navigate("/")
+    }
+}, []);
+
 function toggleConditional(){
     setConditional((prevCondition) => !prevCondition)
+}
+
+function togglePopUp(){
+    setPopUp((popUp) => !popUp)
+}
+
+const NavigateToLogin = () => {
+    navigate("/login");
 }
 
 function handleChange(event) {
@@ -106,7 +129,9 @@ async function handleSubmit(event) {
         return SignUpService.addIndividualTrainee(userData)
             .then((result) => {
                 setMessage({ text: `A new Trainee with Username "${result.data.Username}" successfully added`, type: "form--successmessage" })
-                setUserData({ firstName: "", lastName: "", userName: "", password: "", confirmPassword: "", email: "", gender: "", showPassword:false })
+                togglePopUp()
+                setUserName(result.data.Username)
+                setUserData({ firstName: "", lastName: "", userName: "", password: "", confirmPassword: "", email: "", gender: "", showPassword:false, acceptedPolicies: false })
             })
             .catch((error) => {
                 setMessage({ text: error.response.data, type: "form--errormessage" })
@@ -116,10 +141,16 @@ async function handleSubmit(event) {
         console.log(err)
     }
 }
+    else{
+        setConditional(false)
+    }
 }
 
     return(
         <>
+
+            <SignUpSuccessfulModal handleNavigateLogin={NavigateToLogin} popUp={PopUp} togglePopUp={togglePopUp} userName={userName} message={message}/>
+
             <Header />
             {!conditional &&
             <div className="signUpForm--div">

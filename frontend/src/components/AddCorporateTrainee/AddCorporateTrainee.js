@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Header from "../Header/Header";
 import AdministratorService from "../../services/Administrator.service";
+import AddUserImage from '../../images/AddUserImage.svg'
 
 function AddCorporateTrainee() {
 
@@ -96,55 +97,69 @@ function AddCorporateTrainee() {
     return (
         <>
             <Header />
-            <div className="form--div">
-                <h1>Add new Corporate Trainee</h1>
-                <form className="form" onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        placeholder="Enter Name"
-                        onChange={handleChange}
-                        name="name"
-                        value={traineeData.name}
-                    />
-                    <input
-                        type="text"
-                        placeholder="Enter User Name"
-                        onChange={handleChange}
-                        name="username"
-                        value={traineeData.username}
-                    />
-                    <input
-                        type="email"
-                        placeholder="Enter Email"
-                        onChange={handleChange}
-                        name="email"
-                        value={traineeData.email}
-                    />
-                    <input
-                        type={traineeData.showpassword ? "text" : "password"}
-                        placeholder="Enter Password"
-                        onChange={handleChange}
-                        name="password"
-                        value={traineeData.password}
-                    />
-                    <input
-                        type={traineeData.showpassword ? "text" : "password"}
-                        placeholder="Confirm Password"
-                        onChange={handleChange}
-                        name="passwordAgain"
-                        value={traineeData.passwordAgain}
-                    />
-                    <input
-                        type="checkbox"
-                        id="showpassword"
-                        checked={traineeData.showpassword}
-                        onChange={handleChange}
-                        name="showpassword"
-                    />
-                    <label htmlFor="showpassword">Show Password</label>
-                    <button className="form--button">Submit</button>
-                    <p className={message.type}>{message.text}</p>
-                </ form>
+            <div className="form--container">
+                <div className="form--leftcontainer">
+                    <h1 className="form--header">Add Corporate Trainee</h1>
+                    <form className="form--form" onSubmit={handleSubmit}>
+                        <input
+                            type="text"
+                            placeholder="Enter Name"
+                            onChange={handleChange}
+                            name="name"
+                            value={traineeData.name}
+                            className="form--inputfield"
+                        />
+
+                        <input
+                            type="text"
+                            placeholder="Enter Username"
+                            onChange={handleChange}
+                            name="username"
+                            value={traineeData.username}
+                            className="form--inputfield"
+                        />
+                        <input
+                            type="email"
+                            placeholder="Enter Email"
+                            onChange={handleChange}
+                            name="email"
+                            value={traineeData.email}
+                            className="form--inputfield"
+                        />
+                        <input
+                            type={traineeData.showpassword ? "text" : "password"}
+                            placeholder="Enter Password"
+                            onChange={handleChange}
+                            name="password"
+                            value={traineeData.password}
+                            className="form--inputfield"
+                        />
+                        <input
+                            type={traineeData.showpassword ? "text" : "password"}
+                            placeholder="Confirm Password"
+                            onChange={handleChange}
+                            name="passwordAgain"
+                            value={traineeData.passwordAgain}
+                            className="form--inputfield"
+                        />
+                        <button className="form--submitbutton">Create</button>
+                        <div className="show-password-div">
+                            <input
+                                type="checkbox"
+                                id="showpassword"
+                                checked={traineeData.showpassword}
+                                onChange={handleChange}
+                                name="showpassword"
+                            />
+                            <label htmlFor="showpassword">Show Password</label>
+                            
+                        </div>
+                        <p className={message.type}>{message.text}</p>
+                    </ form>
+                </div>
+                <div className='form--rightcontainer'>
+                    <img className="form--loginimage" src={AddUserImage} alt='Add User' />
+                </div>
             </div>
         </>
     )

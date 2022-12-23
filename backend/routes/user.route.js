@@ -12,6 +12,7 @@ import administrator from "../models/administrator.model.js";
 import corporateTrainee from "../models/corporateTrainee.model.js";
 import individualTrainee from "../models/individualTrainee.model.js";
 import usedResetPasswordToken from "../models/usedResetPasswordToken.model.js";
+import courseModel from "../models/course.model.js";
 
 
 const router = express.Router();
@@ -382,6 +383,57 @@ router.get("/getReports", verifyJWT, async (req, res) => {
         handleError(res, error);
     }
 });
+router.get("/getExercise", verifyJWT, async (req, res) => {
+    try{
+        if(req.User.Type !== "corporateTrainee" && req.User.Type !== "individualTrainee" && req.User.Type !== "instructor"){
+            return handleError(res, "Invalid Access")
+        }
+        
+        const Course = await courseModel.findById(req.query.courseId);
+        if(req.User.Type === "instructor"){
+            if(Course.InstructorUsername === req.User.Username){
+                const Exercise = Course.Exercises[req.query.exerciseNum];
+                return res.json(Exercise);
+            }
+            else{
+                return handleError(res, "You can only view exercises of your courses");
+            }       
+        }
+        else{
+            let Trainee = null;
+            if(req.User.Type === "individualTrainee"){
+                Trainee = await individualTrainee.findOne({Username: req.User.Username});
+            }
+            else{
+                Trainee = await corporateTrainee.findOne({Username: req.User.Username});
+            }
+        
+            let isEnrolled = false;
+            let subtitleProgress = 0;
+            Trainee.EnrolledCourses.forEach(course => {
+                if(course.courseId === req.query.courseId){
+                    isEnrolled = true;
+                    subtitleProgress = course.progress[req.query.exerciseNum]? course.progress[req.query.exerciseNum]: 0
+                }
+            })
+        
+            if(!isEnrolled){
+                return handleError(res, "You are not Enrolled in this course");
+            }
+        
+            let Exercise = Course.Exercises[req.query.exerciseNum];
+            Exercise = {
+                ...Exercise,
+                subtitleProgress: subtitleProgress
+            }
+            res.json(Exercise);
+        }
+    }
+    catch(error){
+        handleError(res,error);
+    }
+});
+
 
 function handleError(res, err) {
     return res.status(400).send(err);

@@ -1,7 +1,6 @@
 import app from "./server.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import mailCertificates from "./cron/mailCertificates.js";
 
 dotenv.config();
 const port = process.env.PORT || "8000";
@@ -20,6 +19,3 @@ mongoose.connect(process.env.MONGO_URI, {
     console.log(err.stack);
     process.exit(1);
 });
-
-//cron jobs scheduling
-mailCertificates.start();

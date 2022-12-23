@@ -13,6 +13,7 @@
 @import "./components/InstructorCoursesPage/InstructorCoursesPage.style.css";
 @import "./components/SearchBar/SearchBar.style.css";
 @import "./components/SignUpPage/SignUpPage.style.css";
+@import "./components/SignUpSuccessfulModal/SignUpSuccessfulModal.style.css";
 @import "./components/AddAdministrator/AddAdministrator.style.css";
 @import "./components/AddCorporateTrainee/AddCorporateTrainee.style.css";
 @import "./components/AddInstructor/AddInstructor.style.css";
@@ -34,6 +35,10 @@
 @import './components/AdminHomepage/AdminHomepage.style.css';
 @import './components/RequestRefundModal/RequestRefundModal.style.css';
 @import './components/AdminSetPromotion/AdminSetPromotion.style.css';
+@import './components/CourseDetailsPreview/CourseDetailsPreview.style.css';
+@import './components/CoursesAccessRequests/CoursesAccessRequests.style.css';
+@import './components/AccessRequest/AccessRequest.style.css';
+@import './components/InstructorHomepage/InstructorHomepage.style.css';
 
 * {
   box-sizing: border-box;
@@ -183,3 +188,69 @@ button {
   opacity: 0.6;
 }
 
+textarea {
+  background-color: white;
+}
+
+.form--container {
+  min-height: 1000px;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 22%;
+}
+
+.form--leftcontainer {
+  border: solid;
+  background-color: white;
+  border-radius: 30px;
+  border-width: 0px;
+  padding: 100px 40px;
+  margin-right: 0px;
+  box-shadow: 0 0 3px rgb(0 0 0 / 16%);
+}
+
+.form--rightcontainer {
+  width: 50%;
+  margin-left: auto;
+  margin-right: 100px;
+}
+
+.form--loginimage {
+  width: 800px;
+  height: fit-content;
+}
+
+.form--header {
+  margin: 0px;
+  margin-bottom: 30px;
+}
+
+.form--inputfield {
+  display: block;
+  font-family: Poppins;
+  border: solid;
+  border-width: 1px;
+  border-radius: 1px;
+  width: 400px;
+  padding: 25px 20px;
+  margin-bottom: 10px;
+}
+
+.form--submitbutton {
+  border-color: #bd0312;
+  background-color: #a30506;
+  border-style: solid;
+  color: white;
+  width: 400px;
+  min-width: 400px;
+  padding-top: 20px;
+  padding-bottom: 35px;
+  margin: 0px auto;
+  margin-bottom: 20px;
+}
+
+.form--submitbutton:hover {
+  opacity: 0.8;
+}
