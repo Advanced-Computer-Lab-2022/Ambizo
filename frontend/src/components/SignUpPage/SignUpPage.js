@@ -219,6 +219,8 @@ async function handleSubmit(event) {
                             className="signUp--inputField"
                             />
                         
+                            <button className="next--button" onClick={goToSecondPage}>Next</button>
+
                             <div className="show-password-div">
                                 <input className="showpassword--checkbox"
                                     type="checkbox"
@@ -230,7 +232,7 @@ async function handleSubmit(event) {
                                 <label htmlFor="showPassword">Show Passwords</label>
                             </div>
 
-                            <button className="next--button" onClick={goToSecondPage}>Next</button>
+                            
                         </>
                         }
                         {secondPage &&

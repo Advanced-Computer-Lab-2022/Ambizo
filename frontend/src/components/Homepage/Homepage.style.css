@@ -126,7 +126,7 @@
 .homepage--whyambizo {
     display: flex;
     justify-content: center;
-    padding-top: 70px;
+    padding-top: 45px;
     gap: 20px;
     background-color: #a30506;
     margin-right: auto;
@@ -145,6 +145,6 @@
 .homepage--whyreasons {
     margin-top: 0px;
     margin-bottom: 0px;
-    width: 35%;
+    width: 33%;
     font-size: 25px;
 }

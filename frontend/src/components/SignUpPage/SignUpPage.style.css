@@ -71,11 +71,10 @@
     color: white;
     width: 400px;
     min-width: 400px;
-    padding-top: 10px;
-    padding-bottom: 30px;
+    padding-top: 20px;
+    padding-bottom: 35px;
     margin: 0px auto;
-    margin-bottom: 20px;
-    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 .next--button:hover {
@@ -86,8 +85,8 @@
     border-style: solid;
     width: 400px;
     min-width: 400px;
-    padding-top: 10px;
-    padding-bottom: 30px;
+    padding-top: 20px;
+    padding-bottom: 35px;
     margin: 0px auto;
     margin-bottom: 20px;
 }
@@ -176,31 +175,29 @@
 }
 
 .TCback--button{
-    width: fit-content;
-    min-width: 150px;
-    min-height: 50px;
-    margin-left: 10px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    border-width: 1px;
-    text-align: center;  
-    font-size: 20px;
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 400px;
+    min-width: 400px;
+    padding-top: 20px;
+    padding-bottom: 35px;
+    margin: 0px auto;
+    margin-bottom: 20px;
 }
 
 .signUp--button{
     border-color: #bd0312;
     background-color: #a30506;
-    color: white;
     border-style: solid;
-    width: fit-content;
-    min-width: 150px;
-    min-height: 50px;
-    margin-left: 10px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    border-width: 1px;
-    text-align: center;  
-    font-size: 20px;  
+    color: white;
+    width: 400px;
+    min-width: 400px;
+    padding-top: 20px;
+    padding-bottom: 35px;
+    margin: 0px auto;
+    margin-bottom: 20px;
 }
 
 .TCback--button:hover {
