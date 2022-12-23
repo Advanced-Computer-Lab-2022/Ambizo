@@ -126,9 +126,13 @@
 .homepage--whyambizo {
     display: flex;
     justify-content: center;
-    padding-top: 100px;
-    padding-bottom: 100px;
+    padding-top: 70px;
     gap: 20px;
+    background-color: #a30506;
+    margin-right: auto;
+    margin-left: auto;
+    height: 400px;
+    color:white;
 }
 
 .whyambizo--header {
