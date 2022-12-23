@@ -1,7 +1,7 @@
 .course {
     width: 360px;
     height: 422px;
-    overflow-y: scroll;
+    background: white;
     transition-duration: 0.15s;
     cursor: pointer;
     border: 3px solid rgba(0, 0, 0, 0.75);

@@ -53,16 +53,16 @@
     gap: 20px;
 }
 
+.homepage--attendcourses.show {
+    -webkit-animation: fadeinFromRight 2s; 
+    -moz-animation: fadeinFromRight 2s; 
+    -o-animation: fadeinFromRight 2s; 
+    animation: fadeinFromRight 2s;
+}
+
 .homepage--attendimage {
     width: 500px;
     height: fit-content;
-}
-
-.homepage--line {
-    width: 100%;
-    border: 1px solid #a30506;
-    margin-bottom: 30px;
-    margin-left: 0px;
 }
 
 .homepage--assessyourlevel {
@@ -71,9 +71,45 @@
     gap: 20px;
 }
 
+.homepage--assessyourlevel.show {
+    -webkit-animation: fadeinFromLeft 2s; 
+    -moz-animation: fadeinFromLeft 2s; 
+    -o-animation: fadeinFromLeft 2s; 
+    animation: fadeinFromLeft 2s;
+}
+
+@keyframes fadeinFromLeft {
+    0% {
+        transform: translateX(-300px);
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
+
+@keyframes fadeinFromRight {
+    0% {
+        transform: translateX(300px);
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
+
 .homepage--assessimage {
     width: 350px;
     height: fit-content;
+}
+
+.homepage--line {
+    width: 100%;
+    border: 1px solid #a30506;
+    margin-bottom: 30px;
+    margin-left: 0px;
 }
 
 .homepage--getimage {
@@ -93,7 +129,6 @@
     padding-top: 100px;
     padding-bottom: 100px;
     gap: 20px;
-    background-color: #eae2cf;
 }
 
 .whyambizo--header {
@@ -106,6 +141,6 @@
 .homepage--whyreasons {
     margin-top: 0px;
     margin-bottom: 0px;
-    width: 25%;
+    width: 35%;
     font-size: 25px;
 }

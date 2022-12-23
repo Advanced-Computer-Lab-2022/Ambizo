@@ -242,6 +242,7 @@
     min-height: 140px;
     margin-left: 201px;
     margin-right: 50px;
+    margin-bottom: -1000px;
     position: sticky;
     top: 100px;
 }

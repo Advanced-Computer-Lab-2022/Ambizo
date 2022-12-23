@@ -363,6 +363,7 @@ function CoursesPage(props) {
                     <img src={FilterIcon} alt='Filter Icon' className='filter--icon'/>
                     <button className="filter--button" onClick={toggleFilterModal}/>
                 </div>
+                {!props.mostPopular && <hr className='header--line'/>}
                 <FilterModal filterModal={filterModal} toggleFilterModal={toggleFilterModal} 
                 onSelectSubjects={onSelectSubjects} onSelectRating={onSelectRating} priceFilterData={priceFilterData} 
                 handlePriceFilterChange={handlePriceFilterChange} applyFilters={applyFilters} resetFilters={resetFilters} 
