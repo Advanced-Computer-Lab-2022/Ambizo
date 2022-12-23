@@ -36,15 +36,10 @@ function AddCourse() {
                         { value: 'Music', label: 'Music' }
                     ]
 
-    const[courseDetailsPreview, setCourseDetailsPreview] = React.useState(false);
+    const[courseDetailsPreview, setCourseDetailsPreview] = React.useState(true);
 
     function toggleCourseDetailsPreview(){
-        if(!courseDetailsPreview){
-            setCourseDetailsPreview(true);
-        }
-        else{
-            setCourseDetailsPreview(false);
-        }
+        setCourseDetailsPreview(prevPreview => !prevPreview)
     }
   
     function changeSubject(value){

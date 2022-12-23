@@ -62,7 +62,7 @@ function CourseAccessRequests() {
                             <img className="accessrequests--pricesimage" src={AccessRequestsImage} alt='Access Requests' />
                         </div>
                         <div className="accessrequests--number">
-                            <h2>{accessRequestsData.length} {accessRequestsData.length === 1 ? "Pending Request" : "Pending Requests"} Found</h2>
+                            <h2>{accessRequestsData.length} Pending {accessRequestsData.length === 1 ? "Request" : "Requests"}</h2>
                         </div>
                         <section className="accessrequests-list">
                             {accessRequestsElements}

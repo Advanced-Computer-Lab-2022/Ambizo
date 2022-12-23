@@ -8,7 +8,7 @@ function Question(props) {
 
     return(
         <>
-            <div className="question--container" hidden={props.isHidden}>
+            <div className={"question--container"+ (props.preview? " preview" : "")} hidden={props.isHidden}>
         
                 <div className="question--title--div">
                     <p className="question--title">{props.questionTitle}</p>

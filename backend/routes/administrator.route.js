@@ -5,6 +5,7 @@ import administrator from "../models/administrator.model.js";
 import corporateTrainee from "../models/corporateTrainee.model.js";
 import instructor from "../models/instructor.model.js";
 import user from "../models/user.model.js";
+import report from "../models/report.model.js";
 import course from "../models/course.model.js";
 import currencyConverter from "../middleware/currencyConverter.js";
 import courseRequest from "../models/courseRequest.model.js";
@@ -301,6 +302,40 @@ router.get("/getDiscountedCourses", verifyJWT, async (req, res) => {
     }
 })
 
+router.get("/getAllReports", verifyJWT, async (req, res) => {
+    try {
+        if (req.User.Type !== "admin") {
+            return handleError(res, "Invalid Access")
+        }
+
+        let Reports = await report.find();
+        res.json(Reports);
+    }
+    catch (error) {
+        handleError(res, error);
+    }
+});
+
+router.put('/updatereportstatus/', verifyJWT, async (req, res) => {
+    try {
+        const { Username, Type } = req.User;
+        const reportId = req.query.reportId;
+        const { Status } = req.body;
+        const requestingUser = await user.findOne({ Username: Username });
+
+        //making sure the request come from valid user with valid type
+        if ((requestingUser.Type !== Type) || (Type !== 'admin')) {
+            return res.status(403).json({ message: 'You are not authorized for this action' })
+        }
+        
+        await report.findByIdAndUpdate( reportId, { Status: Status });
+
+        return res.status(201).json({ message: 'The report was updated successfully.' })
+    }
+    catch (error) {
+        handleError(res, error);
+    }
+});
 router.put("/applyDiscount", verifyJWT, async (req, res) => {
     try {
         if(req.User.Type !== "admin"){

@@ -69,6 +69,7 @@
   
 .coursedetails--hourscount {
     margin-left: 10px;
+    margin-right: 50px;
     font-size: 25px;
     font-weight: 400;
 }
@@ -97,7 +98,9 @@
 }
 
 .coursedetails--image {
-    width: 95%;
+    width: 465px;
+    height: 261px;
+    object-fit: cover;
     margin: 0px auto 10px auto;
     display: block;
     border-radius: 1px;
@@ -114,24 +117,6 @@
     width: 100%;
     margin: 20px auto;
 }
-
-/* .coursedetails--priceicondiscounted {
-    width: 8%;
-    height: fit-content;
-    margin: -90px 5px 0px 30px;
-}
-
-.coursedetails--priceicon {
-    width: 8%;
-    height: fit-content;
-    margin: 0px 5px 0px 30px;
-}
-
-.coursedetails--priceiconinstr {
-    width: 8%;
-    height: fit-content;
-    margin: 0px 15px 0px 0px;
-} */
 
 .coursedetials--pricediscount {
     display: flex;
@@ -246,6 +231,7 @@
 
 .subtitles--progress--div{
     display: flex;
+    flex-wrap: wrap;
 }
 
 .progress--div{
@@ -257,6 +243,13 @@
     min-height: 140px;
     margin-left: 201px;
     margin-right: 50px;
+    margin-bottom: -1000px;
+    position: sticky;
+    top: 100px;
+}
+
+.coursedetails--subtitles--flexDiv{
+    flex: 0 0 100%;
 }
 
 .progress--div--header{
@@ -311,4 +304,8 @@
     margin-right: auto;
     margin-left: auto;
     margin-bottom: 10px;
+}
+
+.completedcourse--image {
+    width: 100%;
 }

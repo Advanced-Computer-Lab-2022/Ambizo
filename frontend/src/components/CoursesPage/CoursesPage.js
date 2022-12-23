@@ -363,7 +363,7 @@ function CoursesPage(props) {
                     <img src={FilterIcon} alt='Filter Icon' className='filter--icon'/>
                     <button className="filter--button" onClick={toggleFilterModal}/>
                 </div>
-                <hr  className='header--line'/>
+                {!props.mostPopular && <hr className='header--line'/>}
                 <FilterModal filterModal={filterModal} toggleFilterModal={toggleFilterModal} 
                 onSelectSubjects={onSelectSubjects} onSelectRating={onSelectRating} priceFilterData={priceFilterData} 
                 handlePriceFilterChange={handlePriceFilterChange} applyFilters={applyFilters} resetFilters={resetFilters} 
@@ -414,7 +414,7 @@ function CoursesPage(props) {
                         {coursesDataElements}
                         {coursesDataElements.length === 0 && <p className="no--courses">0 Courses found.</p>}
                     </section>
-                    {props.mostPopular && <button type="button" className="view--allcourses" onClick={() => navigate("/allcourses")}>View all courses</button>}
+                    {props.mostPopular && <button type="button" className="view--allcourses" onClick={() => navigate("/allcourses")}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View all courses</button>}
                 </>
             )
             }

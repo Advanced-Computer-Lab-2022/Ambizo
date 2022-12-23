@@ -34,6 +34,8 @@
     width: 100%;
     height: fit-content;
     background-image: url("../../images/Banner.jpg");
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
     background-repeat: round;
     padding: 50px 10% 50px 10%;
     display: flex;
@@ -93,6 +95,11 @@
     padding-top: 15px;
     padding-bottom: 5px;
     margin-left: 20px;
+}
+
+.coursedetails--image.previewDetails {
+    width: 256px;
+    height: 144px;
 }
 
 .coursedetails--price.previewDetails {

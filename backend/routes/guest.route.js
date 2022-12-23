@@ -135,7 +135,7 @@ router.get("/getPopularCourses", async (req,res) => {
         if(!req.query.price){
              [courses, exchangeRateToUSD, exchangeRateToCountry] = await Promise.all(
                 [
-                    courses = course.find(filter).limit(3).sort({"NumberOfEnrolledStudents": -1})
+                    courses = course.find(filter).limit(4).sort({"NumberOfEnrolledStudents": -1})
                     , 
                     currencyConverter.from(req.query.currencyCode).to("USD").convert()
                     ,
@@ -144,7 +144,7 @@ router.get("/getPopularCourses", async (req,res) => {
                 );
         }
         else{
-            courses = await course.find(filter).limit(3).sort({"NumberOfEnrolledStudents": -1})
+            courses = await course.find(filter).limit(4).sort({"NumberOfEnrolledStudents": -1})
             exchangeRateToCountry = await currencyConverter.from("USD").to(req.query.currencyCode).convert();
         }
 
@@ -354,7 +354,10 @@ router.get("/getSubtitleName", async (req, res) => {
     try{
         
         const Course = await course.findById(req.query.courseId);
-        res.send(Course.Subtitles[Number.parseInt(req.query.subtitleNum)].subtitle);
+        res.json({
+            subtitleName: Course.Subtitles[Number.parseInt(req.query.subtitleNum)].subtitle,
+            courseName: Course.Title
+            })
     }
     catch(error){
         handleError(res,error);
