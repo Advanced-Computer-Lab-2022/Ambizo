@@ -678,19 +678,14 @@ function CourseDetailsPage() {
                                             <h2 className="notes--title">Notes</h2>
                                             <textarea className="notes--textArea" 
                                             value={notes.notes}
-                                            placeholder="Write your notes here"
+                                            placeholder="Write your notes here..."
                                             onChange={handleNotes}
                                             name="notes"
                                             />
-
-                                        {notes.notes === "" ? <button className="writeNotes--button">Write Notes to Download</button> :
                                         <PDFDownloadLink document={<PDFFile />} fileName={course.Title + (currentlyPlaying === "" ? "" : ", " + currentlyPlaying) } className="PDFDownloadLink">
-                                        <button className="downloadNotes--button">Download Notes as PDF</button>
+                                        <button className="downloadNotes--button">Download Notes</button>
                                         </PDFDownloadLink>
-                                        }
                                         </div>
-
-                                        
                                     </div>  
                                 }
                             </div>
@@ -706,7 +701,7 @@ function CourseDetailsPage() {
                         <div className="coursedetails--ratings">
                             {course.Ratings?.length > 0 ? ratingDataElements : <i><p className = "courseDetails--noratings">No ratings yet.</p></i>}
                         </div>   
-                        {userType !== "admin" && userType !== "guest" &&
+                        {(userType === "instructor" || userType === "individualTrainee" || userType === "corporateTrainee") &&
                             <button className="button--report" onClick={toggleReportModal}>Report a problem</button>
                         }    
                     </div>

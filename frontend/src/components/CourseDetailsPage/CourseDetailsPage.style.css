@@ -183,7 +183,7 @@
     margin-bottom: 0px;
 }
 
-.coursedetails--enrolledoptions{
+.coursedetails--enrolledoptions {
     text-align: center;
     margin: 20px 0px;
 }
@@ -243,7 +243,7 @@
 
 .progress--div{
     box-shadow: 3px 5px 10px 0 rgba(0,0,0,.3);
-    border: 1px solid rgb(74, 222, 128, 0.7);
+    border: 1px solid #a30506;
     border-radius: 10px;
     height: fit-content;
     width: 450px;
@@ -267,14 +267,14 @@
     text-align: center;
     font-size: 20pt;
     font-weight: 600;
-    color: #15803d;
+    color: #a30506;
     margin-bottom: 15px;
 }
 
 .progress--bar{
     width: 80%;
     height: 20px;
-    border: 1px solid rgb(74, 222, 128);
+    border: 1px solid #a30506;
     border-radius: 15px;
     margin-right: auto;
     margin-left: auto;
@@ -285,7 +285,7 @@
 
 .progress--bar::after{
     content: '\A';
-    background: rgb(74, 222, 128);
+    background: #a30506;
     border-radius: 15px;
     position:absolute;
     top: 0; 
@@ -297,7 +297,7 @@
 .progress--percentage{
     text-align: center;
     font-size: 12pt;
-    color: #14532d;
+    color: #a30506;
 }
 
 .progress--percentage.refund{
@@ -333,41 +333,23 @@
 
 .notes--textArea{
     min-height: 300px;
+    font-family: 'Poppins';
     border: white;
 }
 
-.writeNotes--button{
-    border-style: solid;
-    width: fit-content;
-    height: 50px;
-    margin-left: auto;
-    border-width: 1px;
-    text-align: center; 
-    margin-top: 20px;
-}
-
-.writeNotes--button:hover{
+.downloadNotes--button{
     border-color: #bd0312;
     background-color: #a30506;
+    border-style: solid;
     color: white;
-    border-style: solid;
-}
-
-.downloadNotes--button{
-    border-style: solid;
-    width: fit-content;
+    width: 180px;
     height: 50px;
-    margin-left: 272px;
-    border-width: 1px;
-    text-align: center;  
     margin-top: 20px;
+    margin-left: 20px;
 }
 
 .downloadNotes--button:hover{
-    border-color: #bd0312;
-    background-color: #a30506;
-    color: white;
-    border-style: solid;
+    opacity: 0.8;
 }
 
 .PDFDownloadLink{
@@ -378,13 +360,13 @@
 
 .notes--titleAndTextArea{
     box-shadow: 3px 5px 10px 0 rgba(0,0,0,.3);
-    border: 1px solid #a30506;
+    border: 1px dashed #a30506;
     border-radius: 20px;
     border-width: 2.3px;
     height: fit-content;
-    width: 600px;
+    width: 450px;
     min-height: 140px;
-    margin-left: 100px;
+    margin-left: 170px;
     margin-right: 50px;
     margin-top: 10px;
     display: flex;
@@ -400,15 +382,18 @@
 }
 
 .button--report {
-    margin-top: 100px;
+    margin-top: 50px;
     border-color: #bd0312;
     background-color: #a30506;
     border-style: solid;
     color: white;
-    width: 15%;
+    width: 10%;
     height: auto;
-    padding-top: 20px;
-    padding-bottom: 40px;
+    font-size: 15px;
+    padding-top: 15px;
+    padding-bottom: 30px;
+    margin-left: auto;
+    margin-right: 264px;
 }
 
 .button--report:hover {
