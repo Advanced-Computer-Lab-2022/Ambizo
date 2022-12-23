@@ -1,9 +1,11 @@
 import React from 'react';
 import CourseService from '../../services/Course.service';
 import AdministratorService from '../../services/Administrator.service';
+import { useNavigate } from 'react-router-dom';
 
 function Report(probs) {
-    let { index, reportId, userType, reporter, courseTitle, description, type, status, followUp, updateFollowUp, updateStatus } = probs;
+    const navigate = useNavigate();
+    let { index, reportId, userType, reporter, date, courseTitle, courseId, description, type, status, followUp, updateFollowUp, updateStatus } = probs;
     let admin = userType === "admin";
     const [followUpText, setFollowUpText] = React.useState('');
     const [errorMessage, setErrorMessage] = React.useState('');
@@ -52,42 +54,62 @@ function Report(probs) {
     return (
         <>
             <div className='reportcard'>
-                <div className='reportcard--header'>
-                    <h1 className='reporcard--coursetitle'>{courseTitle}</h1>
-                    {admin && <h2 className='reportcard--reporter'>Reported by {reporter}</h2>}
-                </div>
-                <div className='reportcard--details'>
-                    <h2 className='reportcard--type'>Type = {type}</h2>
-                    <h2 className='reportcard--status'>Status = {status}</h2>
-                </div>
-                <div className='reportcard--description'>
-                    <h2 className='reportcard--description--title'>Description</h2>
-                    <p className='reportcard--description--text'>{description}</p>
-                </div>
-                {followUp &&
-                    <div className='reportcard--followup'>
-                        <h2 className='reportcard--followup--title'>Follow Up</h2>
-                        <p className='reportcard--followup--text'>{followUp}</p>
+                <div className='reportcard--info'>
+                    <div className='reportcard--course'>
+                        <p className="accesscourse--info">Course title:</p>
+                        <h3 className="course--name" onClick={() => navigate(`/coursedetails/${courseId}`)}>{courseTitle}</h3>
                     </div>
-                }
+                    {admin &&
+                        <div className='reportcard--reporter'>
+                            <p className="accesscourse--info">Reported by:</p>
+                            <h3 className="reporter--name">{reporter}</h3>
+                        </div>
+                    }
+                    <div className='reportcard--date'>
+                        <p className="accesscourse--info">Created at:</p>
+                        <h3 className="date--value">{date}</h3>
+                    </div>
+                    <div className='reportcard--type'>
+                        <p className="accesscourse--info">Type:</p>
+                        <h3 className="type--value">{type}</h3>
+                    </div>
+                    <div className='reportcard--status'>
+                        <p className="accesscourse--info">Status:</p>
+                        <h3 className="status--value">{status}</h3>
+                    </div>
+                    <div className='reportcard--description'>
+                        <p className='accesscourse--info'>Description:</p>
+                        <h3 className='description--text'>{description}</h3>
+                    </div>
+                    {followUp &&
+                        <div className='reportcard--followup'>
+                            <p className='accesscourse--info'>Follow Up:</p>
+                            <h3 className='followup--text'>{followUp}</h3>
+                        </div>
+                        }
+                    {!admin && status === "unseen" && !followUp &&
+                        <>
+                            <textarea
+                                className="reportcard--followup--textarea"
+                                value={followUpText}
+                                onChange={handleFollowUpChange}
+                                placeholder="Didn't get a response? Write a follow up here ..."
+                            />
+                            <button className="reportcard--followup--submitbutton" onClick={handleFollowUpSubmit}>Submit</button>
+                            <p className="error--emptyfollowup">{errorMessage}</p>
+                        </>
+                    }
+                </div>
                 {admin &&
-                    <div className='reportcard--actionbuttons'>
-                        <button className='reportcard--actionbuttons--button' onClick={setPending}>Set as pending</button>
-                        <button className='reportcard--actionbuttons--button' onClick={setResolved}>Set as resolved</button>
+                    <div className='reportcard--buttons'>
+                        {status !== "pending" &&
+                            <button className='reportcard--pendingbutton' onClick={setPending}>Set as pending</button>
+                        }
+                        {status !== "resolved" &&
+                            <button className='reportcard--resolvedbutton' onClick={setResolved}>Set as resolved</button>
+                        }
                         <p className="error--emptyfollowup">{errorMessage}</p>
                     </div>
-                }
-                {!admin && status === "unseen" && !followUp &&
-                    <>
-                        <textarea
-                            className="reportcard--followup--text"
-                            value={followUpText}
-                            onChange={handleFollowUpChange}
-                            placeholder="Didn't get a response? Write a follow up here ..."
-                        />
-                    <button className="reportcard--followup--submit" onClick={handleFollowUpSubmit}>Submit</button>
-                    <p className="error--emptyfollowup">{errorMessage}</p>
-                    </>
                 }
             </div>
         </>

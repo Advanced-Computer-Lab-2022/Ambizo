@@ -705,10 +705,10 @@ function CourseDetailsPage() {
                         <h2 className="coursedetails--subtitlesheader"  id = "allRatings">Ratings</h2>
                         <div className="coursedetails--ratings">
                             {course.Ratings?.length > 0 ? ratingDataElements : <i><p className = "courseDetails--noratings">No ratings yet.</p></i>}
-                        </div>
-                        
-                        <button className="button--report" onClick={toggleReportModal}>Report a problem</button>   
-                            
+                        </div>   
+                        {userType !== "admin" && userType !== "guest" &&
+                            <button className="button--report" onClick={toggleReportModal}>Report a problem</button>
+                        }    
                     </div>
 
                     <RateModal showRateModal={rateModal} 

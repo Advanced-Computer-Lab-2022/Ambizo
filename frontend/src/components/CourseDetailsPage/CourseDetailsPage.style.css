@@ -396,4 +396,21 @@
 .completedcourse--image {
     width: 80%;
     margin-left: 50px;
+    width: 100%;
+}
+
+.button--report {
+    margin-top: 100px;
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 15%;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+.button--report:hover {
+    opacity: 0.8;
 }
