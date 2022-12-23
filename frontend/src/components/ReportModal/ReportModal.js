@@ -1,9 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Select from 'react-select'
 import XIcon from '../../images/XIcon.png';
 import CourseService from "../../services/Course.service";
 
 function ReportModal(props) {
+    const navigate = useNavigate();
 
     const [Loading, setLoading] = React.useState(false);
 
@@ -72,6 +74,7 @@ function ReportModal(props) {
                 setDescription('');
                 setType(null);
                 props.toggleReportModal();
+                navigate('/allreports');
             })
                 .catch(error => {
                     console.log(error);

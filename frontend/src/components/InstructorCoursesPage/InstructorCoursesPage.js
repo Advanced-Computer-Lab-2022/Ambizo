@@ -216,7 +216,7 @@ function InstructorCoursesPage(props) {
                     {renderCourseHeader(toggleFilterModal)}
                     <section className="courses-list">
                         {coursesDataElements}
-                        {coursesDataElements.length === 0 && <p className="no--courses">0 Courses found.</p>}
+                        {coursesDataElements.length === 0 && <p className="no--courses">You have not created any courses</p>}
                     </section>
                 </>
             )

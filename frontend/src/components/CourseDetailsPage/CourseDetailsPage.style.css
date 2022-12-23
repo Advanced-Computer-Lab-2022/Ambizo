@@ -234,6 +234,13 @@
     flex-wrap: wrap;
 }
 
+.subtitles--progress--notes--div{
+    display: flex;
+    flex-direction: row-reverse;
+    /* flex-wrap: wrap; */
+    gap: 10px
+}
+
 .progress--div{
     box-shadow: 3px 5px 10px 0 rgba(0,0,0,.3);
     border: 1px solid rgb(74, 222, 128, 0.7);
@@ -241,11 +248,15 @@
     height: fit-content;
     width: 450px;
     min-height: 140px;
-    margin-left: 201px;
-    margin-right: 50px;
-    margin-bottom: -1000px;
-    position: sticky;
-    top: 100px;
+    margin-left: 270px;
+    margin-right: 100px;
+    margin-bottom: 35px;
+}
+
+.progress--notes--div{
+   position: sticky;
+   top: 100px;
+   margin-bottom: -1000px;
 }
 
 .coursedetails--subtitles--flexDiv{
@@ -306,6 +317,100 @@
     margin-bottom: 10px;
 }
 
+.courseDetails--notes{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: 700px;
+    margin-bottom: 100px;
+    margin-left: 100px;
+}
+
+.notes--title{
+    font-size: 30px;
+    margin-left: 18px;
+}
+
+.notes--textArea{
+    min-height: 300px;
+    border: white;
+}
+
+.writeNotes--button{
+    border-style: solid;
+    width: fit-content;
+    height: 50px;
+    margin-left: auto;
+    border-width: 1px;
+    text-align: center; 
+    margin-top: 20px;
+}
+
+.writeNotes--button:hover{
+    border-color: #bd0312;
+    background-color: #a30506;
+    color: white;
+    border-style: solid;
+}
+
+.downloadNotes--button{
+    border-style: solid;
+    width: fit-content;
+    height: 50px;
+    margin-left: 272px;
+    border-width: 1px;
+    text-align: center;  
+    margin-top: 20px;
+}
+
+.downloadNotes--button:hover{
+    border-color: #bd0312;
+    background-color: #a30506;
+    color: white;
+    border-style: solid;
+}
+
+.PDFDownloadLink{
+    text-decoration: none;
+    width: fit-content;
+    margin-left: 100px;
+}
+
+.notes--titleAndTextArea{
+    box-shadow: 3px 5px 10px 0 rgba(0,0,0,.3);
+    border: 1px solid #a30506;
+    border-radius: 20px;
+    border-width: 2.3px;
+    height: fit-content;
+    width: 600px;
+    min-height: 140px;
+    margin-left: 100px;
+    margin-right: 50px;
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 15px;
+}
+
+
 .completedcourse--image {
+    width: 80%;
+    margin-left: 50px;
     width: 100%;
+}
+
+.button--report {
+    margin-top: 100px;
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 15%;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+.button--report:hover {
+    opacity: 0.8;
 }

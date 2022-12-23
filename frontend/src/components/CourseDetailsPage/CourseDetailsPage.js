@@ -2,6 +2,7 @@ import React from "react";
 import { Rating } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import { jsPDF } from "jspdf";
+import {Page, Text, PDFDownloadLink, Document, StyleSheet} from '@react-pdf/renderer'
 import countryToCurrency  from 'country-to-currency';
 import CourseService from "../../services/Course.service";
 import TraineeService from "../../services/Trainee.service";
@@ -46,6 +47,21 @@ function CourseDetailsPage() {
     const toggleRefundModal = () => {
         setRefundModal(prevModal => !prevModal);
     };
+
+    const[notes, setNotes] = React.useState({
+        notes: ""
+    })
+
+    const [currentlyPlaying, setCurrentlyPlaying] = React.useState("")
+
+    function handleNotes(event){
+        setNotes(prevNotes => {
+            return{
+                ...prevNotes,
+                [event.target.name]: event.target.value
+            }
+        })
+    }
 
     const [reportModal, setReportModal] = React.useState(false);
 
@@ -124,6 +140,9 @@ function CourseDetailsPage() {
 
     async function updateSubtitleProgress(subtitleNum){
         if(traineeInfo.isTraineeEnrolled){
+
+            setCurrentlyPlaying(course.Subtitles[subtitleNum].subtitle)
+
             let newSubtitlesProgress = [...traineeInfo.subtitlesProgress]
             if(!newSubtitlesProgress[subtitleNum]){
                 newSubtitlesProgress[subtitleNum] = 0;
@@ -434,6 +453,62 @@ function CourseDetailsPage() {
         }, 10);
     }
 
+    const PDFstyles = StyleSheet.create({
+        body: {
+          paddingTop: 35,
+          paddingBottom: 65,
+          paddingHorizontal: 35,
+        },
+        title: {
+          fontSize: 24,
+          textAlign: "center",
+        },
+        text: {
+          margin: 12,
+          fontSize: 14,
+          textAlign: "justify",
+          fontFamily: "Times-Roman",
+        },
+        image: {
+          marginVertical: 15,
+          marginHorizontal: 100,
+        },
+        header: {
+          fontSize: 12,
+          marginBottom: 20,
+          textAlign: "center",
+          color: "grey",
+        },
+        pageNumber: {
+          position: "absolute",
+          fontSize: 12,
+          bottom: 30,
+          left: 0,
+          right: 0,
+          textAlign: "center",
+          color: "grey",
+        },
+      });
+      
+      const PDFFile = () => {
+        return (
+          <Document>
+            <Page style={PDFstyles.body}>
+              <Text style={PDFstyles.header} fixed></Text>
+              <Text style={PDFstyles.text}>
+                {notes.notes}
+              </Text>
+              <Text
+                style={PDFstyles.pageNumber}
+                render={({ pageNumber, totalPages }) =>
+                  `${pageNumber} / ${totalPages}`
+                }
+              />
+            </Page>
+          </Document>
+        );
+      };
+
     async function handleCorporateRequestAccess(event) {
         event.preventDefault();
         return TraineeService.requestCourse(params.courseId, course.Title)
@@ -573,39 +648,67 @@ function CourseDetailsPage() {
                             <CoursePreview userType={userType} courseId={params.courseId} CoursePreviewLink={course.CoursePreviewLink} 
                             modifyCourseDetailsPagePreview={(newPreviewLink) => modifyCourseDetailsPagePreview(newPreviewLink)}
                             instructorLoggedInCourse={instructorLoggedInCourse} />
-                            {traineeInfo.isTraineeEnrolled && traineeInfo.overallProgress < 1 &&
-                                <div className="progress--div">
-                                    <p className="progress--div--header">Your Progress</p>
-                                    <div className="progress--bar" style={{"--progress": courseProgress+"%"}}></div>
-                                    <p className="progress--percentage">You are <b>{courseProgress}%</b> on your way</p>
-                                    {userType === "individualTrainee" && traineeInfo.overallProgress < 0.5 && refundStatus ==="None" &&
-                                        <p className="progress--percentage refund">Don't like the course? Request a refund from <span className="reset-password" onClick={toggleRefundModal}>here</span></p>
-                                    }
-                                    {userType === "individualTrainee" && refundStatus === "Processing" &&
-                                        <p className="progress--percentage refund">Your refund request is currently processing </p>
-                                    }
-                                </div>
-                            }
-                            {traineeInfo.isTraineeEnrolled && traineeInfo.overallProgress === 1 &&
-                                <div className="progress--div">
-                                    <img className="completedcourse--image" src={CompletedCourse} alt='Completed Course Successfully' />
-                                    <p className="progress--div--header">Well Done, Course Completed!</p>
-                                    {!isCertificateLoading && <p className="progress--percentage certificate">You can download your certificate from <span onClick={() => saveCertificate(certificateFileName, loggedInName, course.Title)} className="reset-password">here</span></p>}
-                                    {isCertificateLoading && <div className="spinner certificate"> </div>}
-                                </div>
-                            }
+                            <div className="progress--notes--div">
+                                {traineeInfo.isTraineeEnrolled && traineeInfo.overallProgress < 1 &&
+                                    <div className="progress--div">
+                                        <p className="progress--div--header">Your Progress</p>
+                                        <div className="progress--bar" style={{"--progress": courseProgress+"%"}}></div>
+                                        <p className="progress--percentage">You are <b>{courseProgress}%</b> on your way</p>
+                                        {userType === "individualTrainee" && traineeInfo.overallProgress < 0.5 && refundStatus ==="None" &&
+                                            <p className="progress--percentage refund">Don't like the course? Request a refund from <span className="reset-password" onClick={toggleRefundModal}>here</span></p>
+                                        }
+                                        {userType === "individualTrainee" && refundStatus === "Processing" &&
+                                            <p className="progress--percentage refund">Your refund request is currently processing </p>
+                                        }
+                                    </div>
+                                }
+                            
+                                {traineeInfo.isTraineeEnrolled && traineeInfo.overallProgress === 1 &&
+                                    <div className="progress--div">
+                                        <img className="completedcourse--image" src={CompletedCourse} alt='Completed Course Successfully' />
+                                        <p className="progress--div--header">Well Done, Course Completed!</p>
+                                        {!isCertificateLoading && <p className="progress--percentage certificate">You can download your certificate from <span onClick={() => saveCertificate(certificateFileName, loggedInName, course.Title)} className="reset-password">here</span></p>}
+                                        {isCertificateLoading && <div className="spinner certificate"> </div>}
+                                    </div>
+                                }
+
+                                {traineeInfo.isTraineeEnrolled &&
+                                    <div className="courseDetails--notes">
+                                        <div className="notes--titleAndTextArea">
+                                            <h2 className="notes--title">Notes</h2>
+                                            <textarea className="notes--textArea" 
+                                            value={notes.notes}
+                                            placeholder="Write your notes here"
+                                            onChange={handleNotes}
+                                            name="notes"
+                                            />
+
+                                        {notes.notes === "" ? <button className="writeNotes--button">Write Notes to Download</button> :
+                                        <PDFDownloadLink document={<PDFFile />} fileName={course.Title + (currentlyPlaying === "" ? "" : ", " + currentlyPlaying) } className="PDFDownloadLink">
+                                        <button className="downloadNotes--button">Download Notes as PDF</button>
+                                        </PDFDownloadLink>
+                                        }
+                                        </div>
+
+                                        
+                                    </div>  
+                                }
+                            </div>
                             <div className="coursedetails--subtitles--flexDiv">
                                 <h2 className="coursedetails--subtitlesheader">Subtitles</h2>
                                 {courseSubtitles}
                             </div>
                         </div>
+
+                        
+
                         <h2 className="coursedetails--subtitlesheader"  id = "allRatings">Ratings</h2>
                         <div className="coursedetails--ratings">
                             {course.Ratings?.length > 0 ? ratingDataElements : <i><p className = "courseDetails--noratings">No ratings yet.</p></i>}
-                        </div>
-                        
-                        <button className="button--report" onClick={toggleReportModal}>Report a problem</button>   
-                            
+                        </div>   
+                        {userType !== "admin" && userType !== "guest" &&
+                            <button className="button--report" onClick={toggleReportModal}>Report a problem</button>
+                        }    
                     </div>
 
                     <RateModal showRateModal={rateModal} 

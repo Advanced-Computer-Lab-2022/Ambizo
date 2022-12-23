@@ -376,7 +376,7 @@ router.get("/getReports", verifyJWT, async (req, res) => {
             return handleError(res, "Invalid Access")
         }
 
-        let Reports = await report.find({ Username: req.User.Username });
+        let Reports = await report.find({ Username: req.User.Username }).sort({ $natural: -1 });
         res.json(Reports);
     }
     catch (error) {

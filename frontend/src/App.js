@@ -26,6 +26,7 @@ import HomepageRoutes from "./protectedRoutes/HomepageRoutes";
 import InstructorRoutes from "./protectedRoutes/InstructorRoutes";
 import UserRoutes from "./protectedRoutes/UserRoutes";
 import CoursesAccessRequests from './components/CoursesAccessRequests/CoursesAccessRequests';
+import ReportsPage from './components/ReportsPage/ReportsPage';
 
 function App() {
 
@@ -64,7 +65,8 @@ function App() {
 
                     <Route path="/" element={<UserRoutes />}>
                         <Route path='/exercise/:courseId/:exerciseNum' element={<ExercisePage />} />
-                        <Route path='/settings' element={ <SettingsPage /> } />
+                        <Route path='/settings' element={<SettingsPage />} />
+                        <Route path='/allreports' element={<ReportsPage />} />
                     </Route>
                     
                 </Routes>
