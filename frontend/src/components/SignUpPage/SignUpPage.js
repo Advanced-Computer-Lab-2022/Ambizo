@@ -3,6 +3,7 @@ import Header from "../Header/Header.js"
 import {useNavigate } from "react-router-dom"
 import SignUpSuccessfulModal from "../SignUpSuccessfulModal/SignUpSuccessfulModal.js"
 import SignUpService from "../../services/SignUp.service.js";
+import SignUpImage from "../../images/SignUpImage.svg";
 
 
 function SignUpPage(){
@@ -30,6 +31,10 @@ const [conditional, setConditional] = useState(false)
 
 const [PopUp, setPopUp] = useState(false)
 
+const [firstPage, setFirstPage] = useState(true)
+
+const [secondPage, setSecondPage] = useState(false)
+
 const navigate = useNavigate();
 
 React.useEffect(() => {
@@ -43,8 +48,26 @@ function toggleConditional(){
     setConditional((prevCondition) => !prevCondition)
 }
 
+function toggleFirstPage(){
+    setFirstPage((prevCondition) => !prevCondition)
+}
+
+function toggleSecondPage(){
+    setSecondPage((prevCondition) => !prevCondition)
+}
+
 function togglePopUp(){
     setPopUp((popUp) => !popUp)
+}
+
+function goToSecondPage(){
+    toggleFirstPage()
+    toggleSecondPage()
+}
+
+function goToFirstPage(){
+    toggleFirstPage()
+    toggleSecondPage()
 }
 
 const NavigateToLogin = () => {
@@ -143,6 +166,7 @@ async function handleSubmit(event) {
 }
     else{
         setConditional(false)
+        goToFirstPage()
     }
 }
 
@@ -153,90 +177,127 @@ async function handleSubmit(event) {
 
             <Header />
             {!conditional &&
-            <div className="signUpForm--div">
-                <h1 className="signUp--title">Sign Up</h1>
-                <form className="signUp--form" onSubmit={handleSubmit}>
-                    <input 
-                    type="text"
-                    placeholder="Email"
-                    onChange={handleChange}
-                    name="email"
-                    value={userData.email}
-                    />
-                    <input 
-                    type="text"
-                    placeholder="Username"
-                    onChange={handleChange}
-                    name="userName"
-                    value={userData.userName}
-                    />
-                    <input 
-                    type="text"
-                    placeholder="First Name"
-                    onChange={handleChange}
-                    name="firstName"
-                    value={userData.firstName}
-                    />
-                    <input 
-                    type="text"
-                    placeholder="Last Name"
-                    onChange={handleChange}
-                    name="lastName"
-                    value={userData.lastName}
-                    />
-                    <input 
-                    type={userData.showPassword ? "text" : "password"}
-                    placeholder="Password"
-                    onChange={handleChange}
-                    name="password"
-                    value={userData.password}
-                    />
-                    <input 
-                    type={userData.showPassword ? "text" : "password"}
-                    placeholder="Confirm Password"
-                    onChange={handleChange}
-                    name="confirmPassword"
-                    value={userData.confirmPassword}
-                    />
-                    <div className="show-password-div">
-                        <input className="showpassword--checkbox"
-                            type="checkbox"
-                            id="showPassword"
-                            checked={userData.showPassword}
+            <div className="signUp--container">
+                <div className="signUp--leftContainer">
+                    <h1 className="signUp--title">Sign Up</h1>
+                    <form className="signUp--form" onSubmit={handleSubmit}>
+                        {firstPage &&
+                        <>
+                            <input 
+                            type="text"
+                            placeholder="Email"
                             onChange={handleChange}
-                            name="showPassword"
-                        />
-                        <label htmlFor="showPassword">Show Passwords</label>
-                    </div>
-                    <h2 className = "gender--title"> Gender: </h2>
+                            name="email"
+                            value={userData.email}
+                            className="signUp--inputField"
+                            />
+                            
+                            <input 
+                            type="text"
+                            placeholder="Username"
+                            onChange={handleChange}
+                            name="userName"
+                            value={userData.userName}
+                            className="signUp--inputField"
+                            />
 
-                    <div className="gender-select">
-                        <div>
-                            <input
-                                type="radio"
-                                id="male"
-                                value="Male"
-                                checked={userData.gender === "Male"}
-                                onChange={handleChange}
-                                name="gender"
+                            <input 
+                            type={userData.showPassword ? "text" : "password"}
+                            placeholder="Password"
+                            onChange={handleChange}
+                            name="password"
+                            value={userData.password}
+                            className="signUp--inputField"
                             />
-                            <label htmlFor="male">Male</label>
-                        </div>
-                        <div>
-                            <input
-                                type="radio"
-                                id="female"
-                                value="Female"
-                                checked={userData.gender === "Female"}
-                                onChange={handleChange}
-                                name="gender"
+                            
+                            <input 
+                            type={userData.showPassword ? "text" : "password"}
+                            placeholder="Confirm Password"
+                            onChange={handleChange}
+                            name="confirmPassword"
+                            value={userData.confirmPassword}
+                            className="signUp--inputField"
                             />
-                            <label htmlFor="female">Female</label>
-                        </div>
-                        </div>
-                    <button className="next--button" onClick={toggleConditional}>Next</button>
+                        
+                            <div className="show-password-div">
+                                <input className="showpassword--checkbox"
+                                    type="checkbox"
+                                    id="showPassword"
+                                    checked={userData.showPassword}
+                                    onChange={handleChange}
+                                    name="showPassword"
+                                />
+                                <label htmlFor="showPassword">Show Passwords</label>
+                            </div>
+
+                            <button className="next--button" onClick={goToSecondPage}>Next</button>
+                        </>
+                        }
+                        {secondPage &&
+                        <>
+                            <input 
+                            type="text"
+                            placeholder="First Name"
+                            onChange={handleChange}
+                            name="firstName"
+                            value={userData.firstName}
+                            className="signUp--inputField"
+                            />
+
+                            <input 
+                            type="text"
+                            placeholder="Last Name"
+                            onChange={handleChange}
+                            name="lastName"
+                            value={userData.lastName}
+                            className="signUp--inputField"
+                            />
+                        
+                            <h2 className = "gender--title"> Gender: </h2>
+                        
+                            <div className="gender-select">
+                                <div>
+                                    <input
+                                        type="radio"
+                                        id="male"
+                                        value="Male"
+                                        checked={userData.gender === "Male"}
+                                        onChange={handleChange}
+                                        name="gender"
+                                    />
+                                    <label htmlFor="male">Male</label>
+                                </div>
+                                <div>
+                                    <input
+                                        type="radio"
+                                        id="female"
+                                        value="Female"
+                                        checked={userData.gender === "Female"}
+                                        onChange={handleChange}
+                                        name="gender"
+                                    />
+                                    <label htmlFor="female">Female</label>
+                                </div>
+                            
+                            </div>
+
+                            <button className="next--button" onClick={toggleConditional}>Next</button>
+            
+                            <button className="secondPageBack--button" onClick={goToFirstPage}>Back</button>
+                        </>
+                    }
+                    </form>
+                   
+                    
+                    
+                    
+                    
+                    
                     <p className={message.type}>{message.text}</p>
-                </form>
+                </div>
+                <div className='signUp--rightContainer'>
+                    <img className="signUp--signUpImage" src={SignUpImage} alt='SignUp' />
+                </div>
             </div>}
             {conditional &&
             <div className="Terms--and--conditions" >
@@ -251,7 +312,7 @@ async function handleSubmit(event) {
                 />
                 <label className="TAC--label" htmlFor="TAC">Accept Terms and Conditions</label>
                 <div className="TAC-buttons">
-                    <button className="back--button" onClick={toggleConditional}>Back</button>
+                    <button className="TCback--button" onClick={toggleConditional}>Back</button>
                     <button className="signUp--button" onClick={handleSubmit}>Sign Up</button>
                 </div>
                 <p className={message.type}>{message.text}</p>
