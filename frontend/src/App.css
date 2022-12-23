@@ -39,6 +39,8 @@
 @import './components/CoursesAccessRequests/CoursesAccessRequests.style.css';
 @import './components/AccessRequest/AccessRequest.style.css';
 @import './components/InstructorHomepage/InstructorHomepage.style.css';
+@import './components/ReportsPage/ReportsPage.style.css';
+@import './components/Report/Report.style.css';
 
 * {
   box-sizing: border-box;

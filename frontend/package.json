@@ -21,6 +21,7 @@
     "react-select": "^5.5.7",
     "react-select-country-list": "^2.2.3",
     "react-youtube": "^10.1.0",
+    "underscore": "^1.13.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
