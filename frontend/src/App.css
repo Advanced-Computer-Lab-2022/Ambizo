@@ -261,3 +261,16 @@ textarea {
 .form--submitbutton:hover {
   opacity: 0.8;
 }
+
+.swal-button{
+  border-color: #bd0312;
+  background-color: #a30506;
+  border-style: solid;
+  color: white;
+  width: 250px;
+  min-width: 100px;
+  padding-top: 20px;
+  padding-bottom: 35px;
+  margin: 0px auto;
+  margin-bottom: 20px;
+}

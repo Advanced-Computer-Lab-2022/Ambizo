@@ -76,6 +76,10 @@ class TraineeService{
     enrollInFreeCourse(courseId){
         return httpPost.post(`/individualTrainee/enrollInFreeCourse/${courseId}`);
     }
+
+    completeCheckout(checkoutDetails){
+        return httpPost.post(`/individualTrainee/fulfillCoursePayment`, checkoutDetails);
+    }
 }
 
 export default new TraineeService();

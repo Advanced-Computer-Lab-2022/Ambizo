@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import Header from '../Header/Header';
 import CheckoutForm from '../CheckoutForm/CheckoutForm';
@@ -12,10 +12,12 @@ import { Elements } from '@stripe/react-stripe-js';
 import TraineeService from "../../services/Trainee.service";
 import countryToCurrency from 'country-to-currency';
 import OrderDetails from '../OrderDetails/OrderDetails';
+import swal from 'sweetalert';
 
 function CheckoutPage() {
 
     const params = useParams();
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
     const [stripePromise, setStripePromise] = useState(null);
     const [checkoutDetails, setCheckoutDetails] = useState(null);
@@ -54,6 +56,40 @@ function CheckoutPage() {
         });
     }, []);
 
+    function completePayment(){
+        const body = {
+            courseId: params.courseId,
+            currencyCode: countryToCurrency[localStorage.getItem("countryCode")] || "USD",
+            courseOriginalPrice: checkoutDetails.courseOriginalPrice,
+            discountAmount: checkoutDetails.discountAmount,
+            amountPaidFromWallet: checkoutDetails.amountPaidFromWallet
+        }
+        setIsLoading(true);
+        TraineeService.completeCheckout(body).then(
+            response => {
+                if( response.status === 201 ){
+                    navigate(`/coursedetails/${params.courseId}`);
+                    swal({
+                        icon: 'success',
+                        title: 'Happy Learning...',
+                        text: 'You have been successfully enrolled in this course.',
+                        closeOnClickOutside: false,
+                        closeOnEsc: false,
+                        dangerMode: true,
+                        button: "Start Learning",
+                    });
+                }else{
+                    console.log(response.status);
+                    console.log(response.data);
+                }
+                setIsLoading(false);
+            }
+        ).catch(error => {
+            console.log(error);
+            setIsLoading(false);
+        })
+    }
+
     return (
         <>
             <Header />
@@ -67,7 +103,10 @@ function CheckoutPage() {
                             <OrderDetails courseDetails={checkoutDetails.courseDetails}/>
                             <h1>Checkout</h1>
                             <Elements stripe={stripePromise} options={ { clientSecret } }>
-                                <CheckoutForm />
+                                <CheckoutForm 
+                                    amountToBePaid={checkoutDetails.amountToBePaid}
+                                    completePayment={completePayment}
+                                />
                             </Elements>
                         </div>
                         <div className='checkout--rightcontainer'>

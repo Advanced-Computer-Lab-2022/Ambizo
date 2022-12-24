@@ -166,19 +166,22 @@ router.post('/checkoutDetails', verifyJWT, async (req, res) => {
     let exchangeRate = await currencyConverter.from('USD').to(currency).convert();
     //TODO Add the course id and the user username and more info in the metadata.
     try{
-        // const paymentIntent = await stripe.paymentIntents.create({
-        //     currency: 'usd',
-        //     amount: amountToBePaidInUSD * 100,
-        //     automatic_payment_methods: {
-        //         enabled: true,
-        //     },
-        //     metadata: {
-        //         amountToBePaidInUSD: amountToBePaidInUSD,
-        //         amountPaidFromWalletInUSD: amountPaidFromWalletInUSD,
-        //         currencyUserPaidWith: currency
-        //     }
-        // });
-
+        let paymentIntent;
+        if(amountToBePaidInUSD > 0){
+            paymentIntent = await stripe.paymentIntents.create({
+                currency: 'usd',
+                amount: amountToBePaidInUSD * 100,
+                automatic_payment_methods: {
+                    enabled: true,
+                },
+                metadata: {
+                    amountToBePaidInUSD: amountToBePaidInUSD,
+                    amountPaidFromWalletInUSD: amountPaidFromWalletInUSD,
+                    currencyUserPaidWith: currency
+                }
+            });
+        }
+        const dummyClientSecret = "pi_3MIEOECiBvnkrLCQ1sHEVIPC_secret_6TJnjfvdbcSPB4hQQWxMHhtDi";
         return res.status(200).json({
             courseDetails:{
                 title: courseToBuy.Title,
@@ -192,8 +195,7 @@ router.post('/checkoutDetails', verifyJWT, async (req, res) => {
             discountAmount: parseFloat((discountAmountInUSD * exchangeRate).toFixed(2)),
             amountPaidFromWallet: parseFloat((amountPaidFromWalletInUSD * exchangeRate).toFixed(2)),
             amountToBePaid: parseFloat((amountToBePaidInUSD * exchangeRate).toFixed(2)),
-            clientSecret: "pi_3MIEOECiBvnkrLCQ1sHEVIPC_secret_6TJnjfvdbcSPB4hQQWxMHhtDi"
-           // clientSecret: paymentIntent.client_secret
+            clientSecret: paymentIntent? paymentIntent.client_secret : dummyClientSecret
         });
 
     } catch(error){
@@ -341,7 +343,7 @@ router.post('/fulfillCoursePayment', verifyJWT, async (req, res) => {
     let exchangeRateToCurrency = await currencyConverter.from('USD').to(currencyCode).convert();
 
     const moneyMadeInDollars = (courseOriginalPrice - discountAmount)*exchangeRate;
-    const amountPaidFromWalletInUSD = amountPaidFromWallet*exchangeRate;
+    const amountPaidFromWalletInUSD = parseFloat((amountPaidFromWallet*exchangeRate).toFixed(2));
 
     const newPaymentRecord = new paymentRecord({
         CourseId: courseId,

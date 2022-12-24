@@ -16,9 +16,10 @@ import Subtitle from "../Subtitle/Subtitle";
 import Exercise from "../Exercise/Exercise";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import ReportModal from "../ReportModal/ReportModal";
-import CertificateImage from  "../../images/Certificate.png" 
-import CompletedCourse from "../../images/CompletedCourse.svg"
-import NotesImage from "../../images/NotesImage.png"
+import CertificateImage from  "../../images/Certificate.png" ;
+import CompletedCourse from "../../images/CompletedCourse.svg";
+import NotesImage from "../../images/NotesImage.png";
+import swal from 'sweetalert';
 
 async function retrieveCourse(id, traineeUsername){
     return CourseService.getCourse(id, traineeUsername)
@@ -571,8 +572,35 @@ function CourseDetailsPage() {
     }
     function onEnrollNowClicked(){
         if(userType === "individualTrainee"){
-            navigate(`/checkout/${params.courseId}`);
-            return;            
+            if( course.PriceInUSD === 0 ){
+                setIsLoading(true);
+                TraineeService.enrollInFreeCourse(params.courseId).then(
+                    response => {
+                        if(response.status === 201){
+                            navigate(`/coursedetails/${params.courseId}`);
+                            swal({
+                                icon: 'success',
+                                title: 'Happy Learning...',
+                                text: 'You have been successfully enrolled in this course.',
+                                closeOnClickOutside: false,
+                                closeOnEsc: false,
+                                dangerMode: true,
+                                button: "Start Learning",
+                            });
+                        }else{
+                            console.log(response.status);
+                            console.log(response.data);
+                        }
+                        setIsLoading(false);
+                    }
+                ).catch(error => {
+                    console.log(error);
+                    setIsLoading(false);
+                });
+            }else{
+                navigate(`/checkout/${params.courseId}`);
+                return;            
+            }
         }
         if(!userType) {
             navigate('/login');
