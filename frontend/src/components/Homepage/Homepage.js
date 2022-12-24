@@ -51,7 +51,7 @@ function Homepage() {
                                 className='homepagebutton--signup'
                                 onClick={toggleSignUp}
                             >
-                            <i class="fa-solid fa-user-plus"></i>&nbsp;&nbsp;&nbsp;&nbsp;Sign up
+                            <i className="fa-solid fa-user-plus"></i>&nbsp;&nbsp;&nbsp;&nbsp;Sign up
                             </button>
                         </div>
                         <img className="homepage--image" src={HomepageImage} alt='Homepage' />

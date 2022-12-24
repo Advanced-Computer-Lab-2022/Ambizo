@@ -251,6 +251,8 @@
     margin-left: 190px;
     margin-right: 100px;
     margin-bottom: 35px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .progress--notes--div{
@@ -268,7 +270,8 @@
     font-size: 20pt;
     font-weight: 600;
     color: #a30506;
-    margin-bottom: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .progress--bar{
@@ -306,7 +309,8 @@
 }
 
 .progress--percentage.certificate{
-    color:black
+    color:black;
+    margin-top:5px;
 }
 
 .spinner.certificate{
@@ -327,7 +331,6 @@
 }
 
 .notes--title{
-    font-size: 30px;
     margin-top: 10px;
     margin-left: 18px;
 }
@@ -378,9 +381,12 @@
 
 
 .completedcourse--image {
-    width: 80%;
-    margin-left: 50px;
-    width: 100%;
+    width: 40%;
+}
+
+.completedcouse--image--div{
+    display: flex;
+    justify-content: center;
 }
 
 .button--report {

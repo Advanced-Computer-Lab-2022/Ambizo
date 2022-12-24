@@ -17,7 +17,7 @@ import Exercise from "../Exercise/Exercise";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import ReportModal from "../ReportModal/ReportModal";
 import CertificateImage from  "../../images/Certificate.png" 
-import CompletedCourse from "../../images/CompletedCourseV2.svg"
+import CompletedCourse from "../../images/CompletedCourse.svg"
 
 async function retrieveCourse(id, traineeUsername){
     return CourseService.getCourse(id, traineeUsername)
@@ -665,7 +665,9 @@ function CourseDetailsPage() {
                             
                                 {traineeInfo.isTraineeEnrolled && traineeInfo.overallProgress === 1 &&
                                     <div className="progress--div">
-                                        <img className="completedcourse--image" src={CompletedCourse} alt='Completed Course Successfully' />
+                                        <div className="completedcouse--image--div"> 
+                                            <img className="completedcourse--image" src={CompletedCourse} alt='Completed Course Successfully' />
+                                        </div>
                                         <p className="progress--div--header">Well Done, Course Completed!</p>
                                         {!isCertificateLoading && <p className="progress--percentage certificate">You can download your certificate from <span onClick={() => saveCertificate(certificateFileName, loggedInName, course.Title)} className="reset-password">here</span></p>}
                                         {isCertificateLoading && <div className="spinner certificate"> </div>}
@@ -675,7 +677,7 @@ function CourseDetailsPage() {
                                 {traineeInfo.isTraineeEnrolled &&
                                     <div className="courseDetails--notes">
                                         <div className="notes--titleAndTextArea">
-                                            <h2 className="notes--title">Notes</h2>
+                                            <h2 className="notes--title"><i className="fa-solid fa-note-sticky"></i>&nbsp;&nbsp;Notes</h2>
                                             <textarea className="notes--textArea" 
                                             value={notes.notes}
                                             placeholder="Write your notes here..."
