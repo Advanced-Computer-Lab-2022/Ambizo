@@ -1,10 +1,10 @@
 /* Text indent: 5px; */
 
-.signUp--title{
+/* .signUp--title{
     margin-bottom: 30px;
-}
+} */
 
-.signUpForm--div {
+/* .signUpForm--div {
     margin-top: 100px;
     margin-bottom: 100px;
     text-align: center;
@@ -14,46 +14,93 @@
     margin-left: auto;
     margin-right: auto;
     padding: auto;
+} */
+
+.signUp--container{
+    min-height: 900px;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 22%;
+}
+
+.signUp--title {
+    margin: 0px;
+    margin-bottom: 30px;
+}
+
+.signUp--leftContainer {
+    border: solid;
+    background-color: white;
+    border-radius: 30px;
+    border-width: 0px;
+    padding: 30px 40px;
+    padding-bottom: 25px;
+    margin-right: 0px;
+    box-shadow: 0 0 3px rgb(0 0 0 / 16%);
+    max-height: 880px;
+}
+
+.signUp--rightContainer {
+    width: 50%;
+    margin-left: auto;
+    margin-right: 100px;
+}
+
+.signUp--signUpImage {
+    width: 800px;
+    height: fit-content;
+}
+
+.signUp--inputField {
+    display: block;
+    font-family: Poppins;
+    border: solid;
+    border-width: 1px;
+    border-radius: 1px;
+    width: 400px;
+    padding: 25px 20px;
+    margin-bottom: 10px;
 }
 
 .next--button {
-    width: fit-content;
-    min-width: 90px;
-    height: 50px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    border-width: 1px;
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 400px;
+    padding-top: 20px;
+    padding-bottom: 35px;
+    margin: 0px auto;
+    margin-bottom: 10px;
 }
 
 .next--button:hover {
-    background-color: #a30506;
-    border-color: #bd0312;
-    color: white;
+    opacity: 0.8;
 }
 
-.signUp--form {
-    display: inline-block;
-    text-align: left;
-    width: 200px;
-    
+.secondPageBack--button{
+    border-style: solid;
+    width: 400px;
+    padding-top: 20px;
+    padding-bottom: 35px;
+    margin: 0px auto;
+    margin-bottom: 20px;
 }
 
-.signUp--form> input:not([type=checkbox]){
-    margin-bottom: 15px;
-    height: 30px;
-    text-indent: 10px;
-    border: 1px solid #444;
-    border-radius: 5px;
-    display: block;
-    margin-right: auto;
-    margin-left: auto;
-    width: 200px;
+.secondPageBack--button:hover {
+    background-color: #e4e4e4;
+}
+
+ .signUp--form {
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 .showpassword--checkbox{
     margin-bottom: 1px;
+    margin-top: 10px;
 }
 
 .gender--title{
@@ -74,69 +121,87 @@
 }
 
 .Terms--and--conditions{
-    margin-top: 160px;
+    border: solid;
+    background-color: white;
+    border-radius: 30px;
+    border-width: 0px;
+    box-shadow: 0 0 3px rgb(0 0 0 / 50%);
+    margin-top: 260px;
     margin-bottom: 100px;
     text-align: center;
-    border: 1px solid black;
-    min-width: 500px;
+    min-width: 700px;
     max-width: 200px;
     margin-left: auto;
     margin-right: auto;
-    padding: auto;
+    padding: 20px;
+}
+
+.TAC--title{
+    font-size: 45px;
 }
 
 .TAC--text{
     margin-top: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 25px;
+    margin-right: 12px;
+    margin-left: 12px;
+    font-size: 25px;
+    max-width: fit-content;
 }
 
 .TAC--label{
     text-shadow: #444;
     font-weight: bold;
+    font-size: 20px;
+    text-align: center;
 }
 
 .TAC--checkbox{
-    margin-bottom: 10px;
+    margin-bottom: 25px;
+    transform: scale(1.5);
+    margin-right: 10px;
 }
 
 .TAC-buttons{
     display: flex;
-    gap: 10px;
     text-align: center;
-    margin-left: 125px;
-    margin-bottom: 0px;
+    flex-direction: column;
+    /* margin-left: 160px; */
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-.signUp--button, .back--button{
-    width: fit-content;
-    min-width: 90px;
-    height: 50px;
-    margin-left: 10px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    border-width: 1px;
-    text-align: center;  
+.TCback--button{
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 400px;
+    min-width: 400px;
+    padding-top: 20px;
+    padding-bottom: 35px;
+    margin: 0px auto;
+    margin-bottom: 20px;
 }
 
-.back--button:hover {
+.signUp--button{
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 400px;
+    min-width: 400px;
+    padding-top: 20px;
+    padding-bottom: 35px;
+    margin: 0px auto;
+    margin-bottom: 20px;
+}
+
+.TCback--button:hover {
     background-color: #e4e4e4;
 }
 
 .signUp--button:hover {
-    background-color: #a30506;
-    border-color: #bd0312;
-    color: white;
+    opacity: 0.8;
 }
-/* .show-password-div{
-    text-align: center;
-} */
-  
-/* .form--errormessage{
-    text-align: center;
-    color: red;
-}
-  
-.form--successmessage{
-    color: green;
-    text-align: center;
-} */

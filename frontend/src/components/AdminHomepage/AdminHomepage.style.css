@@ -59,3 +59,8 @@
     display: flex;
     gap: 10px;
 }
+
+.adminhomepage--popularcourses {
+    padding-top: 1px;
+    padding-bottom: 70px;
+}

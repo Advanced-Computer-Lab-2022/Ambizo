@@ -20,7 +20,7 @@ import XIcon from '../../images/XIcon.png';
                     <div className="modal-content-confirmation">
                         <img src={XIcon} alt='X Icon' className='x--icon'/>
                         <button className="close-modal" onClick={props.togglePopUp}></button>
-                        <i class="fa-solid fa-circle-check checkIcon"></i>
+                        <i className="fa-solid fa-circle-check checkIcon"></i>
                         <p className="signUpPopUp--message"> User with Username "{props.userName}" created successfully </p>
                         <div className="signUpPopUp--buttons">
                             <button className='button--goToLogin' onClick={props.handleNavigateLogin} > Go to Login </button>

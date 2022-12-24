@@ -178,12 +178,10 @@ function InstructorCoursesPage(props) {
                     <div className="searchMyCourses">
                         <SearchBar placeholder={"Search my courses ..."} searchForCourses={searchForCourses}/>
                     </div>
-                    
                     <img src={FilterIcon} alt='Filter Icon' className='filter--icon'/>
                     <button className="filter--button" onClick={toggleFilterModal}/>
                 </div>
                 
-                <hr  className='header--line'/>
                 <FilterModal filterModal={filterModal} toggleFilterModal={toggleFilterModal} 
                 onSelectSubjects={onSelectSubjects} onSelectRating={onSelectRating} priceFilterData={priceFilterData} 
                 handlePriceFilterChange={handlePriceFilterChange} applyFilters={applyFilters} resetFilters={resetFilters} 
@@ -218,7 +216,7 @@ function InstructorCoursesPage(props) {
                     {renderCourseHeader(toggleFilterModal)}
                     <section className="courses-list">
                         {coursesDataElements}
-                        {coursesDataElements.length === 0 && <p className="no--courses">0 Courses found.</p>}
+                        {coursesDataElements.length === 0 && <p className="no--courses">You have not created any courses</p>}
                     </section>
                 </>
             )

@@ -2,6 +2,7 @@ import React from "react";
 import { Rating } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import { jsPDF } from "jspdf";
+import {Page, Text, PDFDownloadLink, Document, StyleSheet, Image} from '@react-pdf/renderer'
 import countryToCurrency  from 'country-to-currency';
 import CourseService from "../../services/Course.service";
 import TraineeService from "../../services/Trainee.service";
@@ -14,8 +15,10 @@ import UserRating from "../UserRating/UserRating";
 import Subtitle from "../Subtitle/Subtitle";
 import Exercise from "../Exercise/Exercise";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
+import ReportModal from "../ReportModal/ReportModal";
 import CertificateImage from  "../../images/Certificate.png" 
-import CompletedCourse from "../../images/CompletedCourseV2.svg"
+import CompletedCourse from "../../images/CompletedCourse.svg"
+import NotesImage from "../../images/NotesImage.png"
 
 async function retrieveCourse(id, traineeUsername){
     return CourseService.getCourse(id, traineeUsername)
@@ -44,6 +47,27 @@ function CourseDetailsPage() {
 
     const toggleRefundModal = () => {
         setRefundModal(prevModal => !prevModal);
+    };
+
+    const[notes, setNotes] = React.useState({
+        notes: ""
+    })
+
+    const [currentlyPlaying, setCurrentlyPlaying] = React.useState("")
+
+    function handleNotes(event){
+        setNotes(prevNotes => {
+            return{
+                ...prevNotes,
+                [event.target.name]: event.target.value
+            }
+        })
+    }
+
+    const [reportModal, setReportModal] = React.useState(false);
+
+    const toggleReportModal = () => {
+        setReportModal(prevModal => !prevModal);
     };
 
     function modifyCourseDetailsPageSubtitle(newSubtitle, index, newTotalMinutes) {
@@ -117,6 +141,9 @@ function CourseDetailsPage() {
 
     async function updateSubtitleProgress(subtitleNum){
         if(traineeInfo.isTraineeEnrolled){
+
+            setCurrentlyPlaying(course.Subtitles[subtitleNum].subtitle)
+
             let newSubtitlesProgress = [...traineeInfo.subtitlesProgress]
             if(!newSubtitlesProgress[subtitleNum]){
                 newSubtitlesProgress[subtitleNum] = 0;
@@ -427,6 +454,89 @@ function CourseDetailsPage() {
         }, 10);
     }
 
+    const PDFstyles = StyleSheet.create({
+        body: {
+          paddingTop: 35,
+          paddingBottom: 65,
+          paddingHorizontal: 35,
+        },
+        text: {
+          margin: 12,
+          marginTop: 0,
+          fontSize: 14,
+          textAlign: "justify",
+          fontFamily: "Times-Roman",
+        },
+        headerTextTop: {
+            marginTop: -65,
+            marginRight: 15,
+            marginBottom: 9,
+            fontSize: 12,
+            fontFamily: "Times-Roman",
+            textAlign: "right"
+        },
+        headerTextMiddle: {
+            marginRight: 15,
+            fontSize: 12,
+            marginBottom: 9,
+            fontFamily: "Times-Roman",
+            textAlign: "right"
+        },
+        headerTextFinal: {
+            marginRight: 15,
+            marginBottom: 25,
+            fontSize: 12,
+            fontFamily: "Times-Roman",
+            textAlign: "right"
+        },
+        pageNumber: {
+          position: "absolute",
+          fontSize: 12,
+          bottom: 30,
+          left: 0,
+          right: 0,
+          textAlign: "center",
+          color: "grey",
+        },
+      });
+      
+        const date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+        let currentDate = `${day}-${month}-${year}`;
+
+      const PDFFile = () => {
+        return (
+          <Document>
+            
+            <Page style={PDFstyles.body}>
+              <Image src={NotesImage} style={PDFstyles.headerImage} fixed></Image>
+              <Text style={PDFstyles.headerTextTop} fixed>
+                 <Text style={{ fontFamily: 'Times-Bold' }}>Date: </Text>
+                 {currentDate} 
+              </Text>
+              <Text style={PDFstyles.headerTextMiddle} fixed>
+                 <Text style={{ fontFamily: 'Times-Bold' }}>Course: </Text>
+                 {course.Title}
+              </Text>
+              <Text style={PDFstyles.headerTextFinal} fixed>
+                 <Text style={{ fontFamily: 'Times-Bold' }}>Subtitle: </Text>
+                 {currentlyPlaying? currentlyPlaying : "None"}
+              </Text>
+              <Text style={PDFstyles.text}>
+                {notes.notes}
+              </Text>
+              <Text 
+              style={PDFstyles.pageNumber}
+              render={({ pageNumber, totalPages }) => (
+                    `${pageNumber} / ${totalPages}`
+                )} fixed />
+            </Page>
+          </Document>
+        );
+      };
+
     async function handleCorporateRequestAccess(event) {
         event.preventDefault();
         return TraineeService.requestCourse(params.courseId, course.Title)
@@ -510,6 +620,7 @@ function CourseDetailsPage() {
                                     {hours && <span>{hours}hr {minutes}min</span>}
                                     {!hours && <span>{course.TotalMinutes}min</span>}
                                 </span>
+                                <span className='coursedetails--hourscount'><i class="fa-solid fa-user"></i> &nbsp;{course.NumberOfEnrolledStudents} Students</span>
                             </div>
                             {!instructorLoggedInCourse && <p className="coursedetails--instructor">Created by:{<span className="instructor--hyperlink" onClick={() => navigate(`/user/${course.InstructorUsername}`)}>{course.InstructorName}</span>}</p> }
                         </div>
@@ -576,36 +687,64 @@ function CourseDetailsPage() {
                             <CoursePreview userType={userType} courseId={params.courseId} CoursePreviewLink={course.CoursePreviewLink} 
                             modifyCourseDetailsPagePreview={(newPreviewLink) => modifyCourseDetailsPagePreview(newPreviewLink)}
                             instructorLoggedInCourse={instructorLoggedInCourse} />
-                            {traineeInfo.isTraineeEnrolled && traineeInfo.overallProgress < 1 &&
-                                <div className="progress--div">
-                                    <p className="progress--div--header">Your Progress</p>
-                                    <div className="progress--bar" style={{"--progress": courseProgress+"%"}}></div>
-                                    <p className="progress--percentage">You are <b>{courseProgress}%</b> on your way</p>
-                                    {userType === "individualTrainee" && traineeInfo.overallProgress < 0.5 && refundStatus ==="None" &&
-                                        <p className="progress--percentage refund">Don't like the course? Request a refund from <span className="reset-password" onClick={toggleRefundModal}>here</span></p>
-                                    }
-                                    {userType === "individualTrainee" && refundStatus === "Processing" &&
-                                        <p className="progress--percentage refund">Your refund request is currently processing </p>
-                                    }
-                                </div>
-                            }
-                            {traineeInfo.isTraineeEnrolled && traineeInfo.overallProgress === 1 &&
-                                <div className="progress--div">
-                                    <img className="completedcourse--image" src={CompletedCourse} alt='Completed Course Successfully' />
-                                    <p className="progress--div--header">Well Done, Course Completed!</p>
-                                    {!isCertificateLoading && <p className="progress--percentage certificate">You can download your certificate from <span onClick={() => saveCertificate(certificateFileName, loggedInName, course.Title)} className="reset-password">here</span></p>}
-                                    {isCertificateLoading && <div className="spinner certificate"> </div>}
-                                </div>
-                            }
+                            <div className="progress--notes--div">
+                                {traineeInfo.isTraineeEnrolled && traineeInfo.overallProgress < 1 &&
+                                    <div className="progress--div">
+                                        <p className="progress--div--header">Your Progress</p>
+                                        <div className="progress--bar" style={{"--progress": courseProgress+"%"}}></div>
+                                        <p className="progress--percentage">You are <b>{courseProgress}%</b> on your way</p>
+                                        {userType === "individualTrainee" && traineeInfo.overallProgress < 0.5 && refundStatus ==="None" &&
+                                            <p className="progress--percentage refund">Don't like the course? Request a refund from <span className="reset-password" onClick={toggleRefundModal}>here</span></p>
+                                        }
+                                        {userType === "individualTrainee" && refundStatus === "Processing" &&
+                                            <p className="progress--percentage refund">Your refund request is currently processing </p>
+                                        }
+                                    </div>
+                                }
+                            
+                                {traineeInfo.isTraineeEnrolled && traineeInfo.overallProgress === 1 &&
+                                    <div className="progress--div">
+                                        <div className="completedcouse--image--div"> 
+                                            <img className="completedcourse--image" src={CompletedCourse} alt='Completed Course Successfully' />
+                                        </div>
+                                        <p className="progress--div--header">Well Done, Course Completed!</p>
+                                        {!isCertificateLoading && <p className="progress--percentage certificate">You can download your certificate from <span onClick={() => saveCertificate(certificateFileName, loggedInName, course.Title)} className="reset-password">here</span></p>}
+                                        {isCertificateLoading && <div className="spinner certificate"> </div>}
+                                    </div>
+                                }
+
+                                {traineeInfo.isTraineeEnrolled &&
+                                    <div className="courseDetails--notes">
+                                        <div className="notes--titleAndTextArea">
+                                            <h2 className="notes--title"><i className="fa-solid fa-note-sticky"></i>&nbsp;&nbsp;Notes</h2>
+                                            <textarea className="notes--textArea" 
+                                            value={notes.notes}
+                                            placeholder="Write your notes here..."
+                                            onChange={handleNotes}
+                                            name="notes"
+                                            />
+                                        <PDFDownloadLink document={<PDFFile />} fileName={course.Title + (currentlyPlaying === "" ? "" : ", " + currentlyPlaying) } className="PDFDownloadLink">
+                                        <button className="downloadNotes--button">Download Notes</button>
+                                        </PDFDownloadLink>
+                                        </div>
+                                    </div>  
+                                }
+                            </div>
                             <div className="coursedetails--subtitles--flexDiv">
                                 <h2 className="coursedetails--subtitlesheader">Subtitles</h2>
                                 {courseSubtitles}
                             </div>
                         </div>
+
+                        
+
                         <h2 className="coursedetails--subtitlesheader"  id = "allRatings">Ratings</h2>
                         <div className="coursedetails--ratings">
                             {course.Ratings?.length > 0 ? ratingDataElements : <i><p className = "courseDetails--noratings">No ratings yet.</p></i>}
-                        </div>
+                        </div>   
+                        {(userType === "instructor" || userType === "individualTrainee" || userType === "corporateTrainee") &&
+                            <button className="button--report" onClick={toggleReportModal}>Report a problem</button>
+                        }    
                     </div>
 
                     <RateModal showRateModal={rateModal} 
@@ -626,7 +765,15 @@ function CourseDetailsPage() {
                         toggleRefundModal={toggleRefundModal}
                         courseId={course._id}
                         setRefundStatus = {setRefundStatus}
-                    />
+                     />
+
+
+                    <ReportModal
+                        showReportModal={reportModal}
+                        toggleReportModal={toggleReportModal}
+                        courseId={course._id}
+                    />    
+
 
 
                 </>
