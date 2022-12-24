@@ -459,6 +459,17 @@ function CourseDetailsPage() {
                 console.log(error)
             })
     }
+    function onEnrollNowClicked(){
+        if(userType === "individualTrainee"){
+            navigate(`/checkout/${params.courseId}`);
+            return;            
+        }
+        if(!userType) {
+            navigate('/login');
+            return;
+        }
+        navigate('/404');
+    }
 
     return (
         <>
@@ -536,7 +547,7 @@ function CourseDetailsPage() {
                                             {userType === "corporateTrainee" && accessRequestDeclined && <div className="coursedetails--accessrequestdeclined"><p>Your access request to this course was declined.</p></div>}
                                             {course.Discount>0 && userType !== "corporateTrainee" && <p className="coursedetails--discount">Expires on: {new Date(course.DiscountExpiryDate).getDate()}/{new Date(course.DiscountExpiryDate).getMonth() + 1}/{new Date(course.DiscountExpiryDate).getFullYear()}</p>}
                                         </div>
-                                        {userType === "individualTrainee" && <button className='button--enroll'>Enroll Now</button>}
+                                        {(!userType || userType === "individualTrainee") && <button className='button--enroll' onClick={onEnrollNowClicked} >Enroll Now</button>}
                                         {userType === "corporateTrainee" && accessNotRequestedYet && <button className='button--enroll' onClick={handleCorporateRequestAccess}>Request Access</button>}
                                         {userType === "corporateTrainee" && accessRequestProcessing && 
                                         <>

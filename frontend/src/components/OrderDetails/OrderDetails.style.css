@@ -1,0 +1,22 @@
+.order-details-div{
+    display: flex;
+}
+.course-details-image ,.course-details-image-preview{
+    width: 200px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.course-details-image-preview{
+    background-color: #eeeeee;
+    height: 192px;
+}
+.order--hour--icon {
+    max-width: 16px;
+    margin-right: 5px;
+}
+.course--details--title {
+    margin: 5% 0 0px 12px;
+    min-height: 58px;
+}

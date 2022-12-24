@@ -39,6 +39,10 @@
 @import './components/CoursesAccessRequests/CoursesAccessRequests.style.css';
 @import './components/AccessRequest/AccessRequest.style.css';
 @import './components/InstructorHomepage/InstructorHomepage.style.css';
+@import './components/CheckoutPage/CheckoutPage.style.css';
+@import './components/CheckoutForm/CheckoutForm.style.css';
+@import './components/CheckoutSummary/CheckoutSummary.style.css';
+@import './components/OrderDetails/OrderDetails.style.css';
 
 * {
   box-sizing: border-box;

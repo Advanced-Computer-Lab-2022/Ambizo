@@ -1,0 +1,16 @@
+.pay--button {
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 100%;
+    min-width: 400px;
+    padding-top: 20px;
+    padding-bottom: 35px;
+    margin: 0px auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.pay--button:hover {
+    opacity: 0.8;
+}

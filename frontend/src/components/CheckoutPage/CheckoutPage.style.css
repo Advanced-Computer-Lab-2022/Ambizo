@@ -1,0 +1,27 @@
+.checkout--container {
+    min-height: 900px;
+    height: fit-content;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0px 18%;
+    padding-top: 3%;
+}
+
+.checkout--leftcontainer {
+    border: solid;
+    background-color: white;
+    border-radius: 30px;
+    border-width: 0px;
+    padding: 40px 40px;
+    margin-right: 2%;
+    box-shadow: 0 0 3px rgb(0 0 0 / 16%);
+    width: 95%;
+}
+
+.checkout--rightcontainer {
+    width: 60%;
+    padding: 40px 40px;
+    margin-left: auto;
+    margin-right: 90px;
+}
