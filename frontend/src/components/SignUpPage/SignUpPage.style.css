@@ -70,7 +70,6 @@
     border-style: solid;
     color: white;
     width: 400px;
-    min-width: 400px;
     padding-top: 20px;
     padding-bottom: 35px;
     margin: 0px auto;
@@ -84,7 +83,6 @@
 .secondPageBack--button{
     border-style: solid;
     width: 400px;
-    min-width: 400px;
     padding-top: 20px;
     padding-bottom: 35px;
     margin: 0px auto;
@@ -166,8 +164,8 @@
 
 .TAC-buttons{
     display: flex;
-    gap: 25px;
     text-align: center;
+    flex-direction: column;
     /* margin-left: 160px; */
     justify-content: center;
     align-items: center;

@@ -2,7 +2,7 @@ import React from "react";
 import { Rating } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import { jsPDF } from "jspdf";
-import {Page, Text, PDFDownloadLink, Document, StyleSheet} from '@react-pdf/renderer'
+import {Page, Text, PDFDownloadLink, Document, StyleSheet, Image} from '@react-pdf/renderer'
 import countryToCurrency  from 'country-to-currency';
 import CourseService from "../../services/Course.service";
 import TraineeService from "../../services/Trainee.service";
@@ -18,6 +18,8 @@ import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import ReportModal from "../ReportModal/ReportModal";
 import CertificateImage from  "../../images/Certificate.png" 
 import CompletedCourse from "../../images/CompletedCourse.svg"
+import NotesImage from "../../images/NotesImage.png"
+import { maxWidth } from "@mui/system";
 
 async function retrieveCourse(id, traineeUsername){
     return CourseService.getCourse(id, traineeUsername)
@@ -459,25 +461,38 @@ function CourseDetailsPage() {
           paddingBottom: 65,
           paddingHorizontal: 35,
         },
-        title: {
-          fontSize: 24,
-          textAlign: "center",
-        },
         text: {
           margin: 12,
+          marginTop: 0,
           fontSize: 14,
           textAlign: "justify",
           fontFamily: "Times-Roman",
         },
-        image: {
-          marginVertical: 15,
-          marginHorizontal: 100,
+        headerText: {
+            marginTop: -65,
+            marginRight: 15,
+            marginBottom: 9,
+            fontSize: 12,
+            fontFamily: "Times-Roman",
+            textAlign: "right"
         },
-        header: {
-          fontSize: 12,
-          marginBottom: 20,
-          textAlign: "center",
-          color: "grey",
+        headerTextMiddle: {
+            marginRight: 15,
+            fontSize: 12,
+            marginBottom: 5,
+            fontFamily: "Times-Roman",
+            textAlign: "right",
+            marginLeft: 170,
+            flex: 1
+        },
+        headerTextFinal: {
+            marginBottom: 15,
+            marginRight: 15,
+            fontSize: 12,
+            fontFamily: "Times-Roman",
+            textAlign: "right",
+            marginLeft: 170,
+            flex: 1
         },
         pageNumber: {
           position: "absolute",
@@ -490,20 +505,38 @@ function CourseDetailsPage() {
         },
       });
       
+        const date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+        let currentDate = `${day}-${month}-${year}`;
+
       const PDFFile = () => {
         return (
           <Document>
+            
             <Page style={PDFstyles.body}>
-              <Text style={PDFstyles.header} fixed></Text>
+              <Image src={NotesImage} style={PDFstyles.headerImage} fixed></Image>
+              <Text style={PDFstyles.headerText} fixed>
+                 <Text style={{ fontFamily: 'Times-Bold' }}>Date: </Text>
+                 {currentDate} 
+              </Text>
+              <Text style={PDFstyles.headerTextMiddle} fixed>
+                 <Text style={{ fontFamily: 'Times-Bold' }}>Course: </Text>
+                 {course.Title}
+              </Text>
+              <Text style={PDFstyles.headerTextFinal} fixed>
+                 <Text style={{ fontFamily: 'Times-Bold' }}>Subtitle: </Text>
+                 {currentlyPlaying}
+              </Text>
               <Text style={PDFstyles.text}>
                 {notes.notes}
               </Text>
-              <Text
-                style={PDFstyles.pageNumber}
-                render={({ pageNumber, totalPages }) =>
-                  `${pageNumber} / ${totalPages}`
-                }
-              />
+              <Text 
+              style={PDFstyles.pageNumber}
+              render={({ pageNumber, totalPages }) => (
+                    `${pageNumber} / ${totalPages}`
+                )} fixed />
             </Page>
           </Document>
         );
