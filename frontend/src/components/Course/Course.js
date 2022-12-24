@@ -69,7 +69,7 @@ function Course(props) {
                             {(!props.Preview || props.ImgURL !== "") && <img src={props.ImgURL} alt='' className='course--image'/>}
                         </div>
                         {!props.userProfile && <h3 className='course--title'>{(props.Preview && props.Title === "")? "Enter Title" : (props.Title.length > 60 ? props.Title.substring(0, 57) + "..." : props.Title)}</h3>}
-                        {props.userProfile && <h3 className='course--title'>{(props.Preview && props.Title === "")? "Enter Title" : (props.Title.length > 52 ? props.Title.substring(0, 49) + "..." : props.Title)}</h3>}
+                        {props.userProfile && <h3 className='course--title'>{props.Title}</h3>}
                         <div className='courseinfo'>
                             <div className='courseinfo--left'>
                                 <p className='course--instructor'>{props.InstructorName}</p>
