@@ -91,7 +91,7 @@
     justify-content: center;
 }
 
-.userprofile--courses .course {
+.userprofile--allcourses .course {
     width: 240px;
     height: 455px;
 }

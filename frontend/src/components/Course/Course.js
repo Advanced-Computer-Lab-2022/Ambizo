@@ -86,13 +86,12 @@ function Course(props) {
                                 </div>
                                 {!props.myCoursesTrainee && sessionStorage.getItem("Type") !== "corporateTrainee" &&
                                     <div className='course--price'>
-                                        <img src={PriceIcon} alt='Price Icon' className='price--icon'/>
-                                        {props.PriceInUSD === 0 && <span className='price'>FREE</span>}
-                                        {props.PriceInUSD !== 0 && props.Discount>0 && <span className='price'>{(props.PriceInUSD*((100-props.Discount)/100)).toFixed(2)} {currencyCode}</span>}
-                                        {props.PriceInUSD !== 0 && props.Discount>0 && <span className='old--price'>{props.PriceInUSD} {currencyCode}</span>}
-                                        {props.PriceInUSD !== 0 && props.Discount===0 && <span className='price'>{props.PriceInUSD} {currencyCode}</span>}
-                                        {props.PriceInUSD === "0" && props.Preview && <span className='price'>FREE</span>}
-                                        {props.PriceInUSD !== "0" && props.Preview && <span className='price'>{props.PriceInUSD} USD</span>}
+                                        {props.PriceInUSD === 0 && <span className='price'><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;FREE</span>}
+                                        {props.PriceInUSD !== 0 && props.Discount>0 && <span className='price'><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;{(props.PriceInUSD*((100-props.Discount)/100)).toFixed(2)} {currencyCode}</span>}
+                                        {props.PriceInUSD !== 0 && props.Discount>0 && <span className='old--price'><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;{props.PriceInUSD} {currencyCode}</span>}
+                                        {props.PriceInUSD !== 0 && props.Discount===0 && <span className='price'><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;{props.PriceInUSD} {currencyCode}</span>}
+                                        {props.PriceInUSD === "0" && props.Preview && <span className='price'><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;FREE</span>}
+                                        {props.PriceInUSD !== "0" && props.Preview && <span className='price'><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;{props.PriceInUSD} USD</span>}
                                     </div>
                                 }
                                 {props.myCoursesTrainee && <span className='traineeprogresspercentage'><b>{props.overallProgress}%</b> of course completed</span>}

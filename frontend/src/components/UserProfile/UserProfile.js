@@ -121,7 +121,6 @@ function UserProfile() {
       return (
           <Course
               key={course._id}
-              myCoursesTrainee={true}
               userProfile={true}
               {...course}
           />
