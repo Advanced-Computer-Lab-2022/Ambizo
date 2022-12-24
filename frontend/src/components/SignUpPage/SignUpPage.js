@@ -302,22 +302,24 @@ async function handleSubmit(event) {
                 </div>
             </div>}
             {conditional &&
-            <div className="Terms--and--conditions" >
-                <h1 className="TAC--title">Terms and Conditions</h1>
-                <p className="TAC--text"> Ana Terms and conditions ya basha. Enta kda kda msh hate2rany fa 5od. Bas 5aly balak ana gowaya fa5. Haklak yaaad </p>
-                <input className="TAC--checkbox"
-                    type="checkbox"
-                    id="TAC"
-                    checked={userData.acceptedPolicies}
-                    onChange={handleChange}
-                    name="acceptedPolicies"
-                />
-                <label className="TAC--label" htmlFor="TAC">Accept Terms and Conditions</label>
-                <div className="TAC-buttons">
-                    <button className="next--button" onClick={handleSubmit}>Sign Up</button>
-                    <button className="secondPageBack--button" onClick={toggleConditional}>Back</button>
+            <div className="tcdiv">
+                <div className="Terms--and--conditions" >
+                    <h1 className="TAC--title">Terms and Conditions</h1>
+                    <p className="TAC--text">Lorem ipsum dolor sit amet. Rem autem eveniet qui suscipit libero sit optio laboriosam et ratione voluptatem. Cum necessitatibus possimus aut nobis repudiandae non sapiente voluptatem et minus velit eum omnis praesentium. Hic nulla velit et quod quibusdam ut neque voluptate et rerum itaque ut voluptatem praesentium. Hic tenetur temporibus cum voluptatem ratione nam molestiae sapiente in recusandae amet ab neque sint ut molestiae quae 33 quia laborum. Quo facere repellendus ut autem natus est quas quia.</p>
+                    <input className="TAC--checkbox"
+                        type="checkbox"
+                        id="TAC"
+                        checked={userData.acceptedPolicies}
+                        onChange={handleChange}
+                        name="acceptedPolicies"
+                    />
+                    <label className="TAC--label" htmlFor="TAC">Accept Terms and Conditions</label>
+                    <div className="TAC-buttons">
+                        <button className="next--button" onClick={handleSubmit}>Sign Up</button>
+                        <button className="secondPageBack--button" onClick={toggleConditional}>Back</button>
+                    </div>
+                    <p className={message.type}>{message.text}</p>
                 </div>
-                <p className={message.type}>{message.text}</p>
             </div>
             }
         </>

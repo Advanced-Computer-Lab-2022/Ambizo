@@ -91,9 +91,14 @@
     justify-content: center;
 }
 
-.userprofile--courses .course {
+.userprofile--allcourses .course, .userprofile--allcourses .course--noprice {
     width: 240px;
-    height: 455px;
+    height: fit-content;
+}
+
+.userprofile--allcourses .course .course--title, .userprofile--allcourses .course--noprice .course--title {
+    max-height: 88px;
+    overflow: hidden;
 }
 
 .userprofile--courses .course--image {

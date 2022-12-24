@@ -2,7 +2,6 @@ import React from 'react';
 import Rating from '@mui/material/Rating';
 import countryToCurrency  from 'country-to-currency';
 import HourIcon from '../../images/HourIcon.png'
-import PriceIcon from '../../images/PriceIcon.png'
 import { useNavigate } from 'react-router-dom'
 
 function Course(props) {
@@ -69,7 +68,7 @@ function Course(props) {
                             {(!props.Preview || props.ImgURL !== "") && <img src={props.ImgURL} alt='' className='course--image'/>}
                         </div>
                         {!props.userProfile && <h3 className='course--title'>{(props.Preview && props.Title === "")? "Enter Title" : (props.Title.length > 60 ? props.Title.substring(0, 57) + "..." : props.Title)}</h3>}
-                        {props.userProfile && <h3 className='course--title'>{(props.Preview && props.Title === "")? "Enter Title" : (props.Title.length > 52 ? props.Title.substring(0, 49) + "..." : props.Title)}</h3>}
+                        {props.userProfile && <h3 className='course--title'>{props.Title}</h3>}
                         <div className='courseinfo'>
                             <div className='courseinfo--left'>
                                 <p className='course--instructor'>{props.InstructorName}</p>
@@ -86,16 +85,15 @@ function Course(props) {
                                 </div>
                                 {!props.myCoursesTrainee && sessionStorage.getItem("Type") !== "corporateTrainee" &&
                                     <div className='course--price'>
-                                        <img src={PriceIcon} alt='Price Icon' className='price--icon'/>
-                                        {props.PriceInUSD === 0 && <span className='price'>FREE</span>}
-                                        {props.PriceInUSD !== 0 && props.Discount>0 && <span className='price'>{(props.PriceInUSD*((100-props.Discount)/100)).toFixed(2)} {currencyCode}</span>}
-                                        {props.PriceInUSD !== 0 && props.Discount>0 && <span className='old--price'>{props.PriceInUSD} {currencyCode}</span>}
-                                        {props.PriceInUSD !== 0 && props.Discount===0 && <span className='price'>{props.PriceInUSD} {currencyCode}</span>}
-                                        {props.PriceInUSD === "0" && props.Preview && <span className='price'>FREE</span>}
-                                        {props.PriceInUSD !== "0" && props.Preview && <span className='price'>{props.PriceInUSD} USD</span>}
+                                        {props.PriceInUSD === 0 && <span className='price'><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;FREE</span>}
+                                        {props.PriceInUSD !== 0 && props.Discount>0 && <span className='price'><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;{(props.PriceInUSD*((100-props.Discount)/100)).toFixed(2)} {currencyCode}</span>}
+                                        {props.PriceInUSD !== 0 && props.Discount>0 && <span className='old--price'><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;{props.PriceInUSD} {currencyCode}</span>}
+                                        {props.PriceInUSD !== 0 && props.Discount===0 && <span className='price'><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;{props.PriceInUSD} {currencyCode}</span>}
+                                        {props.PriceInUSD === "0" && props.Preview && <span className='price'><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;FREE</span>}
+                                        {props.PriceInUSD !== "0" && props.Preview && <span className='price'><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;{props.PriceInUSD} USD</span>}
                                     </div>
                                 }
-                                {props.myCoursesTrainee && <span className='traineeprogresspercentage'><b>{props.overallProgress}%</b> of course completed</span>}
+                                {!props.userProfile && props.myCoursesTrainee && <span className='traineeprogresspercentage'><b>{props.overallProgress}%</b> of course completed</span>}
                             </div>
                             <div>
                                 {yourCourse && <p className='yourcourse'>Your Course</p>}
