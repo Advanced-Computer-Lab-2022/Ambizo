@@ -111,6 +111,7 @@ function UserProfile() {
       return (
           <Course
               key={course._id}
+              userProfile={true}
               {...course}
           />
       )
@@ -120,6 +121,7 @@ function UserProfile() {
       return (
           <Course
               key={course._id}
+              userProfile={true}
               {...course}
           />
       )
