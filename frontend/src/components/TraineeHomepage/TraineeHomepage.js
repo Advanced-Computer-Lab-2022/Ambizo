@@ -36,11 +36,11 @@ function TraineeHomepage() {
         let progress = [];
         for (let index = 0; index < traineeInfo.EnrolledCourses.length; index++) {
             if(traineeInfo.EnrolledCourses[index].courseId === course._id) {
-                progress =traineeInfo.EnrolledCourses[index].progress;
+                progress = traineeInfo.EnrolledCourses[index].progress;
                 break;
             } 
         }
-        if(progress.length > 0){
+        if(progress && progress.length > 0){
             for(let i =0; i<subtitles.length;i++){
                 if(progress[i]){
                     overallProgress += (progress[i]*subtitles[i].duration);
