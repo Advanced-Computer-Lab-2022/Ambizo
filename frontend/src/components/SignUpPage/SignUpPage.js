@@ -314,8 +314,8 @@ async function handleSubmit(event) {
                 />
                 <label className="TAC--label" htmlFor="TAC">Accept Terms and Conditions</label>
                 <div className="TAC-buttons">
-                    <button className="TCback--button" onClick={toggleConditional}>Back</button>
-                    <button className="signUp--button" onClick={handleSubmit}>Sign Up</button>
+                    <button className="next--button" onClick={handleSubmit}>Sign Up</button>
+                    <button className="secondPageBack--button" onClick={toggleConditional}>Back</button>
                 </div>
                 <p className={message.type}>{message.text}</p>
             </div>
