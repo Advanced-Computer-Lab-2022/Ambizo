@@ -2,7 +2,6 @@ import React from 'react';
 import Rating from '@mui/material/Rating';
 import countryToCurrency  from 'country-to-currency';
 import HourIcon from '../../images/HourIcon.png'
-import PriceIcon from '../../images/PriceIcon.png'
 import { useNavigate } from 'react-router-dom'
 
 function Course(props) {
@@ -94,7 +93,7 @@ function Course(props) {
                                         {props.PriceInUSD !== "0" && props.Preview && <span className='price'><i className="fa-solid fa-tag"></i>&nbsp;&nbsp;{props.PriceInUSD} USD</span>}
                                     </div>
                                 }
-                                {props.myCoursesTrainee && <span className='traineeprogresspercentage'><b>{props.overallProgress}%</b> of course completed</span>}
+                                {!props.userProfile && props.myCoursesTrainee && <span className='traineeprogresspercentage'><b>{props.overallProgress}%</b> of course completed</span>}
                             </div>
                             <div>
                                 {yourCourse && <p className='yourcourse'>Your Course</p>}
