@@ -120,32 +120,33 @@
     display: flex;
 }
 
+.tcdiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
 .Terms--and--conditions{
     border: solid;
     background-color: white;
     border-radius: 30px;
     border-width: 0px;
     box-shadow: 0 0 3px rgb(0 0 0 / 50%);
-    margin-top: 260px;
     margin-bottom: 100px;
     text-align: center;
     min-width: 700px;
     max-width: 200px;
-    margin-left: auto;
-    margin-right: auto;
     padding: 20px;
 }
 
-.TAC--title{
-    font-size: 45px;
-}
 
 .TAC--text{
     margin-top: 12px;
     margin-bottom: 25px;
     margin-right: 12px;
     margin-left: 12px;
-    font-size: 25px;
+    font-size: 22px;
     max-width: fit-content;
 }
 
@@ -160,6 +161,7 @@
     margin-bottom: 25px;
     transform: scale(1.5);
     margin-right: 10px;
+    cursor: pointer;
 }
 
 .TAC-buttons{
