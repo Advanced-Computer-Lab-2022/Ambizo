@@ -9,7 +9,7 @@ function InstructorHomepage() {
 
     function scrollTo(id){
         document.getElementById(id).scrollIntoView( { behavior: 'smooth', block: 'start' } );
-      }
+    }
 
     return (
         <>
@@ -30,7 +30,7 @@ function InstructorHomepage() {
                 </div>
                 <div className='instructor--rightcontainer'>
                     <img className="instructor--adminimage" src={InstructorImage} alt='Instructor' />
-                    <h2 className="instructorright--header">"Better than a thousand days of diligent study is one day with a great instructor".. Like yourself!</h2>
+                    <h2 className="instructorright--header">“Better than a thousand days of diligent study is one day with a great instructor.”.. Like yourself!</h2>
                 </div>
             </div>
             <div id="instructorCourses">

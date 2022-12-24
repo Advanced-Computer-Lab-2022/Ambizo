@@ -84,7 +84,7 @@ function Course(props) {
                                     <Rating className='course--rating' name="half-rating-read" defaultValue={props.Rating} precision={0.1} readOnly />
                                     <span className='number--reviews'>({props.Preview? 0 : props.NumberOfReviews})</span>
                                 </div>
-                                {sessionStorage.getItem("Type") !== "corporateTrainee" &&
+                                {!props.myCoursesTrainee && sessionStorage.getItem("Type") !== "corporateTrainee" &&
                                     <div className='course--price'>
                                         <img src={PriceIcon} alt='Price Icon' className='price--icon'/>
                                         {props.PriceInUSD === 0 && <span className='price'>FREE</span>}
@@ -95,6 +95,7 @@ function Course(props) {
                                         {props.PriceInUSD !== "0" && props.Preview && <span className='price'>{props.PriceInUSD} USD</span>}
                                     </div>
                                 }
+                                {props.myCoursesTrainee && <span className='traineeprogresspercentage'><b>{props.overallProgress}%</b> of course completed</span>}
                             </div>
                             <div>
                                 {yourCourse && <p className='yourcourse'>Your Course</p>}

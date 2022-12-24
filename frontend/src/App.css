@@ -41,6 +41,7 @@
 @import './components/InstructorHomepage/InstructorHomepage.style.css';
 @import './components/ReportsPage/ReportsPage.style.css';
 @import './components/Report/Report.style.css';
+@import './components/TraineeHomepage/TraineeHomepage.style.css';
 
 * {
   box-sizing: border-box;
