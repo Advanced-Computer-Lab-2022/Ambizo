@@ -19,7 +19,6 @@ import ReportModal from "../ReportModal/ReportModal";
 import CertificateImage from  "../../images/Certificate.png" 
 import CompletedCourse from "../../images/CompletedCourse.svg"
 import NotesImage from "../../images/NotesImage.png"
-import { maxWidth } from "@mui/system";
 
 async function retrieveCourse(id, traineeUsername){
     return CourseService.getCourse(id, traineeUsername)
