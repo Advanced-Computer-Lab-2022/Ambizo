@@ -467,7 +467,7 @@ function CourseDetailsPage() {
           textAlign: "justify",
           fontFamily: "Times-Roman",
         },
-        headerText: {
+        headerTextTop: {
             marginTop: -65,
             marginRight: 15,
             marginBottom: 9,
@@ -478,20 +478,16 @@ function CourseDetailsPage() {
         headerTextMiddle: {
             marginRight: 15,
             fontSize: 12,
-            marginBottom: 5,
+            marginBottom: 9,
             fontFamily: "Times-Roman",
-            textAlign: "right",
-            marginLeft: 170,
-            flex: 1
+            textAlign: "right"
         },
         headerTextFinal: {
-            marginBottom: 15,
             marginRight: 15,
+            marginBottom: 25,
             fontSize: 12,
             fontFamily: "Times-Roman",
-            textAlign: "right",
-            marginLeft: 170,
-            flex: 1
+            textAlign: "right"
         },
         pageNumber: {
           position: "absolute",
@@ -516,7 +512,7 @@ function CourseDetailsPage() {
             
             <Page style={PDFstyles.body}>
               <Image src={NotesImage} style={PDFstyles.headerImage} fixed></Image>
-              <Text style={PDFstyles.headerText} fixed>
+              <Text style={PDFstyles.headerTextTop} fixed>
                  <Text style={{ fontFamily: 'Times-Bold' }}>Date: </Text>
                  {currentDate} 
               </Text>
@@ -526,7 +522,7 @@ function CourseDetailsPage() {
               </Text>
               <Text style={PDFstyles.headerTextFinal} fixed>
                  <Text style={{ fontFamily: 'Times-Bold' }}>Subtitle: </Text>
-                 {currentlyPlaying}
+                 {currentlyPlaying? currentlyPlaying : "None"}
               </Text>
               <Text style={PDFstyles.text}>
                 {notes.notes}
