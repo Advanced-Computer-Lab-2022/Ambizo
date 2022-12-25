@@ -38,7 +38,7 @@
     padding: 30px 40px;
     padding-bottom: 25px;
     margin-right: 0px;
-    box-shadow: 0 0 3px rgb(0 0 0 / 16%);
+    box-shadow: 0 0 3px rgb(0 0 0 / 30%);
     max-height: 880px;
 }
 
@@ -132,7 +132,7 @@
     background-color: white;
     border-radius: 30px;
     border-width: 0px;
-    box-shadow: 0 0 3px rgb(0 0 0 / 50%);
+    box-shadow: 0 0 3px rgb(0 0 0 / 30%);
     margin-bottom: 100px;
     text-align: center;
     min-width: 700px;

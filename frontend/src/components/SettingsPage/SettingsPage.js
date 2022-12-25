@@ -206,6 +206,8 @@ function SettingsPage() {
                                             </div>
                                             <p className='form--errormessage'>{messages.emptyFieldsMessage}</p>
                                             <p className='form--errormessage'>{messages.passwordResetFailureMessage}</p>
+                                            <p className='form--errormessage'>{messages.passwordStrengthMessage}</p>
+                                            <p className='form--errormessage'>{messages.passwordMatchingMessage}</p>
                                         </ form>
                                     </div>
                                 </div>

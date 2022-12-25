@@ -45,7 +45,7 @@
     padding: 10px 40px;
     margin-right: 0px;
     margin-left: 10%;
-    box-shadow: 0 0 3px rgb(0 0 0 / 16%);
+    box-shadow: 0 0 3px rgb(0 0 0 / 30%);
 }
 
 .addExercise--rightcontainer {
@@ -86,7 +86,7 @@
     border-radius: 30px;
     border-width: 0px;
     margin-right: 0px;
-    box-shadow: 0 0 3px rgb(0 0 0 / 16%);
+    box-shadow: 0 0 3px rgb(0 0 0 / 30%);
     transition-duration: 0.15s;
     border: 3px solid rgba(0, 0, 0, 0.75);
     border-radius: 15px;

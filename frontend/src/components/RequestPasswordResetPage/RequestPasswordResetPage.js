@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../Header/Header.js"
 import LoginService from "../../services/Login.service";
+import ResetImage from "../../images/ResetImage.svg"
+import ResetSentImage from "../../images/ResetSentImage.svg"
 
 const windowState ={
     REQUESTING_RESET: 1,
@@ -48,7 +50,7 @@ function RequestPasswordResetPage(){
     async function handleSubmit(event){
         event.preventDefault();
         if(username === ""){
-            setErrorMessage(_ => "Username is required.")
+            setErrorMessage(_ => "Username is required")
         }else{
             const userData = {
                 username: username
@@ -66,6 +68,7 @@ function RequestPasswordResetPage(){
             .catch(error => {
                 if(error.response.status === 404){
                     setComponentState(_ => windowState.WRONG_USERNAME);
+                    setErrorMessage("The username provided is invalid")
                 }else if (error.response.status === 500){
                     setComponentState(_ => windowState.INTERNAL_ERROR);
                 }
@@ -75,34 +78,36 @@ function RequestPasswordResetPage(){
         }
     }
     switch(componentState){
-        case windowState.REQUESTING_RESET:
-            return (
-                <>
-                    <Header />
-                    <div className="form--div">
-                        <h1>Reset Password</h1>
-                        <form className="form" onSubmit={handleSubmit}>
-                            <input
-                                type="text"
-                                placeholder="Enter your User Name"
-                                onChange={handleChange}
-                                name="username"
-                                value={username}
-                            />
-                            <p className="form--errormessage">{errorMessage}</p>
-                            <button className="form--button">Submit</button>
-                        </form>
-                    </div>
-                </>
-            );
         case windowState.LOADING:
+        case windowState.REQUESTING_RESET:
+        case windowState.WRONG_USERNAME:
             return (
                 <>
-                    <div className="loader-container">
-                        <div className="spinner"> </div>
-                    </div>
+                    { componentState === windowState.LOADING &&
+                        <div className="loader-container">
+                            <div className="spinner"> </div>
+                        </div>
+                    }
                     <Header />
-                    <div className="form--div" style={{"height":"100px"}} >
+                    <div className="form--container">
+                        <div className="form--leftcontainer">
+                            <h1 className="form--header">Reset Password</h1>
+                            <form className="form--form" onSubmit={handleSubmit}>
+                                <input
+                                    type="text"
+                                    placeholder="Enter your User Name"
+                                    onChange={handleChange}
+                                    name="username"
+                                    value={username}
+                                    className="form--inputfield"
+                                />
+                                <p className="form--errormessage">{errorMessage}</p>
+                                <button className="form--submitbutton">Submit</button>
+                            </form>
+                        </div>
+                        <div className='form--rightcontainer'>
+                            <img className="form--loginimage" src={ResetImage} alt='Reset' />
+                        </div>
                     </div>
                 </>
             );
@@ -110,23 +115,13 @@ function RequestPasswordResetPage(){
             return (
                 <>
                     <Header />
-                    <div className="form--div" style={{"padding": "0 10px"}}>
-                        <h3>Reset Email Sent</h3>
-                        <p>An email was sent to this address ({formatEmailAddress(userEmail)}) containing a link to reset the password. 
+                    <div className="form--leftcontainer changesuccess">
+                        <div>
+                            <img className="success--image" src={ResetSentImage} alt='Success' />
+                            <h2>Reset Email Sent</h2>
+                            <p>An email was sent to this address ({formatEmailAddress(userEmail)}) containing a link to reset the password. 
                         If you can't find the email, Please check your spam and trash sections.</p>
-                    </div>
-                </>
-            );
-        case windowState.WRONG_USERNAME:
-            return (
-                <>
-                    <Header />
-                    <div className="form--div" style={{"padding": "0 10px"}}>
-                        <h3>Wrong Username</h3>
-                        <p>
-                            The username provided is invalid. Make sure you have provided your correct username.
-                            <span className="reset-password" onClick={() => navigate("/requestPasswordReset")}>Try Again</span>.
-                        </p>
+                        </div>
                     </div>
                 </>
             );
