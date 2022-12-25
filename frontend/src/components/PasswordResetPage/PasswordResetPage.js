@@ -216,10 +216,10 @@ function PasswordResetPage(){
                                 />
                                 <label htmlFor="showpassword">Show Password</label>
                             </div>
-                            <p className='form--errormessage'>{messages.emptyFieldsMessage}</p>
-                            <p className='form--errormessage'>{messages.passwordResetFailureMessage}</p>
-                            <p className='form--errormessage'>{messages.passwordStrengthMessage}</p>
-                            <p className='form--errormessage'>{messages.passwordMatchingMessage}</p>
+                            {messages.emptyFieldsMessage && <p className='form--errormessage'>{messages.emptyFieldsMessage}</p>}
+                            {messages.passwordResetFailureMessage && <p className='form--errormessage'>{messages.passwordResetFailureMessage}</p>}
+                            {messages.passwordStrengthMessage && <p className='form--errormessage'>{messages.passwordStrengthMessage}</p>}
+                            {messages.passwordMatchingMessage && <p className='form--errormessage'>{messages.passwordMatchingMessage}</p>}
                         </ form>
                     </div>
                 </div>

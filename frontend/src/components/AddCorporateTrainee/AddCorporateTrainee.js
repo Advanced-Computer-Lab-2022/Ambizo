@@ -154,7 +154,7 @@ function AddCorporateTrainee() {
                             <label htmlFor="showpassword">Show Password</label>
                             
                         </div>
-                        <p className={message.type}>{message.text}</p>
+                        {message.text !== "" && <p className={message.type}>{message.text}</p>}
                     </ form>
                 </div>
                 <div className='form--rightcontainer'>
