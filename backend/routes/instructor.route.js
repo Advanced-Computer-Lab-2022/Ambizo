@@ -3,6 +3,7 @@ import verifyJWT from "../middleware/verifyJWT.js";
 import course from "../models/course.model.js";
 import currencyConverter from "../middleware/currencyConverter.js";
 import instructor from "../models/instructor.model.js"
+import paymentRecord from "../models/paymentRecord.model.js";
 
 const router = express.Router();
 
@@ -465,7 +466,38 @@ router.get("/getCourseDetails", verifyJWT, async (req,res) => {
     catch(err) {
         handleError(res, err.message);
     }
-})
+});
+
+router.get('/moneyOwed', verifyJWT, async (req, res) => {
+    if( !req.User || !req.User.Username || !req.User.Type){
+        return res.status(401).json({message: 'Failed to authenticate the user.'});
+    }
+    const { Username, Type } = req.User;
+
+    if( Type !== 'instructor' ){
+        return res.status(403).json({
+            message: 'The user is not an instructor.'
+        });
+    }
+
+    const instructorPaymentsRecieved = await paymentRecord.find({
+        InstructorUsername: Username
+    });
+
+    let accumlatedAmountInUSD = 0;
+
+    instructorPaymentsRecieved.forEach(paymentRec => {
+        accumlatedAmountInUSD += paymentRec.InstructorProfitInUSD;
+    });
+
+    const currencyCode = req.query.currencyCode;
+    const exchangeRateToCurrency = await currencyConverter.from('USD').to(currencyCode).convert();
+
+    return res.status(200).json({
+        moneyOwed: parseFloat((accumlatedAmountInUSD*exchangeRateToCurrency).toFixed(2))
+    })
+
+});
 
 function handleError(res, err) {
     return res.status(400).send(err);

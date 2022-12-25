@@ -80,6 +80,10 @@ class TraineeService{
     completeCheckout(checkoutDetails){
         return httpPost.post(`/individualTrainee/fulfillCoursePayment`, checkoutDetails);
     }
+
+    getWalletAmount(currencyCode){
+        return http.get(`/individualTrainee/walletAmount/?currencyCode=${currencyCode}`);
+    }
 }
 
 export default new TraineeService();

@@ -1,0 +1,11 @@
+.wallet-container{
+    margin-left: 20px;
+    border-left: 2px solid rgba(0,0,0,0.3);
+    border-right: 2px solid rgba(0,0,0,0.3);
+    width: fit-content;
+    padding: 5px 15px;
+}
+
+.wallet-content{
+    margin-left: 5px;
+}
