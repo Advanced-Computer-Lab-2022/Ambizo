@@ -398,6 +398,36 @@ router.post('/fulfillCoursePayment', verifyJWT, async (req, res) => {
 
 });
 
+router.get('/walletAmount', verifyJWT, async (req, res) => {
+    if( !req.User || !req.User.Username || !req.User.Type){
+        return res.status(401).json({message: 'Failed to authenticate the user.'});
+    }
+    const { Username, Type } = req.User;
+
+    if( Type !== 'individualTrainee' ){
+        return res.status(403).json({
+            message: 'The user is not an individual trainee.'
+        });
+    }
+
+    const trainee = await individualTrainee.findOne({Username: Username});
+    if( !trainee ){
+        return res.status(404).json({
+            message: 'Invalid Username'
+        });
+    }
+
+    const walletAmountInDollars = trainee.WalletAmountInUSD;
+    const currencyCode = req.query.currencyCode;
+    const exchangeRate = await currencyConverter.from('USD').to(currencyCode).convert();
+
+    return res.status(200).json({
+        wallet: parseFloat((walletAmountInDollars*exchangeRate).toFixed(2))
+    });
+
+
+});
+
 function handleError(res, err) {
     return res.status(400).send(err);
 }
