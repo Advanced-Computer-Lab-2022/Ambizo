@@ -27,7 +27,7 @@ function TraineeHomepage() {
           ).catch(error => {
                 console.log(error);
           })
-    })
+    }, [])
 
     let courseIndex = 0;
     let coursesDataElements = traineeInfo?.CourseInfo?.map(course => {

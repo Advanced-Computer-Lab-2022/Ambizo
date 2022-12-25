@@ -92,10 +92,11 @@ function CheckoutPage() {
 
     return (
         <>
-            <Header />
+            
             <div className={"loader-container" + (!isLoading ? " hidden" : "")}>
                 <div className="spinner"> </div>
             </div>
+            <Header />
             {!isLoading && stripePromise && clientSecret &&
                 (
                     <div className='checkout--container'>
