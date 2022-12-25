@@ -229,7 +229,7 @@ function PasswordResetPage(){
                         <div>
                             <img className="success--image" src={PasswordSuccess} alt='Success' />
                             <h2>Password Reset Successfully</h2>
-                            <p>You can use your newly created password to log into your account</p>
+                            <p>You can now use your new password to log in to your account</p>
                             <button className="form--submitbutton" onClick={headToLoginPage}>Log in</button>
                         </div>
                     </div>
