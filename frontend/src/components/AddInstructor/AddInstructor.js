@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../Header/Header";
 import AdministratorService from "../../services/Administrator.service";
 import AddUserImage from '../../images/AddUserImage.svg'
+import { Helmet } from "react-helmet";
 
 function AddInstructor() {
 
@@ -96,6 +97,9 @@ function AddInstructor() {
 
     return (
         <>
+            <Helmet>
+                <title>Add Instructor</title>
+            </Helmet>
             <Header />
             <div className="form--container">
                 <div className="form--leftcontainer">
@@ -154,7 +158,7 @@ function AddInstructor() {
                             <label htmlFor="showpassword">Show Password</label>
                             
                         </div>
-                        <p className={message.type}>{message.text}</p>
+                        {message.text !== "" && <p className={message.type}>{message.text}</p>}
                     </ form>
                 </div>
                 <div className='form--rightcontainer'>

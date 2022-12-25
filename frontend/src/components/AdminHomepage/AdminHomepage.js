@@ -3,12 +3,16 @@ import Header from '../Header/Header';
 import CoursesPage from '../CoursesPage/CoursesPage';
 import AdminImage from '../../images/AdminImage.svg'
 import { useNavigate } from "react-router-dom"
+import { Helmet } from 'react-helmet';
 
 function AdminHomepage() {
     const navigate = useNavigate();
 
     return (
         <>
+            <Helmet>
+                <title>Homepage</title>
+            </Helmet>
             <Header />
             <div className='adminhp--options'>
                 <div className='adminhp--leftcontainer'>

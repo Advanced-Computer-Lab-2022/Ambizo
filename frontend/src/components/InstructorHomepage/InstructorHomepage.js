@@ -3,6 +3,7 @@ import Header from "../Header/Header";
 import { useNavigate } from "react-router-dom";
 import InstructorImage from '../../images/InstructorImage.svg'
 import InstructorCoursesPage from "../InstructorCoursesPage/InstructorCoursesPage";
+import { Helmet } from "react-helmet";
 
 function InstructorHomepage() {
     const navigate = useNavigate();
@@ -13,6 +14,9 @@ function InstructorHomepage() {
 
     return (
         <>
+            <Helmet>
+                <title>Homepage</title>
+            </Helmet>
             <Header />
             <div className='instructor--options'>
                 <div className='instructor--leftcontainer'>

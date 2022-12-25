@@ -49,7 +49,6 @@ function InstructorCoursesPage(props) {
     const [coursesData, setCoursesData] = React.useState([]);
 
     React.useEffect(() => {
-        document.title = "My Courses";
         retrieveAllCourses(setIsLoading)
         .then(coursesList => setCoursesData(coursesList.data))
         .catch(error => {

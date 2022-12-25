@@ -177,10 +177,10 @@ async function handleSubmit(event) {
 
             <Header />
             {!conditional &&
-            <div className="signUp--container">
-                <div className="signUp--leftContainer">
-                    <h1 className="signUp--title">Sign Up</h1>
-                    <form className="signUp--form" onSubmit={handleSubmit}>
+            <div className="form--container">
+                <div className="form--leftcontainer">
+                    <h1 className="form--header">Sign Up</h1>
+                    <form className="form--form" onSubmit={handleSubmit}>
                         {firstPage &&
                         <>
                             <input 
@@ -189,7 +189,7 @@ async function handleSubmit(event) {
                             onChange={handleChange}
                             name="email"
                             value={userData.email}
-                            className="signUp--inputField"
+                            className="form--inputfield"
                             />
                             
                             <input 
@@ -198,7 +198,7 @@ async function handleSubmit(event) {
                             onChange={handleChange}
                             name="userName"
                             value={userData.userName}
-                            className="signUp--inputField"
+                            className="form--inputfield"
                             />
 
                             <input 
@@ -207,7 +207,7 @@ async function handleSubmit(event) {
                             onChange={handleChange}
                             name="password"
                             value={userData.password}
-                            className="signUp--inputField"
+                            className="form--inputfield"
                             />
                             
                             <input 
@@ -216,7 +216,7 @@ async function handleSubmit(event) {
                             onChange={handleChange}
                             name="confirmPassword"
                             value={userData.confirmPassword}
-                            className="signUp--inputField"
+                            className="form--inputfield"
                             />
                         
                             <button className="next--button" onClick={goToSecondPage}>Next</button>
@@ -234,7 +234,7 @@ async function handleSubmit(event) {
 
                             <div className="login--forgotpassword">
                                 <div>
-                                    <p>Already have an account? <span onClick={() => navigate("/login")} className="reset-password">Log in</span>.</p>
+                                    <p className="donthaveaccount">Already have an account? <span onClick={() => navigate("/login")} className="reset-password">Log in</span>.</p>
                                 </div>
                             </div>
                         </>
@@ -247,7 +247,7 @@ async function handleSubmit(event) {
                             onChange={handleChange}
                             name="firstName"
                             value={userData.firstName}
-                            className="signUp--inputField"
+                            className="form--inputfield"
                             />
 
                             <input 
@@ -256,7 +256,7 @@ async function handleSubmit(event) {
                             onChange={handleChange}
                             name="lastName"
                             value={userData.lastName}
-                            className="signUp--inputField"
+                            className="form--inputfield"
                             />
                         
                             <h2 className = "gender--title"> Gender: </h2>
@@ -288,15 +288,14 @@ async function handleSubmit(event) {
                             </div>
 
                             <button className="next--button" onClick={toggleConditional}>Next</button>
-            
                             <button className="secondPageBack--button" onClick={goToFirstPage}>Back</button>
                         </>
                     }
                     </form>                 
-                    <p className={message.type}>{message.text}</p>
+                    {message.text !== "" && <p className={message.type}>{message.text}</p>}
                 </div>
-                <div className='signUp--rightContainer'>
-                    <img className="signUp--signUpImage" src={SignUpImage} alt='SignUp' />
+                <div className='form--rightcontainer'>
+                    <img className="form--loginimage" src={SignUpImage} alt='SignUp' />
                 </div>
             </div>}
             {conditional &&
@@ -316,7 +315,7 @@ async function handleSubmit(event) {
                         <button className="next--button" onClick={handleSubmit}>Sign Up</button>
                         <button className="secondPageBack--button" onClick={toggleConditional}>Back</button>
                     </div>
-                    <p className={message.type}>{message.text}</p>
+                    {message.text !== "" && <p className={message.type}>{message.text}</p>}
                 </div>
             </div>
             }

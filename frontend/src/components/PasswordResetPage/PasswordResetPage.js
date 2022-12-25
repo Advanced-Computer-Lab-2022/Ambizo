@@ -216,10 +216,10 @@ function PasswordResetPage(){
                                 />
                                 <label htmlFor="showpassword">Show Password</label>
                             </div>
-                            <p className='form--errormessage'>{messages.emptyFieldsMessage}</p>
-                            <p className='form--errormessage'>{messages.passwordResetFailureMessage}</p>
-                            <p className='form--errormessage'>{messages.passwordStrengthMessage}</p>
-                            <p className='form--errormessage'>{messages.passwordMatchingMessage}</p>
+                            {messages.emptyFieldsMessage && <p className='form--errormessage'>{messages.emptyFieldsMessage}</p>}
+                            {messages.passwordResetFailureMessage && <p className='form--errormessage'>{messages.passwordResetFailureMessage}</p>}
+                            {messages.passwordStrengthMessage && <p className='form--errormessage'>{messages.passwordStrengthMessage}</p>}
+                            {messages.passwordMatchingMessage && <p className='form--errormessage'>{messages.passwordMatchingMessage}</p>}
                         </ form>
                     </div>
                 </div>
@@ -229,7 +229,7 @@ function PasswordResetPage(){
                         <div>
                             <img className="success--image" src={PasswordSuccess} alt='Success' />
                             <h2>Password Reset Successfully</h2>
-                            <p>You can use your newly created password to log into your account</p>
+                            <p>You can now use your new password to log in to your account</p>
                             <button className="form--submitbutton" onClick={headToLoginPage}>Log in</button>
                         </div>
                     </div>

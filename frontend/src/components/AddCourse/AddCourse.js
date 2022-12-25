@@ -6,6 +6,7 @@ import InstructorService from "../../services/Instructor.service";
 import Course from "../Course/Course";
 import CourseDetailsPreview from "../CourseDetailsPreview/CourseDetailsPreview";
 import AddCourseImage from '../../images/AddCourse.svg'
+import { Helmet } from "react-helmet";
 
 function AddCourse() {
 
@@ -115,6 +116,9 @@ function AddCourse() {
 
     return (
         <>
+            <Helmet>
+                <title>Add Course</title>
+            </Helmet>
             <Header />
             <div className="adminpromo--headerdiv">
                 <h1 className="adminpromotions--header">Create New Course</h1>
