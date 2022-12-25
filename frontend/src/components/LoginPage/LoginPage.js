@@ -137,8 +137,12 @@ function LoginPage() {
                             />
                             <label htmlFor="showpassword">Show Password</label>
                         </div>
-                        <p>Forgotten password? <span onClick={() => navigate("/requestPasswordReset")} className="reset-password">Reset password</span>.</p>
-                        
+                        <div className="login--forgotpassword">
+                            <div>
+                                <p>Forgot password? <span onClick={() => navigate("/requestPasswordReset")} className="reset-password">Reset password</span>.</p>
+                                <p>Don't have an account? <span onClick={() => navigate("/signup")} className="reset-password">Sign up</span>.</p>
+                            </div>
+                        </div>
                         <p className={message.type}>{message.text}</p>
                     </ form>
                 </div>

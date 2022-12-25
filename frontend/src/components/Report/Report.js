@@ -99,18 +99,18 @@ function Report(probs) {
                             <p className="error--emptyfollowup">{errorMessage}</p>
                         </>
                     }
+                    {admin &&
+                        <div className='reportcard--buttons'>
+                            {status !== "pending" &&
+                                <button className='reportcard--pendingbutton' onClick={setPending}>Set as pending</button>
+                            }
+                            {status !== "resolved" &&
+                                <button className='reportcard--resolvedbutton' onClick={setResolved}>Set as resolved</button>
+                            }
+                            <p className="error--emptyfollowup">{errorMessage}</p>
+                        </div>
+                    }
                 </div>
-                {admin &&
-                    <div className='reportcard--buttons'>
-                        {status !== "pending" &&
-                            <button className='reportcard--pendingbutton' onClick={setPending}>Set as pending</button>
-                        }
-                        {status !== "resolved" &&
-                            <button className='reportcard--resolvedbutton' onClick={setResolved}>Set as resolved</button>
-                        }
-                        <p className="error--emptyfollowup">{errorMessage}</p>
-                    </div>
-                }
             </div>
         </>
     )

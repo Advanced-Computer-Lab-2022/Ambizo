@@ -232,7 +232,11 @@ async function handleSubmit(event) {
                                 <label htmlFor="showPassword">Show Passwords</label>
                             </div>
 
-                            
+                            <div className="login--forgotpassword">
+                                <div>
+                                    <p>Already have an account? <span onClick={() => navigate("/login")} className="reset-password">Log in</span>.</p>
+                                </div>
+                            </div>
                         </>
                         }
                         {secondPage &&
@@ -288,13 +292,7 @@ async function handleSubmit(event) {
                             <button className="secondPageBack--button" onClick={goToFirstPage}>Back</button>
                         </>
                     }
-                    </form>
-                   
-                    
-                    
-                    
-                    
-                    
+                    </form>                 
                     <p className={message.type}>{message.text}</p>
                 </div>
                 <div className='signUp--rightContainer'>

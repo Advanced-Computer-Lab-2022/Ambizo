@@ -2,20 +2,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
     width: 50%;
     border: solid;
     background-color: white;
     border-radius: 30px;
     border-width: 0px;
-    padding: 50px 10px;
     margin-right: 0px;
     box-shadow: 0 0 10px rgb(0 0 0 / 20%);
     gap: 20px;
-}
-
-.reportcard--info {
-    width: 60%;
+    padding: 50px 100px;
 }
 
 .reportcard--course,
@@ -27,7 +22,28 @@
 .reportcard--date {
     display: flex;
     gap: 10px;
-    align-items: center;
+}
+
+.reportcard--course > h3,
+.reportcard--reporter > h3,
+.reportcard--type > h3,
+.reportcard--status > h3,
+.reportcard--description > h3,
+.reportcard--followup > h3,
+.reportcard--date > h3 {
+    margin: 0px;
+    margin-bottom: 20px;
+}
+
+.reportcard--course > p,
+.reportcard--reporter > p,
+.reportcard--type > p,
+.reportcard--status > p,
+.reportcard--description > p,
+.reportcard--followup > p,
+.reportcard--date > p {
+    margin: 0px;
+    margin-bottom: 20px;
 }
 
 .accesscourse--info {
@@ -42,7 +58,11 @@
 }
 
 .reportcard--buttons {
-    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    width: 100%;
+    gap: 20px;
 }
 
 .reportcard--pendingbutton,
@@ -53,7 +73,7 @@
     color: white;
     width: 100%;
     padding: 15px 80px 30px 80px;
-    margin-bottom: 10px;
+    margin-top: 20px;
 }
 
 .reportcard--pendingbutton:hover {
@@ -65,6 +85,7 @@
     color: black;
     width: 100%;
     padding: 15px 80px 30px 80px;
+    margin-top: 20px;
 }
 
 .reportcard--resolvedbutton:hover {

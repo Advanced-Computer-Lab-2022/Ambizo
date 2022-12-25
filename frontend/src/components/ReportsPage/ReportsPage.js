@@ -2,7 +2,7 @@ import React from "react";
 import Header from "../Header/Header";
 import CourseService from "../../services/Course.service";
 import AdministratorService from "../../services/Administrator.service";
-import AccessRequestsImage from "../../images/AccessRequestImage.svg";
+import AdminReportsImage from "../../images/AdminReportsImage.svg";
 import Report from "../Report/Report";
 import _ from "lodash";
 
@@ -112,8 +112,8 @@ function ReportsPage() {
                     <>
                         <Header />
                         <div className="reports--headerdiv">
-                            <h1 className="reports--header">Reports Page</h1>
-                            <img className="reports--pricesimage" src={AccessRequestsImage} alt='Access Requests' />
+                            <h1 className="reports--header">Reported Problems</h1>
+                            <img className="reports--pricesimage" src={AdminReportsImage} alt='Reports' />
                         </div>
                         {unseenCount === 0 && pendingCount === 0 && resolvedCount === 0 &&
                             <div className="reports--number">
