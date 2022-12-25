@@ -5,6 +5,7 @@ import AdministratorService from "../../services/Administrator.service";
 import AdminReportsImage from "../../images/AdminReportsImage.svg";
 import Report from "../Report/Report";
 import _ from "lodash";
+import { Helmet } from "react-helmet";
 
 async function retrieveReports() {
     return CourseService.getReports()
@@ -98,6 +99,9 @@ function ReportsPage() {
 
     return (
         <>
+            <Helmet>
+                <title>Reports</title>
+            </Helmet>
             <div className={"loader-container" + (!isLoading ? " hidden" : "")}>
                 <div className="spinner"> </div>
             </div>

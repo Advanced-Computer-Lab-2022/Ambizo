@@ -5,6 +5,7 @@ import Course from "../Course/Course";
 import CourseService from "../../services/Course.service";
 import FilterIcon from "../../images/FilterIcon.png";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 
 async function retrieveAllCourses(setIsLoading){
@@ -375,6 +376,9 @@ function CoursesPage(props) {
     
     return (
         <>
+            <Helmet>
+                <title>All Courses</title>
+            </Helmet>
             {isLoading ? 
             (
                 <>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../Header/Header";
 import AdministratorService from "../../services/Administrator.service";
 import AddUserImage from '../../images/AddUserImage.svg'
+import {Helmet} from "react-helmet";
 
 function AddAdministrator() {
 
@@ -96,6 +97,9 @@ function AddAdministrator() {
 
     return (
         <>
+            <Helmet>
+            <title>Add Admin</title>
+            </Helmet>
             <Header />
             <div className="form--container">
                 <div className="form--leftcontainer">

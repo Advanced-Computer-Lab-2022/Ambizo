@@ -3,6 +3,7 @@ import Header from "../Header/Header"
 import AccessRequestsImage from "../../images/AccessRequestImage.svg"
 import AccessRequest from "../AccessRequest/AccessRequest"
 import AdministratorService from "../../services/Administrator.service";
+import { Helmet } from "react-helmet";
 
 async function retrieveAllAccessRequests(setIsLoading){
     setIsLoading(true);
@@ -44,6 +45,9 @@ function CourseAccessRequests() {
 
     return (
         <>
+            <Helmet>
+                <title>Access Requests</title>
+            </Helmet>
             <div className={"loader-container" + (!isLoading? " hidden" : "")}>
                 <div className="spinner"> </div>
             </div>

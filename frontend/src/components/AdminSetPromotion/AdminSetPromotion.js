@@ -6,6 +6,7 @@ import Calendar from "react-calendar";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import AdministratorService from "../../services/Administrator.service";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 function AdminSetPromotion() {
 
@@ -129,6 +130,9 @@ function AdminSetPromotion() {
 
     return (
         <>
+            <Helmet>
+                <title>Prices & Discounts</title>
+            </Helmet>
             <Header />
             <div className="adminpromo--headerdiv">
                 <h1 className="adminpromotions--header">Courses' Prices and Discounts</h1>

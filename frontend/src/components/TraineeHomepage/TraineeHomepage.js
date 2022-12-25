@@ -6,6 +6,7 @@ import TraineeImage2 from '../../images/TraineeImage2.svg'
 import TraineeImage3 from '../../images/TraineeImage3.svg'
 import TraineeService from "../../services/Trainee.service.js";
 import Course from "../Course/Course";
+import { Helmet } from "react-helmet";
 
 function TraineeHomepage() {
     const navigate = useNavigate();
@@ -64,6 +65,9 @@ function TraineeHomepage() {
 
     return (
         <>
+            <Helmet>
+                <title>Homepage</title>
+            </Helmet>
             <Header />
             <div className='trainee--options'>
                 <div className='trainee--leftcontainer'>
