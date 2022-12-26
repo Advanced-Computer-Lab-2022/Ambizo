@@ -30,6 +30,7 @@ function AdminHomepage() {
                     <div className='adminhp--addusers'>
                         <button className='adminhp--setpromobutton' onClick={() => navigate("/allreports")}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Reported Problems</button>
                         <button className='adminhp--setpromobutton' onClick={() => navigate("/courseaccessrequests")}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Corporate Requests</button>
+                        <button className='adminhp--setpromobutton' onClick={() => navigate("/refundrequests")}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Refund Requests</button>
                     </div>
                 </div>
                 <div className='adminhp--rightcontainer'>

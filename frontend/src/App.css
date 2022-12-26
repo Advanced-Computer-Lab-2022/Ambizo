@@ -47,6 +47,8 @@
 @import './components/Report/Report.style.css';
 @import './components/TraineeHomepage/TraineeHomepage.style.css';
 @import './components/Wallet/Wallet.style.css';
+@import './components/RefundRequestsPage/RefundRequestsPage.style.css'; 
+@import './components/RefundRequest/RefundRequest.style.css';
 
 * {
   box-sizing: border-box;

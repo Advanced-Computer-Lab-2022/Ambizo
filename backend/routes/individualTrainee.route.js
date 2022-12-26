@@ -34,10 +34,12 @@ router.post("/requestRefund/", verifyJWT, async (req, res) => {
         if (!isEnrolled) {
             return res.status(400).json({ message: 'Cannot refund a course that you are not enrolled in' });
         }
+        const courseToRefund = await course.findById(req.query.courseId);
 
         const newRefundRequest = new refundRequest({
             TraineeUsername: req.User.Username,
             CourseId: req.query.courseId,
+            CourseTitle: courseToRefund.Title,
             Reason: req.body.reason,
             Description: req.body.description
         });
@@ -289,9 +291,9 @@ router.post('/enrollInFreeCourse/:courseId', verifyJWT, async (req, res) => {
 router.post('/fulfillCoursePayment', verifyJWT, async (req, res) => {
 
     if( !req.body.courseId || !req.body.currencyCode 
-        || !req.body.courseOriginalPrice || !req.body.discountAmount || !req.body.amountPaidFromWallet){
+        || req.body.courseOriginalPrice === undefined || req.body.discountAmount === undefined|| req.body.amountPaidFromWallet === undefined){
         return res.status(400).json({
-            message: 'The (courseId), (currencyCode),(courseOriginalPrice),(discountAmount),(amountPaidFromWallet) and (amountToBePaid) fields are all required.'
+            message: 'The (courseId), (currencyCode),(courseOriginalPrice),(discountAmount) and (amountPaidFromWallet) fields are all required.'
         });
     }
 

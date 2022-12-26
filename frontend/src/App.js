@@ -28,6 +28,7 @@ import UserRoutes from "./protectedRoutes/UserRoutes";
 import CoursesAccessRequests from './components/CoursesAccessRequests/CoursesAccessRequests';
 import ReportsPage from './components/ReportsPage/ReportsPage';
 import CheckoutPage from './components/CheckoutPage/CheckoutPage';
+import RefundRequestsPage from './components/RefundRequestsPage/RefundRequestsPage.js';
 
 function App() {
 
@@ -54,6 +55,7 @@ function App() {
                         <Route path="/addinstructor" element={ <AddInstructor /> } />
                         <Route path='/pricesanddiscounts' element={<AdminSetPromotion />} />
                         <Route path='/courseaccessrequests' element={<CoursesAccessRequests />} />
+                        <Route path='/refundrequests' element={ <RefundRequestsPage /> } />
                     </Route>
 
                     <Route path="/" element={<InstructorRoutes />}>
