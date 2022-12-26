@@ -580,7 +580,7 @@ router.post('/rejectRefundRequest', verifyJWT, async (req,res) => {
         },
         {
             $set: {
-                Status: 'Declined'
+                Status: 'Rejected'
             }
         }
     );
