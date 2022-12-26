@@ -276,7 +276,7 @@ function UserProfile() {
                     </div>
                     {(profileInstr || myProfileInstr) && instructorInfo?.ProfileImage &&
                       <div className="user--rightcontainer">
-                        <img src={instructorInfo.ProfileImage} alt="Instructor" className="user--userimage" />
+                        {instructorInfo.ProfileImage && <img src={instructorInfo.ProfileImage} alt="Instructor" className="user--userimage" />}
                       </div>
                     }
                 </div>
