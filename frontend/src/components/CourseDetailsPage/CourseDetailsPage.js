@@ -727,6 +727,9 @@ function CourseDetailsPage() {
                                         {userType === "individualTrainee" && refundStatus === "Processing" &&
                                             <p className="progress--percentage refund">Your refund request is currently processing </p>
                                         }
+                                        {userType === "individualTrainee" && refundStatus === "Rejected" &&
+                                            <p className="progress--percentage refund">Your refund request was rejected </p>
+                                        }
                                     </div>
                                 }
                             

@@ -28,7 +28,7 @@ function CheckoutForm(props) {
             if(error){
                 console.log(error.message);
             }
-            if(paymentIntent.status === 'succeeded'){
+            if(paymentIntent?.status === 'succeeded'){
                 props.completePayment();
             }
         }else{

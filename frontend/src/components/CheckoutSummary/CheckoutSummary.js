@@ -12,7 +12,7 @@ function CheckoutSummary(props){
                 <span>{`${props.courseOriginalPrice} ${currencyCode}`}</span>
             </div>
             
-            {props.discountAmount&&(
+            {props.discountAmount !== 0 &&(
                 <>
                     <br />
                     <div className='list-amount-summary'>
