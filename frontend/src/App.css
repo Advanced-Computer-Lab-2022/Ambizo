@@ -265,6 +265,11 @@ textarea {
   opacity: 0.8;
 }
 
+.swal-footer{
+  display: grid;
+  align-content: center;
+}
+
 .swal-button{
   border-color: #bd0312;
   background-color: #a30506;

@@ -1,10 +1,10 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useStripe, useElements } from '@stripe/react-stripe-js';
 import { PaymentElement } from '@stripe/react-stripe-js';
+import swal from 'sweetalert';
 
 function CheckoutForm(props) {
-    const [message, setMessage] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
     const stripe = useStripe();
     const elements = useElements();
@@ -30,6 +30,17 @@ function CheckoutForm(props) {
             }
             if(paymentIntent?.status === 'succeeded'){
                 props.completePayment();
+            }else{
+                swal({
+                    icon: 'error',
+                    title: 'Payment Failed',
+                    text: `Payment didn\'t go through, ${error?.message}`,
+                    closeOnClickOutside: false,
+                    closeOnEsc: false,
+                    dangerMode: true,
+                    button: "OK",
+                });
+                console.log(paymentIntent?.status);
             }
         }else{
             props.completePayment();
