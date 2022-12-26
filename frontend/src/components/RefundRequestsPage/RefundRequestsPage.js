@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from "../Header/Header"
-import AccessRequestsImage from "../../images/AccessRequestImage.svg"
+import RefundImage from "../../images/RefundImage.svg"
 import AdministratorService from "../../services/Administrator.service";
 import RefundRequest from '../RefundRequest/RefundRequest';
 import { Helmet } from "react-helmet";
@@ -64,7 +64,7 @@ function RefundRequestsPage() {
                         <Header />
                         <div className="accessrequests--headerdiv">
                             <h1 className="accessrequests--header">Refund Requests</h1>
-                            <img className="accessrequests--pricesimage" src={AccessRequestsImage} alt='Refund Requests' />
+                            <img className="accessrequests--pricesimage refund" src={RefundImage} alt='Refund Requests' />
                         </div>
                         <div className="accessrequests--number">
                             <h2>{refundRequestsData.length} Pending {refundRequestsData.length === 1 ? "Request" : "Requests"}</h2>
