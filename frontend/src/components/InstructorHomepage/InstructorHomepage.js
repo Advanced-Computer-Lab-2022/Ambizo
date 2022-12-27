@@ -13,7 +13,7 @@ function InstructorHomepage() {
     }
 
     return (
-        <>
+        <div className="homepage">
             <Helmet>
                 <title>Homepage</title>
             </Helmet>
@@ -40,7 +40,7 @@ function InstructorHomepage() {
             <div id="instructorCourses">
                 <InstructorCoursesPage sectionNotPage={true} />
             </div>
-        </>
+        </div>
     )
 }
 

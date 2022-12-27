@@ -9,7 +9,7 @@ function AdminHomepage() {
     const navigate = useNavigate();
 
     return (
-        <>
+        <div className='homepage'>
             <Helmet>
                 <title>Homepage</title>
             </Helmet>
@@ -40,7 +40,7 @@ function AdminHomepage() {
             <div className='adminhomepage--popularcourses'>
                 <CoursesPage mostPopular={true} sectionNotPage={true}/>
             </div>
-        </>
+        </div>
     )
 }
 

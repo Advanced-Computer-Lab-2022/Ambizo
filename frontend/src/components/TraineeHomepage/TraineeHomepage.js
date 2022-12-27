@@ -64,7 +64,7 @@ function TraineeHomepage() {
       });
 
     return (
-        <>
+        <div className="homepage">
             <Helmet>
                 <title>Homepage</title>
             </Helmet>
@@ -102,7 +102,7 @@ function TraineeHomepage() {
                     {coursesDataElements?.length === 0 && <p className="no--courses">0 Courses found.</p>}
                 </section>
             </div>
-        </>
+        </div>
     )
 }
 
