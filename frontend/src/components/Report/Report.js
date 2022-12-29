@@ -87,7 +87,7 @@ function Report(probs) {
                             <h3 className='followup--text'>{followUp}</h3>
                         </div>
                         }
-                    {!admin && status === "unseen" && !followUp &&
+                    {!admin && status !== "resolved" && !followUp &&
                         <>
                             <textarea
                                 className="reportcard--followup--textarea"
