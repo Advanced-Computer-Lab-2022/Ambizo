@@ -105,8 +105,8 @@ function Header() {
                 {isLoggedIn ?
                     (
                         <>
-                            <div className='user--div' onClick={toggleUserMenu}>
-                                <div className='nav-controls'>
+                            <div className='user--div'>
+                                <div className='nav-controls' onClick={toggleUserMenu}>
                                     <p className='user--button'>{loggedInUser.Username}</p>
                                     {!userMenu && <img src={ArrowDownIcon} alt='Arrow Down Icon' className='arrow--icon' />}
                                     {userMenu && <img src={ArrowUpIcon} alt='Arrow Up Icon' className='arrow--icon' />}

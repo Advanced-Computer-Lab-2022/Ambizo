@@ -62,7 +62,7 @@ function CheckoutPage() {
             currencyCode: countryToCurrency[localStorage.getItem("countryCode")] || "USD",
             courseOriginalPrice: checkoutDetails.courseOriginalPrice,
             discountAmount: checkoutDetails.discountAmount,
-            amountPaidFromWallet: checkoutDetails.amountPaidFromWallet
+            amountPaidFromWallet: checkoutDetails.amountPaidFromWalletInUSD
         }
         setIsLoading(true);
         TraineeService.completeCheckout(body).then(

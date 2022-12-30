@@ -196,6 +196,7 @@ router.post('/checkoutDetails', verifyJWT, async (req, res) => {
             courseOriginalPrice: parseFloat((courseOriginalPriceInUSD * exchangeRate).toFixed(2)),
             discountAmount: parseFloat((discountAmountInUSD * exchangeRate).toFixed(2)),
             amountPaidFromWallet: parseFloat((amountPaidFromWalletInUSD * exchangeRate).toFixed(2)),
+            amountPaidFromWalletInUSD: amountPaidFromWalletInUSD,
             amountToBePaid: parseFloat((amountToBePaidInUSD * exchangeRate).toFixed(2)),
             clientSecret: paymentIntent? paymentIntent.client_secret : dummyClientSecret
         });
@@ -345,7 +346,6 @@ router.post('/fulfillCoursePayment', verifyJWT, async (req, res) => {
     let exchangeRateToCurrency = await currencyConverter.from('USD').to(currencyCode).convert();
 
     const moneyMadeInDollars = (courseOriginalPrice - discountAmount)*exchangeRate;
-    const amountPaidFromWalletInUSD = parseFloat((amountPaidFromWallet*exchangeRate).toFixed(2));
 
     const newPaymentRecord = new paymentRecord({
         CourseId: courseId,
@@ -362,7 +362,7 @@ router.post('/fulfillCoursePayment', verifyJWT, async (req, res) => {
     newPaymentRecord.save().then(_ =>{
         const traineeOldWallet = trainee.WalletAmountInUSD;
 
-        trainee.WalletAmountInUSD = parseFloat((traineeOldWallet - amountPaidFromWalletInUSD).toFixed(2));
+        trainee.WalletAmountInUSD = parseFloat((traineeOldWallet - amountPaidFromWallet).toFixed(2));
         trainee.EnrolledCourses.push({
             courseId: courseToEnrollIn._id.toString(),
             exercises: new Array(courseToEnrollIn.Exercises.length),
