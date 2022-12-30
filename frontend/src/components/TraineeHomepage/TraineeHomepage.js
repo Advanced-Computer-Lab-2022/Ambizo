@@ -76,8 +76,11 @@ function TraineeHomepage() {
 
                     <div className='trainee--buttons'>
                         <button className='trainee--setpromobutton' onClick={() => navigate(`/user/${JSON.parse(sessionStorage.getItem("User")).Username}`)}><i className="fa-solid fa-user"></i>&nbsp;&nbsp;My Profile</button>
+                    </div>
+                    <div className='trainee--buttons'>
                         <button className='trainee--setpromobutton' onClick={() => scrollTo("mycourses")}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;My Courses</button>
                         <button className='trainee--setpromobutton' onClick={() => navigate("/allcourses")}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View All Courses</button> 
+                        <button className='trainee--setpromobutton' onClick={() => navigate('/allreports')}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View My Reports</button>
                     </div>
                 </div>
                 <div className='trainee--rightcontainer'>
@@ -87,7 +90,7 @@ function TraineeHomepage() {
                         <img className="traineeright--image" src={TraineeImage} alt='Trainee' />
                         <img className="traineeright--image3" src={TraineeImage3} alt = 'Trainee ' />
                     </div>
-                    <h2 className="traineeright--header">“Education is the passport to the future, for tomorrow belongs to those who prepare for it today.”.. Never stop learning!</h2>
+                    <h2 className="traineeright--header">“Education is the passport to the future, for tomorrow belongs to those who prepare for it today.”... Never stop learning!</h2>
                 </div>
             </div>
             <div id="mycourses">
