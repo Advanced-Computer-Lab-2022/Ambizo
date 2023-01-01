@@ -159,7 +159,7 @@ function Subtitle(props) {
     }
 
     let subtitleProgress = (props.progress*100).toFixed(0);
-    let isSubtitleClickable =  (props.instructorLoggedInCourse || (props.isTraineeEnrolled && (props.refundStatus === "None" || props.refundStatus === "Rejected")));
+    let isSubtitleClickable =  (props.instructorLoggedInCourse || (props.isTraineeEnrolled && props.refundStatus !== "Processing"));
     let isSubtitleClickableInstructor = props.userType === "instructor" && props.instructorLoggedInCourse;
     let blockSubtitles = (!isSubtitleClickable && (props.userType === "individualTrainee" || props.userType === "corporateTrainee")) || !sessionStorage.getItem("User") || (props.userType === "instructor" && !props.instructorLoggedInCourse);
     return (

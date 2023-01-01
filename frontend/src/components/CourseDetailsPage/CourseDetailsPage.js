@@ -721,7 +721,7 @@ function CourseDetailsPage() {
                                         <p className="progress--div--header">Your Progress</p>
                                         <div className="progress--bar" style={{"--progress": courseProgress+"%"}}></div>
                                         <p className="progress--percentage">You are <b>{courseProgress}%</b> on your way</p>
-                                        {userType === "individualTrainee" && traineeInfo.overallProgress < 0.5 && refundStatus ==="None" &&
+                                        {userType === "individualTrainee" && traineeInfo.overallProgress < 0.5 && refundStatus ==="None" && course.PriceInUSD !== 0 &&
                                             <p className="progress--percentage refund">Don't like the course? Request a refund from <span className="reset-password" onClick={toggleRefundModal}>here</span></p>
                                         }
                                         {userType === "individualTrainee" && refundStatus === "Processing" &&
