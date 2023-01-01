@@ -49,7 +49,7 @@ function RefundRequestsPage() {
     return (
         <>
             <Helmet>
-                <title>Access Requests</title>
+                <title>Refund Requests</title>
             </Helmet>
             <div className={"loader-container" + (!isLoading ? " hidden" : "")}>
                 <div className="spinner"> </div>
