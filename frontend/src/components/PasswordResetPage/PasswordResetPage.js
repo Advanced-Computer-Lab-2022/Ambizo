@@ -183,14 +183,6 @@ function PasswordResetPage(){
                         <form className="form--form" onSubmit={handleSubmit}>
                             <input
                                 type={passwordData.showpassword ? "text" : "password"}
-                                placeholder="Enter old Password"
-                                onChange={handleChange}
-                                name="oldPassword"
-                                value={passwordData.oldPassword}
-                                className="form--inputfield"
-                            />
-                            <input
-                                type={passwordData.showpassword ? "text" : "password"}
                                 placeholder="Enter new Password"
                                 onChange={handleChange}
                                 name="newPassword"
