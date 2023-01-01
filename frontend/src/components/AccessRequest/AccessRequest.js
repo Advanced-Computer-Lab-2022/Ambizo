@@ -18,6 +18,7 @@ function AccessRequest(props) {
         props.setIsLoading(true)
         await AdministratorService.grantAccess(props.CorporateTraineeUsername, props.CourseId)
         .then((result) => {
+            props.removeHandledRequest(props.CorporateTraineeUsername, props.CourseId);
             props.setIsLoading(false);
         })
         .catch((error) => {
@@ -37,6 +38,7 @@ function AccessRequest(props) {
         props.setIsLoading(true)
         await AdministratorService.declineAccess(props.CorporateTraineeUsername, props.CourseId)
         .then((result) => {
+            props.removeHandledRequest(props.CorporateTraineeUsername, props.CourseId);
             props.setIsLoading(false);
         })
         .catch((error) => {

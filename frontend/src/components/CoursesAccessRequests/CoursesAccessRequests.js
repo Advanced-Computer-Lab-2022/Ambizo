@@ -33,10 +33,17 @@ function CourseAccessRequests() {
         })
     }, []);
 
+    function removeHandledRequest(traineeUsername, courseId){
+        setAccessRequestsData(prevAccessRequestsData => {
+            return prevAccessRequestsData.filter(request => (request.CorporateTraineeUsername !== traineeUsername && request.CourseId !== courseId));
+        });
+    }
+
     const accessRequestsElements = accessRequestsData.map((request) => {
         return (
             <AccessRequest
                 key={request._id}
+                removeHandledRequest={removeHandledRequest}
                 setIsLoading={setIsLoading}
                 {...request}
             />
