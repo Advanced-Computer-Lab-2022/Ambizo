@@ -18,10 +18,10 @@
 
 
     As of writing this file, there aren't any bugs that we are aware of.
-
     Website is currently not deployed.
+    
+    
 ## Code Style
-
 
 
     - Use "Prettier" as a code formatter to keep the code style consistent
@@ -37,6 +37,7 @@
       database is called in the function
     
     - Use braces with all control flow statements and loops
+    
 ## Screenshots
 
 ### HomePage
