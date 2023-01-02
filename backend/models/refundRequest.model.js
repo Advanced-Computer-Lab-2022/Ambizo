@@ -12,6 +12,10 @@ const refundRequestSchema = new Schema({
         type: String,
         required: true
     },
+    CourseTitle: {
+        type: String,
+        required: true
+    },
     Reason: {
         type: String,
         required: true

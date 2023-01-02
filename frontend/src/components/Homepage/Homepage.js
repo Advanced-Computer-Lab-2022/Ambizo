@@ -41,7 +41,7 @@ function Homepage() {
             )
             :
             (
-                <>
+                <div className='homepage'>
                     <Header />
                     <div className='homepage--topcontainer'>
                         <div className='homepage--headerbutton'>
@@ -51,7 +51,7 @@ function Homepage() {
                                 className='homepagebutton--signup'
                                 onClick={toggleSignUp}
                             >
-                            <i class="fa-solid fa-user-plus"></i>&nbsp;&nbsp;&nbsp;&nbsp;Sign up
+                            <i className="fa-solid fa-user-plus"></i>&nbsp;&nbsp;&nbsp;&nbsp;Sign up
                             </button>
                         </div>
                         <img className="homepage--image" src={HomepageImage} alt='Homepage' />
@@ -89,7 +89,7 @@ function Homepage() {
                         Our exclusive content is co-created and continually refined with industry leaders. Each Ambizo program is deeply focused—eliminating guesswork in selecting the right course. Projects go far beyond step-by-step guides, cultivating the critical thinking required for workplace relevance. Expert mentors unblock learning with personalized support, and verify complete mastery of competencies.
                         </p>
                     </div>
-                </>
+                </div>
             )
             }
         </>

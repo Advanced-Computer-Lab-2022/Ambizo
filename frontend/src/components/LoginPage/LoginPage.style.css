@@ -1,0 +1,13 @@
+.login--forgotpassword {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reset-password.signup {
+    margin-bottom: 0px;
+}
+
+.donthaveaccount {
+    margin-bottom: 0px;
+}

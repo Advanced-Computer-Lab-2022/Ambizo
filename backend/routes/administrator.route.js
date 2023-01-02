@@ -9,6 +9,9 @@ import report from "../models/report.model.js";
 import course from "../models/course.model.js";
 import currencyConverter from "../middleware/currencyConverter.js";
 import courseRequest from "../models/courseRequest.model.js";
+import refundRequest from '../models/refundRequest.model.js';
+import paymentRecord from '../models/paymentRecord.model.js';
+import individualTrainee from '../models/individualTrainee.model.js';
 
 const router = express.Router();
 
@@ -308,7 +311,7 @@ router.get("/getAllReports", verifyJWT, async (req, res) => {
             return handleError(res, "Invalid Access")
         }
 
-        let Reports = await report.find();
+        let Reports = await report.find().sort({ $natural: -1 });
         res.json(Reports);
     }
     catch (error) {
@@ -421,5 +424,170 @@ router.post("/declineAccess/", verifyJWT, async (req, res) => {
         handleError(res, err.message);
     }
 })
+
+router.get('/getAllRefundRequests', verifyJWT, async (req, res) => {
+    if( !req.User || !req.User.Type){
+        return res.status(401).json({
+            message: 'Failed to authenticate the user.'
+        })
+    }
+
+    const { Type } = req.User;
+    if( Type !== 'admin'){
+        return res.status(403).json({
+            message: 'Invalid acccess'
+        });
+    }
+
+    try{
+
+        const refundRequests = await refundRequest.find({Status: 'Processing'});
+        return res.status(200).json(refundRequests);
+
+    } catch(error){
+        console.log(error);
+        return res.status(500).json({
+            message: 'An error has occured while fetching the refund requests.'
+        });
+    }
+});
+
+router.post('/acceptRefundRequest', verifyJWT, async (req, res) => {
+    if( !req.User || !req.User.Type){
+        return res.status(401).json({
+            message: 'Failed to authenticate the user.'
+        })
+    }
+
+    const { Type } = req.User;
+    if( Type !== 'admin'){
+        return res.status(403).json({
+            message: 'Invalid acccess'
+        });
+    }
+
+    if( !req.body.courseId || !req.body.traineeUsername){
+        return res.status(400).json({
+            message: 'The (courseId) and (traineeUsername) fields must all be provided.'
+        });
+    }
+
+    const { courseId, traineeUsername } = req.body;
+    const correspondingPaymentRecord = await paymentRecord.findOne({
+        CourseId: courseId,
+        TraineeUsername: traineeUsername
+    });
+    if ( !correspondingPaymentRecord ){
+        return res.status(404).json({
+            message: 'There is no record that the trainee purchased this course.'
+        });
+    }
+
+    const amountToRefund = correspondingPaymentRecord.InstructorProfitInUSD + correspondingPaymentRecord.WebsiteProfitInUSD;
+
+    const trainee = await individualTrainee.findOne({Username: traineeUsername});
+    if( !trainee ){
+        return res.status(404).json({
+            message: 'Invalid Trainee username.'
+        })
+    }
+
+    let courseFound = false;
+    trainee.EnrolledCourses.forEach(eCourse =>{
+        if(eCourse.courseId === courseId){
+            courseFound = true;
+        }
+    });
+    if( !courseFound ){
+        return res.status(404).json({
+            message: 'The trainee is not enrolled in this course.'
+        })
+    }
+
+    try{
+        const oldWalletContent = trainee.WalletAmountInUSD;
+        await individualTrainee.updateOne(
+            {Username: traineeUsername},
+            {
+                $pull: {
+                    EnrolledCourses: {courseId: courseId}
+                },
+                $set: {
+                    WalletAmountInUSD: oldWalletContent + amountToRefund
+                }
+            }
+        )
+        await course.findByIdAndUpdate(
+            courseId,
+            {
+                $inc: {
+                    NumberOfEnrolledStudents: -1
+                }
+            }
+        );
+        await paymentRecord.deleteMany({
+            CourseId: courseId,
+            TraineeUsername: traineeUsername
+        });
+        
+        await refundRequest.updateMany(
+            {
+                CourseId: courseId,
+                TraineeUsername: traineeUsername
+            },
+            {
+                $set: {
+                    Status: 'Accepted'
+                }
+            }
+        )
+        return res.status(200).json({
+            message: 'Accepting refund done successfully.'
+        });
+    }catch (error){
+        console.log(error);
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+});
+
+router.post('/rejectRefundRequest', verifyJWT, async (req,res) => {
+    if( !req.User || !req.User.Type){
+        return res.status(401).json({
+            message: 'Failed to authenticate the user.'
+        })
+    }
+
+    const { Type } = req.User;
+    if( Type !== 'admin'){
+        return res.status(403).json({
+            message: 'Invalid acccess'
+        });
+    }
+
+    if( !req.body.courseId || !req.body.traineeUsername){
+        return res.status(400).json({
+            message: 'The (courseId) and (traineeUsername) fields must all be provided.'
+        });
+    }
+
+    const { courseId, traineeUsername } = req.body;
+    await refundRequest.updateMany(
+        {
+            CourseId: courseId,
+            TraineeUsername: traineeUsername
+        },
+        {
+            $set: {
+                Status: 'Rejected'
+            }
+        }
+    );
+
+    return res.status(200).json({
+        message: 'Rejecting the refund done successfully.'
+    })
+});
 
 export default router;

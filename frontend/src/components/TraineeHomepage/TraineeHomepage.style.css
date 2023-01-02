@@ -1,0 +1,85 @@
+.trainee--options {
+    min-height: 750px;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 10% 0px 10%;
+    background-color: #f7f7f7;
+}
+
+.trainee--leftcontainer {
+    width: 50%;
+    margin-right: auto;
+}
+
+.trainee--rightcontainer {
+    width: 50%;
+    margin-left: auto;
+    text-align: center;
+}
+
+.traineeright--image3 {
+    width: 26%;
+    margin-left: -110px;
+    opacity: 0.5;
+}
+
+.traineeright--image3.image2 {
+    margin-left: 0px;
+    margin-right: -100px;
+}
+
+.instructor--adminimage {
+    width: 100%;
+    height: fit-content;
+    margin-top: 70px;
+    margin-bottom: 0px;
+}
+
+.trainee-header {
+    margin: 0px;
+}
+
+.trainee--line {
+    width: 32%;
+    border: 1px solid #a30506;
+    margin-bottom: 30px;
+    margin-left: 0px;
+}
+
+.trainee--buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.trainee--setpromobutton {
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 25%;
+    height: 40px;
+    border-width: 1px;
+    font-size: 12px;
+    margin-bottom: 10px;
+    margin-right: 0px;
+}
+
+.trainee--setpromobutton:hover {
+    opacity: 0.8;
+}
+
+.traineeright--image {
+    width: 70%;
+    height: fit-content;
+    margin-top: 70px;
+    margin-bottom: 0px;
+}
+
+.traineeright--header {
+    width: 70%;
+    margin-bottom: 110px;
+    margin-left: auto;
+    margin-right: auto;
+}

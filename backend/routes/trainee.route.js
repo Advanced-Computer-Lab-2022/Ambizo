@@ -39,18 +39,31 @@ router.get('/getTraineeInfo/:username', async (req, res) => {
     for(var courseIndex in traineeWithInfo.EnrolledCourses){
         enrolledCoursesIds.push(traineeWithInfo.EnrolledCourses[courseIndex].courseId);
     }
-
+    
     const enrolledCourseData = await course.find({
         _id: {
             $in: enrolledCoursesIds
         }
-    });
+    })
+
+    let myCourses = enrolledCourseData.map((course) => ({
+        _id: course._id,
+        ImgURL: course.ImgURL,
+        Title: course.Title,
+        InstructorName: course.InstructorName,
+        Rating: course.Rating,
+        NumberOfReviews: course.NumberOfReviews,
+        TotalMinutes: course.TotalMinutes,
+        Subtitles: course.Subtitles
+    }))
+
     const result = {
         Name: traineeWithInfo.Name,
         Email: traineeWithInfo.Email,
         Username: traineeWithInfo.Username,
         Type: targetUser.Type,
-        CourseInfo: enrolledCourseData
+        CourseInfo: myCourses,
+        EnrolledCourses: traineeWithInfo.EnrolledCourses
     };
     
     return res.status(200).json(result);

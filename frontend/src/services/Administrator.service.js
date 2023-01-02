@@ -29,6 +29,15 @@ class AdministratorService {
     declineAccess(corporateUsername, courseId) {
         return httpPost.post("/admin/declineAccess/?corporateUsername=" + corporateUsername + "&courseId=" + courseId)
     }
+    getAllRefundRequests(){
+        return http.get('admin/getAllRefundRequests');
+    }
+    acceptRefundRequest(reqBody){
+        return httpPost.post('/admin/acceptRefundRequest', reqBody);
+    }
+    rejectRefundRequest(reqBody){
+        return httpPost.post('/admin/rejectRefundRequest', reqBody);
+    }
 }
 
 export default new AdministratorService();

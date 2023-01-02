@@ -159,12 +159,12 @@ function Subtitle(props) {
     }
 
     let subtitleProgress = (props.progress*100).toFixed(0);
-    let isSubtitleClickable =  (props.instructorLoggedInCourse || (props.isTraineeEnrolled && props.refundStatus === "None"));
+    let isSubtitleClickable =  (props.instructorLoggedInCourse || (props.isTraineeEnrolled && props.refundStatus !== "Processing"));
     let isSubtitleClickableInstructor = props.userType === "instructor" && props.instructorLoggedInCourse;
     let blockSubtitles = (!isSubtitleClickable && (props.userType === "individualTrainee" || props.userType === "corporateTrainee")) || !sessionStorage.getItem("User") || (props.userType === "instructor" && !props.instructorLoggedInCourse);
     return (
         <>
-            <div className="subtitle" onClick={displaySubtitlesDetails} style={{"--progress": subtitleProgress+"%"}}>
+            <div className="subtitle" onClick={displaySubtitlesDetails} style={{"--progress": subtitleProgress+"%", "cursor": (blockSubtitles? "default" : "pointer")}}>
                 {!showSubtitleDetails && !blockSubtitles && <img src={ArrowDownIcon} alt='Arrow Down Icon' className='subtitle--arrow' />}
                 {showSubtitleDetails && !blockSubtitles && <img src={ArrowUpIcon} alt='Arrow Up Icon' className='subtitle--arrow' />}
                 <p className="subtitle--name">{props.subtitle} {props.isTraineeEnrolled && <span className="subtitle--progress">{subtitleProgress}%</span>}</p>

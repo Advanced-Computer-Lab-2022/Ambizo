@@ -46,6 +46,10 @@ const instructorSchema = new Schema({
     ProfileImage: {
         type: String,
         default: ""
+    },
+    WalletAmountInUSD:{
+        type: Number,
+        default: 0.0
     }
 }, {
     timestamps: true,

@@ -239,3 +239,10 @@
     height: 25px;
     cursor: pointer;
 }
+
+.traineeprogresspercentage {
+    font-size: 20px;
+    margin-top: -10px;
+    margin-left: 15px;
+    font-weight: 500;
+}

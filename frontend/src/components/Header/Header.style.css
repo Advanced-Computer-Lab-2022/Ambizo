@@ -60,6 +60,10 @@ nav {
     max-width: 200px;
     max-height: 65px;
 }
+.nav-controls{
+    cursor: pointer;
+    display: flex;
+}
 
 .arrow--icon {
     display: block;
@@ -75,7 +79,6 @@ nav {
 .user--div{
     display: flex;
     margin: auto 40px auto auto;
-    cursor: pointer;
     -webkit-touch-callout: none;
     -webkit-user-select: none; 
     -khtml-user-select: none;

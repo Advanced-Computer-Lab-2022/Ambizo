@@ -111,6 +111,7 @@ function UserProfile() {
       return (
           <Course
               key={course._id}
+              userProfile={true}
               {...course}
           />
       )
@@ -120,6 +121,8 @@ function UserProfile() {
       return (
           <Course
               key={course._id}
+              myCoursesTrainee={true}
+              userProfile={true}
               {...course}
           />
       )
@@ -273,10 +276,9 @@ function UserProfile() {
                     </div>
                     {(profileInstr || myProfileInstr) && instructorInfo?.ProfileImage &&
                       <div className="user--rightcontainer">
-                        <img src={instructorInfo.ProfileImage} alt="Instructor" className="user--userimage" />
+                        {instructorInfo.ProfileImage && <img src={instructorInfo.ProfileImage} alt="Instructor" className="user--userimage" />}
                       </div>
                     }
-                    {/* else mafesh sora */}
                 </div>
                 {(profileInstr || myProfileInstr)  &&
                   <>
@@ -312,7 +314,6 @@ function UserProfile() {
                     </div>
                   </>
                 }
-                {/* else mafesh bio */}
                 {(!myProfileInstr && !myProfileTrainee) &&
                   <>
                     <hr className="userprofile--line"/>
@@ -348,7 +349,6 @@ function UserProfile() {
                     </div>
                   </>
                 }
-                {/* else mafesh ratings */}
             </div>
             
         </>

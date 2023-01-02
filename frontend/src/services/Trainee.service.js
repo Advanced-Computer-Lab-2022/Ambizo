@@ -64,6 +64,26 @@ class TraineeService{
     cancelRequest(courseId) {
         return httpPost.put("/corporateTrainee/cancelRequest/?courseId=" + courseId);
     }
+
+    getPaymentKey(){
+        return http.get('/individualTrainee/getPaymentKey');
+    }
+
+    checkoutDetails(requestObject){
+        return httpPost.post('/individualTrainee/checkoutDetails', requestObject);
+    }
+    
+    enrollInFreeCourse(courseId){
+        return httpPost.post(`/individualTrainee/enrollInFreeCourse/${courseId}`);
+    }
+
+    completeCheckout(checkoutDetails){
+        return httpPost.post(`/individualTrainee/fulfillCoursePayment`, checkoutDetails);
+    }
+
+    getWalletAmount(currencyCode){
+        return http.get(`/individualTrainee/walletAmount/?currencyCode=${currencyCode}`);
+    }
 }
 
 export default new TraineeService();

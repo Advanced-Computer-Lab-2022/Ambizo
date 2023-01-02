@@ -183,7 +183,7 @@
     margin-bottom: 0px;
 }
 
-.coursedetails--enrolledoptions{
+.coursedetails--enrolledoptions {
     text-align: center;
     margin: 20px 0px;
 }
@@ -234,18 +234,31 @@
     flex-wrap: wrap;
 }
 
+.subtitles--progress--notes--div{
+    display: flex;
+    flex-direction: row-reverse;
+    /* flex-wrap: wrap; */
+    gap: 10px
+}
+
 .progress--div{
     box-shadow: 3px 5px 10px 0 rgba(0,0,0,.3);
-    border: 1px solid rgb(74, 222, 128, 0.7);
+    border: 1px solid #a30506;
     border-radius: 10px;
     height: fit-content;
     width: 450px;
     min-height: 140px;
-    margin-left: 201px;
-    margin-right: 50px;
-    margin-bottom: -1000px;
-    position: sticky;
-    top: 100px;
+    margin-left: 190px;
+    margin-right: 100px;
+    margin-bottom: 35px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.progress--notes--div{
+   position: sticky;
+   top: 100px;
+   margin-bottom: -1000px;
 }
 
 .coursedetails--subtitles--flexDiv{
@@ -256,14 +269,15 @@
     text-align: center;
     font-size: 20pt;
     font-weight: 600;
-    color: #15803d;
-    margin-bottom: 15px;
+    color: #a30506;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .progress--bar{
     width: 80%;
     height: 20px;
-    border: 1px solid rgb(74, 222, 128);
+    border: 1px solid #a30506;
     border-radius: 15px;
     margin-right: auto;
     margin-left: auto;
@@ -274,7 +288,7 @@
 
 .progress--bar::after{
     content: '\A';
-    background: rgb(74, 222, 128);
+    background: #a30506;
     border-radius: 15px;
     position:absolute;
     top: 0; 
@@ -286,7 +300,7 @@
 .progress--percentage{
     text-align: center;
     font-size: 12pt;
-    color: #14532d;
+    color: #a30506;
 }
 
 .progress--percentage.refund{
@@ -295,7 +309,8 @@
 }
 
 .progress--percentage.certificate{
-    color:black
+    color:black;
+    margin-top:5px;
 }
 
 .spinner.certificate{
@@ -306,6 +321,89 @@
     margin-bottom: 10px;
 }
 
+.courseDetails--notes{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: 700px;
+    margin-bottom: 100px;
+    margin-left: 20px;
+}
+
+.notes--title{
+    margin-top: 10px;
+    margin-left: 18px;
+}
+
+.notes--textArea{
+    min-height: 300px;
+    font-family: 'Poppins';
+    border: white;
+}
+
+.downloadNotes--button{
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 180px;
+    height: 50px;
+    margin-top: 24px;
+    margin-bottom: 5px;
+    margin-left: 20px;
+}
+
+.downloadNotes--button:hover{
+    opacity: 0.8;
+}
+
+.PDFDownloadLink{
+    text-decoration: none;
+    width: fit-content;
+    margin-left: 100px;
+}
+
+.notes--titleAndTextArea{
+    box-shadow: 3px 5px 10px 0 rgba(0,0,0,.3);
+    border: 1px dashed #a30506;
+    border-radius: 20px;
+    border-width: 2.3px;
+    height: fit-content;
+    width: 450px;
+    min-height: 140px;
+    margin-left: 170px;
+    margin-right: 50px;
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 15px;
+}
+
+
 .completedcourse--image {
-    width: 100%;
+    width: 40%;
+}
+
+.completedcouse--image--div{
+    display: flex;
+    justify-content: center;
+}
+
+.button--report {
+    margin-top: 50px;
+    border-color: #bd0312;
+    background-color: #a30506;
+    border-style: solid;
+    color: white;
+    width: 10%;
+    height: auto;
+    font-size: 15px;
+    padding-top: 15px;
+    padding-bottom: 30px;
+    margin-left: auto;
+    margin-right: 344px;
+}
+
+.button--report:hover {
+    opacity: 0.8;
 }

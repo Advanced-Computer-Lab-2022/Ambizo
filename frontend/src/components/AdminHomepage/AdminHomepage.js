@@ -3,12 +3,16 @@ import Header from '../Header/Header';
 import CoursesPage from '../CoursesPage/CoursesPage';
 import AdminImage from '../../images/AdminImage.svg'
 import { useNavigate } from "react-router-dom"
+import { Helmet } from 'react-helmet';
 
 function AdminHomepage() {
     const navigate = useNavigate();
 
     return (
-        <>
+        <div className='homepage'>
+            <Helmet>
+                <title>Homepage</title>
+            </Helmet>
             <Header />
             <div className='adminhp--options'>
                 <div className='adminhp--leftcontainer'>
@@ -24,8 +28,9 @@ function AdminHomepage() {
                         <button className='adminhp--setpromobutton' onClick={() => navigate("/addtrainee")}><i className="fa-solid fa-plus"></i>&nbsp;&nbsp;Add Corporate Trainee</button>
                     </div>
                     <div className='adminhp--addusers'>
-                        <button className='adminhp--setpromobutton'><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Reported Problems</button>
+                        <button className='adminhp--setpromobutton' onClick={() => navigate("/allreports")}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Reported Problems</button>
                         <button className='adminhp--setpromobutton' onClick={() => navigate("/courseaccessrequests")}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Corporate Requests</button>
+                        <button className='adminhp--setpromobutton' onClick={() => navigate("/refundrequests")}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View Refund Requests</button>
                     </div>
                 </div>
                 <div className='adminhp--rightcontainer'>
@@ -35,7 +40,7 @@ function AdminHomepage() {
             <div className='adminhomepage--popularcourses'>
                 <CoursesPage mostPopular={true} sectionNotPage={true}/>
             </div>
-        </>
+        </div>
     )
 }
 

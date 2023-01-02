@@ -17,15 +17,30 @@
 .settingspage--rightcontainer {
     width: 80%;
     height: 100vh;
-    background-color: #f3f2ef;
+    background-color: #f7f7f7;
 }
 
 .settingspage--signinsecurity {
     font-size: 22px;
     border: solid;
-    border-width: 1px;
+    border-width: 0px;
     border-color: black;
     padding: 15px;
-    background-color: #e4e4e4;
+    background-color: #f7f7f7;
     cursor: pointer;
+}
+
+.form--leftcontainer.changesuccess {
+    width: 31%;
+    height: 700px;
+    text-align: center;
+    margin: auto;
+    margin-top: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.success--image {
+    width: 80%;
 }

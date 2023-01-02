@@ -26,6 +26,10 @@ const individualTraineeSchema = new Schema({
   EnrolledCourses: {
     type: Array,
     default: []
+  },
+  WalletAmountInUSD:{
+    type: Number,
+    default: 0.0
   }
 }, {
    timestamps: true,

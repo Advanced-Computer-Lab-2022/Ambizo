@@ -1,6 +1,7 @@
 import React , { useState, useEffect} from "react";
 import Header from "../Header/Header";
 import LoginService from "../../services/Login.service";
+import PasswordSuccess from '../../images/PasswordSuccess.svg'
 
 function SettingsPage() {
     const [passwordData, setPasswordData] = useState(
@@ -164,52 +165,60 @@ function SettingsPage() {
                             {
                             (!isPasswordReset)?
                             (
-                                <div className="form--div">
-                                    <h1>Create New Password</h1>
-                                    <form className="form" onSubmit={handleSubmit}>
-                                        <input
-                                            type={passwordData.showpassword ? "text" : "password"}
-                                            placeholder="Enter old Password"
-                                            onChange={handleChange}
-                                            name="oldPassword"
-                                            value={passwordData.oldPassword}
-                                        />
-                                        <input
-                                            type={passwordData.showpassword ? "text" : "password"}
-                                            placeholder="Enter new Password"
-                                            onChange={handleChange}
-                                            name="newPassword"
-                                            value={passwordData.newPassword}
-                                        />
-                                        <p className='form--errormessage'>{messages.passwordStrengthMessage}</p>
-                                        <input
-                                            type={passwordData.showpassword ? "text" : "password"}
-                                            placeholder="Confirm new Password"
-                                            onChange={handleChange}
-                                            name="newPasswordConfirmation"
-                                            value={passwordData.newPasswordConfirmation}
-                                        />
-                                        <p className='form--errormessage'>{messages.passwordMatchingMessage}</p>
-                                        <div className="show-password-div">
+                                <div className="form--container">
+                                    <div className="form--leftcontainer">
+                                        <h1 className="form--header">Change your password</h1>
+                                        <form className="form--form" onSubmit={handleSubmit}>
                                             <input
-                                                type="checkbox"
-                                                id="showpassword"
-                                                checked={passwordData.showpassword}
+                                                type={passwordData.showpassword ? "text" : "password"}
+                                                placeholder="Enter old Password"
                                                 onChange={handleChange}
-                                                name="showpassword"
+                                                name="oldPassword"
+                                                value={passwordData.oldPassword}
+                                                className="form--inputfield"
                                             />
-                                            <label htmlFor="showpassword">Show Password</label>
-                                        </div>
-                                        <button className="form--button">Submit</button>
-                                        <p className='form--errormessage'>{messages.emptyFieldsMessage}</p>
-                                        <p className='form--errormessage'>{messages.passwordResetFailureMessage}</p>
-                                    </form>
+                                            <input
+                                                type={passwordData.showpassword ? "text" : "password"}
+                                                placeholder="Enter new Password"
+                                                onChange={handleChange}
+                                                name="newPassword"
+                                                value={passwordData.newPassword}
+                                                className="form--inputfield"
+                                            />
+                                            <input
+                                                type={passwordData.showpassword ? "text" : "password"}
+                                                placeholder="Confirm new Password"
+                                                onChange={handleChange}
+                                                name="newPasswordConfirmation"
+                                                value={passwordData.newPasswordConfirmation}
+                                                className="form--inputfield"
+                                            />
+                                            <button className="form--submitbutton">Save Password</button>
+                                            <div className="show-password-div">
+                                                <input
+                                                    type="checkbox"
+                                                    id="showpassword"
+                                                    checked={passwordData.showpassword}
+                                                    onChange={handleChange}
+                                                    name="showpassword"
+                                                />
+                                                <label htmlFor="showpassword">Show Password</label>
+                                            </div>
+                                            <p className='form--errormessage'>{messages.emptyFieldsMessage}</p>
+                                            <p className='form--errormessage'>{messages.passwordResetFailureMessage}</p>
+                                            <p className='form--errormessage'>{messages.passwordStrengthMessage}</p>
+                                            <p className='form--errormessage'>{messages.passwordMatchingMessage}</p>
+                                        </ form>
+                                    </div>
                                 </div>
                             ):
                             (
-                                <div className="form--div">
-                                    <h2>Password Changed Successfully</h2>
-                                    <p>You can use your newly created password to log into your account</p>
+                                <div className="form--leftcontainer changesuccess">
+                                    <div>
+                                        <img className="success--image" src={PasswordSuccess} alt='Success' />
+                                        <h2>Password Changed Successfully</h2>
+                                        <p>You can now use your new password to log in to your account</p>
+                                    </div>
                                 </div>
                             )
                         }

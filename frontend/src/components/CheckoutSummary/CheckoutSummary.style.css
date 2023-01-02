@@ -1,0 +1,11 @@
+.list-amount-summary, .total-amount-summary{
+    display: flex;
+}
+
+.total-amount-summary{
+    font-weight: 700;
+}
+
+.list-amount-summary> .price--label, .total-amount-summary> .price--label{
+    flex: 1;
+}

@@ -1,0 +1,29 @@
+.reports--headerdiv {
+    width: 100%;
+    display: flex;
+    padding: 50px 0px;
+    height: fit-content;
+    background-color: #f7f7f7;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.reports--pricesimage {
+    width: 550px;
+    height: fit-content;
+}
+
+.reports--number {
+    text-align: center;
+}
+
+.reports-list {
+    display: flex;
+    margin: 65px 0px;
+    margin-top: 0px;
+    gap: 30px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
