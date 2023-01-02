@@ -24,15 +24,13 @@ function InstructorHomepage() {
                     <hr className="instructor--line"/>    
                     
                     <div className='instructor--addusers'>
-                        <button className='trainee--setpromobutton' onClick={() => navigate('/allreports')}><i className="fa-solid fa-user"></i>&nbsp;&nbsp;My Profile</button>
-                    </div>
-                    <div className='instructor--addusers'>
+                        <button className='trainee--setpromobutton' onClick={() => navigate(`/user/${JSON.parse(sessionStorage.getItem("User")).Username}`)}><i className="fa-solid fa-user"></i>&nbsp;&nbsp;My Profile</button>
                         <button className='instructor--setpromobutton' onClick={() => navigate("/addcourse")}><i className="fa-solid fa-plus"></i>&nbsp;&nbsp;Add a New Course</button>
-                        <button className='instructor--setpromobutton' onClick={() => scrollTo("instructorCourses")}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View My Courses</button>
-                        <button className='instructor--setpromobutton' onClick={() => navigate("/allcourses")}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View All Courses</button> 
                     </div>
                     <div className='instructor--addusers'>
+                        <button className='instructor--setpromobutton' onClick={() => scrollTo("instructorCourses")}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View My Courses</button>
                         <button className='trainee--setpromobutton' onClick={() => navigate('/allreports')}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View My Reports</button>
+                        <button className='instructor--setpromobutton' onClick={() => navigate("/allcourses")}><i className="fa-solid fa-eye"></i>&nbsp;&nbsp;View All Courses</button> 
                     </div>
 
                 </div>
