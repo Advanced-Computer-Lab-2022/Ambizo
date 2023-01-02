@@ -899,7 +899,7 @@ Step 2: Create a new folder on your local machine, right click in the folder, an
 click "Git Bash Here":
 
 
-    ![Git bash Here](https://user-images.githubusercontent.com/105165793/210189951-45f1cda5-f9b8-41df-a3e9-154f45719b71.png)
+![Git bash Here](https://user-images.githubusercontent.com/105165793/210189951-45f1cda5-f9b8-41df-a3e9-154f45719b71.png)
 
     
 
@@ -911,12 +911,12 @@ Step 4: A new folder should be created. Right click on the folder and click
         "Open with Code"
 
 
-    ![Open with VS](https://user-images.githubusercontent.com/105165793/210189956-a9f396bb-4917-4759-9256-c856b703aa08.png)
+![Open with VS](https://user-images.githubusercontent.com/105165793/210189956-a9f396bb-4917-4759-9256-c856b703aa08.png)
 
 
 Step 5: Create 2 New Terminals from the top left of the screen:
 
-    ![New Terminal](https://user-images.githubusercontent.com/105165793/210189973-a133720c-b97e-4cc5-b18d-49ed8e3609d6.png)
+![New Terminal](https://user-images.githubusercontent.com/105165793/210189973-a133720c-b97e-4cc5-b18d-49ed8e3609d6.png)
 
 
 Step 6: In the first terminal type the following lines one-by-one and press ENTER after
