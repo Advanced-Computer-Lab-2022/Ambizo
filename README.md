@@ -1114,18 +1114,19 @@ Enjoy :)
     - On the Home Page, you can also click on "View Reported Problems" to view and handle reports. You can 
       set them as either "Pending" or "Resolved".
 
-    - On the Home Page, you can also click on "View Corporate Requests" to view and handle pending corporate 
-      trainee requests to enroll in a course (you can either accept or decline).
+    - On the Home Page, you can also click on "View Corporate Requests" to view and handle pending 
+      corporate trainee requests to enroll in a course (you can either accept or decline).
 
-    - On the Home Page, you can also click on "View Refund Requests" to view and handle refund requests from 
-      individual trainees (you can either accept or decline).
+    - On the Home Page, you can also click on "View Refund Requests" to view and handle refund requests 
+      from individual trainees (you can either accept or decline).
 
-    - On the Home Page, you can scroll down to view the most popular courses and can click on "View All Courses" 
-      to view all courses.
+    - On the Home Page, you can scroll down to view the most popular courses and can click on 
+      "View All Courses" to view all courses.
 
-    - Moreoever, you can also click on "Prices and Discounts" on the Home Page. There you can select courses 
-      and apply discounts to them, setting the discount amount(%) and expiry date. If you scroll to the bottom 
-      of the page, you can also select courses to remove their discounts before the expiry date.
+    - Moreoever, you can also click on "Prices and Discounts" on the Home Page. There you can select 
+      courses and apply discounts to them, setting the discount amount(%) and expiry date. If you 
+      scroll to the bottom of the page, you can also select courses to remove their discounts before 
+      the expiry date.
 
     - Finally, if you ever need to log out, click on your name in the top right corner and click "Log Out".
 
