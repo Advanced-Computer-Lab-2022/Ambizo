@@ -1,16 +1,18 @@
 
 # Ambizo
 
-    A website made for the "Canadian Chamber of Commerce" used to connect Teachers to Students (Either individual or corporate
-    students). Teachers upload their courses which comprise of VODs and small tests. Students can enroll in these courses and 
+    A website made for the "Canadian Chamber of Commerce" used to connect Teachers to 
+    Students (Either individual or corporate students). Teachers upload their courses 
+    which comprise of VODs and small tests. Students can enroll in these courses and 
     access the content.
 
 
 ## Motivation
 
 
-    The main reason we created this website was for a university project; however, over time, it slowly turned into a passion 
-    project as every one of us dedicated more of his time, trying to perfect every tiny detail to perfect the UI and UX.
+    The main reason we created this website was for a university project; however, 
+    over time, it slowly turned into a passion project as every one of us dedicated 
+    more of his time, trying to perfect every tiny detail to perfect the UI and UX.
     
 ## Build Status
 
