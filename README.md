@@ -10,9 +10,21 @@
 ## Motivation
 
 
-    The main reason we created this website was for a university project; however, 
-    over time, it slowly turned into a passion project as every one of us dedicated 
-    more of his time, trying to perfect every tiny detail to perfect the UI and UX.
+    We understand the importance of a learning platform that is packed with features and 
+    easy to use (for both students and instructors), in order for students to feel right 
+    at home when trying to digest new material and concepts. With that in mind, we created 
+    "Ambizo", to connect students and instructors all across the globe through an elegant UI 
+    and an enjoyable and easy-to-use UX.
+
+    The original reason we created this website was for a university project for the following
+    educational benefits:
+
+        - Learn how to properly use the Agile Methodology to plan out a project and develop the software.
+        - Learn the process of following a given set of System Requirements to develop a software.
+        - Learn to research and master the use of the MERN Stack.
+        - Learn how to work together as a team on GitHub.
+
+
     
 ## Build Status
 
@@ -917,28 +929,44 @@ Step 4: A new folder should be created. Right click on the folder and click
 ![Open with VS](https://user-images.githubusercontent.com/105165793/210189956-a9f396bb-4917-4759-9256-c856b703aa08.png)
 
 
-Step 5: Create 2 New Terminals from the top left of the screen:
+Step 5: After Visual Studio Code opens, right click in the "backend" folder and click "new file". Name the file ".env" and 
+paste the following into it:
+
+    MONGO_URI=mongodb+srv://youssefelshorbagy:shorbasharoob@acl.sf7sujl.mongodb.net/ACL?retryWrites=true&w=majority
+    PORT=5000
+    ACCESS_TOKEN_SECRET=225712fdf1d775dd6df573b3b9434806a537531c6ec25ccb39710e0f4d942b3177986137819c9a6613d6534d2584c8d6e67e8f80dec03990511b69e203f2bed9
+    RESET_PASSWORD_ACCESS_TOKEN_SECRET = f4d91ac0f31d515118995b07d152ec1c4aad931ec0f1137dbf4c803abdc0b0ca8ec784a5fcb10b619cc819a06178c357ddfd7023506a6fa3f9ecce30481c8090
+    BUSINESS_EMAIL = canadiancocommerce@gmail.com
+    BUSINESS_EMAIL_PASSWORD = zkpcjykdforumvtz
+    FRONTEND_URL = http://localhost:3000/
+    STRIPE_PUBLISHABLE_KEY = pk_test_51MEyDECiBvnkrLCQwKbaLB5jbOmmA1bq9noW99PGEPG3Njd3mS7wEuc7WzAZxriQ6vuzI1JKv9M08nXiTPK4iX7U00WWJLERUl
+    STRIPE_SECRET_KEY = sk_test_51MEyDECiBvnkrLCQHfYBCVD8HB1dw2SL8SszrqbU8WNlKOZtcaaptaIth3ZcA5EQwFJMqio0QwB2qPFEnQr6IOkL00RWoQGvTa
+
+![New File](https://user-images.githubusercontent.com/105165793/211101516-16ab7d3c-5997-4334-91c9-4dcc30bd2d10.png)
+
+
+Step 6: Create 2 New Terminals from the top left of the screen:
 
 ![New Terminal](https://user-images.githubusercontent.com/105165793/210189973-a133720c-b97e-4cc5-b18d-49ed8e3609d6.png)
 
 
-Step 6: In the first terminal type the following lines one-by-one and press ENTER after
+Step 7: In the first terminal type the following lines one-by-one and press ENTER after
         each line (Wait for the third line to finish installing after you press enter):
 
             cd Ambizo
             cd backend
-            npm install
+            npm install --force
             node index.js
 
-Step 7: In the second terminal type the following lines one-by-one and press ENTER after
+Step 8: In the second terminal type the following lines one-by-one and press ENTER after
         each line (Wait for the third line to finish installing after you press enter):
 
             cd Ambizo
             cd frontend
-            npm install
+            npm install --force
             npm start
 
-Step 8: The website should automatically launch itself locally on your default browser; 
+Step 9: The website should automatically launch itself locally on your default browser; 
         however, if it does not, type the following in your browser search bar:
 
         http://localhost:3000/
@@ -1004,6 +1032,12 @@ Enjoy :)
     - Sign Up from the top right corner
    
     - Login from the top right corner
+    
+
+
+https://user-images.githubusercontent.com/105165793/211092532-48f0d1e8-f57a-4c7c-b7dc-a49ef9b260b7.mp4
+
+
 
 ###  As a trainee 
 
@@ -1058,6 +1092,20 @@ Enjoy :)
       of your reported problems.
 
     - Finally, if you ever need to log out, click on your name in the top right corner and click "Log Out"
+    
+
+
+https://user-images.githubusercontent.com/105165793/211100556-b2b856f9-48dd-4290-906c-e431f998f061.mp4
+
+
+
+https://user-images.githubusercontent.com/105165793/211102040-7024e4a8-a145-46f9-846d-5c78049d777b.mp4
+
+
+
+https://user-images.githubusercontent.com/105165793/211100591-4cfae83a-b243-4f15-87c6-af767f9aa173.mp4
+
+
 
 ###  As an instructor 
 
@@ -1102,6 +1150,16 @@ Enjoy :)
       of your reported problems.
 
     - Finally, if you ever need to log out, click on your name in the top right corner and click "Log Out"
+    
+
+
+https://user-images.githubusercontent.com/105165793/211100626-b1ffe4a0-22c9-407c-ba8e-7e88fba7b0d1.mp4
+
+
+
+https://user-images.githubusercontent.com/105165793/211100640-d0a3529d-1f2f-48dd-bace-984818636614.mp4
+
+
 
 ###  As an administrator 
 
@@ -1129,6 +1187,12 @@ Enjoy :)
       the expiry date.
 
     - Finally, if you ever need to log out, click on your name in the top right corner and click "Log Out".
+    
+
+
+https://user-images.githubusercontent.com/105165793/211092744-fb352928-6459-48ea-ae59-55dbb338d9b5.mp4
+
+
 
 ## Contributing
 
@@ -1172,26 +1236,15 @@ Enjoy :)
 ## License
 
 
-#### MIT License
+#### Stripe-node
 
-    Copyright (c) 2023 Ambizo
+   A short and simple permissive license with conditions only requiring preservation of copyright and license 
+   notices. Licensed works, modifications, and larger works may be distributed under different terms and 
+   without source code.
+   
+#### React-stripe-js
+  
+   A short and simple permissive license with conditions only requiring preservation of copyright and license 
+   notices. Licensed works, modifications, and larger works may be distributed under different terms and 
+   without source code.
 
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files (the "Software"), to deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    copies of the Software, and to permit persons to whom the Software is
-    furnished to do so, subject to the following conditions:
-
-    The above copyright notice and this permission notice shall be included in all
-    copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    SOFTWARE.
-
-Please be advised, this license is not real. This is here for educational purposes.
