@@ -1105,6 +1105,13 @@ https://user-images.githubusercontent.com/105165793/211102040-7024e4a8-a145-46f9
 
 https://user-images.githubusercontent.com/105165793/211100591-4cfae83a-b243-4f15-87c6-af767f9aa173.mp4
 
+    /
+    Enrolling in a course as a Corporate Trainee:
+    /
+    
+
+https://user-images.githubusercontent.com/105165793/211103793-8d841bb6-5e08-4f3b-aaf2-92fad7679618.mp4
+
 
 
 ###  As an instructor 
