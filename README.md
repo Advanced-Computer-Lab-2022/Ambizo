@@ -1,299 +1,338 @@
 
 # Ambizo
 
-    A website made for the "Canadian Chamber of Commerce" used to connect Teachers to 
-    Students (Either individual or corporate students). Teachers upload their courses 
-    which comprise of VODs and small tests. Students can enroll in these courses and 
-    access the content.
+A website made for the "Canadian Chamber of Commerce" used to connect Teachers to 
+Students (Either individual or corporate students). Teachers upload their courses 
+which comprise of VODs and small tests. Students can enroll in these courses and 
+access the content.
 
 
 ## Motivation
 
+We understand the importance of a learning platform that is packed with features and 
+easy to use (for both students and instructors), in order for students to feel right 
+at home when trying to digest new material and concepts. With that in mind, we created 
+"Ambizo", to connect students and instructors all across the globe through an elegant UI 
+and an enjoyable and easy-to-use UX.
 
-    We understand the importance of a learning platform that is packed with features and 
-    easy to use (for both students and instructors), in order for students to feel right 
-    at home when trying to digest new material and concepts. With that in mind, we created 
-    "Ambizo", to connect students and instructors all across the globe through an elegant UI 
-    and an enjoyable and easy-to-use UX.
+The original reason we created this website was for a university project for the following
+educational benefits:
 
-    The original reason we created this website was for a university project for the following
-    educational benefits:
+- Learn how to properly use the Agile Methodology to plan out a project and develop the software.
 
-        - Learn how to properly use the Agile Methodology to plan out a project and develop the software.
-        - Learn the process of following a given set of System Requirements to develop a software.
-        - Learn to research and master the use of the MERN Stack.
-        - Learn how to work together as a team on GitHub.
+- Learn the process of following a given set of System Requirements to develop a software.
 
+- Learn to research and master the use of the MERN Stack.
+
+- Learn how to work together as a team on GitHub.
 
     
 ## Build Status
 
-
-    As of writing this file, there aren't any bugs that we are aware of.
-    Website is currently not deployed.
+As of writing this file, there aren't any bugs that we are aware of.
+Website is currently not deployed.
     
     
 ## Code Style
 
+- Use "Prettier" as a code formatter to keep the code style consistent
 
-    - Use "Prettier" as a code formatter to keep the code style consistent
+- Only use single-line comments to describe sub-sections of a longer piece of code or to describe code that is not the easiest to understand
 
-    - Only use single-line comments to describe sub-sections of a longer piece of code
-      or to describe code that is not the easiest to understand
+- All function names are camelCased
 
-    - All function names are camelCased
+- Use function declaration, not function expression
 
-    - Use function declaration, not function expression
+- Used both synchronous and asynchronous functions depending on whether or not the database is called in the function
 
-    - Used both synchronous and asynchronous functions depending on whether or not the
-      database is called in the function
+- Use braces with all control flow statements and loops
     
-    - Use braces with all control flow statements and loops
     
 ## Screenshots
 
-### HomePage
-
+<details>
+  <summary>Homepage</summary>
+  
 ![Home Page](https://user-images.githubusercontent.com/105165793/210190013-972dbac7-884d-418f-8e48-85f6f7ac70ec.png)
 ![Home Page 2](https://user-images.githubusercontent.com/105165793/210190055-3ee80c4b-c9e5-4c2c-b9ed-98cb8dc21ad4.png)
+  
+</details>
 
-### Login Page
-
+<details>
+  <summary>Login Page</summary>
+  
 ![Login Page](https://user-images.githubusercontent.com/105165793/210190035-8abf3f90-a594-4dd0-8e61-d4cb3b9eb394.png)
+  
+</details>
 
-### All Courses Page
-
+<details>
+  <summary>All Courses Page</summary>
+  
 ![All Courses Page](https://user-images.githubusercontent.com/105165793/210190041-b9f5ab16-0a18-4b45-8107-ac08413054c3.png)
 ![Filter Courses](https://user-images.githubusercontent.com/105165793/210190140-d8a17817-078d-4616-abfb-77100c6f5dcc.png)
+  
+</details>
 
-### SignUp Page
-
+<details>
+  <summary>Sign up Page</summary>
+  
 ![SignUp Page](https://user-images.githubusercontent.com/105165793/210190040-2770264a-cd52-4777-9907-6d8daa38de0e.png)
 ![SignUp Page 2](https://user-images.githubusercontent.com/105165793/210190037-00945795-0f02-4909-b2bb-492503f34157.png)
 ![SignUp Page 3](https://user-images.githubusercontent.com/105165793/210190038-55738499-5460-4006-a8d1-a9c9c6795460.png)
 ![SignUp Page 4](https://user-images.githubusercontent.com/105165793/210190039-bbfb0504-4232-471b-997c-76541e2a68ca.png)
+  
+</details> 
 
-### Course Page
-
+<details>
+  <summary>Course Details Page</summary>
+  
 ![Updated Course Page 1](https://user-images.githubusercontent.com/105165793/210190114-18452cc0-d285-4813-9c50-55ecd663eb40.png)
 ![Updated Course Page 2](https://user-images.githubusercontent.com/105165793/210190115-5e28f4eb-533a-47db-a490-f9ba506652a6.png)
 ![Updated Course Page not completed progress](https://user-images.githubusercontent.com/105165793/210190117-18593e71-e6ed-4e39-862e-3998a8e31db5.png)
+  
+</details> 
 
-### Trainee HomePage
-
+<details>
+  <summary>Trainee Homepage</summary>
+  
 ![Trainee HomePage](https://user-images.githubusercontent.com/105165793/210190112-20b4e9b5-8df2-4427-999d-60765c99af08.png)
 ![Trainee HomePage 2](https://user-images.githubusercontent.com/105165793/210190119-cddd6fb1-a1be-43fe-9b6f-2a05c84e79e0.png)
+  
+</details> 
 
-### Trainee Profile
-
+<details>
+  <summary>Trainee Profile</summary>
+  
 ![Trainee Profile](https://user-images.githubusercontent.com/105165793/210190113-2e3f0c45-7875-4dde-9366-a8b2fce89cb1.png)
 ![Change Password Page](https://user-images.githubusercontent.com/105165793/210190196-24447623-51ae-48df-9e44-6294117f6d16.png)
 ![Navbar dropdown](https://user-images.githubusercontent.com/105165793/210190201-0047a86a-21e6-4015-9545-6e3b80050f78.png)
+  
+</details> 
 
-### Instructor Home Page
-
+<details>
+  <summary>Instructor Homepage</summary>
+  
 ![Instructor Home Page 1](https://user-images.githubusercontent.com/105165793/210190227-8db497e7-cac9-497f-affc-0c37b1ed7946.png)
 ![Instructor Home Page 2](https://user-images.githubusercontent.com/105165793/210190222-aaec1436-5bb1-4364-8fd7-a786f9df08e2.png)
+  
+</details> 
 
-### Instructor Profile
-
+<details>
+  <summary>Instructor Profile</summary>
+  
 ![Instructor Profile](https://user-images.githubusercontent.com/105165793/210190224-1031aa04-712a-43dc-ba6d-17d053429cde.png)
+  
+</details> 
 
-### Instructor Reports
+</details> 
 
+<details>
+  <summary>Instructor Reports</summary>
+  
 ![Instructor Reports](https://user-images.githubusercontent.com/105165793/210190225-4b0d2833-1abd-4ec7-940d-7fbe9a561e0d.png)
+  
+</details> 
 
-
-### Admin Home Page
-
+<details>
+  <summary>Admin Homepage</summary>
+  
 ![Admin HomePage](https://user-images.githubusercontent.com/105165793/210190261-64e3fe20-d36b-42ec-b9b1-7d3e46fe1508.png)
+  
+</details> 
 
-### Admin Add User
-
+<details>
+  <summary>Admin Add User</summary>
+  
 ![Admin add user](https://user-images.githubusercontent.com/105165793/210190270-3de03ae7-402d-4f11-82d4-1e0285aece09.png)
+  
+</details> 
 
-### Admin Discounts Page
-
+<details>
+  <summary>Admin Discounts Page</summary>
+  
 ![Admin Discounts Page](https://user-images.githubusercontent.com/105165793/210190258-0a856481-8d11-461a-b508-a36227e01e6b.png)
 ![Admin Discounts Page 2](https://user-images.githubusercontent.com/105165793/210190273-884c3b51-da96-41d6-9b83-debbfa689832.png)
 ![Admin Discounts Page 3](https://user-images.githubusercontent.com/105165793/210190257-6de15b0d-bd6e-4f14-b659-848fe57fcd2a.png)
+  
+</details> 
 
-### PopUp Modal
-
+<details>
+  <summary>Popup Modal</summary>
+  
 ![PopUp Modal, Admin](https://user-images.githubusercontent.com/105165793/210190267-8947a8e5-67e5-4d6d-90f5-d0ff9c180f71.png)
+  
+</details> 
 
-### Admin Refund Requests
-
+<details>
+  <summary>Admin Refund Requests</summary>
+  
 ![Admin Refund requests](https://user-images.githubusercontent.com/105165793/210190264-56a18e2a-ee5b-4614-8a28-269799852863.png)
+  
+</details> 
 
-### Admin reports
-
+<details>
+  <summary>Admin Reports</summary>
+  
 ![Admin reports](https://user-images.githubusercontent.com/105165793/210190266-3b32cdf9-a060-45bb-8081-544d1d5a6391.png)
+  
+</details> 
 
-### Admin Course Access Requests
-
+<details>
+  <summary>Admin Course Access Requests</summary>
+  
 ![Admin Course Access Requests](https://user-images.githubusercontent.com/105165793/210190271-e9083a6f-59de-4663-a185-4e2a66b2d010.png)
-
+  
+</details> 
 
 
 ## Tech Stack
 
+### MERN Stack:
 
-MERN Stack:
+- M: MongoDB
 
-        M: MongoDB
-        E: ExpressJS 
-        R: ReactJS
-        N: NodeJS
+- E: ExpressJS 
 
-Additional
+- R: ReactJS
 
-    Json Web Tokens (JWT) for Authentication / Authorization
+- N: NodeJS
 
-    Axios for HTTP
+### Additional
 
-    Packages used can be found in the credits section of this document
+- Json Web Tokens (JWT) for Authentication / Authorization
+
+- Axios for HTTP
+
+- Packages used can be found in the credits section of this document
+
+
 ## Features
 
 ### As a Guest
 
-    - Sign Up as an individual trainee
+- Sign Up as an individual trainee
 
-    - Login as a(n):
-
-        -Individual Trainee
-        -Corporate Trainee
-        -Instructor
-        -Administrator
+- Login as a(n):
+    -Individual Trainee
+    -Corporate Trainee
+    -Instructor
+    -Administrator
 
 ### As a Guest / Logged in User of any kind
 
+- View most popular courses, on Home Page
 
-    - View most popular courses, on Home Page
+- View all courses
 
-    - View all courses
+- Search for a course by title, subject, or instructor
 
-    - Search for a course by title, subject, or instructor
+- Filter courses by:
+    - Subject
+    - Rating
+    - Price Range
+    
+- Select Country of residence
 
-    - Filter courses by:
+- Live Currency Conversion:
+     - Currencies displayed change depending on end-users' selected location (Value stays the same)
+     
+- Watch a course preview and view subtitle names
 
-        - Subject
-        - Rating
-        - Price Range
+- View course ratings
 
-    - Select Country of residence
-
-    - Live Currency Conversion:
-
-         Currencies displayed change depending on end-users' selected location (Value stays the same)
-
-    - Watch a course preview and view subtitle names
-
-    - View course ratings
-
-    - View instructor profile and ratings
+- View instructor profile and ratings
 
 ### As a Logged in User of Any Kind
 
-    - Change Password
+- Change Password
 
 ### As an Instructor 
 
+- Must accept Terms and Conditions when logging in for the first time
 
-    - Must accept Terms and Conditions when logging in for the first time
+- Upload a course, which consists of the following:
+    - Course Name
+    - Course Image
+    - Brief Course Description
+    - Course Price
+    - Course Preview Video
+    - Course Subtitles (VODs)
+    - Exercises
+    
+- Create an exercise inside a subtitle
 
-    - Upload a course, which consists of the following:
+- Live Previews when:
+     - Creating a course
+     - Creating an exercise for a subtitle
+     
+- Fill in Instructor Profile, which consists of:
+    - Instructor Name
+    - Instructor Contact Details
+    - Instructor Bio
+    - Instructor Courses
+    
+- View "My Profile"
 
-        Course Name
-        Course Image
-        Brief Course Description
-        Course Price
-        Course Preview Video
-        Course Subtitles (VODs)
-        Exercises
+- View "My Courses"
 
-    - Create an exercise inside a subtitle
+- View "My Reports"
 
-    - Live Previews when:
+- View "All Courses"
 
-         Creating a course
-         Creating an exercise for a subtitle
+- Apply a promotion to your courses (Discount)
 
-    - Fill in Instructor Profile, which consists of:
-
-        - Instructor Name
-        - Instructor Contact Details
-        - Instructor Bio
-        - Instructor Courses
-
-    - View "My Profile"
-
-    - View "My Courses"
-
-    - View "My Reports"
-
-    - View "All Courses"
-
-    - Apply a promotion to your courses (Discount)
-
-    - View Wallet Amount
+- View Wallet Amount
 
 ###  As a Corporate / Individual Trainee
 
+- View "My Profile"
 
-    - View "My Profile"
+- View "My Courses"
 
-    - View "My Courses"
+- View "My Reports"
 
-    - View "My Reports"
+- Enroll in a course as an individual trainee by paying
 
-    - Enroll in a course as an individual trainee by paying
+- Enroll in a course for free as a corporate trainee by requesting access from an Administrator
 
-    - Enroll in a course for free as a corporate trainee by requesting access from an Administrator
+- View Course Progress (How much of the course you completed)
 
-    - View Course Progress (How much of the course you completed)
+- View Course Length (Hours and  Minutes)
 
-    - View Course Length (Hours and  Minutes)
+- View Course rating (Stars and number of ratings)
 
-    - View Course rating (Stars and number of ratings)
+- Rate a course
 
-    - Rate a course
+- View Course Reviews
 
-    - View Course Reviews
+- Rate an instructor
 
-    - Rate an instructor
+- Request a refund as an individual trainee if course progress < 50%
+    - Cannot refund the same course more than once, to prevent loopholes
+    
+- Write Notes while watching a VOD and download them
 
-    - Request a refund as an individual trainee if course progress < 50%
-
-        - Cannot refund the same course more than once, to prevent loopholes
-
-    - Write Notes while watching a VOD and download them
-
-    - Receive a certificate upon completing a course
-
-
+- Receive a certificate upon completing a course
 
 ### As an Administrator
 
-
-    - Add the following:
-
-        Corporate Trainee
-        Instructor
-        Administrator
+- Add the following:
+    - Corporate Trainee
+    - Instructor
+    - Administrator
     
-    - Apply discounts to courses
+- Apply discounts to courses
 
-    - Remove discounts
+- Remove discounts
 
-    - View and handle Reports
+- View and handle Reports
 
-    - View and handle Corporate Trainee access requests 
+- View and handle Corporate Trainee access requests 
 
-    - View and handle Refund requests
+- View and handle Refund requests
+    
     
 ## Code Examples
-
 
 #### Routes:
 
@@ -982,21 +1021,21 @@ Enjoy :)
   - [Instructor Service](https://ballistic-battery-629.notion.site/Instructor-Service-1fe5aae7c32a4bda86f3bc5b4afc2ada )
   - [Course Service](https://aquatic-dimple-7e8.notion.site/Course-Service-d3734ad5388d484fb79c5c711707e68c )
 
+
 ## Tests
 
+- Postman tests ran to make sure parameters were passed and recieved correctly.
 
-
-    - Postman tests ran to make sure parameters were passed and recieved correctly.
-
-    - Tested the website in real-world applications using different user roles,
-      to make sure there were no loopholes or errors in the system.
+- Tested the website in real-world applications using different user roles,
+  to make sure there were no loopholes or errors in the system.
+  
+  
 ## How to Use
 
-
-    Launch the website with the steps found in the "Installation" section, and 
-    login from the top right corner of the screen as either a(n) Individual Trainee, 
-    Corporate Trainee, Instructor, or Administrator using the login credentials below.
-    Then proceed to follow the steps below.
+Launch the website with the steps found in the "Installation" section, and 
+login from the top right corner of the screen as either a(n) Individual Trainee, 
+Corporate Trainee, Instructor, or Administrator using the login credentials below.
+Then proceed to follow the steps below.
 
 
 ###### **Testing Login Credentials:**
@@ -1029,72 +1068,75 @@ Enjoy :)
 
 ###  As a guest 
 
-    - Sign Up from the top right corner
-   
-    - Login from the top right corner
+- Sign Up from the top right corner
+
+- Login from the top right corner
     
-
-
+<details>
+  <summary>Video</summary>
+  
 https://user-images.githubusercontent.com/105165793/211092532-48f0d1e8-f57a-4c7c-b7dc-a49ef9b260b7.mp4
-
+  
+</details> 
 
 
 ###  As a trainee 
 
-    - Click on "View All courses" on the Home Page.
+- Click on "View All courses" on the Home Page.
 
-    - Browse the courses and pick a course you might be interested in, or need for your education
-      Feel free to apply a filter from the top right corner of the courses page, or use the 
-      search bar at the top pf the screen in order to narrow down your search.
+- Browse the courses and pick a course you might be interested in, or need for your education
+  Feel free to apply a filter from the top right corner of the courses page, or use the 
+  search bar at the top pf the screen in order to narrow down your search.
 
-    - Click on the course and watch the course preview.
+- Click on the course and watch the course preview.
 
-    - If you're interested and you're an individual trainee, buy the course by clicking the 
-      "Enroll" button under the course thumbnail and paying; however, if you're not interested, 
-      use your browser's back arrow to navigate to the previous page and search for a course 
-      you're interested in until you find one, and enroll in it.
+- If you're interested and you're an individual trainee, buy the course by clicking the 
+  "Enroll" button under the course thumbnail and paying; however, if you're not interested, 
+  use your browser's back arrow to navigate to the previous page and search for a course 
+  you're interested in until you find one, and enroll in it.
 
-    - On the other hand, if you're a corporate trainee, you will need to click on "Request Access" 
-      under the course thumbnail, and must wait until an Admin either accepts or rejects your access 
-      request.
+- On the other hand, if you're a corporate trainee, you will need to click on "Request Access" 
+  under the course thumbnail, and must wait until an Admin either accepts or rejects your access 
+  request.
 
-    - After you enroll in a course, open the course details page, scroll down to the subtitles,
-      and watch them one-by-one, while writing notes and downloading them. After each subtitle,
-      make sure you solve the uploaded exercise (found in the bottom right corner of the subtitle
-      dropdown).
+- After you enroll in a course, open the course details page, scroll down to the subtitles,
+  and watch them one-by-one, while writing notes and downloading them. After each subtitle,
+  make sure you solve the uploaded exercise (found in the bottom right corner of the subtitle
+  dropdown).
 
-    - After completing a course, you will recieve an email with your certificate. You can also 
-      download your certificate on the course details page from the right side of the screen by 
-      clicking "here" written in red.
+- After completing a course, you will recieve an email with your certificate. You can also 
+  download your certificate on the course details page from the right side of the screen by 
+  clicking "here" written in red.
 
-    - You can rate the course and instructor from the top of the course details page, under the 
-      course thumbnail (Photo).
+- You can rate the course and instructor from the top of the course details page, under the 
+  course thumbnail (Photo).
 
-    - If your course progress is less than 50%, you can refund the course from the "Request a refund" 
-      button under your course progress, on the right side of the screen.
+- If your course progress is less than 50%, you can refund the course from the "Request a refund" 
+  button under your course progress, on the right side of the screen.
 
-    - If you ever face a problem, you can report a problem from the bottom right corner of the course 
-      details page.
+- If you ever face a problem, you can report a problem from the bottom right corner of the course 
+  details page.
 
-    - Whatever page you're on, you can always look at the top right corner of the screen to see your
-      wallet.
+- Whatever page you're on, you can always look at the top right corner of the screen to see your
+  wallet.
 
-    - If you ever want to return to the Home page, scroll to the top of the page and click on the 
-      company logo at the top left corner of the screen.
+- If you ever want to return to the Home page, scroll to the top of the page and click on the 
+  company logo at the top left corner of the screen.
 
-    - In the Home Page, you can click on "My Courses" or scroll down to see the courses you are 
-      enrolled in.
+- In the Home Page, you can click on "My Courses" or scroll down to see the courses you are 
+  enrolled in.
 
-    - You can also click on "My Profile" to see your profile, where you can click on "Setting and Privacy" 
-      where you can change your Password.
+- You can also click on "My Profile" to see your profile, where you can click on "Setting and Privacy" 
+  where you can change your Password.
 
-    - Furthermore, if you go back to the Home Page, you can click "View My Reports" to see the status 
-      of your reported problems.
+- Furthermore, if you go back to the Home Page, you can click "View My Reports" to see the status 
+  of your reported problems.
 
-    - Finally, if you ever need to log out, click on your name in the top right corner and click "Log Out"
+- Finally, if you ever need to log out, click on your name in the top right corner and click "Log Out"
     
-
-
+<details>
+  <summary>Videos</summary>
+  
 https://user-images.githubusercontent.com/105165793/211100556-b2b856f9-48dd-4290-906c-e431f998f061.mp4
 
 
@@ -1105,107 +1147,126 @@ https://user-images.githubusercontent.com/105165793/211102040-7024e4a8-a145-46f9
 
 https://user-images.githubusercontent.com/105165793/211100591-4cfae83a-b243-4f15-87c6-af767f9aa173.mp4
 
-    /
-    Enrolling in a course as a Corporate Trainee:
-    /
-    
+
 
 https://user-images.githubusercontent.com/105165793/211103793-8d841bb6-5e08-4f3b-aaf2-92fad7679618.mp4
+  
+</details> 
+
+
+
+    
+
+
 
 
 
 ###  As an instructor 
 
-    - On the Home Page, you can click "Create a Course" where you will be able to create a 
-      course consisting of a title, a thumbnail, course description, VODs, etc. all while 
-      seeing a preview of what it will all look like, on the right side of the screen.
+- On the Home Page, you can click "Create a Course" where you will be able to create a 
+  course consisting of a title, a thumbnail, course description, VODs, etc. all while 
+  seeing a preview of what it will all look like, on the right side of the screen.
 
-    - After creating a course, you can navigate to the Home page by clicking on the 
-      company logo at the top left corner of the screen.
+- After creating a course, you can navigate to the Home page by clicking on the 
+  company logo at the top left corner of the screen.
 
-    - Once you're back on the Home page, you can scroll down or click on "View My Courses" to 
-      see the courses you have created.
+- Once you're back on the Home page, you can scroll down or click on "View My Courses" to 
+  see the courses you have created.
 
-    - You can also click on "View All Courses" to see what other instructors are up to.
+- You can also click on "View All Courses" to see what other instructors are up to.
 
-    - You can browse the courses and apply a filter from the top right corner of the courses 
-      page, or you can use the search bar at the top pf the screen to search for particular courses.
+- You can browse the courses and apply a filter from the top right corner of the courses 
+  page, or you can use the search bar at the top pf the screen to search for particular courses.
 
-    - You can click on a course to see the course details page, which contains details about the course, 
-      such as the course description, course preview video, etc.
+- You can click on a course to see the course details page, which contains details about the course, 
+  such as the course description, course preview video, etc.
+
+- You can go back to your existing courses and edit them as you please. You can do things
+  such as view, add, or delete exercises, add a discount, change the course preview video, etc.
+
+- You can see how many people are enrolled in your course, under the course description.
+
+- You can also see the course ratings if you scroll down to the bottom of the course details 
+  page.
+
+- If you ever face a problem, you can report a problem from the bottom right corner of the course 
+  details page.
+
+- Whatever page you're on, if you're an individual trainee, you can always look at the top right 
+  corner of the screen to see your wallet.
+
+- If you go back to the home page, you can also click on "My Profile" to see your profile, where you 
+  can add your contact details, add your bio, and view your ratings.
+
+- On your profile page, you can also click on "Setting and Privacy" where you can change your Password. 
+
+- Furthermore, if you go back to the Home Page, you can click "View My Reports" to see the status 
+  of your reported problems.
+
+- Finally, if you ever need to log out, click on your name in the top right corner and click "Log Out"
     
-    - You can go back to your existing courses and edit them as you please. You can do things
-      such as view, add, or delete exercises, add a discount, change the course preview video, etc.
-
-    - You can see how many people are enrolled in your course, under the course description.
-
-    - You can also see the course ratings if you scroll down to the bottom of the course details 
-      page.
-
-    - If you ever face a problem, you can report a problem from the bottom right corner of the course 
-      details page.
-
-    - Whatever page you're on, if you're an individual trainee, you can always look at the top right 
-      corner of the screen to see your wallet.
-
-    - If you go back to the home page, you can also click on "My Profile" to see your profile, where you 
-      can add your contact details, add your bio, and view your ratings.
-
-    - On your profile page, you can also click on "Setting and Privacy" where you can change your Password. 
-
-    - Furthermore, if you go back to the Home Page, you can click "View My Reports" to see the status 
-      of your reported problems.
-
-    - Finally, if you ever need to log out, click on your name in the top right corner and click "Log Out"
-    
-
-
+<details>
+  <summary>Videos</summary>
+  
 https://user-images.githubusercontent.com/105165793/211100626-b1ffe4a0-22c9-407c-ba8e-7e88fba7b0d1.mp4
 
 
 
 https://user-images.githubusercontent.com/105165793/211100640-d0a3529d-1f2f-48dd-bace-984818636614.mp4
+  
+</details> 
+
+
 
 
 
 ###  As an administrator 
 
 
-    - On the Home Page, you can click on "Add Another Admin", "Add Instructor", or "Add Corporate Trainee" 
-      in order to add an administrator, an instructor, or a corporate trainee to the system.
+- On the Home Page, you can click on "Add Another Admin", "Add Instructor", or "Add Corporate Trainee" 
+  in order to add an administrator, an instructor, or a corporate trainee to the system.
 
-    - You can click on the company logo at the top left corner of the screen to return to the Home Page.
+- You can click on the company logo at the top left corner of the screen to return to the Home Page.
 
-    - On the Home Page, you can also click on "View Reported Problems" to view and handle reports. You can 
-      set them as either "Pending" or "Resolved".
+- On the Home Page, you can also click on "View Reported Problems" to view and handle reports. You can 
+  set them as either "Pending" or "Resolved".
 
-    - On the Home Page, you can also click on "View Corporate Requests" to view and handle pending 
-      corporate trainee requests to enroll in a course (you can either accept or decline).
+- On the Home Page, you can also click on "View Corporate Requests" to view and handle pending 
+  corporate trainee requests to enroll in a course (you can either accept or decline).
 
-    - On the Home Page, you can also click on "View Refund Requests" to view and handle refund requests 
-      from individual trainees (you can either accept or decline).
+- On the Home Page, you can also click on "View Refund Requests" to view and handle refund requests 
+  from individual trainees (you can either accept or decline).
 
-    - On the Home Page, you can scroll down to view the most popular courses and can click on 
-      "View All Courses" to view all courses.
+- On the Home Page, you can scroll down to view the most popular courses and can click on 
+  "View All Courses" to view all courses.
 
-    - Moreoever, you can also click on "Prices and Discounts" on the Home Page. There you can select 
-      courses and apply discounts to them, setting the discount amount(%) and expiry date. If you 
-      scroll to the bottom of the page, you can also select courses to remove their discounts before 
-      the expiry date.
+- Moreoever, you can also click on "Prices and Discounts" on the Home Page. There you can select 
+  courses and apply discounts to them, setting the discount amount(%) and expiry date. If you 
+  scroll to the bottom of the page, you can also select courses to remove their discounts before 
+  the expiry date.
 
-    - Finally, if you ever need to log out, click on your name in the top right corner and click "Log Out".
+- Finally, if you ever need to log out, click on your name in the top right corner and click "Log Out".
     
 
-
+<details>
+  <summary>Video</summary>
+  
 https://user-images.githubusercontent.com/105165793/211092744-fb352928-6459-48ea-ae59-55dbb338d9b5.mp4
+  
+</details> 
+
+
 
 
 
 ## Contributing
 
-    Contributions are always welcome!
+Contributions are always welcome!
 
-    For Contributions, email us at : ambizo@gmail.com
+For Contributions, email us at : ambizo@gmail.com
+
+
+
 ## Credits
 
 #### npm packages:
